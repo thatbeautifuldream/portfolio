@@ -4,13 +4,23 @@
 }
 
 @font-face {
+  font-family: "SF_Pro_Display_Medium";
+  src: url("./fonts/sf-pro-display-medium.woff2");
+}
+
+@font-face {
   font-family: "SF_Pro_Text_Regular";
   src: url("./fonts/sf-pro-text-regular.woff2");
 }
 
 @font-face {
-  font-family: "SF_Pro_Display_Medium";
-  src: url("./fonts/sf-pro-display-medium.woff2");
+  font-family: "SF_Pro_Text_Medium";
+  src: url("./fonts/sf-pro-text-medium.woff2");
+}
+
+@font-face {
+  font-family: "SF_Mono_Regular";
+  src: url("./fonts/sfmono-regular.woff2");
 }
 
 #homx {
@@ -19,13 +29,23 @@
 }
 
 body {
-  background-color: #ffffff;
+  background-color: #202125;
+  color: rgb(154, 160, 166);
+  padding: 2vw 24vw;
+  font-size: 15px;
+  font-family: "SF_Pro_Text_Regular";
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+@media screen and (max-width: 1100px) {
+  body {
+    padding: 8%;
+  }
 }
 
 ul {
@@ -37,28 +57,13 @@ ul {
   text-decoration: underline;
 }
 
-body {
-  background-color: rgb(255, 255, 255);
-  padding: 2vw 24vw;
-  font-size: 15px;
-  font-family: "SF_Pro_Text_Regular";
-  color: black;
-}
-
-@media screen and (max-width: 1100px) {
-  body {
-    padding: 8%;
-  }
-}
-
 body a {
   text-decoration: none;
-  color: black;
+  font-family: "SF_Pro_Text_Medium";
 }
 
 body a:hover {
   text-decoration: none;
-  color: black;
   border-bottom-style: dashed;
   border-width: 1px;
 }
@@ -75,7 +80,7 @@ p a {
 
 #pill {
   font-family: "SF_Pro_Display_Medium";
-  background-color: rgb(0, 0, 0);
+  background-color: rgb(48, 49, 52);
   border-radius: 2px;
   color: white;
   padding: 4px;
@@ -87,14 +92,12 @@ p a {
 }
 
 #pill:hover {
-  background-color: rgba(0, 0, 0, 0.9);
-  border-bottom-style: dashed;
-  border-width: 0.5px;
+  background-color: rgba(48, 49, 52, 0.5);
 }
 
 #nav a {
   margin-right: 10px;
-  color: black;
+  color: white;
   border-bottom-style: solid;
   border-width: 1px;
 }
@@ -109,18 +112,20 @@ p a {
 
 #hero {
   font-family: "SF_Pro_Display_Bold";
+  color: white;
   font-size: 32px;
   margin-bottom: 8px;
 }
 
 #title {
   font-family: "SF_Pro_Display_Medium";
+  color: white;
   font-size: 24px;
 }
 
 #link {
   text-decoration: none;
-  color: black;
+  color: white;
   border-bottom-style: solid;
   border-width: 1px;
 }
@@ -135,7 +140,7 @@ p a {
 
 #blog a {
   text-decoration: none;
-  color: black;
+  color: #8ab4f8;
   border-bottom-style: solid;
   border-width: 1px;
 }
@@ -186,15 +191,16 @@ p a {
   overflow: visible;
   white-space: normal;
   width: auto;
-  background-color: #fff;
+  background-color: #202125;
 }
 
-#yellow-highlight {
-  background-color: #ffffe0;
+#highlight {
+  background-color: #395778;
+  font-family: "SF_Pro_Text_Medium";
+  color: white;
   cursor: pointer;
 }
 
-#purple-highlight {
-  background-color: #e6e6ff;
-  cursor: pointer;
+#code-block {
+  font-family: "SF_Mono_Regular";
 }
