@@ -1,16 +1,16 @@
 @font-face {
-  font-family: "Inter_Bold";
-  src: url("./fonts/Inter-Bold.otf");
+  font-family: "SF_Pro_Display_Bold";
+  src: url("./fonts/sf-pro-display-bold.woff2");
 }
 
 @font-face {
-  font-family: "Inter_Light";
-  src: "Times New Roman", "Times", serif;
+  font-family: "SF_Pro_Text_Regular";
+  src: url("./fonts/sf-pro-text-regular.woff2");
 }
 
 @font-face {
-  font-family: "Inter_Medium";
-  src: url("./fonts/Inter-Medium.otf");
+  font-family: "SF_Pro_Display_Medium";
+  src: url("./fonts/sf-pro-display-medium.woff2");
 }
 
 #homx {
@@ -40,8 +40,8 @@ ul {
 body {
   background-color: rgb(255, 255, 255);
   padding: 2vw 24vw;
-  font-size: 18px;
-  font-family: "Inter_Light";
+  font-size: 15px;
+  font-family: "SF_Pro_Text_Regular";
   color: black;
 }
 
@@ -69,12 +69,12 @@ p a {
 }
 
 #nav {
-  font-family: "Inter_Medium";
+  font-family: "SF_Pro_Display_Medium";
   font-size: 18px;
 }
 
 #pill {
-  font-family: "Inter_Medium";
+  font-family: "SF_Pro_Display_Medium";
   background-color: rgb(0, 0, 0);
   border-radius: 2px;
   color: white;
@@ -108,13 +108,13 @@ p a {
 }
 
 #hero {
-  font-family: "Inter_Bold";
+  font-family: "SF_Pro_Display_Bold";
   font-size: 32px;
   margin-bottom: 8px;
 }
 
 #title {
-  font-family: "Inter_Medium";
+  font-family: "SF_Pro_Display_Medium";
   font-size: 24px;
 }
 
@@ -130,7 +130,7 @@ p a {
 }
 
 #blog {
-  font-family: "Inter_Light";
+  font-family: "SF_Pro_Text_Regular";
 }
 
 #blog a {
@@ -155,7 +155,7 @@ p a {
 }
 
 #blog #title {
-  font-family: "Inter_Medium";
+  font-family: "SF_Pro_Display_Medium";
   font-size: 24px;
 }
 
