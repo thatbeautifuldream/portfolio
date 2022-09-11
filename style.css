@@ -192,15 +192,24 @@ p a {
   white-space: normal;
   width: auto;
   background-color: #202125;
+  color: #fff;
 }
 
 #highlight {
-  background-color: #395778;
-  font-family: "SF_Pro_Text_Medium";
+  /* background-color: #395778; */
   color: white;
+  font-family: "SF_Pro_Text_Medium";
   cursor: pointer;
 }
 
 #code-block {
   font-family: "SF_Mono_Regular";
+  color: #8ab4f8;
+  background-color: rgb(48, 49, 52);
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+#code-block:hover {
+  background-color: rgba(48, 49, 52, 0.5);
 }
