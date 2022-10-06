@@ -28,6 +28,11 @@ html {
   overflow-x: hidden;
 }
 
+::selection {
+  background-color: white;
+  color: black;
+}
+
 ::-webkit-scrollbar {
   width: 0;
   background: transparent;
@@ -39,12 +44,12 @@ body {
   padding: 2vw 24vw;
   font-size: 15px;
   font-family: "SF_Pro_Text_Regular";
-  -webkit-touch-callout: none;
+  /* -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none;
+  user-select: none; */
 }
 
 @media screen and (max-width: 1100px) {
