@@ -120,6 +120,7 @@ a:hover {
   font-family: "SF_Pro_Display_Bold";
   color: white;
   font-size: 32px;
+  margin-top: 16px;
   margin-bottom: 8px;
 }
 
@@ -151,6 +152,7 @@ a:hover {
   position: relative;
   padding: 0;
   margin: 0;
+  margin-bottom:8px;
 }
 
 .easter-egg {
