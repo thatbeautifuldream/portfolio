@@ -1,28 +1,3 @@
-@font-face {
-  font-family: "SF_Pro_Display_Bold";
-  src: url("./fonts/sf-pro-display-bold.woff2");
-}
-
-@font-face {
-  font-family: "SF_Pro_Display_Medium";
-  src: url("./fonts/sf-pro-display-medium.woff2");
-}
-
-@font-face {
-  font-family: "SF_Pro_Text_Regular";
-  src: url("./fonts/sf-pro-text-regular.woff2");
-}
-
-@font-face {
-  font-family: "SF_Pro_Text_Medium";
-  src: url("./fonts/sf-pro-text-medium.woff2");
-}
-
-@font-face {
-  font-family: "SF_Mono_Regular";
-  src: url("./fonts/sfmono-regular.woff2");
-}
-
 html {
   overflow: scroll;
   overflow-x: hidden;
@@ -43,13 +18,7 @@ body {
   color: rgb(154, 160, 166);
   padding: 2vw 24vw;
   font-size: 15px;
-  font-family: "SF_Pro_Text_Regular";
-  /* -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none; */
+  font-family: "Inter";
 }
 
 @media screen and (max-width: 1100px) {
@@ -65,7 +34,7 @@ ul {
 }
 
 a {
-  font-family: "SF_Pro_Text_Medium";
+  font-weight: 500;
   text-decoration: none;
   color: #8ab4f8;
   border-bottom-style: solid;
@@ -79,7 +48,7 @@ a:hover {
 }
 
 #nav {
-  font-family: "SF_Pro_Display_Medium";
+  font-weight: 500;
   font-size: 18px;
 }
 
@@ -96,7 +65,7 @@ a:hover {
 }
 
 #pill {
-  font-family: "SF_Pro_Display_Medium";
+  font-weight: 500;
   background-color: rgb(48, 49, 52);
   border-radius: 2px;
   color: white;
@@ -117,21 +86,21 @@ a:hover {
 }
 
 #hero {
-  font-family: "SF_Pro_Display_Bold";
+  font-weight: 800;
   color: white;
   font-size: 32px;
-  margin-top: 16px;
+  margin-top: 32px;
   margin-bottom: 8px;
 }
 
 #title {
-  font-family: "SF_Pro_Display_Medium";
+  font-weight: 800;
   color: white;
   font-size: 24px;
 }
 
 #blog {
-  font-family: "SF_Pro_Text_Regular";
+  font-weight: 500;
 }
 
 #blog #date {
@@ -144,7 +113,7 @@ a:hover {
 }
 
 #blog #title {
-  font-family: "SF_Pro_Display_Medium";
+  font-weight: 500;
   font-size: 24px;
 }
 
@@ -157,7 +126,6 @@ a:hover {
 
 .easter-egg {
   width: 200px;
-  /* outline: solid black 1px; */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -181,9 +149,8 @@ a:hover {
 }
 
 #highlight {
-  /* background-color: #395778; */
   color: white;
-  font-family: "SF_Pro_Text_Medium";
+  font-weight: 500;
   cursor: pointer;
 }
 
@@ -206,7 +173,7 @@ a:hover {
 }
 
 #code-block {
-  font-family: "SF_Mono_Regular";
+  font-weight: 500;
   color: #8ab4f8;
   background-color: rgb(48, 49, 52);
   border-radius: 4px;
