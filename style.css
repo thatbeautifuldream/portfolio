@@ -183,3 +183,10 @@ a:hover {
 #code-block:hover {
   background-color: rgba(48, 49, 52, 0.5);
 }
+
+#github-graph {
+  margin-top: 32px;
+  margin-bottom: 32px;
+  width: 100%;
+  height: auto;
+}
