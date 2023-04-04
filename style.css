@@ -178,10 +178,12 @@ a:hover {
   background-color: rgb(48, 49, 52);
   border-radius: 4px;
   padding: 4px 8px;
+  margin-top: 4px;
 }
 
 #code-block:hover {
   background-color: rgba(48, 49, 52, 0.5);
+  cursor: help;
 }
 
 #github-graph {
@@ -189,4 +191,5 @@ a:hover {
   margin-bottom: 32px;
   width: 100%;
   height: auto;
+  cursor: pointer;
 }
