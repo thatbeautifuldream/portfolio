@@ -47,11 +47,8 @@ export function MobileNav() {
             ))}
           </nav>
 
-          <div className="hidden items-center gap-6 lg:flex">
+          <div className="hidden items-center lg:flex">
             <ThemeToggle />
-            <Link href="https://cal.com/milind" className="text-sm font-medium">
-              Book time
-            </Link>
           </div>
 
           <div className="flex items-center gap-4 lg:hidden">
