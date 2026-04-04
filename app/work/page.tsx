@@ -1,4 +1,3 @@
-import { MobileNav } from "@/components/portfolio/mobile-nav"
 import { roles } from "@/lib/portfolio-data"
 
 export const metadata = {
@@ -10,8 +9,6 @@ export const metadata = {
 export default function WorkPage() {
   return (
     <main className="isolate">
-      <MobileNav />
-
       <section className="section-shell">
         <div className="section-inner grid gap-12">
           <div className="grid gap-4">

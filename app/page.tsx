@@ -1,6 +1,5 @@
 import Link from "next/link"
 
-import { MobileNav } from "@/components/portfolio/mobile-nav"
 import { heroStats, siteLinks } from "@/lib/portfolio-data"
 
 export const metadata = {
@@ -12,8 +11,6 @@ export const metadata = {
 export default function Page() {
   return (
     <main className="isolate">
-      <MobileNav />
-
       <section className="section-shell">
         <div className="section-inner grid gap-16">
           <div className="grid gap-12">
@@ -22,7 +19,8 @@ export default function Page() {
                 Bengaluru · Product engineer · AI-native interfaces
               </p>
               <h1 className="max-w-[20ch] text-4xl font-semibold tracking-tight text-balance md:text-6xl">
-                A lifetime of building products, and I&apos;m just getting started.
+                A lifetime of building products, and I&apos;m just getting
+                started.
               </h1>
               <p className="max-w-[52ch] text-base text-pretty text-muted-foreground md:text-lg">
                 Most recently at Merlin AI, I worked across onboarding, chat

@@ -1,6 +1,5 @@
 import Link from "next/link"
 
-import { MobileNav } from "@/components/portfolio/mobile-nav"
 import { contactLinks, siteLinks } from "@/lib/portfolio-data"
 
 export const metadata = {
@@ -10,8 +9,6 @@ export const metadata = {
 export default function contactPage() {
   return (
     <main className="isolate">
-      <MobileNav />
-
       <section className="section-shell">
         <div className="section-inner grid gap-12">
           <div className="grid gap-4">

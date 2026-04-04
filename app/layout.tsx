@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 
 import { ThemeProvider } from "@/components/theme-provider"
+import { MobileNav } from "@/components/portfolio/mobile-nav"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,6 +37,7 @@ export default function RootLayout({
           defaultTheme="dark"
           disableTransitionOnChange
         >
+          <MobileNav />
           {children}
         </ThemeProvider>
       </body>
