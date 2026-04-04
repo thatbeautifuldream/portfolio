@@ -76,6 +76,7 @@ export default function Page() {
                 </Link>
                 <Link href="/projects">Explore my projects</Link>
                 <Link href="/talks">See my talks</Link>
+                <Link href="/blog">Read my blog</Link>
                 <Link href="/contact">Get in touch</Link>
               </div>
             </div>
