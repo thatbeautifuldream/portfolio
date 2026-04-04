@@ -6,7 +6,7 @@ import { JsonLd } from "@/components/json-ld"
 export const metadata = createMetadata({
   title: "Blog",
   description:
-    "Notes on product engineering, AI interfaces, developer tools, and building products people return to.",
+    "Notes on product engineering, AI interfaces, developer tools, and the journey of building products.",
   canonical: "https://milind.app/blog",
 })
 
@@ -15,7 +15,7 @@ const blogSchema = {
   "@type": "Blog",
   name: "Milind Mishra - Blog",
   description:
-    "Notes on product engineering, AI interfaces, developer tools, and building products people return to.",
+    "Notes on product engineering, AI interfaces, developer tools, and the journey of building products.",
   url: "https://milind.app/blog",
   author: {
     "@type": "Person",
@@ -48,7 +48,7 @@ export default function BlogPage() {
             <div className="grid gap-4">
               <p className="text-sm text-muted-foreground">Blog</p>
               <h1 className="max-w-[24ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
-                Notes on building products people return to
+                Notes on the journey of building products.
               </h1>
             </div>
 
