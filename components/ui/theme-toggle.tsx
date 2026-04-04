@@ -1,14 +1,18 @@
 "use client"
 
 import { useTheme } from "next-themes"
+import { cn } from "@/lib/utils"
 
-export function ThemeToggle() {
+export function ThemeToggle({ className }: { className?: string }) {
   const { resolvedTheme, setTheme } = useTheme()
 
   return (
     <button
       onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-      className="min-w-[3rem] cursor-pointer text-sm text-muted-foreground transition-colors hover:text-foreground"
+      className={cn(
+        "cursor-pointer text-sm text-muted-foreground transition-colors hover:text-foreground",
+        className
+      )}
       type="button"
     >
       <span className="block dark:hidden">Light</span>

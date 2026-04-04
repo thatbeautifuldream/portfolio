@@ -24,7 +24,7 @@ export function MobileNav() {
     <header className="sticky top-0 z-40 bg-background">
       <div className="section-shell">
         <div className="section-inner">
-          <div className="flex items-center justify-between gap-3 py-3">
+          <div className="flex items-center justify-between gap-3 py-1.5">
             <Link
               className="text-lg font-semibold tracking-tight"
               href={
@@ -81,7 +81,7 @@ export function MobileNav() {
               open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
             )}
           >
-            <nav aria-label="Mobile" className="grid gap-2 py-3">
+            <nav aria-label="Mobile" className="grid gap-2 py-1.5">
               {navItems.map((item) => (
                 <Link
                   className={cn(
@@ -104,9 +104,7 @@ export function MobileNav() {
               >
                 Book time
               </Link>
-              <div className="pt-2">
-                <ThemeToggle />
-              </div>
+              <ThemeToggle className="text-left text-base" />
             </nav>
           </div>
         </div>
