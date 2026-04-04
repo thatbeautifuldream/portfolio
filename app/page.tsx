@@ -22,8 +22,7 @@ export default function Page() {
                 Bengaluru · Product engineer · AI-native interfaces
               </p>
               <h1 className="max-w-[20ch] text-4xl font-semibold tracking-tight text-balance md:text-6xl">
-                I build AI products that feel clear, responsive, and worth using
-                twice.
+                A lifetime of building products, and I&apos;m just getting started.
               </h1>
               <p className="max-w-[52ch] text-base text-pretty text-muted-foreground md:text-lg">
                 Most recently at Merlin AI, I worked across onboarding, chat
