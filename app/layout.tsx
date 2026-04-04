@@ -1,14 +1,12 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-
-import "./globals.css"
-
 import { ThemeProvider } from "@/components/theme-provider"
 import { MobileNav } from "@/components/portfolio/mobile-nav"
+import "./globals.css"
 
-const inter = Inter({
+const fontSans = Inter({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-sans",
 })
 
 export const metadata: Metadata = {
@@ -29,7 +27,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} antialiased`}
+      className={`${fontSans.variable} antialiased`}
     >
       <body className="min-h-svh bg-background font-sans text-foreground">
         <ThemeProvider
