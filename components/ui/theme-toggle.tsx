@@ -8,11 +8,11 @@ export function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-      className="min-w-[3rem] text-sm text-muted-foreground transition-colors hover:text-foreground"
+      className="min-w-[3rem] cursor-pointer text-sm text-muted-foreground transition-colors hover:text-foreground"
       type="button"
-      aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} mode`}
     >
-      {resolvedTheme === "dark" ? "Light" : "Dark"}
+      <span className="block dark:hidden">Light</span>
+      <span className="hidden dark:block">Dark</span>
     </button>
   )
 }

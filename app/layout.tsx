@@ -1,9 +1,14 @@
 import type { Metadata } from "next"
-import Script from "next/script"
+import { Inter } from "next/font/google"
 
 import "./globals.css"
 
 import { ThemeProvider } from "@/components/theme-provider"
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+})
 
 export const metadata: Metadata = {
   title: {
@@ -20,14 +25,19 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="antialiased">
-      <head>
-        <link rel="preconnect" href="https://rsms.me" />
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-      </head>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.variable} antialiased`}
+    >
       <body className="min-h-svh bg-background font-sans text-foreground">
-        <ThemeProvider>{children}</ThemeProvider>
-        <Script src="https://ui.sh/ui-picker.js" />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )
