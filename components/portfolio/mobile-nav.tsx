@@ -233,11 +233,12 @@ export function MobileNav() {
                         )}>
                         <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
                           <Link
-                            className="text-lg font-semibold tracking-tight no-underline hover:text-foreground"
+                            className="no-underline hover:text-foreground"
                             href={logoHref}
+                            aria-label={logoLabel}
                             onClick={() => setOpen(false)}
                           >
-                            {logoLabel}
+                            <Sign className="h-5 w-auto" />
                           </Link>
                           <button
                             type="button"
