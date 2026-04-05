@@ -80,7 +80,7 @@
 }
 
 @utility section-shell {
-  @apply py-6 md:py-8;
+  @apply py-6 md:py-8 first:pt-20 first:md:pt-22;
 }
 
 @utility section-inner {
