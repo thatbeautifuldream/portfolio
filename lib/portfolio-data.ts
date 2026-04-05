@@ -169,22 +169,17 @@ export const contributions = [
 
 export const contactLinks = [
   {
-    label: "Website archive",
-    href: "https://milindmishra.com",
-    copy: "The broader archive of writing, slides, and experiments.",
-  },
-  {
     label: "GitHub",
     href: "https://github.com/thatbeautifuldream",
     copy: "Open source work, side projects, and public product experiments.",
   },
   {
     label: "LinkedIn",
-    href: "https://linkedin.com/in/milindmishra",
+    href: "https://linkedin.com/in/mishramilind",
     copy: "Professional profile and current work context.",
   },
   {
-    label: "X",
+    label: "X/Twitter",
     href: "https://x.com/milindmishra_",
     copy: "Thoughts, links, and occasional product or interface observations.",
   },
