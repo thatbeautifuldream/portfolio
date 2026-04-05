@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
-import { MobileNav } from "@/components/portfolio/mobile-nav"
+import { Navigation } from "@/components/portfolio/navigation"
 import "./globals.css"
 
 const fontSans = Inter({
@@ -35,7 +35,7 @@ export default function RootLayout({
           defaultTheme="dark"
           disableTransitionOnChange
         >
-          <MobileNav />
+          <Navigation />
           {children}
         </ThemeProvider>
       </body>

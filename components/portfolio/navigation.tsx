@@ -38,7 +38,7 @@ function HamburgerIcon({ open }: { open: boolean }) {
   )
 }
 
-export function MobileNav() {
+export function Navigation() {
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
@@ -60,16 +60,6 @@ export function MobileNav() {
     onScroll()
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
-  }, [])
-
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)")
-    const handler = (e: MediaQueryListEvent | MediaQueryList) => {
-      if (e.matches) setOpen(false)
-    }
-    handler(mq)
-    mq.addEventListener("change", handler)
-    return () => mq.removeEventListener("change", handler)
   }, [])
 
   useEffect(() => {
@@ -140,7 +130,7 @@ export function MobileNav() {
     >
       <nav
         className={cn(
-          "mx-auto flex max-w-3xl items-center justify-between px-4 py-3 transition-all duration-300 sm:px-6 lg:px-8",
+          "mx-auto flex max-w-3xl items-center justify-between px-4 py-3 transition-all duration-300 sm:px-6",
           scrolled
             ? "rounded-2xl bg-background/85 shadow-lg ring-1 ring-black/5 backdrop-blur-xl dark:shadow-none dark:ring-0 dark:inset-ring dark:inset-ring-white/5"
             : "bg-background/80 backdrop-blur-lg",
@@ -155,40 +145,14 @@ export function MobileNav() {
           <Sign className="h-5 w-auto" />
         </Link>
 
-        {/* Desktop nav links */}
-        <div
-          className="hidden items-center gap-6 lg:flex"
-          aria-label="Desktop"
-        >
-          {navItems.map((item) => (
-            <Link
-              className={cn(
-                "text-sm no-underline transition-colors",
-                pathname === item.href
-                  ? "font-medium text-foreground"
-                  : "text-muted-foreground hover:text-foreground",
-              )}
-              href={item.href}
-              key={item.href}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-
-        {/* Desktop theme toggle */}
-        <div className="hidden items-center lg:flex">
-          <ThemeToggle />
-        </div>
-
-        {/* Mobile hamburger */}
+        {/* Hamburger */}
         <button
           ref={triggerRef}
           type="button"
           aria-expanded={open}
           aria-haspopup="dialog"
           aria-label={open ? "Close menu" : "Open menu"}
-          className="relative flex size-10 items-center justify-center lg:hidden"
+          className="relative flex size-10 items-center justify-center"
           onClick={() => setOpen((prev) => !prev)}
         >
           <HamburgerIcon open={open} />
@@ -199,12 +163,12 @@ export function MobileNav() {
         </button>
       </nav>
 
-      {/* Portal mobile menu */}
+      {/* Portal menu */}
       {mounted
         ? createPortal(
             <AnimatePresence>
               {open ? (
-                <div className="fixed inset-0 z-120 lg:hidden">
+                <div className="fixed inset-0 z-120">
                   {/* Backdrop */}
                   <motion.div
                     className="absolute inset-0 bg-background dark:bg-background/80 dark:backdrop-blur-xl"
@@ -227,11 +191,13 @@ export function MobileNav() {
                   >
                     <div className="flex min-h-dvh flex-col">
                       {/* Mirror the navbar structure so logo + X align */}
-                      <div className={cn(
+                      <div
+                        className={cn(
                           "transition-[padding] duration-300",
                           scrolled ? "px-4 pt-4 sm:px-6" : "px-0 pt-0",
-                        )}>
-                        <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+                        )}
+                      >
+                        <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 sm:px-6">
                           <Link
                             className="no-underline hover:text-foreground"
                             href={logoHref}
@@ -258,7 +224,7 @@ export function MobileNav() {
                       {/* Links */}
                       <div
                         className={cn(
-                          "mx-auto flex w-full max-w-3xl flex-col gap-3 px-4 pt-6 sm:px-6 lg:px-8",
+                          "mx-auto flex w-full max-w-3xl flex-col gap-3 px-4 pt-6 sm:px-6",
                           scrolled && "px-8 sm:px-10",
                         )}
                       >
