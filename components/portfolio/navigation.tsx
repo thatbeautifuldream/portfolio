@@ -1,6 +1,11 @@
 "use client"
 
-import { AnimatePresence, motion, useReducedMotion } from "motion/react"
+import {
+  AnimatePresence,
+  LayoutGroup,
+  motion,
+  useReducedMotion,
+} from "motion/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
@@ -47,10 +52,10 @@ export function Navigation() {
   const panelRef = useRef<HTMLDivElement>(null)
   const shouldReduceMotion = useReducedMotion()
 
-  const logoHref =
-    pathname.startsWith("/blog/") && pathname !== "/blog" ? "/blog" : "/"
-  const logoLabel =
-    pathname.startsWith("/blog/") && pathname !== "/blog" ? "Blog" : "Milind"
+  const isBlogArticle =
+    pathname.startsWith("/blog/") && pathname !== "/blog"
+  const logoHref = isBlogArticle ? "/blog" : "/"
+  const logoLabel = isBlogArticle ? "Blog" : "Milind"
 
   useEffect(() => setMounted(true), [])
   useEffect(() => setOpen(false), [pathname])
@@ -128,40 +133,82 @@ export function Navigation() {
         scrolled ? "px-4 pt-4 sm:px-6" : "px-0 pt-0",
       )}
     >
-      <nav
-        className={cn(
-          "mx-auto flex max-w-3xl items-center justify-between px-4 py-3 transition-all duration-300 sm:px-6",
-          scrolled
-            ? "rounded-2xl bg-background/85 shadow-lg ring-1 ring-black/5 backdrop-blur-xl dark:shadow-none dark:ring-0 dark:inset-ring dark:inset-ring-white/5"
-            : "bg-background/80 backdrop-blur-lg",
-        )}
-      >
-        {/* Logo */}
-        <Link
-          className="no-underline hover:text-foreground"
-          href={logoHref}
-          aria-label={logoLabel}
+      <LayoutGroup>
+        <nav
+          className={cn(
+            "relative mx-auto flex max-w-3xl items-center justify-between px-4 py-3 transition-all duration-300 sm:px-6",
+            scrolled
+              ? "rounded-2xl bg-background/85 shadow-lg ring-1 ring-black/5 backdrop-blur-xl dark:shadow-none dark:ring-0 dark:inset-ring dark:inset-ring-white/5"
+              : "bg-background/80 backdrop-blur-lg",
+          )}
         >
-          <Sign className="h-5 w-auto" />
-        </Link>
+          {/* Left slot */}
+          <div className="flex min-w-0 items-center">
+            <AnimatePresence mode="wait">
+              {isBlogArticle ? (
+                <motion.div
+                  key="blog-label"
+                  initial={{ opacity: 0, filter: "blur(4px)" }}
+                  animate={{ opacity: 1, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, filter: "blur(4px)" }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Link
+                    className="text-sm font-medium text-muted-foreground no-underline transition-colors hover:text-foreground"
+                    href="/blog"
+                  >
+                    Blog
+                  </Link>
+                </motion.div>
+              ) : (
+                <motion.div key="logo-left">
+                  <Link
+                    className="no-underline hover:text-foreground"
+                    href="/"
+                    aria-label="Home"
+                  >
+                    <motion.div layoutId="nav-logo">
+                      <Sign className="h-5 w-auto" />
+                    </motion.div>
+                  </Link>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
-        {/* Hamburger */}
-        <button
-          ref={triggerRef}
-          type="button"
-          aria-expanded={open}
-          aria-haspopup="dialog"
-          aria-label={open ? "Close menu" : "Open menu"}
-          className="relative flex size-10 items-center justify-center"
-          onClick={() => setOpen((prev) => !prev)}
-        >
-          <HamburgerIcon open={open} />
-          <span
-            className="pointer-fine:hidden absolute left-1/2 top-1/2 size-[max(100%,3rem)] -translate-x-1/2 -translate-y-1/2"
-            aria-hidden="true"
-          />
-        </button>
-      </nav>
+          {/* Center slot — logo when on blog article */}
+          {isBlogArticle && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <Link
+                className="pointer-events-auto no-underline hover:text-foreground"
+                href="/"
+                aria-label="Home"
+              >
+                <motion.div layoutId="nav-logo">
+                  <Sign className="h-5 w-auto" />
+                </motion.div>
+              </Link>
+            </div>
+          )}
+
+          {/* Hamburger */}
+          <button
+            ref={triggerRef}
+            type="button"
+            aria-expanded={open}
+            aria-haspopup="dialog"
+            aria-label={open ? "Close menu" : "Open menu"}
+            className="relative z-10 flex size-10 items-center justify-center"
+            onClick={() => setOpen((prev) => !prev)}
+          >
+            <HamburgerIcon open={open} />
+            <span
+              className="pointer-fine:hidden absolute left-1/2 top-1/2 size-[max(100%,3rem)] -translate-x-1/2 -translate-y-1/2"
+              aria-hidden="true"
+            />
+          </button>
+        </nav>
+      </LayoutGroup>
 
       {/* Portal menu */}
       {mounted
