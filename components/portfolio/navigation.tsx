@@ -56,6 +56,9 @@ export function Navigation() {
     pathname.startsWith("/blog/") && pathname !== "/blog"
   const logoHref = isBlogArticle ? "/blog" : "/"
   const logoLabel = isBlogArticle ? "Blog" : "Milind"
+  const navTransition = shouldReduceMotion
+    ? { duration: 0 }
+    : { duration: 0.35, ease: [0.22, 1, 0.36, 1] as const }
 
   useEffect(() => setMounted(true), [])
   useEffect(() => setOpen(false), [pathname])
@@ -143,15 +146,15 @@ export function Navigation() {
           )}
         >
           {/* Left slot */}
-          <div className="flex min-w-0 items-center">
-            <AnimatePresence mode="wait">
+          <div className="relative flex items-center">
+            <AnimatePresence initial={false} mode="popLayout">
               {isBlogArticle ? (
                 <motion.div
                   key="blog-label"
                   initial={{ opacity: 0, filter: "blur(4px)" }}
                   animate={{ opacity: 1, filter: "blur(0px)" }}
                   exit={{ opacity: 0, filter: "blur(4px)" }}
-                  transition={{ duration: 0.2 }}
+                  transition={navTransition}
                 >
                   <Link
                     className="text-sm font-medium text-muted-foreground no-underline transition-colors hover:text-foreground"
@@ -167,7 +170,7 @@ export function Navigation() {
                     href="/"
                     aria-label="Home"
                   >
-                    <motion.div layoutId="nav-logo">
+                    <motion.div layoutId="nav-logo" transition={navTransition}>
                       <Sign className="h-5 w-auto" />
                     </motion.div>
                   </Link>
@@ -178,13 +181,13 @@ export function Navigation() {
 
           {/* Center slot — logo when on blog article */}
           {isBlogArticle && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
               <Link
                 className="pointer-events-auto no-underline hover:text-foreground"
                 href="/"
                 aria-label="Home"
               >
-                <motion.div layoutId="nav-logo">
+                <motion.div layoutId="nav-logo" transition={navTransition}>
                   <Sign className="h-5 w-auto" />
                 </motion.div>
               </Link>
