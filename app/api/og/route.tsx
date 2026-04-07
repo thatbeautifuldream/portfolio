@@ -70,9 +70,9 @@ export async function GET(request: NextRequest) {
       height: 630,
       fonts: [
         {
-          name: "Inter",
+          name: "Familjen Grotesk",
           data: await fetch(
-            new URL("/fonts/Inter-SemiBold.ttf", request.url)
+            new URL("/fonts/FamiljenGrotesk-SemiBold.ttf", request.url)
           ).then((res) => res.arrayBuffer()),
           weight: 600,
           style: "normal",

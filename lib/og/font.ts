@@ -1,19 +1,24 @@
 import { readFile } from "fs/promises"
 import { join } from "path"
 
-let interFont: ArrayBuffer | null = null
+let familjenGroteskFont: ArrayBuffer | null = null
 
-export async function getInterFont(): Promise<ArrayBuffer> {
-  if (interFont) {
-    return interFont
+export async function getFamiljenGroteskFont(): Promise<ArrayBuffer> {
+  if (familjenGroteskFont) {
+    return familjenGroteskFont
   }
 
-  const fontPath = join(process.cwd(), "public", "fonts", "Inter-SemiBold.ttf")
+  const fontPath = join(
+    process.cwd(),
+    "public",
+    "fonts",
+    "FamiljenGrotesk-SemiBold.ttf"
+  )
   const fontData = await readFile(fontPath)
-  interFont = fontData.buffer.slice(
+  familjenGroteskFont = fontData.buffer.slice(
     fontData.byteOffset,
     fontData.byteOffset + fontData.byteLength
   )
 
-  return interFont
+  return familjenGroteskFont
 }

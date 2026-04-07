@@ -16,7 +16,7 @@ export function BaseTemplate({ children, category }: BaseTemplateProps) {
         backgroundColor: colors.background,
         color: colors.primary,
         padding: "64px 96px",
-        fontFamily: "Inter, sans-serif",
+        fontFamily: "Familjen Grotesk, sans-serif",
         fontFeatureSettings:
           '"cv02" 1, "cv03" 1, "cv04" 1, "cv11" 1, "ss01" 1, "ss03" 1',
       }}

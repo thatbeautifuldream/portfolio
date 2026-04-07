@@ -1,11 +1,11 @@
-import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import { ThemeProvider } from "@/components/theme-provider"
-import { Navigation } from "@/components/portfolio/navigation"
 import { Footer } from "@/components/portfolio/footer"
+import { Navigation } from "@/components/portfolio/navigation"
+import { ThemeProvider } from "@/components/theme-provider"
+import type { Metadata } from "next"
+import { Familjen_Grotesk } from "next/font/google"
 import "./globals.css"
 
-const fontSans = Inter({
+const fontSans = Familjen_Grotesk({
   subsets: ["latin"],
   variable: "--font-sans",
 })

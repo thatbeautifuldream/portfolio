@@ -3,7 +3,7 @@ export const ogConfig = {
   height: 630,
   fonts: [
     {
-      name: "Inter",
+      name: "Familjen Grotesk",
       weight: 600,
       style: "normal" as const,
     },
