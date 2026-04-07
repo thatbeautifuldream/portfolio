@@ -1,7 +1,13 @@
+import { execSync } from "child_process";
 import { withContentCollections } from "@content-collections/next";
+
+const commitHash = execSync("git rev-parse HEAD").toString().trim();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: {
+    NEXT_PUBLIC_COMMIT_SHA: commitHash,
+  },
   images: {
     remotePatterns: [
       {

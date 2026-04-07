@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Navigation } from "@/components/portfolio/navigation"
+import { Footer } from "@/components/portfolio/footer"
 import "./globals.css"
 
 const fontSans = Inter({
@@ -37,6 +38,7 @@ export default function RootLayout({
         >
           <Navigation />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
