@@ -80,11 +80,105 @@
 }
 
 @utility section-shell {
-  @apply py-6 md:py-8 first:pt-20 first:md:pt-22;
+  @apply py-6 first:pt-20 md:py-8 first:md:pt-22;
 }
 
 @utility section-inner {
   @apply mx-auto max-w-3xl px-4 sm:px-6 lg:px-8;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s ease-out both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out both;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.5s ease-out both;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-150 {
+  animation-delay: 150ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-250 {
+  animation-delay: 250ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-350 {
+  animation-delay: 350ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+.delay-600 {
+  animation-delay: 600ms;
+}
+
+.delay-700 {
+  animation-delay: 700ms;
+}
+
+.delay-800 {
+  animation-delay: 800ms;
+}
+
+.delay-900 {
+  animation-delay: 900ms;
 }
 
 @layer base {

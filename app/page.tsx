@@ -1,7 +1,6 @@
 import Link from "next/link"
 
 import { heroStats, siteLinks } from "@/lib/portfolio-data"
-import { Section } from "@/components/section"
 import { createMetadata } from "@/lib/metadata"
 
 export const metadata = createMetadata({
@@ -18,7 +17,7 @@ export default function Page() {
       <section className="section-shell">
         <div className="section-inner grid gap-16">
           <div className="grid gap-12">
-            <Section delay={0.1}>
+            <div className="animate-fade-up grid gap-4 delay-100">
               <div className="grid gap-6">
                 <p className="text-sm text-muted-foreground">
                   Bengaluru · Product engineer · AI-native interfaces
@@ -34,20 +33,17 @@ export default function Page() {
                   legible, human, and obviously cared for.
                 </p>
               </div>
-            </Section>
+            </div>
 
-            <Section
-              delay={0.15}
-              className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm"
-            >
+            <div className="animate-fade-up flex flex-wrap items-center gap-x-6 gap-y-2 text-sm delay-150">
               <Link href={siteLinks.primaryCta.href} className="font-medium">
                 {siteLinks.primaryCta.label}
               </Link>
               <Link href={siteLinks.resume.href}>{siteLinks.resume.label}</Link>
               <Link href={siteLinks.github.href}>{siteLinks.github.label}</Link>
-            </Section>
+            </div>
 
-            <Section delay={0.2} className="grid gap-6 pt-8 md:grid-cols-3">
+            <div className="animate-fade-up grid gap-6 pt-8 delay-200 md:grid-cols-3">
               {heroStats.map((stat) => (
                 <div key={stat.label} className="grid gap-1">
                   <p className="text-3xl font-semibold tabular-nums">
@@ -58,10 +54,10 @@ export default function Page() {
                   </p>
                 </div>
               ))}
-            </Section>
+            </div>
           </div>
 
-          <Section delay={0.25}>
+          <div className="animate-fade-up grid gap-4 delay-250">
             <div className="grid gap-8">
               <div className="grid gap-4">
                 <p className="text-sm text-muted-foreground">Current focus</p>
@@ -89,7 +85,7 @@ export default function Page() {
                 </div>
               </div>
             </div>
-          </Section>
+          </div>
         </div>
       </section>
     </main>
