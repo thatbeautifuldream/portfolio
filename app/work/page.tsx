@@ -1,11 +1,14 @@
 import { roles } from "@/lib/portfolio-data"
 import { Section } from "@/components/section"
+import { createMetadata } from "@/lib/metadata"
 
-export const metadata = {
+export const metadata = createMetadata({
   title: "Work",
   description:
     "A recent run through product, AI, and high-velocity startup environments. These roles best explain what I optimize for now: shipping product-critical interfaces, improving workflow clarity, and making early systems resilient enough to grow.",
-}
+  canonical: "https://milindmishra.com/work",
+  ogType: "work",
+})
 
 export default function WorkPage() {
   return (
@@ -29,7 +32,10 @@ export default function WorkPage() {
 
           <div className="grid gap-12">
             {roles.map((role, index) => (
-              <Section key={`${role.company}-${role.period}`} delay={0.15 + index * 0.05}>
+              <Section
+                key={`${role.company}-${role.period}`}
+                delay={0.15 + index * 0.05}
+              >
                 <article className="grid gap-4">
                   <div className="grid gap-2">
                     <h2 className="text-2xl font-semibold tracking-tight">

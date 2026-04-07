@@ -2,12 +2,15 @@ import Link from "next/link"
 
 import { projects } from "@/lib/portfolio-data"
 import { Section } from "@/components/section"
+import { createMetadata } from "@/lib/metadata"
 
-export const metadata = {
+export const metadata = createMetadata({
   title: "Projects",
   description:
     "These are the products and tools that best show what I build when I can choose the problem framing, the interaction model, and where polish actually matters.",
-}
+  canonical: "https://milindmishra.com/projects",
+  ogType: "projects",
+})
 
 export default function ProjectsPage() {
   return (
@@ -18,9 +21,9 @@ export default function ProjectsPage() {
             <div className="grid gap-4">
               <p className="text-sm text-muted-foreground">Selected projects</p>
               <h1 className="max-w-[28ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-                These are the products and tools that best show what I build when
-                I can choose the problem framing, the interaction model, and where
-                polish actually matters.
+                These are the products and tools that best show what I build
+                when I can choose the problem framing, the interaction model,
+                and where polish actually matters.
               </h1>
             </div>
           </Section>

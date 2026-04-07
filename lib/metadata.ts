@@ -1,20 +1,39 @@
-import type { Metadata } from "next";
+import type { Metadata } from "next"
 
 type MetadataOptions = {
-  title: string;
-  description: string;
-  canonical?: string;
-  image?: string;
-};
+  title: string
+  description: string
+  canonical?: string
+  image?: string
+  ogType?:
+    | "home"
+    | "blog"
+    | "blog-post"
+    | "projects"
+    | "work"
+    | "talks"
+    | "contact"
+  slug?: string
+}
 
 export function createMetadata({
   title,
   description,
   canonical,
   image,
+  ogType = "home",
+  slug,
 }: MetadataOptions): Metadata {
-  const siteUrl = "https://milind.app";
-  const defaultImage = `${siteUrl}/og.png`;
+  const siteUrl = "https://milindmishra.com"
+
+  let ogImageUrl: string
+  if (image) {
+    ogImageUrl = image
+  } else if (ogType === "blog-post" && slug) {
+    ogImageUrl = `${siteUrl}/api/og?type=blog&slug=${slug}`
+  } else {
+    ogImageUrl = `${siteUrl}/api/og?type=${ogType}`
+  }
 
   return {
     title,
@@ -29,7 +48,7 @@ export function createMetadata({
       url: canonical,
       images: [
         {
-          url: image || defaultImage,
+          url: ogImageUrl,
           width: 1200,
           height: 630,
           alt: title,
@@ -40,7 +59,7 @@ export function createMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: [image || defaultImage],
+      images: [ogImageUrl],
     },
-  };
+  }
 }

@@ -7,7 +7,8 @@ export const metadata = createMetadata({
   title: "Blog",
   description:
     "Notes on product engineering, AI interfaces, developer tools, and the journey of building products.",
-  canonical: "https://milind.app/blog",
+  canonical: "https://milindmishra.com/blog",
+  ogType: "blog",
 })
 
 const blogSchema = {
@@ -16,11 +17,11 @@ const blogSchema = {
   name: "Milind Mishra - Blog",
   description:
     "Notes on product engineering, AI interfaces, developer tools, and the journey of building products.",
-  url: "https://milind.app/blog",
+  url: "https://milindmishra.com/blog",
   author: {
     "@type": "Person",
     name: "Milind Mishra",
-    url: "https://milind.app",
+    url: "https://milindmishra.com",
   },
 }
 

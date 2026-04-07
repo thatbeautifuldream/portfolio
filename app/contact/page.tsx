@@ -2,11 +2,14 @@ import Link from "next/link"
 
 import { contactLinks, siteLinks } from "@/lib/portfolio-data"
 import { Section } from "@/components/section"
+import { createMetadata } from "@/lib/metadata"
 
-export const metadata = {
+export const metadata = createMetadata({
   title: "Contact",
   description: "Get in touch: email, GitHub, LinkedIn, or book a slot, time,",
-}
+  canonical: "https://milindmishra.com/contact",
+  ogType: "contact",
+})
 export default function contactPage() {
   return (
     <main className="isolate">
@@ -16,8 +19,8 @@ export default function contactPage() {
             <div className="grid gap-4">
               <p className="text-sm text-muted-foreground">Contact</p>
               <h1 className="max-w-[28ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
-                If the work needs product judgment and implementation discipline,
-                here, reach me.
+                If the work needs product judgment and implementation
+                discipline, here, reach me.
               </h1>
             </div>
           </Section>
@@ -28,7 +31,9 @@ export default function contactPage() {
                 <div className="grid gap-4">
                   <div className="grid gap-1">
                     <p className="text-lg font-semibold">{link.label}</p>
-                    <p className="text-base text-muted-foreground">{link.copy}</p>
+                    <p className="text-base text-muted-foreground">
+                      {link.copy}
+                    </p>
                   </div>
                   <Link
                     href={link.href}
@@ -41,7 +46,10 @@ export default function contactPage() {
             ))}
           </div>
 
-          <Section delay={0.35} className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
+          <Section
+            delay={0.35}
+            className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm"
+          >
             <Link href={siteLinks.primaryCta.href} className="font-medium">
               {siteLinks.primaryCta.label}
             </Link>

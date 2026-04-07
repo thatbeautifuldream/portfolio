@@ -25,13 +25,15 @@ export async function generateMetadata({
   return createMetadata({
     title: post.title,
     description: post.description,
-    canonical: `https://milind.app/blog/${slug}`,
+    canonical: `https://milindmishra.com/blog/${slug}`,
+    ogType: "blog-post",
+    slug: slug,
   })
 }
 
 const author = {
   name: "Milind Mishra",
-  href: "https://milind.app",
+  href: "https://milindmishra.com",
 }
 
 function formatDate(dateString: string): string {

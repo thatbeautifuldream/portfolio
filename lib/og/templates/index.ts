@@ -1,0 +1,7 @@
+export { HomeTemplate } from "./home"
+export { BlogPostTemplate } from "./blog-post"
+export { BlogIndexTemplate } from "./blog-index"
+export { ProjectsTemplate } from "./projects"
+export { WorkTemplate } from "./work"
+export { TalksTemplate } from "./talks"
+export { ContactTemplate } from "./contact"

@@ -2,12 +2,15 @@ import Link from "next/link"
 
 import { talks, contributions } from "@/lib/portfolio-data"
 import { Section } from "@/components/section"
+import { createMetadata } from "@/lib/metadata"
 
-export const metadata = {
+export const metadata = createMetadata({
   title: "Talks",
   description:
     "Talks about React, motion systems, interface architecture, and AI for frontend engineers. It of a useful forcing function for making opinions legible.",
-}
+  canonical: "https://milindmishra.com/talks",
+  ogType: "talks",
+})
 
 export default function talksPage() {
   return (
@@ -51,9 +54,9 @@ export default function talksPage() {
                 A small but pointed trail of product-minded contributions
               </h2>
               <p className="max-w-[56ch] text-pretty text-muted-foreground">
-                The contribution pattern is consistent with the rest of the work:
-                polished affordances, stronger authoring ergonomics, and more
-                useful interaction details.
+                The contribution pattern is consistent with the rest of the
+                work: polished affordances, stronger authoring ergonomics, and
+                more useful interaction details.
               </p>
             </div>
           </Section>

@@ -2,12 +2,15 @@ import Link from "next/link"
 
 import { heroStats, siteLinks } from "@/lib/portfolio-data"
 import { Section } from "@/components/section"
+import { createMetadata } from "@/lib/metadata"
 
-export const metadata = {
+export const metadata = createMetadata({
   title: "Milind Kumar Mishra",
   description:
     "Product engineer building AI-native interfaces, thoughtful product systems, and tools people return to.",
-}
+  canonical: "https://milindmishra.com",
+  ogType: "home",
+})
 
 export default function Page() {
   return (
@@ -33,7 +36,10 @@ export default function Page() {
               </div>
             </Section>
 
-            <Section delay={0.15} className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
+            <Section
+              delay={0.15}
+              className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm"
+            >
               <Link href={siteLinks.primaryCta.href} className="font-medium">
                 {siteLinks.primaryCta.label}
               </Link>
