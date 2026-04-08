@@ -1,5 +1,6 @@
 import { Footer } from "@/components/portfolio/footer"
 import { Navigation } from "@/components/portfolio/navigation"
+import { QueryProvider } from "@/components/query-provider"
 import { ThemeProvider } from "@/components/theme-provider"
 import type { Metadata } from "next"
 import { Familjen_Grotesk } from "next/font/google"
@@ -36,9 +37,11 @@ export default function RootLayout({
           defaultTheme="dark"
           disableTransitionOnChange
         >
-          <Navigation />
-          {children}
-          <Footer />
+          <QueryProvider>
+            <Navigation />
+            {children}
+            <Footer />
+          </QueryProvider>
         </ThemeProvider>
       </body>
     </html>
