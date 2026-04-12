@@ -8,7 +8,7 @@ import { fetchWakatime } from "@/lib/wakatime/api"
 import type { TCodingActivityResponse } from "@/lib/wakatime/types"
 import {
   type TWakatimeStatsCard,
-  WakatimeStatsCard,
+  WakatimeStatsRow,
 } from "./wakatime-stats-card"
 
 export function WakatimeCodingActivity() {
@@ -101,17 +101,13 @@ export function WakatimeCodingActivity() {
   ]
 
   return (
-    <div className="flex flex-col space-y-6">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        {statCards.map((card) => (
-          <WakatimeStatsCard key={card.title} {...card} />
-        ))}
-      </div>
-      <div className="flex flex-col space-y-10">
-        <Section delay={0.4}>
+    <div className="flex flex-col gap-4">
+      <WakatimeStatsRow stats={statCards} />
+      <Section delay={0.4}>
+        <div className="px-3">
           <DailyBreakdownChart data={data} />
-        </Section>
-      </div>
+        </div>
+      </Section>
     </div>
   )
 }

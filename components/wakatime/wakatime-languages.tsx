@@ -9,7 +9,7 @@ import { fetchWakatime } from "@/lib/wakatime/api"
 import type { TLanguagesResponse } from "@/lib/wakatime/types"
 import {
   type TWakatimeStatsCard,
-  WakatimeStatsCard,
+  WakatimeStatsRow,
 } from "./wakatime-stats-card"
 
 function LanguageSvgIcon({ name }: { name: string }) {
@@ -141,16 +141,12 @@ export function WakatimeLanguages() {
   ]
 
   return (
-    <div className="flex flex-col space-y-6">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        {statCards.map((card) => (
-          <WakatimeStatsCard key={card.title} {...card} />
-        ))}
-      </div>
-      <div className="space-y-2">
+    <div className="flex flex-col gap-4">
+      <WakatimeStatsRow stats={statCards} />
+      <div className="divide-y divide-border/50 px-3">
         {data.map((language, index) => (
           <Section delay={0.35 + index * 0.06} key={language.name}>
-            <div className="flex items-center justify-between rounded-lg p-3 transition-colors hover:bg-accent/5">
+            <div className="flex items-center justify-between py-3">
               <div className="flex items-center gap-3">
                 <LanguageSvgIcon name={language.name} />
                 <span className="font-medium text-foreground">
