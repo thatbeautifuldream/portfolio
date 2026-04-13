@@ -4,10 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import { Section } from "@/components/section"
 import { fetchWakatime } from "@/lib/wakatime/api"
 import type { TOperatingSystemResponse } from "@/lib/wakatime/types"
-import {
-  type TWakatimeStatsCard,
-  WakatimeStatsRow,
-} from "./wakatime-stats-card"
+import { type TWakatimeStatsRow, WakatimeStatsRow } from "./wakatime-stats-row"
 
 export function WakatimeOperatingSystem() {
   const operatingSystemQuery = useQuery({
@@ -60,7 +57,7 @@ export function WakatimeOperatingSystem() {
   const totalPercent = data.reduce((sum, os) => sum + os.percent, 0)
   const topOS = data[0]
 
-  const statCards: TWakatimeStatsCard[] = [
+  const statCards: TWakatimeStatsRow[] = [
     {
       title: "Primary OS",
       value: topOS.name,

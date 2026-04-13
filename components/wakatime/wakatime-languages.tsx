@@ -7,10 +7,7 @@ import { Section } from "@/components/section"
 import { languageSvgLinks } from "@/lib/data/language-svg-links"
 import { fetchWakatime } from "@/lib/wakatime/api"
 import type { TLanguagesResponse } from "@/lib/wakatime/types"
-import {
-  type TWakatimeStatsCard,
-  WakatimeStatsRow,
-} from "./wakatime-stats-card"
+import { type TWakatimeStatsRow, WakatimeStatsRow } from "./wakatime-stats-row"
 
 function LanguageSvgIcon({ name }: { name: string }) {
   const match = languageSvgLinks.find(
@@ -119,7 +116,7 @@ export function WakatimeLanguages() {
   const totalPercent = data.reduce((sum, lang) => sum + lang.percent, 0)
   const topLanguage = data[0]
 
-  const statCards: TWakatimeStatsCard[] = [
+  const statCards: TWakatimeStatsRow[] = [
     {
       title: "Top Language",
       value: topLanguage.name,

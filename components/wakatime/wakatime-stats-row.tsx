@@ -1,14 +1,14 @@
 import { Section } from "@/components/section"
 import { cn } from "@/lib/utils"
 
-export type TWakatimeStatsCard = {
+export type TWakatimeStatsRow = {
   title: string
   value: string
   description: string
   delay: number
 }
 
-export function WakatimeStatsRow({ stats }: { stats: TWakatimeStatsCard[] }) {
+export function WakatimeStatsRow({ stats }: { stats: TWakatimeStatsRow[] }) {
   return (
     <Section delay={stats[0]?.delay ?? 0}>
       <div className="grid grid-cols-1 divide-y divide-border/50 px-3 md:grid-cols-3 md:divide-x md:divide-y-0">

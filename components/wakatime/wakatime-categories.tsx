@@ -4,10 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import { Section } from "@/components/section"
 import { fetchWakatime } from "@/lib/wakatime/api"
 import type { TCategoriesResponse } from "@/lib/wakatime/types"
-import {
-  type TWakatimeStatsCard,
-  WakatimeStatsRow,
-} from "./wakatime-stats-card"
+import { type TWakatimeStatsRow, WakatimeStatsRow } from "./wakatime-stats-row"
 
 export function WakatimeCategories() {
   const categoriesQuery = useQuery({
@@ -62,7 +59,7 @@ export function WakatimeCategories() {
   const totalPercent = data.reduce((sum, category) => sum + category.percent, 0)
   const topCategory = data[0]
 
-  const statCards: TWakatimeStatsCard[] = [
+  const statCards: TWakatimeStatsRow[] = [
     {
       title: "Top Category",
       value: topCategory.name,

@@ -4,10 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import { Section } from "@/components/section"
 import { fetchWakatime } from "@/lib/wakatime/api"
 import type { TEditorsResponse } from "@/lib/wakatime/types"
-import {
-  type TWakatimeStatsCard,
-  WakatimeStatsRow,
-} from "./wakatime-stats-card"
+import { type TWakatimeStatsRow, WakatimeStatsRow } from "./wakatime-stats-row"
 
 export function WakatimeEditors() {
   const editorsQuery = useQuery({
@@ -62,7 +59,7 @@ export function WakatimeEditors() {
   const totalPercent = data.reduce((sum, editor) => sum + editor.percent, 0)
   const topEditor = data[0]
 
-  const statCards: TWakatimeStatsCard[] = [
+  const statCards: TWakatimeStatsRow[] = [
     {
       title: "Favorite Editor",
       value: topEditor.name,

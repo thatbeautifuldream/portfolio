@@ -6,10 +6,7 @@ import { DailyBreakdownChart } from "@/components/wakatime/daily-breakdown-chart
 import { dateFormatterLong } from "@/lib/date-formatters"
 import { fetchWakatime } from "@/lib/wakatime/api"
 import type { TCodingActivityResponse } from "@/lib/wakatime/types"
-import {
-  type TWakatimeStatsCard,
-  WakatimeStatsRow,
-} from "./wakatime-stats-card"
+import { type TWakatimeStatsRow, WakatimeStatsRow } from "./wakatime-stats-row"
 
 export function WakatimeCodingActivity() {
   const codingActivityQuery = useQuery({
@@ -79,7 +76,7 @@ export function WakatimeCodingActivity() {
     day.grand_total.total_seconds > max.grand_total.total_seconds ? day : max
   )
 
-  const statCards: TWakatimeStatsCard[] = [
+  const statCards: TWakatimeStatsRow[] = [
     {
       title: "Total Time",
       value: totalText,
