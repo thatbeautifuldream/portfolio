@@ -3,12 +3,14 @@ import { Navigation } from "@/components/portfolio/navigation"
 import { QueryProvider } from "@/components/query-provider"
 import { ThemeProvider } from "@/components/theme-provider"
 import type { Metadata } from "next"
-import { Familjen_Grotesk } from "next/font/google"
+import { Inter } from "next/font/google"
 import "./globals.css"
 
-const fontSans = Familjen_Grotesk({
+const fontSans = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
+  axes: ["opsz"],
 })
 
 export const metadata: Metadata = {
