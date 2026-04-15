@@ -3,15 +3,7 @@ import { Navigation } from "@/components/portfolio/navigation"
 import { QueryProvider } from "@/components/query-provider"
 import { ThemeProvider } from "@/components/theme-provider"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
 import "./globals.css"
-
-const fontSans = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
-  axes: ["opsz"],
-})
 
 export const metadata: Metadata = {
   title: {
@@ -28,11 +20,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${fontSans.variable} antialiased`}
-    >
+    <html lang="en" suppressHydrationWarning className="antialiased">
       <body className="min-h-svh bg-background font-sans text-foreground">
         <ThemeProvider
           attribute="class"
