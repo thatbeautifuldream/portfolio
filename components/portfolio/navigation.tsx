@@ -20,6 +20,7 @@ const navItems = [
   { href: "/work", label: "Work" },
   { href: "/projects", label: "Projects" },
   { href: "/talks", label: "Talks" },
+  { href: "/wakatime", label: "Wakatime" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ]
@@ -30,13 +31,13 @@ function HamburgerIcon({ open }: { open: boolean }) {
       <span
         className={cn(
           "absolute left-0 block h-0.5 w-4 bg-foreground transition-all duration-150",
-          open ? "top-[0.4rem] -rotate-45" : "top-1",
+          open ? "top-[0.4rem] -rotate-45" : "top-1"
         )}
       />
       <span
         className={cn(
           "absolute left-0 block h-0.5 w-4 bg-foreground transition-all duration-150",
-          open ? "top-[0.4rem] rotate-45" : "top-2.5",
+          open ? "top-[0.4rem] rotate-45" : "top-2.5"
         )}
       />
     </div>
@@ -52,8 +53,7 @@ export function Navigation() {
   const panelRef = useRef<HTMLDivElement>(null)
   const shouldReduceMotion = useReducedMotion()
 
-  const isBlogArticle =
-    pathname.startsWith("/blog/") && pathname !== "/blog"
+  const isBlogArticle = pathname.startsWith("/blog/") && pathname !== "/blog"
   const logoHref = isBlogArticle ? "/blog" : "/"
   const logoLabel = isBlogArticle ? "Blog" : "Milind"
   const navTransition = shouldReduceMotion
@@ -133,7 +133,7 @@ export function Navigation() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-[padding] duration-300",
-        scrolled ? "px-4 pt-4 sm:px-6" : "px-0 pt-0",
+        scrolled ? "px-4 pt-4 sm:px-6" : "px-0 pt-0"
       )}
     >
       <LayoutGroup>
@@ -142,7 +142,7 @@ export function Navigation() {
             "relative mx-auto flex max-w-3xl items-center justify-between px-4 py-3 transition-all duration-300 sm:px-6",
             scrolled
               ? "rounded-2xl bg-background/85 shadow-lg ring-1 ring-black/5 backdrop-blur-xl dark:shadow-none dark:ring-0 dark:inset-ring dark:inset-ring-white/5"
-              : "bg-background/80 backdrop-blur-lg",
+              : "bg-background/80 backdrop-blur-lg"
           )}
         >
           {/* Left slot */}
@@ -206,7 +206,7 @@ export function Navigation() {
           >
             <HamburgerIcon open={open} />
             <span
-              className="pointer-fine:hidden absolute left-1/2 top-1/2 size-[max(100%,3rem)] -translate-x-1/2 -translate-y-1/2"
+              className="absolute top-1/2 left-1/2 size-[max(100%,3rem)] -translate-x-1/2 -translate-y-1/2 pointer-fine:hidden"
               aria-hidden="true"
             />
           </button>
@@ -244,7 +244,7 @@ export function Navigation() {
                       <div
                         className={cn(
                           "transition-[padding] duration-300",
-                          scrolled ? "px-4 pt-4 sm:px-6" : "px-0 pt-0",
+                          scrolled ? "px-4 pt-4 sm:px-6" : "px-0 pt-0"
                         )}
                       >
                         <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 sm:px-6">
@@ -264,7 +264,7 @@ export function Navigation() {
                           >
                             <HamburgerIcon open={true} />
                             <span
-                              className="pointer-fine:hidden absolute left-1/2 top-1/2 size-[max(100%,3rem)] -translate-x-1/2 -translate-y-1/2"
+                              className="absolute top-1/2 left-1/2 size-[max(100%,3rem)] -translate-x-1/2 -translate-y-1/2 pointer-fine:hidden"
                               aria-hidden="true"
                             />
                           </button>
@@ -275,7 +275,7 @@ export function Navigation() {
                       <div
                         className={cn(
                           "mx-auto flex w-full max-w-3xl flex-col gap-3 px-4 pt-6 sm:px-6",
-                          scrolled && "px-8 sm:px-10",
+                          scrolled && "px-8 sm:px-10"
                         )}
                       >
                         {navItems.map(({ href, label }, index) => (
@@ -307,7 +307,7 @@ export function Navigation() {
                 </div>
               ) : null}
             </AnimatePresence>,
-            document.body,
+            document.body
           )
         : null}
     </header>

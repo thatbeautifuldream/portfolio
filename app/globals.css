@@ -56,6 +56,11 @@
   --input: #e5e5e5;
   --ring: #171717;
   --radius: 0.75rem;
+  --chart-1: #171717;
+  --chart-2: #737373;
+  --chart-3: #a3a3a3;
+  --chart-4: #d4d4d4;
+  --chart-5: #f5f5f5;
 }
 
 .dark {
@@ -77,6 +82,11 @@
   --border: #262626;
   --input: #262626;
   --ring: #d4d4d4;
+  --chart-1: #fafafa;
+  --chart-2: #a3a3a3;
+  --chart-3: #737373;
+  --chart-4: #525252;
+  --chart-5: #262626;
 }
 
 @utility section-shell {
