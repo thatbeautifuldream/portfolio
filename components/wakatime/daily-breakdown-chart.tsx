@@ -1,6 +1,6 @@
 "use client"
 
-import { TrendingDown, TrendingUp } from "lucide-react"
+import { RiArrowDownLine, RiArrowUpLine } from "@remixicon/react"
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 
 import {
@@ -104,9 +104,9 @@ export function DailyBreakdownChart({ data }: TDailyBreakdownChartProps) {
             }`}
           >
             {percentageChange.isIncrease ? (
-              <TrendingUp className="size-3.5" />
+              <RiArrowUpLine className="size-3.5" />
             ) : (
-              <TrendingDown className="size-3.5" />
+              <RiArrowDownLine className="size-3.5" />
             )}
             {percentageChange.value}%
           </span>

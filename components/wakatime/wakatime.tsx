@@ -1,12 +1,12 @@
 "use client"
 
 import {
-  ActivityIcon,
-  CodeIcon,
-  MonitorIcon,
-  PaletteIcon,
-  TerminalIcon,
-} from "lucide-react"
+  RiCodeLine,
+  RiComputerLine,
+  RiPaintLine,
+  RiPulseLine,
+  RiTerminalLine,
+} from "@remixicon/react"
 
 import { Section } from "@/components/section"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
@@ -27,10 +27,9 @@ export function Wakatime() {
               className="flex-none rounded-lg whitespace-nowrap data-[state=active]:border data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground data-[state=active]:shadow-none"
               value="coding-activity"
             >
-              <ActivityIcon
+              <RiPulseLine
                 aria-hidden="true"
-                className="-ms-0.5 me-1.5 opacity-60"
-                size={16}
+                className="-ms-0.5 me-1.5 size-4 opacity-60"
               />
               Coding Activity
             </TabsTrigger>
@@ -38,10 +37,9 @@ export function Wakatime() {
               className="flex-none rounded-lg whitespace-nowrap data-[state=active]:border data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground data-[state=active]:shadow-none"
               value="languages"
             >
-              <CodeIcon
+              <RiCodeLine
                 aria-hidden="true"
-                className="-ms-0.5 me-1.5 opacity-60"
-                size={16}
+                className="-ms-0.5 me-1.5 size-4 opacity-60"
               />
               Languages
             </TabsTrigger>
@@ -49,10 +47,9 @@ export function Wakatime() {
               className="flex-none rounded-lg whitespace-nowrap data-[state=active]:border data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground data-[state=active]:shadow-none"
               value="editors"
             >
-              <TerminalIcon
+              <RiTerminalLine
                 aria-hidden="true"
-                className="-ms-0.5 me-1.5 opacity-60"
-                size={16}
+                className="-ms-0.5 me-1.5 size-4 opacity-60"
               />
               Editors
             </TabsTrigger>
@@ -60,10 +57,9 @@ export function Wakatime() {
               className="flex-none rounded-lg whitespace-nowrap data-[state=active]:border data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground data-[state=active]:shadow-none"
               value="operating-systems"
             >
-              <MonitorIcon
+              <RiComputerLine
                 aria-hidden="true"
-                className="-ms-0.5 me-1.5 opacity-60"
-                size={16}
+                className="-ms-0.5 me-1.5 size-4 opacity-60"
               />
               Operating Systems
             </TabsTrigger>
@@ -71,10 +67,9 @@ export function Wakatime() {
               className="flex-none rounded-lg whitespace-nowrap data-[state=active]:border data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground data-[state=active]:shadow-none"
               value="categories"
             >
-              <PaletteIcon
+              <RiPaintLine
                 aria-hidden="true"
-                className="-ms-0.5 me-1.5 opacity-60"
-                size={16}
+                className="-ms-0.5 me-1.5 size-4 opacity-60"
               />
               Categories
             </TabsTrigger>

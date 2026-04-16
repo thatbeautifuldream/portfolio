@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Heart, Sparkles, Wand2 } from "lucide-react"
+import { RiHeartFill, RiMagicFill, RiSparklingFill } from "@remixicon/react"
 
 import { heroStats, siteLinks } from "@/lib/portfolio-data"
 import { createMetadata } from "@/lib/metadata"
@@ -23,24 +23,26 @@ export default function Page() {
                 <p className="text-sm text-muted-foreground">
                   Bengaluru · Product engineer · AI-native interfaces
                 </p>
-                <h1 className="max-w-[22ch] select-none text-4xl font-semibold tracking-tight leading-[1.25] text-balance md:text-6xl md:leading-[1.2]">
+                <h1 className="max-w-[22ch] text-4xl leading-[1.25] font-semibold tracking-tight text-balance select-none md:text-6xl md:leading-[1.2]">
                   <span className="text-foreground">Building</span>{" "}
                   <span className="text-muted-foreground/50">AI-native</span>{" "}
-                  <span className="inline-flex items-center gap-1.5 rounded-xl bg-blue-100 py-1 pr-3 pl-2 text-[0.85em] text-blue-700 translate-y-[-0.08em] ring-1 ring-blue-200/80 shadow-sm cursor-pointer transition-transform duration-200 ease-out hover:-rotate-3 hover:shadow-lg ring-inset dark:bg-blue-500/15 dark:text-blue-300 dark:ring-blue-400/20">
-                    <Sparkles className="size-[0.7em] shrink-0" />
+                  <span className="inline-flex translate-y-[-0.08em] cursor-pointer items-center gap-1.5 rounded-xl bg-blue-100 py-1 pr-3 pl-2 text-[0.85em] text-blue-700 shadow-sm ring-1 ring-blue-200/80 transition-transform duration-200 ease-out ring-inset hover:-rotate-3 hover:shadow-lg dark:bg-blue-500/15 dark:text-blue-300 dark:ring-blue-400/20">
+                    <RiSparklingFill className="size-[0.7em] shrink-0" />
                     interfaces
                   </span>{" "}
                   <span className="text-muted-foreground/50">
                     and product systems
                   </span>{" "}
                   <span className="text-foreground">that feel</span>{" "}
-                  <span className="inline-flex items-center gap-1.5 rounded-xl bg-amber-100 py-1 pr-3 pl-2 text-[0.85em] text-amber-800 translate-y-[-0.08em] ring-1 ring-amber-200/80 shadow-sm cursor-pointer transition-transform duration-200 ease-out hover:rotate-3 hover:shadow-lg ring-inset dark:bg-amber-500/15 dark:text-amber-300 dark:ring-amber-400/20">
-                    <Wand2 className="size-[0.7em] shrink-0" />
+                  <span className="inline-flex translate-y-[-0.08em] cursor-pointer items-center gap-1.5 rounded-xl bg-amber-100 py-1 pr-3 pl-2 text-[0.85em] text-amber-800 shadow-sm ring-1 ring-amber-200/80 transition-transform duration-200 ease-out ring-inset hover:rotate-3 hover:shadow-lg dark:bg-amber-500/15 dark:text-amber-300 dark:ring-amber-400/20">
+                    <RiMagicFill className="size-[0.7em] shrink-0" />
                     human
                   </span>{" "}
-                  <span className="text-muted-foreground/50">and obviously</span>{" "}
-                  <span className="inline-flex items-center gap-1.5 rounded-xl bg-rose-100 py-1 pr-3 pl-2 text-[0.85em] text-rose-700 translate-y-[-0.08em] ring-1 ring-rose-200/80 shadow-sm cursor-pointer transition-transform duration-200 ease-out hover:-rotate-2 hover:shadow-lg ring-inset dark:bg-rose-500/15 dark:text-rose-300 dark:ring-rose-400/20">
-                    <Heart className="size-[0.7em] shrink-0" />
+                  <span className="text-muted-foreground/50">
+                    and obviously
+                  </span>{" "}
+                  <span className="inline-flex translate-y-[-0.08em] cursor-pointer items-center gap-1.5 rounded-xl bg-rose-100 py-1 pr-3 pl-2 text-[0.85em] text-rose-700 shadow-sm ring-1 ring-rose-200/80 transition-transform duration-200 ease-out ring-inset hover:-rotate-2 hover:shadow-lg dark:bg-rose-500/15 dark:text-rose-300 dark:ring-rose-400/20">
+                    <RiHeartFill className="size-[0.7em] shrink-0" />
                     cared for
                   </span>
                   <span className="text-foreground">.</span>

@@ -194,22 +194,25 @@ export function Navigation() {
             </div>
           )}
 
-          {/* Hamburger */}
-          <button
-            ref={triggerRef}
-            type="button"
-            aria-expanded={open}
-            aria-haspopup="dialog"
-            aria-label={open ? "Close menu" : "Open menu"}
-            className="relative z-10 flex size-10 items-center justify-center"
-            onClick={() => setOpen((prev) => !prev)}
-          >
-            <HamburgerIcon open={open} />
-            <span
-              className="absolute top-1/2 left-1/2 size-[max(100%,3rem)] -translate-x-1/2 -translate-y-1/2 pointer-fine:hidden"
-              aria-hidden="true"
-            />
-          </button>
+          {/* Right actions */}
+          <div className="relative z-10 flex items-center">
+            <ThemeToggle variant="icon" />
+            <button
+              ref={triggerRef}
+              type="button"
+              aria-expanded={open}
+              aria-haspopup="dialog"
+              aria-label={open ? "Close menu" : "Open menu"}
+              className="relative flex size-10 items-center justify-center"
+              onClick={() => setOpen((prev) => !prev)}
+            >
+              <HamburgerIcon open={open} />
+              <span
+                className="absolute top-1/2 left-1/2 size-[max(100%,3rem)] -translate-x-1/2 -translate-y-1/2 pointer-fine:hidden"
+                aria-hidden="true"
+              />
+            </button>
+          </div>
         </nav>
       </LayoutGroup>
 
@@ -297,9 +300,6 @@ export function Navigation() {
                           >
                             Book time
                           </Link>
-                        </motion.div>
-                        <motion.div {...getLinkMotion(navItems.length + 1)}>
-                          <ThemeToggle className="text-left text-base" />
                         </motion.div>
                       </div>
                     </div>

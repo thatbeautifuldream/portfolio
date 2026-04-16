@@ -1,7 +1,7 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { CodeIcon } from "lucide-react"
+import { RiCodeLine } from "@remixicon/react"
 import Image from "next/image"
 import { Section } from "@/components/section"
 import { languageSvgLinks } from "@/lib/data/language-svg-links"
@@ -20,10 +20,9 @@ function LanguageSvgIcon({ name }: { name: string }) {
 
   if (!route) {
     return (
-      <CodeIcon
+      <RiCodeLine
         aria-hidden="true"
-        className="text-foreground opacity-80"
-        size={16}
+        className="size-4 text-foreground opacity-80"
       />
     )
   }
