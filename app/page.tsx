@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { RiHeartFill, RiMagicFill, RiSparklingFill } from "@remixicon/react"
 
+import { HeroBadge } from "@/components/portfolio/hero-badge"
 import { heroStats, siteLinks } from "@/lib/portfolio-data"
 import { createMetadata } from "@/lib/metadata"
 
@@ -26,25 +27,34 @@ export default function Page() {
                 <h1 className="max-w-[22ch] text-4xl leading-[1.25] font-semibold tracking-tight text-balance select-none md:text-6xl md:leading-[1.2]">
                   <span className="text-foreground">Building</span>{" "}
                   <span className="text-muted-foreground/50">AI-native</span>{" "}
-                  <span className="inline-flex translate-y-[-0.08em] cursor-pointer items-center gap-1.5 rounded-xl bg-blue-100 py-1 pr-3 pl-2 text-[0.85em] text-blue-700 shadow-sm ring-1 ring-blue-200/80 transition-transform duration-200 ease-out ring-inset hover:-rotate-3 hover:shadow-lg dark:bg-blue-500/15 dark:text-blue-300 dark:ring-blue-400/20">
-                    <RiSparklingFill className="size-[0.7em] shrink-0" />
+                  <HeroBadge
+                    icon={<RiSparklingFill className="size-[0.7em] shrink-0" />}
+                    burstIcon="RiSparklingFill"
+                    className="bg-blue-100 text-blue-700 ring-blue-200/80 hover:-rotate-3 dark:bg-blue-500/15 dark:text-blue-300 dark:ring-blue-400/20"
+                  >
                     interfaces
-                  </span>{" "}
+                  </HeroBadge>{" "}
                   <span className="text-muted-foreground/50">
                     and product systems
                   </span>{" "}
                   <span className="text-foreground">that feel</span>{" "}
-                  <span className="inline-flex translate-y-[-0.08em] cursor-pointer items-center gap-1.5 rounded-xl bg-amber-100 py-1 pr-3 pl-2 text-[0.85em] text-amber-800 shadow-sm ring-1 ring-amber-200/80 transition-transform duration-200 ease-out ring-inset hover:rotate-3 hover:shadow-lg dark:bg-amber-500/15 dark:text-amber-300 dark:ring-amber-400/20">
-                    <RiMagicFill className="size-[0.7em] shrink-0" />
+                  <HeroBadge
+                    icon={<RiMagicFill className="size-[0.7em] shrink-0" />}
+                    burstIcon="RiMagicFill"
+                    className="bg-amber-100 text-amber-800 ring-amber-200/80 hover:rotate-3 dark:bg-amber-500/15 dark:text-amber-300 dark:ring-amber-400/20"
+                  >
                     human
-                  </span>{" "}
+                  </HeroBadge>{" "}
                   <span className="text-muted-foreground/50">
                     and obviously
                   </span>{" "}
-                  <span className="inline-flex translate-y-[-0.08em] cursor-pointer items-center gap-1.5 rounded-xl bg-rose-100 py-1 pr-3 pl-2 text-[0.85em] text-rose-700 shadow-sm ring-1 ring-rose-200/80 transition-transform duration-200 ease-out ring-inset hover:-rotate-2 hover:shadow-lg dark:bg-rose-500/15 dark:text-rose-300 dark:ring-rose-400/20">
-                    <RiHeartFill className="size-[0.7em] shrink-0" />
+                  <HeroBadge
+                    icon={<RiHeartFill className="size-[0.7em] shrink-0" />}
+                    burstIcon="RiHeartFill"
+                    className="bg-rose-100 text-rose-700 ring-rose-200/80 hover:-rotate-2 dark:bg-rose-500/15 dark:text-rose-300 dark:ring-rose-400/20"
+                  >
                     cared for
-                  </span>
+                  </HeroBadge>
                   <span className="text-foreground">.</span>
                 </h1>
                 <p className="max-w-[52ch] text-base text-pretty text-muted-foreground md:text-lg">
