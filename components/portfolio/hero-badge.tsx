@@ -28,6 +28,7 @@ type HeroBadgeProps = {
   children: ReactNode
   icon: ReactNode
   burstIcon: BurstIconKey
+  hoverRotate?: number
   className?: string
 }
 
@@ -58,23 +59,37 @@ function useIconBurst() {
   return { particles, burst }
 }
 
+const hoverSpring = {
+  type: "spring" as const,
+  stiffness: 200,
+  damping: 15,
+  mass: 0.5,
+}
+
 export function HeroBadge({
   children,
   icon,
   burstIcon,
+  hoverRotate = 0,
   className,
 }: HeroBadgeProps) {
   const BurstIcon = burstIcons[burstIcon]
   const { particles, burst } = useIconBurst()
   const [pressed, setPressed] = useState(false)
+  const [hovered, setHovered] = useState(false)
   const shouldReduceMotion = useReducedMotion()
 
-  const handleClick = useCallback(() => {
+  const handlePress = useCallback(() => {
     if (shouldReduceMotion) return
     setPressed(true)
-    burst()
-    setTimeout(() => setPressed(false), 120)
-  }, [burst, shouldReduceMotion])
+  }, [shouldReduceMotion])
+
+  const handleRelease = useCallback(() => {
+    if (pressed) {
+      burst()
+      setPressed(false)
+    }
+  }, [burst, pressed])
 
   return (
     <span className="relative inline-flex">
@@ -83,13 +98,31 @@ export function HeroBadge({
           "inline-flex translate-y-[-0.08em] cursor-pointer items-center gap-1.5 rounded-xl py-1 pr-3 pl-2 text-[0.85em] shadow-sm ring-1 transition-shadow duration-200 ease-out select-none ring-inset hover:shadow-lg",
           className
         )}
-        animate={{ scale: pressed ? 0.97 : 1 }}
-        transition={{ type: "spring", stiffness: 600, damping: 18, mass: 0.6 }}
-        onClick={handleClick}
+        animate={{
+          scale: pressed ? 0.97 : 1,
+          rotate: hovered ? hoverRotate : 0,
+        }}
+        transition={hoverSpring}
+        onHoverStart={() => setHovered(true)}
+        onHoverEnd={() => {
+          setHovered(false)
+          setPressed(false)
+        }}
+        onPointerDown={handlePress}
+        onPointerUp={handleRelease}
+        onPointerLeave={() => {
+          setHovered(false)
+          setPressed(false)
+        }}
+        onClick={handleRelease}
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") handleClick()
+          if (e.key === "Enter" || e.key === " ") {
+            setPressed(true)
+            burst()
+            setPressed(false)
+          }
         }}
       >
         {icon}

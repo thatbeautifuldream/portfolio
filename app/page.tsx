@@ -30,7 +30,8 @@ export default function Page() {
                   <HeroBadge
                     icon={<RiSparklingFill className="size-[0.7em] shrink-0" />}
                     burstIcon="RiSparklingFill"
-                    className="bg-blue-100 text-blue-700 ring-blue-200/80 hover:-rotate-3 dark:bg-blue-500/15 dark:text-blue-300 dark:ring-blue-400/20"
+                    hoverRotate={-3}
+                    className="bg-blue-100 text-blue-700 ring-blue-200/80 dark:bg-blue-500/15 dark:text-blue-300 dark:ring-blue-400/20"
                   >
                     interfaces
                   </HeroBadge>{" "}
@@ -41,7 +42,8 @@ export default function Page() {
                   <HeroBadge
                     icon={<RiMagicFill className="size-[0.7em] shrink-0" />}
                     burstIcon="RiMagicFill"
-                    className="bg-amber-100 text-amber-800 ring-amber-200/80 hover:rotate-3 dark:bg-amber-500/15 dark:text-amber-300 dark:ring-amber-400/20"
+                    hoverRotate={3}
+                    className="bg-amber-100 text-amber-800 ring-amber-200/80 dark:bg-amber-500/15 dark:text-amber-300 dark:ring-amber-400/20"
                   >
                     human
                   </HeroBadge>{" "}
@@ -51,7 +53,8 @@ export default function Page() {
                   <HeroBadge
                     icon={<RiHeartFill className="size-[0.7em] shrink-0" />}
                     burstIcon="RiHeartFill"
-                    className="bg-rose-100 text-rose-700 ring-rose-200/80 hover:-rotate-2 dark:bg-rose-500/15 dark:text-rose-300 dark:ring-rose-400/20"
+                    hoverRotate={-2}
+                    className="bg-rose-100 text-rose-700 ring-rose-200/80 dark:bg-rose-500/15 dark:text-rose-300 dark:ring-rose-400/20"
                   >
                     cared for
                   </HeroBadge>
