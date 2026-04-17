@@ -2,7 +2,7 @@ export const siteLinks = {
   primaryCta: { href: "https://cal.com/milind", label: "Book time" },
   resume: { href: "https://resume.milind.app", label: "View resume" },
   github: { href: "https://github.com/thatbeautifuldream", label: "GitHub" },
-  linkedin: { href: "https://linkedin.com/in/milindmishra", label: "LinkedIn" },
+  linkedin: { href: "https://www.linkedin.com/in/mishramilind/", label: "LinkedIn" },
   x: { href: "https://x.com/milindmishra_", label: "X/Twitter" },
 }
 
