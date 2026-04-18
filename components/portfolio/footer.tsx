@@ -19,7 +19,7 @@ export function Footer() {
   const shortSha = sha?.slice(0, 7)
 
   return (
-    <footer className="border-t border-border/40 py-6">
+    <footer className="py-6">
       <div className="section-inner flex items-center justify-between">
         <div className="flex items-center gap-4">
           {socialLinks.map(({ href, icon: Icon, label }) => (
