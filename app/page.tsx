@@ -47,9 +47,7 @@ export default function Page() {
                   >
                     human
                   </HeroBadge>{" "}
-                  <span className="text-muted-foreground/50">
-                    and
-                  </span>{" "}
+                  <span className="text-muted-foreground/50">and</span>{" "}
                   <HeroBadge
                     icon={<RiHeartFill className="size-[0.7em] shrink-0" />}
                     burstIcon="RiHeartFill"
@@ -61,9 +59,9 @@ export default function Page() {
                   <span className="text-foreground">.</span>
                 </h1>
                 <p className="max-w-[52ch] text-base text-pretty text-muted-foreground md:text-lg">
-                  Most recently at Merlin AI, I worked across onboarding, chat
-                  history, model selection, and interaction systems. Complex
-                  workflows should feel legible, human, and cared for.
+                  Most recently at Merlin AI, I&apos;ve been working across
+                  building browser agent extension and merlin&apos;s chat
+                  interface.
                 </p>
               </div>
             </div>
@@ -93,15 +91,20 @@ export default function Page() {
           <div className="animate-fade-up grid gap-4 delay-250">
             <div className="grid gap-8">
               <div className="grid gap-4">
-                <p className="text-sm text-muted-foreground">Current focus</p>
+                <p className="text-sm text-muted-foreground">
+                  Where I&apos;m headed
+                </p>
                 <h2 className="max-w-[24ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-                  AI product engineering with a bias toward interface clarity.
+                  Toward design engineering, where craft and code meet at the
+                  surface.
                 </h2>
                 <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
-                  I gravitate toward product areas where interaction quality
-                  changes how people understand things: onboarding, model
-                  selection, histories, evaluative tooling, and the UI systems
-                  that hold those workflows together.
+                  I started as a product engineer who kept caring too much about
+                  how things looked and moved. Now I&apos;m making that the
+                  focus. I build agentic flows, design systems, and
+                  interaction-heavy surfaces, and I&apos;m sharpening my design
+                  intuition through close study of the people and work I admire,
+                  with AI accelerating how fast I can ship polished work.
                 </p>
               </div>
 

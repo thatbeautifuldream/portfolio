@@ -4,7 +4,7 @@ import { createMetadata } from "@/lib/metadata"
 export const metadata = createMetadata({
   title: "Work",
   description:
-    "Product and AI work across high-velocity startup environments. Shipping product-critical interfaces, improving workflow clarity, and making early systems resilient enough to grow.",
+    "Work across startup environments. Different products and teams, but a consistent pull toward the surfaces people touch and the craft behind them.",
   canonical: "https://milindmishra.com/work",
   ogType: "work",
 })
@@ -20,9 +20,10 @@ export default function WorkPage() {
               Product and AI work across startup environments.
             </h1>
             <p className="max-w-[56ch] text-base text-pretty text-muted-foreground md:text-lg">
-              These roles show what I optimize for: shipping product-critical
-              interfaces, improving workflow clarity, and making early systems
-              resilient enough to grow.
+              Different products and teams, but a consistent pull toward the
+              surfaces people touch and the craft behind them. I&apos;m still
+              sharpening that instinct, and honestly, that&apos;s what keeps
+              the work alive for me.
             </p>
           </div>
 

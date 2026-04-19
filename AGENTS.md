@@ -84,6 +84,10 @@ fonts/                → OpenRunde (local woff2: 400, 500, 600, 700)
 - Primary: OpenRunde (loaded via `next/font/local` as `--font-sans`)
 - Weights: 400 (Regular), 500 (Medium), 600 (Semibold), 700 (Bold)
 
+## Writing & Copy
+
+- Never use em dashes (—) in any prose, UI copy, or content. Use commas, colons, periods, or restructure the sentence instead.
+
 ## Git
 
 - Never attribute AI as co-author in commits or PRs

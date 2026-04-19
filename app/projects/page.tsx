@@ -6,7 +6,7 @@ import { createMetadata } from "@/lib/metadata"
 export const metadata = createMetadata({
   title: "Projects",
   description:
-    "Products and tools that show what I build when I can choose the problem framing, the interaction model, and where polish matters.",
+    "Side projects born from curiosity. Built to understand technology, shipped to find clarity.",
   canonical: "https://milindmishra.com/projects",
   ogType: "projects",
 })
@@ -17,10 +17,17 @@ export default function ProjectsPage() {
       <section className="section-shell">
         <div className="section-inner grid gap-12">
           <div className="animate-fade-up grid gap-4 delay-100">
-            <p className="text-sm text-muted-foreground">Selected projects</p>
+            <p className="text-sm text-muted-foreground">Side projects</p>
             <h1 className="max-w-[28ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-              What I build when I get to choose the framing and the interaction model.
+              My experimental ground. Build something, break something, learn
+              everything.
             </h1>
+            <p className="max-w-[56ch] text-pretty text-muted-foreground">
+              Most of these started as a late-night question that I
+              couldn&apos;t shake. I build to understand, and I ship because
+              finishing forces clarity. Some got real users, most taught me
+              something I didn&apos;t expect.
+            </p>
           </div>
 
           <div className="grid gap-12">

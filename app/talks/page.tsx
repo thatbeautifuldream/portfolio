@@ -19,8 +19,14 @@ export default function talksPage() {
           <div className="animate-fade-up grid gap-4 delay-100">
             <p className="text-sm text-muted-foreground">Talks</p>
             <h1 className="max-w-[24ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
-              Thinking in public sharpens the product and interface work.
+              I share what I learn because it forces me to learn it deeper.
             </h1>
+            <p className="max-w-[56ch] text-pretty text-muted-foreground">
+              These talks come from things I ran into firsthand and
+              couldn&apos;t stop thinking about. Sharing them publicly keeps
+              me honest, helps others experiment sooner, and sharpens my own
+              understanding in a way that building alone never could.
+            </p>
           </div>
 
           <div className="grid gap-8">
@@ -49,12 +55,14 @@ export default function talksPage() {
           <div className="animate-fade-up grid gap-4 pt-8 delay-300">
             <p className="text-sm text-muted-foreground">Open source</p>
             <h2 className="max-w-[24ch] text-2xl font-semibold tracking-tight">
-              A small but pointed trail of product-minded contributions.
+              Contributions that started as problems I hit at work.
             </h2>
             <p className="max-w-[56ch] text-pretty text-muted-foreground">
-              The pattern is consistent with the rest of the work: polished
-              affordances, stronger authoring ergonomics, and more useful
-              interaction details.
+              While building AI chat interfaces at Merlin, the core challenge
+              was rendering streamed markdown responses cleanly. That led me
+              to Streamdown, Vercel&apos;s open source markdown renderer built
+              for AI streaming. These contributions came from real product
+              gaps, not side quests.
             </p>
           </div>
 

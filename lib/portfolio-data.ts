@@ -2,15 +2,19 @@ export const siteLinks = {
   primaryCta: { href: "https://cal.com/milind", label: "Book time" },
   resume: { href: "https://resume.milind.app", label: "View resume" },
   github: { href: "https://github.com/thatbeautifuldream", label: "GitHub" },
-  linkedin: { href: "https://www.linkedin.com/in/mishramilind/", label: "LinkedIn" },
+  linkedin: {
+    href: "https://www.linkedin.com/in/mishramilind/",
+    label: "LinkedIn",
+  },
   x: { href: "https://x.com/milindmishra_", label: "X/Twitter" },
 }
 
 export const heroStats = [
-  { label: "users migrated through ChatGPT Imports", value: "10k+" },
-  { label: "all-time users on AI Roadmap Generator", value: "5.6k+" },
-  { label: "return rate on JSON Visualiser", value: "43%" },
+  { label: "users across shipped products", value: "2m+" },
+  { label: "products shipped from 0→1", value: "5+" },
+  { label: "talks at React communities", value: "4*" },
 ]
+
 export const roles = [
   {
     company: "Merlin AI by Foyer",
@@ -55,66 +59,52 @@ export const roles = [
 
 export const projects = [
   {
-    name: "AI Roadmap Generator",
-    status: "Live",
-    href: "https://airoadmapgenerator.com",
-    github: "https://github.com/thatbeautifuldream/ai-roadmap-generator",
-    description:
-      "A full-stack AI product for generating personalized learning roadmaps with typed outputs and a visual node-based interface.",
-    metrics: [
-      { label: "All-time users", value: "5,600+" },
-      { label: "Roadmaps generated", value: "500+" },
-    ],
-    highlights: [
-      "Built the full stack: prompt design, typed parsing, canvas renderer, and responsive product UX.",
-      "Optimized roadmap generation to feel fast enough for exploration, not just one-off use.",
-    ],
-    tags: ["Next.js", "TypeScript", "Canvas", "LLMs"],
-  },
-  {
     name: "JSON Visualiser",
     status: "Live",
     href: "https://jsonvisualiser.com",
     github: "https://github.com/thatbeautifuldream/jsonvisualiser",
     description:
-      "A JSON debugging and visualization tool with tree and grid views for nested data exploration.",
+      "JSON inspection and visualization tool for debugging deeply nested payloads across tree and grid views.",
     metrics: [
-      { label: "Unique users", value: "143" },
       { label: "Return rate", value: "43%" },
+      { label: "Power user sessions", value: "49" },
     ],
     highlights: [
-      "Made deeply nested payloads understandable without making the interface feel heavy.",
-      "Balanced readability and rendering performance for large structures and smaller screens.",
+      "Built a unified inspection workflow that combines validation, formatting, and multi-view exploration for complex payloads.",
+      "Implemented tree and grid renderers optimized for nested JSON structures with efficient expand and collapse interactions.",
     ],
     tags: ["React", "TypeScript", "D3.js"],
   },
   {
-    name: "models.surf",
+    name: "Markdown Visualizer",
     status: "Live",
-    href: "https://models.surf",
-    github: "https://github.com/thatbeautifuldream/models",
+    href: "https://markdownvisualizer.com",
+    github: "https://github.com/thatbeautifuldream/markdownvisualizer",
     description:
-      "A capability-first model discovery interface for developers choosing across rapidly changing AI models.",
-    metrics: [{ label: "Project stage", value: "2026" }],
+      "Markdown editing and preview tool for fast iteration on technical writing workflows.",
+    metrics: [],
     highlights: [
-      "Designed the interface around fit-for-purpose filtering, not model-list browsing.",
-      "Used ranking and capability views to cut evaluation time for developers exploring options.",
+      "Built a low-latency editing and preview workflow to reduce context switching while drafting markdown-heavy content.",
+      "Implemented rendering and editing utilities that keep technical writing workflows responsive and predictable.",
     ],
-    tags: ["Next.js", "AI tooling", "Search UX"],
+    tags: ["React", "TypeScript", "Markdown"],
   },
   {
-    name: "Resume App",
-    status: "Open source",
-    href: "https://resume.milind.app",
-    github: "https://github.com/thatbeautifuldream/resume",
+    name: "attnui",
+    status: "In progress",
+    href: "https://attnui.com",
+    github: "https://github.com/thatbeautifuldream/ui",
     description:
-      "A typed, hackable resume website with human-readable, ATS-friendly, and chat-friendly views from one structured source.",
-    metrics: [{ label: "Modes from one dataset", value: "4" }],
-    highlights: [
-      "Treats a resume as product data, not styled text.",
-      "Combines readable UI, APIs, and AI chat grounding from a single schema.",
+      "A passion project and my design engineering playground. A component library where I work through motion, interaction quality, and the small details that make interfaces feel finished.",
+    metrics: [
+      { label: "Components", value: "3" },
+      { label: "Registry", value: "attnui.com/r/registry.json" },
     ],
-    tags: ["Next.js", "shadcn/ui", "AI chat"],
+    highlights: [
+      "Where I experiment with interaction design, motion systems, and the craft I want to bring to every product I touch.",
+      "Production-ready primitives built to raise my own bar for what polished frontend work looks like.",
+    ],
+    tags: ["React", "TypeScript", "Motion", "Design Systems"],
   },
 ]
 
@@ -150,12 +140,12 @@ export const contributions = [
     title: "Streamdown table copy and CSV / markdown download options",
     href: "https://github.com/vercel/streamdown/pull/99",
     context:
-      "Improved utility and export affordances for markdown-heavy developer workflows.",  },
+      "Improved utility and export affordances for markdown-heavy developer workflows.",
+  },
   {
     title: "Streamdown code and image download affordances",
     href: "https://github.com/vercel/streamdown/pull/102",
-    context:
-      "Added more complete download behavior for rendered content.",
+    context: "Added more complete download behavior for rendered content.",
   },
   {
     title: "AI Elements speech-to-text prompt input",
