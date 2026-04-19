@@ -6,7 +6,7 @@ import { createMetadata } from "@/lib/metadata"
 export const metadata = createMetadata({
   title: "Projects",
   description:
-    "These are the products and tools that best show what I build when I can choose the problem framing, the interaction model, and where polish actually matters.",
+    "Products and tools that show what I build when I can choose the problem framing, the interaction model, and where polish matters.",
   canonical: "https://milindmishra.com/projects",
   ogType: "projects",
 })
@@ -19,9 +19,7 @@ export default function ProjectsPage() {
           <div className="animate-fade-up grid gap-4 delay-100">
             <p className="text-sm text-muted-foreground">Selected projects</p>
             <h1 className="max-w-[28ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-              These are the products and tools that best show what I build when
-              I can choose the problem framing, the interaction model, and where
-              polish actually matters.
+              What I build when I get to choose the framing and the interaction model.
             </h1>
           </div>
 

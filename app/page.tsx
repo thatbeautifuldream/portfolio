@@ -8,7 +8,7 @@ import { createMetadata } from "@/lib/metadata"
 export const metadata = createMetadata({
   title: "Milind Kumar Mishra",
   description:
-    "Product engineer building AI-native interfaces, thoughtful product systems, and tools people return to.",
+    "Product engineer building AI-native interfaces, product systems, and tools people return to.",
   canonical: "https://milindmishra.com",
   ogType: "home",
 })
@@ -22,7 +22,7 @@ export default function Page() {
             <div className="animate-fade-up grid gap-4 delay-100">
               <div className="grid gap-6">
                 <p className="text-sm text-muted-foreground">
-                  Bengaluru · Product engineer · AI-native interfaces
+                  Bengaluru, India. Product engineer.
                 </p>
                 <h1 className="max-w-[22ch] text-4xl leading-[1.25] font-semibold tracking-tight text-balance select-none md:text-6xl md:leading-[1.2]">
                   <span className="text-foreground">Building</span>{" "}
@@ -48,7 +48,7 @@ export default function Page() {
                     human
                   </HeroBadge>{" "}
                   <span className="text-muted-foreground/50">
-                    and obviously
+                    and
                   </span>{" "}
                   <HeroBadge
                     icon={<RiHeartFill className="size-[0.7em] shrink-0" />}
@@ -62,9 +62,8 @@ export default function Page() {
                 </h1>
                 <p className="max-w-[52ch] text-base text-pretty text-muted-foreground md:text-lg">
                   Most recently at Merlin AI, I worked across onboarding, chat
-                  history, model selection, and interaction systems. The
-                  through-line is consistent: complex workflows should feel
-                  legible, human, and obviously cared for.
+                  history, model selection, and interaction systems. Complex
+                  workflows should feel legible, human, and cared for.
                 </p>
               </div>
             </div>
@@ -100,9 +99,9 @@ export default function Page() {
                 </h2>
                 <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
                   I gravitate toward product areas where interaction quality
-                  materially changes comprehension: onboarding, model choice,
-                  histories, evaluative tooling, and the UI systems that make
-                  those workflows feel humane.
+                  changes how people understand things: onboarding, model
+                  selection, histories, evaluative tooling, and the UI systems
+                  that hold those workflows together.
                 </p>
               </div>
 

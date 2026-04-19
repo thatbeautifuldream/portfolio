@@ -11,7 +11,6 @@ export const heroStats = [
   { label: "all-time users on AI Roadmap Generator", value: "5.6k+" },
   { label: "return rate on JSON Visualiser", value: "43%" },
 ]
-
 export const roles = [
   {
     company: "Merlin AI by Foyer",
@@ -19,11 +18,11 @@ export const roles = [
     period: "Feb 2025 to present",
     location: "Bengaluru",
     summary:
-      "Built and refined AI-native product experiences across onboarding, chat history, model selection, and interaction-heavy product surfaces.",
+      "Built and shipped AI-native product experiences across onboarding, chat history, model selection, and interaction-heavy surfaces.",
     highlights: [
-      "Shipped ChatGPT Imports UI to improve migration and onboarding for more than 10,000 users.",
+      "Shipped ChatGPT Imports UI to improve migration and onboarding for 10,000+ users.",
       "Revamped chat history flows and dynamic row behavior to make large conversation archives easier to navigate.",
-      "Implemented a richer model selector experience with motion and stronger information hierarchy.",
+      "Built a richer model selector with motion and stronger information hierarchy.",
     ],
   },
   {
@@ -32,10 +31,10 @@ export const roles = [
     period: "Dec 2024 to Feb 2025",
     location: "Bengaluru / remote",
     summary:
-      "Improved internal product workflows for support, growth, and campaign execution inside a fast-moving operations-heavy product.",
+      "Improved internal product workflows for support, growth, and campaign execution in a fast-moving operations-heavy product.",
     highlights: [
       "Revamped the internal dashboard to improve visibility of campaign and support metrics.",
-      "Built multi-select drag-and-drop interactions for faster bulk operations.",
+      "Built multi-select drag and drop for faster bulk operations.",
       "Created a content submission flow that reduced approval friction for campaign execution.",
     ],
   },
@@ -45,11 +44,11 @@ export const roles = [
     period: "Jun 2024 to Dec 2024",
     location: "Bengaluru",
     summary:
-      "Led product engineering for an assessment and skill validation platform from MVP through deployment.",
+      "Led product engineering for an assessment and skill validation platform from MVP to deployment.",
     highlights: [
       "Owned MVP frontend flows across validators, candidates, and recruiters.",
-      "Designed consensus-driven validator interfaces and real-time proctoring-related surfaces.",
-      "Handled end-to-end product and deployment concerns while the system was still taking shape.",
+      "Designed consensus-driven validator interfaces and real-time proctoring surfaces.",
+      "Handled product and deployment end to end while the system was still taking shape.",
     ],
   },
 ]
@@ -67,8 +66,8 @@ export const projects = [
       { label: "Roadmaps generated", value: "500+" },
     ],
     highlights: [
-      "Built the full stack end-to-end: prompt design, typed parsing, canvas renderer, and responsive product UX.",
-      "Optimized roadmap generation to feel immediate enough for exploration instead of one-off use.",
+      "Built the full stack: prompt design, typed parsing, canvas renderer, and responsive product UX.",
+      "Optimized roadmap generation to feel fast enough for exploration, not just one-off use.",
     ],
     tags: ["Next.js", "TypeScript", "Canvas", "LLMs"],
   },
@@ -84,7 +83,7 @@ export const projects = [
       { label: "Return rate", value: "43%" },
     ],
     highlights: [
-      "Focused on making deeply nested payloads understandable without making the interface feel heavy.",
+      "Made deeply nested payloads understandable without making the interface feel heavy.",
       "Balanced readability and rendering performance for large structures and smaller screens.",
     ],
     tags: ["React", "TypeScript", "D3.js"],
@@ -98,8 +97,8 @@ export const projects = [
       "A capability-first model discovery interface for developers choosing across rapidly changing AI models.",
     metrics: [{ label: "Project stage", value: "2026" }],
     highlights: [
-      "Designed the interface around fit-for-purpose filtering rather than model-list browsing.",
-      "Used ranking and capability views to reduce evaluation time for developers exploring options.",
+      "Designed the interface around fit-for-purpose filtering, not model-list browsing.",
+      "Used ranking and capability views to cut evaluation time for developers exploring options.",
     ],
     tags: ["Next.js", "AI tooling", "Search UX"],
   },
@@ -109,11 +108,11 @@ export const projects = [
     href: "https://resume.milind.app",
     github: "https://github.com/thatbeautifuldream/resume",
     description:
-      "A typed, hackable resume website that exposes human-readable, ATS-friendly, and chat-friendly views from one structured source.",
+      "A typed, hackable resume website with human-readable, ATS-friendly, and chat-friendly views from one structured source.",
     metrics: [{ label: "Modes from one dataset", value: "4" }],
     highlights: [
-      "Treats a resume as product data rather than styled text.",
-      "Combines readable UI, APIs, and AI chat grounding around a single schema.",
+      "Treats a resume as product data, not styled text.",
+      "Combines readable UI, APIs, and AI chat grounding from a single schema.",
     ],
     tags: ["Next.js", "shadcn/ui", "AI chat"],
   },
@@ -126,7 +125,7 @@ export const talks = [
     date: "2025",
     href: "https://meetup.com/reactjs-bangalore/events/312620988",
     description:
-      "A practical talk on shipping components with stronger distribution ergonomics.",
+      "A practical talk on shipping components with better distribution ergonomics.",
   },
   {
     title: "Mastering ViewTransition in React for Stunning UI Updates",
@@ -134,7 +133,7 @@ export const talks = [
     date: "2025",
     href: "https://meetup.com/reactplay-bengaluru/events/311437528",
     description:
-      "View transitions, UI continuity, and interaction-led motion in React products.",
+      "View transitions, UI continuity, and interaction-led motion in React.",
   },
   {
     title: "AI for React Developers",
@@ -142,7 +141,7 @@ export const talks = [
     date: "2025",
     href: "https://meetup.com/reactjs-bangalore/events/306320480",
     description:
-      "A product-minded frontend introduction to AI SDK workflows and patterns.",
+      "A product-minded frontend intro to AI SDK workflows and patterns.",
   },
 ]
 
@@ -151,19 +150,18 @@ export const contributions = [
     title: "Streamdown table copy and CSV / markdown download options",
     href: "https://github.com/vercel/streamdown/pull/99",
     context:
-      "Improved utility and export affordances for markdown-heavy developer workflows.",
-  },
+      "Improved utility and export affordances for markdown-heavy developer workflows.",  },
   {
     title: "Streamdown code and image download affordances",
     href: "https://github.com/vercel/streamdown/pull/102",
     context:
-      "Added more complete download behavior for rendered content surfaces.",
+      "Added more complete download behavior for rendered content.",
   },
   {
     title: "AI Elements speech-to-text prompt input",
     href: "https://github.com/vercel/ai-elements/pull/112",
     context:
-      "Extended prompt input ergonomics inside an AI-facing interface primitive set.",
+      "Extended prompt input ergonomics in an AI-facing interface primitive set.",
   },
 ]
 
@@ -171,7 +169,7 @@ export const contactLinks = [
   {
     label: "GitHub",
     href: "https://github.com/thatbeautifuldream",
-    copy: "Open source work, side projects, and public product experiments.",
+    copy: "Open source work, side projects, and product experiments.",
   },
   {
     label: "LinkedIn",

@@ -6,7 +6,7 @@ import { createMetadata } from "@/lib/metadata"
 export const metadata = createMetadata({
   title: "Talks",
   description:
-    "Talks about React, motion systems, interface architecture, and AI for frontend engineers. It of a useful forcing function for making opinions legible.",
+    "Talks on React, motion systems, interface architecture, and AI for frontend engineers.",
   canonical: "https://milindmishra.com/talks",
   ogType: "talks",
 })
@@ -19,7 +19,7 @@ export default function talksPage() {
           <div className="animate-fade-up grid gap-4 delay-100">
             <p className="text-sm text-muted-foreground">Talks</p>
             <h1 className="max-w-[24ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
-              Thinking in public helps sharpen the product and interface work
+              Thinking in public sharpens the product and interface work.
             </h1>
           </div>
 
@@ -49,12 +49,12 @@ export default function talksPage() {
           <div className="animate-fade-up grid gap-4 pt-8 delay-300">
             <p className="text-sm text-muted-foreground">Open source</p>
             <h2 className="max-w-[24ch] text-2xl font-semibold tracking-tight">
-              A small but pointed trail of product-minded contributions
+              A small but pointed trail of product-minded contributions.
             </h2>
             <p className="max-w-[56ch] text-pretty text-muted-foreground">
-              The contribution pattern is consistent with the rest of the work:
-              polished affordances, stronger authoring ergonomics, and more
-              useful interaction details.
+              The pattern is consistent with the rest of the work: polished
+              affordances, stronger authoring ergonomics, and more useful
+              interaction details.
             </p>
           </div>
 

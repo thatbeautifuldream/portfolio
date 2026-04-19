@@ -19,7 +19,7 @@ import { Wakatime } from "@/components/wakatime/wakatime"
 export const metadata = createMetadata({
   title: "Wakatime",
   description:
-    "Milind's coding activity from Wakatime — languages, editors, and daily coding habits.",
+    "Milind's coding activity from Wakatime: languages, editors, and daily coding habits.",
   canonical: "https://milindmishra.com/wakatime",
   ogType: "home",
 })

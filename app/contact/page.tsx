@@ -5,7 +5,7 @@ import { createMetadata } from "@/lib/metadata"
 
 export const metadata = createMetadata({
   title: "Contact",
-  description: "Get in touch: email, GitHub, LinkedIn, or book a slot, time,",
+  description: "Get in touch: email, GitHub, LinkedIn, or book a time.",
   canonical: "https://milindmishra.com/contact",
   ogType: "contact",
 })
@@ -18,8 +18,7 @@ export default function contactPage() {
           <div className="animate-fade-up grid gap-4 delay-100">
             <p className="text-sm text-muted-foreground">Contact</p>
             <h1 className="max-w-[28ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
-              If the work needs product judgment and implementation discipline,
-              here, reach me.
+              If the work needs product judgment and implementation discipline, I'd like to hear about it.
             </h1>
           </div>
 

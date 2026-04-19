@@ -4,7 +4,7 @@ import { createMetadata } from "@/lib/metadata"
 export const metadata = createMetadata({
   title: "Work",
   description:
-    "A recent run through product, AI, and high-velocity startup environments. These roles best explain what I optimize for now: shipping product-critical interfaces, improving workflow clarity, and making early systems resilient enough to grow.",
+    "Product and AI work across high-velocity startup environments. Shipping product-critical interfaces, improving workflow clarity, and making early systems resilient enough to grow.",
   canonical: "https://milindmishra.com/work",
   ogType: "work",
 })
@@ -17,13 +17,12 @@ export default function WorkPage() {
           <div className="animate-fade-up grid gap-4 delay-100">
             <p className="text-sm text-muted-foreground">Selected work</p>
             <h1 className="max-w-[28ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
-              A recent run through product, AI, and high-velocity startup
-              environments.
+              Product and AI work across startup environments.
             </h1>
             <p className="max-w-[56ch] text-base text-pretty text-muted-foreground md:text-lg">
-              These roles best explain what I optimize for now: shipping
-              product-critical interfaces, improving workflow clarity, and
-              making early systems resilient enough to grow.
+              These roles show what I optimize for: shipping product-critical
+              interfaces, improving workflow clarity, and making early systems
+              resilient enough to grow.
             </p>
           </div>
 
