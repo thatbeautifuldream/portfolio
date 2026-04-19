@@ -37,3 +37,6 @@ next-env.d.ts
 
 # content-collections
 /.content-collections
+
+.worktrees
+.worktrees/*
