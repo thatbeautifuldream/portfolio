@@ -60,7 +60,7 @@ export default function talksPage() {
             <h2 className="max-w-[24ch] text-2xl font-semibold tracking-tight">
               Contributions that started as problems I hit at work.
             </h2>
-            <p className="max-w-[56ch] text-pretty text-muted-foreground">
+            <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
               While building AI chat interfaces at Merlin, the core challenge
               was rendering streamed markdown responses cleanly. That led me to
               Streamdown, Vercel&apos;s open source markdown renderer built for

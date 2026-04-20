@@ -86,7 +86,7 @@ export default async function BlogPostPage({
                 <h1 className="max-w-[24ch] text-3xl font-semibold tracking-tight text-pretty md:text-5xl">
                   {post.title}
                 </h1>
-                <p className="max-w-[56ch] text-pretty text-muted-foreground">
+                <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
                   {post.description}
                 </p>
               </header>

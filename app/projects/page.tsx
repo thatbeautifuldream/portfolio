@@ -1,6 +1,5 @@
 import Link from "next/link"
 
-import { Badge } from "@/components/ui/badge"
 import { projects } from "@/lib/portfolio-data"
 import { createMetadata } from "@/lib/metadata"
 
@@ -23,7 +22,7 @@ export default function ProjectsPage() {
               My experimental ground. Build something, break something, learn
               everything.
             </h1>
-            <p className="max-w-[56ch] text-pretty text-muted-foreground">
+            <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
               Most of these started as a late-night question that I
               couldn&apos;t shake. I build to understand, and I ship because
               finishing forces clarity. Some got real users, most taught me
@@ -50,21 +49,23 @@ export default function ProjectsPage() {
                   {project.description}
                 </p>
 
-                <div className="grid gap-3">
-                  {project.metrics.map((metric) => (
-                    <div
-                      className="flex items-baseline justify-between gap-3 border-b border-border/40 pb-2"
-                      key={metric.label}
-                    >
-                      <span className="text-sm text-muted-foreground">
-                        {metric.label}
-                      </span>
-                      <span className="text-xl font-semibold tabular-nums">
-                        {metric.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+                {project.metrics.length > 0 && (
+                  <div className="grid gap-3">
+                    {project.metrics.map((metric) => (
+                      <div
+                        className="flex items-baseline justify-between gap-3 border-b border-border/40 pb-2"
+                        key={metric.label}
+                      >
+                        <span className="text-sm text-muted-foreground">
+                          {metric.label}
+                        </span>
+                        <span className="text-xl font-semibold tabular-nums">
+                          {metric.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
 
                 <div className="grid gap-3">
                   {project.highlights.map((highlight) => (
@@ -77,11 +78,9 @@ export default function ProjectsPage() {
                   ))}
                 </div>
 
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <Badge key={tag}>{tag}</Badge>
-                  ))}
-                </div>
+                <p className="font-mono text-xs tracking-wide text-muted-foreground">
+                  {project.tags.join(" · ")}
+                </p>
 
                 <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
                   <Link href={project.href} className="font-medium">
