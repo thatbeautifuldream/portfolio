@@ -34,7 +34,7 @@ export default function talksPage() {
             {talks.map((talk, index) => (
               <div
                 key={talk.title}
-                className="animate-fade-up grid gap-2 [animation-delay:calc(150ms_+_var(--i)_*_50ms)]"
+                className="animate-fade-up grid gap-2 [animation-delay:calc(200ms_+_var(--i)_*_80ms)]"
                 style={{ "--i": index } as React.CSSProperties}
               >
                 <p className="font-mono text-sm tracking-wide text-muted-foreground uppercase">
@@ -55,7 +55,7 @@ export default function talksPage() {
 
           <Separator />
 
-          <div className="animate-fade-up grid gap-4 delay-300">
+          <div className="animate-fade-up grid gap-4 delay-[440ms]">
             <p className="text-sm text-muted-foreground">Open source</p>
             <h2 className="max-w-[24ch] text-2xl font-semibold tracking-tight">
               Contributions that started as problems I hit at work.
@@ -73,7 +73,7 @@ export default function talksPage() {
             {contributions.map((item, index) => (
               <div
                 key={item.title}
-                className="animate-fade-up grid gap-2 [animation-delay:calc(350ms_+_var(--i)_*_50ms)]"
+                className="animate-fade-up grid gap-2 [animation-delay:calc(520ms_+_var(--i)_*_80ms)]"
                 style={{ "--i": index } as React.CSSProperties}
               >
                 <h3 className="text-lg font-semibold tracking-tight">

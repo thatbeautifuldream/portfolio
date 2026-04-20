@@ -72,6 +72,15 @@ fonts/                → OpenRunde (local woff2: 400, 500, 600, 700)
 - Section wrapper (`<Section>`) provides scroll-triggered entrance animations with configurable delay
 - Links default to `text-foreground` with underline and `hover:text-muted-foreground` (set in base styles)
 
+## Entrance Animation Stagger Pattern
+
+All pages use CSS `animate-fade-up` with staggered delays for a top-to-bottom entrance cascade. Follow the existing pages as reference:
+
+- Page headings always get `delay-100`
+- List items stagger after the heading using the `--i` CSS custom property pattern (see any listing page)
+- Each subsequent item delays by 80ms
+- When a page has multiple sections, the next section starts after the last item's delay
+
 ## Theme Toggle
 
 - Located in `components/ui/theme-toggle.tsx`

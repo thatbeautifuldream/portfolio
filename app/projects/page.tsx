@@ -35,7 +35,7 @@ export default function ProjectsPage() {
             {projects.map((project, index) => (
               <div
                 key={project.name}
-                className="animate-fade-up grid gap-4 [animation-delay:calc(150ms_+_var(--i)_*_50ms)]"
+                className="animate-fade-up grid gap-4 [animation-delay:calc(200ms_+_var(--i)_*_80ms)]"
                 style={{ "--i": index } as React.CSSProperties}
               >
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">

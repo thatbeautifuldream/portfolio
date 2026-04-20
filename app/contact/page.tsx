@@ -27,7 +27,7 @@ export default function contactPage() {
             {contactLinks.map((link, index) => (
               <div
                 key={link.label}
-                className="animate-fade-up grid gap-4 [animation-delay:calc(150ms_+_var(--i)_*_50ms)]"
+                className="animate-fade-up grid gap-4 [animation-delay:calc(200ms_+_var(--i)_*_80ms)]"
                 style={{ "--i": index } as React.CSSProperties}
               >
                 <div className="grid gap-1">
@@ -41,7 +41,7 @@ export default function contactPage() {
             ))}
           </div>
 
-          <div className="animate-fade-up flex flex-wrap items-center gap-x-6 gap-y-2 text-sm delay-350">
+          <div className="animate-fade-up flex flex-wrap items-center gap-x-6 gap-y-2 text-sm delay-[440ms]">
             <Link href={siteLinks.primaryCta.href} className="font-medium">
               {siteLinks.primaryCta.label}
             </Link>

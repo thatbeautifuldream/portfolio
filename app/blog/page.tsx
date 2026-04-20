@@ -46,7 +46,7 @@ export default function BlogPage() {
       <main className="isolate">
         <section className="section-shell">
           <div className="section-inner grid gap-12">
-            <div className="grid gap-4">
+            <div className="animate-fade-up grid gap-4 delay-100">
               <p className="text-sm text-muted-foreground">Blog</p>
               <h1 className="max-w-[24ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
                 Notes on the journey of building products.
@@ -57,7 +57,7 @@ export default function BlogPage() {
               {sortedPosts.map((post, index) => (
                 <div
                   key={post.slug}
-                  className="animate-fade-up grid gap-2 py-6 [animation-delay:calc(100ms_+_var(--i)_*_50ms)] first:pt-0 last:pb-0"
+                  className="animate-fade-up grid gap-2 py-6 [animation-delay:calc(200ms_+_var(--i)_*_80ms)] first:pt-0 last:pb-0"
                   style={{ "--i": index } as React.CSSProperties}
                 >
                   <p className="font-mono text-sm tracking-wide text-muted-foreground uppercase">

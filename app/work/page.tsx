@@ -22,8 +22,8 @@ export default function WorkPage() {
             <p className="max-w-[56ch] text-base text-pretty text-muted-foreground md:text-lg">
               Different products and teams, but a consistent pull toward the
               surfaces people touch and the craft behind them. I&apos;m still
-              sharpening that instinct, and honestly, that&apos;s what keeps
-              the work alive for me.
+              sharpening that instinct, and honestly, that&apos;s what keeps the
+              work alive for me.
             </p>
           </div>
 
@@ -31,7 +31,7 @@ export default function WorkPage() {
             {roles.map((role, index) => (
               <article
                 key={`${role.company}-${role.period}`}
-                className="animate-fade-up grid gap-4 [animation-delay:calc(150ms_+_var(--i)_*_50ms)]"
+                className="animate-fade-up grid gap-4 [animation-delay:calc(200ms_+_var(--i)_*_80ms)]"
                 style={{ "--i": index } as React.CSSProperties}
               >
                 <div className="grid gap-2">

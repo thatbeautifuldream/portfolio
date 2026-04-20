@@ -66,7 +66,7 @@ export default function Page() {
               </div>
             </div>
 
-            <div className="animate-fade-up flex flex-wrap items-center gap-x-6 gap-y-2 text-sm delay-150">
+            <div className="animate-fade-up flex flex-wrap items-center gap-x-6 gap-y-2 text-sm delay-200">
               <Link href={siteLinks.primaryCta.href} className="font-medium">
                 {siteLinks.primaryCta.label}
               </Link>
@@ -74,7 +74,7 @@ export default function Page() {
               <Link href={siteLinks.github.href}>{siteLinks.github.label}</Link>
             </div>
 
-            <div className="animate-fade-up delay-200 md:grid md:grid-cols-3 md:divide-x md:divide-border/40">
+            <div className="animate-fade-up delay-300 md:grid md:grid-cols-3 md:divide-x md:divide-border/40">
               {heroStats.map((stat, index) => (
                 <div
                   key={stat.label}
@@ -97,7 +97,7 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="animate-fade-up grid gap-4 delay-250">
+          <div className="animate-fade-up grid gap-4 delay-[400ms]">
             <div className="grid gap-8">
               <div className="grid gap-4">
                 <p className="text-sm text-muted-foreground">
