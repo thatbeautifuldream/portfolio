@@ -20,7 +20,7 @@ export function ThemeToggle({
         type="button"
         onClick={() => setTheme(isDark ? "light" : "dark")}
         className={cn(
-          "cursor-pointer rounded-full transition-all duration-300 active:scale-95 bg-background text-foreground",
+          "cursor-pointer rounded-full bg-background text-foreground transition-all duration-300 active:scale-95",
           className
         )}
         aria-label="Toggle theme"
@@ -76,8 +76,7 @@ export function ThemeToggle({
     <button
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className={cn(
-        "rounded-full transition-all duration-300 active:scale-95",
-        isDark ? "bg-black text-white" : "bg-white text-black",
+        "rounded-full bg-background text-foreground transition-all duration-300 active:scale-95",
         className
       )}
       type="button"
