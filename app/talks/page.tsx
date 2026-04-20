@@ -23,8 +23,8 @@ export default function talksPage() {
             </h1>
             <p className="max-w-[56ch] text-pretty text-muted-foreground">
               These talks come from things I ran into firsthand and
-              couldn&apos;t stop thinking about. Sharing them publicly keeps
-              me honest, helps others experiment sooner, and sharpens my own
+              couldn&apos;t stop thinking about. Sharing them publicly keeps me
+              honest, helps others experiment sooner, and sharpens my own
               understanding in a way that building alone never could.
             </p>
           </div>
@@ -59,10 +59,10 @@ export default function talksPage() {
             </h2>
             <p className="max-w-[56ch] text-pretty text-muted-foreground">
               While building AI chat interfaces at Merlin, the core challenge
-              was rendering streamed markdown responses cleanly. That led me
-              to Streamdown, Vercel&apos;s open source markdown renderer built
-              for AI streaming. These contributions came from real product
-              gaps, not side quests.
+              was rendering streamed markdown responses cleanly. That led me to
+              Streamdown, Vercel&apos;s open source markdown renderer built for
+              AI streaming. These contributions came from real product gaps, not
+              side quests.
             </p>
           </div>
 

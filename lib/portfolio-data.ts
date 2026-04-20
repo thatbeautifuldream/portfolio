@@ -112,7 +112,7 @@ export const talks = [
   {
     title: "Building a Component Distribution System with shadcn Registry",
     event: "React Bangalore",
-    date: "2025",
+    date: "Jan 31, 2026",
     href: "https://meetup.com/reactjs-bangalore/events/312620988",
     description:
       "A practical talk on shipping components with better distribution ergonomics.",
@@ -120,15 +120,23 @@ export const talks = [
   {
     title: "Mastering ViewTransition in React for Stunning UI Updates",
     event: "React Play Bengaluru",
-    date: "2025",
+    date: "Nov 15, 2025",
     href: "https://meetup.com/reactplay-bengaluru/events/311437528",
+    description:
+      "View transitions, UI continuity, and interaction-led motion in React.",
+  },
+  {
+    title: "Building Real-Time Applications with Reactive Databases",
+    event: "React Play Bengaluru",
+    date: "May 17, 2025",
+    href: "https://meetup.com/reactplay-bengaluru/events/307690438",
     description:
       "View transitions, UI continuity, and interaction-led motion in React.",
   },
   {
     title: "AI for React Developers",
     event: "React Bangalore",
-    date: "2025",
+    date: "April 12, 2025",
     href: "https://meetup.com/reactjs-bangalore/events/306320480",
     description:
       "A product-minded frontend intro to AI SDK workflows and patterns.",
