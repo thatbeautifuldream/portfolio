@@ -17,7 +17,10 @@ export default function talksPage() {
     <main className="isolate">
       <section className="section-shell">
         <div className="section-inner grid gap-12">
-          <div className="animate-fade-up grid gap-4 delay-100">
+          <div
+            className="animate-fade-up grid gap-4"
+            style={{ animationDelay: "100ms" }}
+          >
             <p className="text-sm text-muted-foreground">Talks</p>
             <h1 className="max-w-[24ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
               I share what I learn because it forces me to learn it deeper.
@@ -30,12 +33,26 @@ export default function talksPage() {
             </p>
           </div>
 
+          <div
+            className="animate-fade-up grid gap-4"
+            style={{ animationDelay: "200ms" }}
+          >
+            <h2 className="max-w-[24ch] text-2xl font-semibold tracking-tight md:text-3xl">
+              Speaking at meetups and conferences
+            </h2>
+            <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
+              Public speaking is the fastest way to find gaps in your knowledge.
+              These talks are documented experiments in understanding ideas deeply
+              enough to explain them to a room of strangers.
+            </p>
+          </div>
+
           <div className="grid gap-8">
             {talks.map((talk, index) => (
               <div
                 key={talk.title}
-                className="animate-fade-up grid gap-2 [animation-delay:calc(200ms_+_var(--i)_*_80ms)]"
-                style={{ "--i": index } as React.CSSProperties}
+                className="animate-fade-up grid gap-2"
+                style={{ animationDelay: `${300 + index * 80}ms` }}
               >
                 <p className="font-mono text-sm tracking-wide text-muted-foreground uppercase">
                   {talk.event} · {talk.date}
@@ -55,7 +72,10 @@ export default function talksPage() {
 
           <Separator />
 
-          <div className="animate-fade-up grid gap-4 delay-[440ms]">
+          <div
+            className="animate-fade-up grid gap-4"
+            style={{ animationDelay: "600ms" }}
+          >
             <p className="text-sm text-muted-foreground">Open source</p>
             <h2 className="max-w-[24ch] text-2xl font-semibold tracking-tight">
               Contributions that started as problems I hit at work.
@@ -73,8 +93,8 @@ export default function talksPage() {
             {contributions.map((item, index) => (
               <div
                 key={item.title}
-                className="animate-fade-up grid gap-2 [animation-delay:calc(520ms_+_var(--i)_*_80ms)]"
-                style={{ "--i": index } as React.CSSProperties}
+                className="animate-fade-up grid gap-2"
+                style={{ animationDelay: `${700 + index * 80}ms` }}
               >
                 <h3 className="text-lg font-semibold tracking-tight">
                   {item.title}

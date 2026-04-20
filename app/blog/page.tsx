@@ -46,19 +46,36 @@ export default function BlogPage() {
       <main className="isolate">
         <section className="section-shell">
           <div className="section-inner grid gap-12">
-            <div className="animate-fade-up grid gap-4 delay-100">
+            <div
+            className="animate-fade-up grid gap-4"
+            style={{ animationDelay: "100ms" }}
+          >
               <p className="text-sm text-muted-foreground">Blog</p>
               <h1 className="max-w-[24ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
                 Notes on the journey of building products.
               </h1>
             </div>
 
+            <div
+              className="animate-fade-up grid gap-4"
+              style={{ animationDelay: "200ms" }}
+            >
+              <h2 className="max-w-[24ch] text-2xl font-semibold tracking-tight md:text-3xl">
+                Writing to understand, not to teach
+              </h2>
+              <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
+                These posts are notes I wish existed when I was figuring things out.
+                If even one idea here saves someone an hour of confusion, the post
+                did its job.
+              </p>
+            </div>
+
             <div className="grid gap-0 divide-y divide-border/40">
               {sortedPosts.map((post, index) => (
                 <div
                   key={post.slug}
-                  className="animate-fade-up grid gap-2 py-6 [animation-delay:calc(200ms_+_var(--i)_*_80ms)] first:pt-0 last:pb-0"
-                  style={{ "--i": index } as React.CSSProperties}
+                  className="animate-fade-up grid gap-2 py-6 first:pt-0 last:pb-0"
+                  style={{ animationDelay: `${300 + index * 80}ms` }}
                 >
                   <p className="font-mono text-sm tracking-wide text-muted-foreground uppercase">
                     {post.category} · {formatDate(post.date)}

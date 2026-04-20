@@ -79,7 +79,10 @@ export default async function BlogPostPage({
         <section className="section-shell">
           <div className="section-inner grid gap-12">
             <article className="grid gap-8">
-              <header className="animate-fade-up grid gap-2 delay-100">
+              <header
+                className="animate-fade-up grid gap-2"
+                style={{ animationDelay: "100ms" }}
+              >
                 <p className="font-mono text-sm tracking-wide text-muted-foreground uppercase">
                   {post.category} · {formatDate(post.date)}
                 </p>
@@ -91,7 +94,10 @@ export default async function BlogPostPage({
                 </p>
               </header>
 
-              <div className="animate-fade-up prose max-w-none delay-200">
+              <div
+                className="animate-fade-up prose max-w-none"
+                style={{ animationDelay: "200ms" }}
+              >
                 <StreamdownWrapper content={post.content} />
               </div>
             </article>

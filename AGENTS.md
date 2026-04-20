@@ -1,5 +1,7 @@
 # Project Conventions
 
+> **Self-Improving Directive**: This file is the single source of truth for all project conventions. Whenever a new pattern, approach, or convention is established during a session, update this file immediately to reflect that change. If existing conventions are corrected or replaced, update the relevant section here. This file should self-improve after every session where new knowledge is gained.
+
 ## Stack
 
 - **Framework**: Next.js 16 (App Router) with React 19 and TypeScript
@@ -74,12 +76,46 @@ fonts/                → OpenRunde (local woff2: 400, 500, 600, 700)
 
 ## Entrance Animation Stagger Pattern
 
-All pages use CSS `animate-fade-up` with staggered delays for a top-to-bottom entrance cascade. Follow the existing pages as reference:
+All pages use CSS `animate-fade-up` with staggered delays for a top-to-bottom entrance cascade. Follow the established pattern:
 
-- Page headings always get `delay-100`
-- List items stagger after the heading using the `--i` CSS custom property pattern (see any listing page)
-- Each subsequent item delays by 80ms
-- When a page has multiple sections, the next section starts after the last item's delay
+### Animation Delay Implementation
+
+**Always use inline styles for animation delays.** Never use Tailwind `delay-*` classes or CSS `calc()` with `var(--i)` custom properties.
+
+```tsx
+// Static delay (for headings and section titles)
+<div className="animate-fade-up" style={{ animationDelay: "100ms" }}>
+
+// Staggered list items (for maps over data)
+{items.map((item, index) => (
+  <div
+    key={item.id}
+    className="animate-fade-up"
+    style={{ animationDelay: `${baseDelay + index * 80}ms` }}
+  >
+    {/* content */}
+  </div>
+))}
+```
+
+### Stagger Timing
+
+| Element | Delay |
+|---------|-------|
+| Page heading (h1) | 100ms |
+| Section intro (h2) | 200ms |
+| First list item | 300ms |
+| Each subsequent item | +80ms |
+| Next section heading | After last item completes |
+
+### Key Rules
+
+- Use `style={{ animationDelay: "..." }}` for all animation delays
+- Calculate stagger delays with template literals: `` `${base + index * 80}ms` ``
+- Base delays: 100ms (headings), 200ms (sub-sections), 300ms (list start)
+- Stagger gap: 80ms between each item in a list
+- Never use Tailwind arbitrary values like `delay-[100ms]` or `animation-delay-[calc(...)]`
+- Never use CSS custom properties like `var(--i)` for stagger calculations
 
 ## Theme Toggle
 

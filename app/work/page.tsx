@@ -14,7 +14,10 @@ export default function WorkPage() {
     <main className="isolate">
       <section className="section-shell">
         <div className="section-inner grid gap-12">
-          <div className="animate-fade-up grid gap-4 delay-100">
+          <div
+            className="animate-fade-up grid gap-4"
+            style={{ animationDelay: "100ms" }}
+          >
             <p className="text-sm text-muted-foreground">Selected work</p>
             <h1 className="max-w-[28ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
               Product and AI work across startup environments.
@@ -27,12 +30,26 @@ export default function WorkPage() {
             </p>
           </div>
 
+          <div
+            className="animate-fade-up grid gap-4"
+            style={{ animationDelay: "200ms" }}
+          >
+            <h2 className="max-w-[24ch] text-2xl font-semibold tracking-tight md:text-3xl">
+              How I approach product work
+            </h2>
+            <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
+              I care most about the surfaces people actually touch. Good product
+              engineering means understanding not just the code, but how users
+              move through a system and where their mental models break down.
+            </p>
+          </div>
+
           <div className="grid gap-12">
             {roles.map((role, index) => (
               <article
                 key={`${role.company}-${role.period}`}
-                className="animate-fade-up grid gap-4 [animation-delay:calc(200ms_+_var(--i)_*_80ms)]"
-                style={{ "--i": index } as React.CSSProperties}
+                className="animate-fade-up grid gap-4"
+                style={{ animationDelay: `${300 + index * 80}ms` }}
               >
                 <div className="grid gap-2">
                   <h2 className="text-2xl font-semibold tracking-tight">

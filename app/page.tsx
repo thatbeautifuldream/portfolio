@@ -19,7 +19,10 @@ export default function Page() {
       <section className="section-shell">
         <div className="section-inner grid gap-16">
           <div className="grid gap-12">
-            <div className="animate-fade-up grid gap-4 delay-100">
+            <div
+            className="animate-fade-up grid gap-4"
+            style={{ animationDelay: "100ms" }}
+          >
               <div className="grid gap-6">
                 <p className="text-sm text-muted-foreground">
                   Bengaluru, India. Product engineer.
@@ -66,7 +69,10 @@ export default function Page() {
               </div>
             </div>
 
-            <div className="animate-fade-up flex flex-wrap items-center gap-x-6 gap-y-2 text-sm delay-200">
+            <div
+            className="animate-fade-up flex flex-wrap items-center gap-x-6 gap-y-2 text-sm"
+            style={{ animationDelay: "200ms" }}
+          >
               <Link href={siteLinks.primaryCta.href} className="font-medium">
                 {siteLinks.primaryCta.label}
               </Link>
@@ -74,7 +80,10 @@ export default function Page() {
               <Link href={siteLinks.github.href}>{siteLinks.github.label}</Link>
             </div>
 
-            <div className="animate-fade-up delay-300 md:grid md:grid-cols-3 md:divide-x md:divide-border/40">
+            <div
+            className="animate-fade-up md:grid md:grid-cols-3 md:divide-x md:divide-border/40"
+            style={{ animationDelay: "300ms" }}
+          >
               {heroStats.map((stat, index) => (
                 <div
                   key={stat.label}
@@ -97,7 +106,10 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="animate-fade-up grid gap-4 delay-[400ms]">
+          <div
+            className="animate-fade-up grid gap-4"
+            style={{ animationDelay: "400ms" }}
+          >
             <div className="grid gap-8">
               <div className="grid gap-4">
                 <p className="text-sm text-muted-foreground">

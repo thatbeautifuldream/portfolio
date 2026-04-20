@@ -78,7 +78,10 @@ export default async function WakatimePage() {
     <main className="isolate">
       <section className="section-shell">
         <div className="section-inner grid gap-12">
-          <div className="animate-fade-up grid gap-4 delay-100">
+          <div
+            className="animate-fade-up grid gap-4"
+            style={{ animationDelay: "100ms" }}
+          >
             <h1 className="max-w-[28ch] text-3xl font-semibold tracking-tight md:text-5xl">
               Wakatime
             </h1>

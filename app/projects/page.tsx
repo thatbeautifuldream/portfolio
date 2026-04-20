@@ -15,8 +15,11 @@ export default function ProjectsPage() {
   return (
     <main className="isolate">
       <section className="section-shell">
-        <div className="section-inner grid gap-12">
-          <div className="animate-fade-up grid gap-4 delay-100">
+        <div className="section-inner grid gap-16">
+          <div
+            className="animate-fade-up grid gap-4"
+            style={{ animationDelay: "100ms" }}
+          >
             <p className="text-sm text-muted-foreground">Side projects</p>
             <h1 className="max-w-[28ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
               My experimental ground. Build something, break something, learn
@@ -30,12 +33,29 @@ export default function ProjectsPage() {
             </p>
           </div>
 
+          <div
+            className="animate-fade-up grid gap-4"
+            style={{ animationDelay: "200ms" }}
+          >
+            <div className="grid gap-4">
+              <h2 className="max-w-[24ch] text-2xl font-semibold tracking-tight md:text-3xl">
+                Why I ship experiments publicly
+              </h2>
+              <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
+                Finishing something is harder than starting it. Shipping forces
+                clarity. These projects are my way of closing the loop on ideas
+                that kept me up, and sharing them because the best feedback is
+                from people who actually use what you build.
+              </p>
+            </div>
+          </div>
+
           <div className="grid gap-12">
             {projects.map((project, index) => (
               <div
                 key={project.name}
-                className="animate-fade-up grid gap-4 [animation-delay:calc(200ms_+_var(--i)_*_80ms)]"
-                style={{ "--i": index } as React.CSSProperties}
+                className="animate-fade-up grid gap-4"
+                style={{ animationDelay: `${300 + index * 80}ms` }}
               >
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   <p className="text-lg font-semibold tracking-tight">
