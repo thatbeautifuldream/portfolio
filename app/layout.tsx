@@ -2,6 +2,7 @@ import { Footer } from "@/components/portfolio/footer"
 import { Navigation } from "@/components/portfolio/navigation"
 import { QueryProvider } from "@/components/query-provider"
 import { ThemeProvider } from "@/components/theme-provider"
+import { AnalyticsProvider } from "@/components/providers/analytics-provider"
 import localFont from "next/font/local"
 import type { Metadata } from "next"
 import "./globals.css"
@@ -61,6 +62,7 @@ export default function RootLayout({
           defaultTheme="dark"
           disableTransitionOnChange
         >
+          <AnalyticsProvider />
           <QueryProvider>
             <Navigation />
             {children}
