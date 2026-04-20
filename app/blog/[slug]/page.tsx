@@ -83,7 +83,7 @@ export default async function BlogPostPage({
                 <p className="font-mono text-sm tracking-wide text-muted-foreground uppercase">
                   {post.category} · {formatDate(post.date)}
                 </p>
-                <h1 className="max-w-[24ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
+                <h1 className="max-w-[24ch] text-3xl font-semibold tracking-tight text-pretty md:text-5xl">
                   {post.title}
                 </h1>
                 <p className="max-w-[56ch] text-pretty text-muted-foreground">
@@ -91,7 +91,7 @@ export default async function BlogPostPage({
                 </p>
               </header>
 
-              <div className="prose max-w-none prose-neutral dark:prose-invert prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-balance prose-p:text-pretty prose-a:text-foreground prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-foreground/80">
+              <div className="prose max-w-none">
                 <StreamdownWrapper content={post.content} />
               </div>
             </article>

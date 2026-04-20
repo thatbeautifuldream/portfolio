@@ -18,7 +18,8 @@ export default function contactPage() {
           <div className="animate-fade-up grid gap-4 delay-100">
             <p className="text-sm text-muted-foreground">Contact</p>
             <h1 className="max-w-[28ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
-              If the work needs product judgment and implementation discipline, I'd like to hear about it.
+              If the work needs product judgment and implementation discipline,
+              I&apos;d like to hear about it.
             </h1>
           </div>
 
@@ -26,18 +27,15 @@ export default function contactPage() {
             {contactLinks.map((link, index) => (
               <div
                 key={link.label}
-                className="animate-fade-up grid gap-4"
-                style={{ animationDelay: `${150 + index * 50}ms` }}
+                className="animate-fade-up grid gap-4 [animation-delay:calc(150ms_+_var(--i)_*_50ms)]"
+                style={{ "--i": index } as React.CSSProperties}
               >
                 <div className="grid gap-1">
                   <p className="text-lg font-semibold">{link.label}</p>
                   <p className="text-base text-muted-foreground">{link.copy}</p>
                 </div>
-                <Link
-                  href={link.href}
-                  className="text-sm font-medium transition-colors hover:text-foreground"
-                >
-                  {link.label}
+                <Link href={link.href} className="text-sm font-medium">
+                  Open profile
                 </Link>
               </div>
             ))}

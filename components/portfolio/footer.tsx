@@ -29,9 +29,13 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={label}
-              className="text-muted-foreground no-underline transition-colors hover:text-foreground"
+              className="relative text-muted-foreground no-underline hover:text-foreground"
             >
-              <Icon className="size-4" />
+              <Icon className="size-5" />
+              <span
+                className="absolute top-1/2 left-1/2 size-[max(100%,3rem)] -translate-x-1/2 -translate-y-1/2 pointer-fine:hidden"
+                aria-hidden="true"
+              />
             </a>
           ))}
         </div>
@@ -41,7 +45,7 @@ export function Footer() {
             href={`${REPO_URL}/commit/${sha}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono text-xs text-muted-foreground no-underline transition-colors hover:text-foreground"
+            className="font-mono text-xs text-muted-foreground no-underline hover:text-foreground"
           >
             {shortSha}
           </a>

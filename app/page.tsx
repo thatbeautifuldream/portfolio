@@ -24,7 +24,7 @@ export default function Page() {
                 <p className="text-sm text-muted-foreground">
                   Bengaluru, India. Product engineer.
                 </p>
-                <h1 className="max-w-[22ch] text-4xl leading-[1.25] font-semibold tracking-tight text-balance select-none md:text-6xl md:leading-[1.2]">
+                <h1 className="max-w-[22ch] text-4xl font-semibold tracking-tight text-balance select-none md:text-6xl">
                   <span className="text-foreground">Building</span>{" "}
                   <span className="text-muted-foreground/50">AI-native</span>{" "}
                   <HeroBadge
@@ -74,9 +74,18 @@ export default function Page() {
               <Link href={siteLinks.github.href}>{siteLinks.github.label}</Link>
             </div>
 
-            <div className="animate-fade-up grid gap-6 pt-8 delay-200 md:grid-cols-3">
-              {heroStats.map((stat) => (
-                <div key={stat.label} className="grid gap-1">
+            <div className="animate-fade-up delay-200 md:grid md:grid-cols-3 md:divide-x md:divide-border/40">
+              {heroStats.map((stat, index) => (
+                <div
+                  key={stat.label}
+                  className={`grid gap-1 py-6 md:py-0 ${
+                    index === 0
+                      ? "md:pr-6"
+                      : index === heroStats.length - 1
+                        ? "md:pl-6"
+                        : "md:px-6"
+                  }`}
+                >
                   <p className="text-3xl font-semibold tabular-nums">
                     {stat.value}
                   </p>

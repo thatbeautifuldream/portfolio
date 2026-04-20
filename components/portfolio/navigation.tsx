@@ -25,6 +25,33 @@ const navItems = [
   { href: "/contact", label: "Contact" },
 ]
 
+function NavItem({
+  href,
+  label,
+  isActive,
+  onClick,
+}: {
+  href: string
+  label: string
+  isActive: boolean
+  onClick?: () => void
+}) {
+  return (
+    <Link
+      href={href}
+      onClick={onClick}
+      className={cn(
+        "text-2xl font-medium no-underline",
+        isActive
+          ? "text-muted-foreground"
+          : "text-foreground hover:text-muted-foreground"
+      )}
+    >
+      {label}
+    </Link>
+  )
+}
+
 function HamburgerIcon({ open }: { open: boolean }) {
   return (
     <div className="relative size-4">
@@ -168,7 +195,7 @@ export function Navigation() {
                   <Link
                     className="no-underline hover:text-foreground"
                     href="/"
-                    aria-label="Home"
+                    aria-label="Homepage"
                   >
                     <motion.div layoutId="nav-logo" transition={navTransition}>
                       <Sign className="h-5 w-auto" />
@@ -283,18 +310,17 @@ export function Navigation() {
                       >
                         {navItems.map(({ href, label }, index) => (
                           <motion.div key={href} {...getLinkMotion(index)}>
-                            <Link
+                            <NavItem
                               href={href}
+                              label={label}
+                              isActive={pathname === href}
                               onClick={() => setOpen(false)}
-                              className="text-2xl font-medium text-foreground no-underline hover:text-primary"
-                            >
-                              {label}
-                            </Link>
+                            />
                           </motion.div>
                         ))}
                         <motion.div {...getLinkMotion(navItems.length)}>
                           <Link
-                            className="text-2xl font-medium text-foreground no-underline hover:text-primary"
+                            className="text-2xl font-medium text-foreground no-underline hover:text-muted-foreground"
                             href="https://cal.com/milind"
                             onClick={() => setOpen(false)}
                           >

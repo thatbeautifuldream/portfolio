@@ -51,7 +51,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`antialiased ${openRunde.variable}`}
+      className={`antialiased scheme-only-dark ${openRunde.variable}`}
     >
       <body
         className={`min-h-svh bg-background font-sans text-foreground ${openRunde.className}`}

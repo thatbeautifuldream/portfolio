@@ -1,5 +1,6 @@
 import Link from "next/link"
 
+import { Separator } from "@/components/ui/separator"
 import { talks, contributions } from "@/lib/portfolio-data"
 import { createMetadata } from "@/lib/metadata"
 
@@ -33,8 +34,8 @@ export default function talksPage() {
             {talks.map((talk, index) => (
               <div
                 key={talk.title}
-                className="animate-fade-up grid gap-2"
-                style={{ animationDelay: `${150 + index * 50}ms` }}
+                className="animate-fade-up grid gap-2 [animation-delay:calc(150ms_+_var(--i)_*_50ms)]"
+                style={{ "--i": index } as React.CSSProperties}
               >
                 <p className="font-mono text-sm tracking-wide text-muted-foreground uppercase">
                   {talk.event} · {talk.date}
@@ -42,7 +43,7 @@ export default function talksPage() {
                 <h2 className="text-xl font-semibold tracking-tight">
                   {talk.title}
                 </h2>
-                <p className="max-w-[56ch] text-pretty text-muted-foreground">
+                <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
                   {talk.description}
                 </p>
                 <Link href={talk.href} className="text-sm">
@@ -52,7 +53,9 @@ export default function talksPage() {
             ))}
           </div>
 
-          <div className="animate-fade-up grid gap-4 pt-8 delay-300">
+          <Separator />
+
+          <div className="animate-fade-up grid gap-4 delay-300">
             <p className="text-sm text-muted-foreground">Open source</p>
             <h2 className="max-w-[24ch] text-2xl font-semibold tracking-tight">
               Contributions that started as problems I hit at work.
@@ -70,13 +73,13 @@ export default function talksPage() {
             {contributions.map((item, index) => (
               <div
                 key={item.title}
-                className="animate-fade-up grid gap-2"
-                style={{ animationDelay: `${350 + index * 50}ms` }}
+                className="animate-fade-up grid gap-2 [animation-delay:calc(350ms_+_var(--i)_*_50ms)]"
+                style={{ "--i": index } as React.CSSProperties}
               >
                 <h3 className="text-lg font-semibold tracking-tight">
                   {item.title}
                 </h3>
-                <p className="text-base text-muted-foreground">
+                <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
                   {item.context}
                 </p>
                 <Link href={item.href} className="text-sm">

@@ -53,16 +53,20 @@ export default function BlogPage() {
               </h1>
             </div>
 
-            <div className="grid gap-8">
-              {sortedPosts.map((post) => (
-                <div key={post.slug} className="grid gap-2">
+            <div className="grid gap-0 divide-y divide-border/40">
+              {sortedPosts.map((post, index) => (
+                <div
+                  key={post.slug}
+                  className="animate-fade-up grid gap-2 py-6 [animation-delay:calc(100ms_+_var(--i)_*_50ms)] first:pt-0 last:pb-0"
+                  style={{ "--i": index } as React.CSSProperties}
+                >
                   <p className="font-mono text-sm tracking-wide text-muted-foreground uppercase">
                     {post.category} · {formatDate(post.date)}
                   </p>
                   <h2 className="text-xl font-semibold tracking-tight">
                     <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                   </h2>
-                  <p className="max-w-[56ch] text-pretty text-muted-foreground">
+                  <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
                     {post.description}
                   </p>
                 </div>

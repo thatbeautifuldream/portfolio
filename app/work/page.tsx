@@ -31,8 +31,8 @@ export default function WorkPage() {
             {roles.map((role, index) => (
               <article
                 key={`${role.company}-${role.period}`}
-                className="animate-fade-up grid gap-4"
-                style={{ animationDelay: `${150 + index * 50}ms` }}
+                className="animate-fade-up grid gap-4 [animation-delay:calc(150ms_+_var(--i)_*_50ms)]"
+                style={{ "--i": index } as React.CSSProperties}
               >
                 <div className="grid gap-2">
                   <h2 className="text-2xl font-semibold tracking-tight">
@@ -45,10 +45,10 @@ export default function WorkPage() {
                 <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
                   {role.summary}
                 </p>
-                <ul className="grid max-w-[56ch] gap-3">
+                <ul role="list" className="grid max-w-[56ch] gap-3">
                   {role.highlights.map((highlight) => (
                     <li
-                      className="text-base text-pretty text-muted-foreground"
+                      className="text-base text-pretty text-muted-foreground before:mr-2 before:text-muted-foreground/50 before:content-['–']"
                       key={highlight}
                     >
                       {highlight}

@@ -1,5 +1,6 @@
 import Link from "next/link"
 
+import { Badge } from "@/components/ui/badge"
 import { projects } from "@/lib/portfolio-data"
 import { createMetadata } from "@/lib/metadata"
 
@@ -34,8 +35,8 @@ export default function ProjectsPage() {
             {projects.map((project, index) => (
               <div
                 key={project.name}
-                className="animate-fade-up grid gap-4"
-                style={{ animationDelay: `${150 + index * 50}ms` }}
+                className="animate-fade-up grid gap-4 [animation-delay:calc(150ms_+_var(--i)_*_50ms)]"
+                style={{ "--i": index } as React.CSSProperties}
               >
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   <p className="text-lg font-semibold tracking-tight">
@@ -45,7 +46,7 @@ export default function ProjectsPage() {
                     {project.status}
                   </span>
                 </div>
-                <p className="max-w-[52ch] text-pretty text-muted-foreground">
+                <p className="max-w-[52ch] text-base text-pretty text-muted-foreground">
                   {project.description}
                 </p>
 
@@ -68,11 +69,17 @@ export default function ProjectsPage() {
                 <div className="grid gap-3">
                   {project.highlights.map((highlight) => (
                     <p
-                      className="text-base text-muted-foreground"
+                      className="max-w-[56ch] text-base text-pretty text-muted-foreground"
                       key={highlight}
                     >
                       {highlight}
                     </p>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <Badge key={tag}>{tag}</Badge>
                   ))}
                 </div>
 
