@@ -363,6 +363,11 @@
 
   html {
     @apply bg-background font-sans;
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
   }
 
   body {

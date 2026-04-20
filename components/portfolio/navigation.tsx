@@ -230,7 +230,7 @@ export function Navigation() {
               aria-expanded={open}
               aria-haspopup="dialog"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="relative flex size-10 items-center justify-center"
+              className="relative flex size-10 cursor-pointer items-center justify-center"
               onClick={() => setOpen((prev) => !prev)}
             >
               <HamburgerIcon open={open} />
@@ -289,7 +289,7 @@ export function Navigation() {
                           <button
                             type="button"
                             aria-label="Close menu"
-                            className="relative flex size-10 items-center justify-center"
+                            className="relative flex size-10 cursor-pointer items-center justify-center"
                             onClick={() => setOpen(false)}
                           >
                             <HamburgerIcon open={true} />
