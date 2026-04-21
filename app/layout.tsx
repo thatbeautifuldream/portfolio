@@ -1,10 +1,11 @@
 import { Footer } from "@/components/portfolio/footer"
 import { Navigation } from "@/components/portfolio/navigation"
 import { QueryProvider } from "@/components/query-provider"
+import { ServiceWorkerProvider } from "@/components/service-worker-provider"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AnalyticsProvider } from "@/components/providers/analytics-provider"
 import localFont from "next/font/local"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import "./globals.css"
 
 const openRunde = localFont({
@@ -43,6 +44,17 @@ export const metadata: Metadata = {
     "Product engineer building AI-native interfaces, product systems, and independent tools with sharper interaction quality.",
 }
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -64,6 +76,7 @@ export default function RootLayout({
         >
           <AnalyticsProvider />
           <QueryProvider>
+            <ServiceWorkerProvider />
             <Navigation />
             {children}
             <Footer />
