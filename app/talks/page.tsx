@@ -33,26 +33,12 @@ export default function talksPage() {
             </p>
           </div>
 
-          <div
-            className="animate-fade-up grid gap-4"
-            style={{ animationDelay: "200ms" }}
-          >
-            <h2 className="max-w-[24ch] text-2xl font-semibold tracking-tight md:text-3xl">
-              Speaking at meetups and conferences
-            </h2>
-            <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
-              Public speaking is the fastest way to find gaps in your knowledge.
-              These talks are documented experiments in understanding ideas deeply
-              enough to explain them to a room of strangers.
-            </p>
-          </div>
-
           <div className="grid gap-8">
             {talks.map((talk, index) => (
               <div
                 key={talk.title}
                 className="animate-fade-up grid gap-2"
-                style={{ animationDelay: `${300 + index * 80}ms` }}
+                style={{ animationDelay: `${200 + index * 80}ms` }}
               >
                 <p className="font-mono text-sm tracking-wide text-muted-foreground uppercase">
                   {talk.event} · {talk.date}
@@ -74,7 +60,7 @@ export default function talksPage() {
 
           <div
             className="animate-fade-up grid gap-4"
-            style={{ animationDelay: "600ms" }}
+            style={{ animationDelay: "400ms" }}
           >
             <p className="text-sm text-muted-foreground">Open source</p>
             <h2 className="max-w-[24ch] text-2xl font-semibold tracking-tight">
@@ -94,7 +80,7 @@ export default function talksPage() {
               <div
                 key={item.title}
                 className="animate-fade-up grid gap-2"
-                style={{ animationDelay: `${700 + index * 80}ms` }}
+                style={{ animationDelay: `${500 + index * 80}ms` }}
               >
                 <h3 className="text-lg font-semibold tracking-tight">
                   {item.title}
