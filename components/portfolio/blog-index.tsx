@@ -131,9 +131,7 @@ export function BlogIndex({
         (entries) => {
           const visible = entries
             .filter((e) => e.isIntersecting)
-            .sort(
-              (a, b) => a.boundingClientRect.top - b.boundingClientRect.top
-            )
+            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
           if (visible.length > 0) {
             setActiveId(visible[0].target.id)
           }
@@ -177,10 +175,10 @@ export function BlogIndex({
         "fixed top-4 left-1/2 z-50 -translate-x-1/2",
         "w-[18rem] max-w-[calc(100vw-1.5rem)]",
         "overflow-hidden",
-        "bg-gradient-to-b from-neutral-800 via-neutral-900 to-neutral-950",
-        "text-neutral-50",
-        "shadow-xl shadow-black/30",
-        "ring-1 ring-black/40 inset-ring-1 inset-ring-white/10"
+        "bg-gradient-to-b from-foreground/90 via-foreground/95 to-foreground",
+        "text-background",
+        "shadow-xl shadow-foreground/20",
+        "ring-1 inset-ring-1 ring-foreground/20 inset-ring-background/10"
       )}
     >
       <motion.button
@@ -205,16 +203,18 @@ export function BlogIndex({
         >
           <defs>
             <linearGradient id="ring-silver" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#f5f5f5" />
-              <stop offset="100%" stopColor="#9ca3af" />
+              <stop offset="0%" style={{ stopColor: "var(--background)" }} />
+              <stop
+                offset="100%"
+                style={{ stopColor: "var(--muted-foreground)" }}
+              />
             </linearGradient>
           </defs>
           <circle
             cx="10"
             cy="10"
             r={RING_RADIUS}
-            stroke="#ffffff"
-            strokeOpacity="0.18"
+            style={{ stroke: "var(--background)", strokeOpacity: 0.18 }}
             strokeWidth="2"
             fill="none"
           />
@@ -251,7 +251,7 @@ export function BlogIndex({
         )}
         <motion.span
           layout="position"
-          className="ml-auto flex items-center text-xs tabular-nums text-neutral-300"
+          className="ml-auto flex items-center text-xs text-background/70 tabular-nums"
         >
           <span className="inline-flex w-[3ch] justify-end">
             <NumberFlow value={percent} />
@@ -275,9 +275,7 @@ export function BlogIndex({
                 key={h.id}
                 layout="position"
                 initial={
-                  shouldReduceMotion
-                    ? { opacity: 1 }
-                    : { opacity: 0, y: -6 }
+                  shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: -6 }
                 }
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -293,8 +291,8 @@ export function BlogIndex({
                     "block w-full cursor-pointer truncate rounded-md px-2 py-1 text-left text-sm transition-colors",
                     h.level === 3 && "pl-5",
                     activeId === h.id
-                      ? "text-neutral-50"
-                      : "text-neutral-400 hover:text-neutral-50"
+                      ? "text-background"
+                      : "text-background/50 hover:text-background"
                   )}
                 >
                   {h.text}
