@@ -1,8 +1,10 @@
 import { allPosts } from "content-collections"
 import { notFound } from "next/navigation"
+import { BlogIndex } from "@/components/portfolio/blog-index"
 import { StreamdownWrapper } from "@/components/streamdown-wrapper"
 import { createMetadata } from "@/lib/metadata"
 import { JsonLd } from "@/components/json-ld"
+import { extractHeadings } from "@/lib/extract-headings"
 
 export async function generateStaticParams() {
   return allPosts.map((post) => ({
@@ -71,9 +73,13 @@ export default async function BlogPostPage({
     dateModified: post.date,
   }
 
+  const headings = extractHeadings(post.content)
+
   return (
     <>
       <JsonLd data={articleSchema} />
+
+      <BlogIndex headings={headings} />
 
       <main className="isolate">
         <section className="section-shell">

@@ -113,6 +113,7 @@
     text-balance: balance;
     margin-top: --spacing(8);
     margin-bottom: --spacing(3);
+    scroll-margin-top: 5rem;
   }
 
   & :where(h3) {
@@ -122,6 +123,7 @@
     text-balance: balance;
     margin-top: --spacing(6);
     margin-bottom: --spacing(2);
+    scroll-margin-top: 5rem;
   }
 
   & :where(h4, h5, h6) {
