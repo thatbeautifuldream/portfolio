@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
-import { Streamdown } from "streamdown";
-import { code } from "@streamdown/code";
-import { mermaid } from "@streamdown/mermaid";
+import { Streamdown } from "streamdown"
+import { code } from "@streamdown/code"
+import { mermaid } from "@streamdown/mermaid"
 
 type StreamdownWrapperProps = {
-  content: string;
-};
+  content: string
+}
 
 export function StreamdownWrapper({ content }: StreamdownWrapperProps) {
-  return <Streamdown plugins={{ code, mermaid }}>{content}</Streamdown>;
+  return <Streamdown mode="static" plugins={{ code, mermaid }}>{content}</Streamdown>
 }

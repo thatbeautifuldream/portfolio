@@ -1,0 +1,70 @@
+---
+title: "Git worktree helpers for zsh"
+description: "Git worktree helpers for zsh"
+datePublished: 2026-04-23T05:35:35.000Z
+date: 2026-04-23T05:35:35.000Z
+slug: git-worktree-helpers-for-zsh
+tags: shell, gist, helper
+gistId: 6e7b1af3a0ba939adc6929f57360f390
+gistUrl: https://gist.github.com/thatbeautifuldream/6e7b1af3a0ba939adc6929f57360f390
+isPublic: true
+---
+
+```shell title=".worktrees.zsh"
+# git worktree helpers
+# gist: https://gist.github.com/thatbeautifuldream/6e7b1af3a0ba939adc6929f57360f390
+wta() {
+  # usage: wta <branch-name> [base-branch]
+  if [ -z "$1" ]; then
+    echo "usage: wta <branch-name> [base-branch]" >&2
+    return 1
+  fi
+  local branch="$1"
+  local base="${2:-develop}"
+  local slug="${branch//\//-}"
+  local root; root=$(git rev-parse --show-toplevel 2>/dev/null) || { echo "wta: not a git repo" >&2; return 1; }
+  local project="${root##*/}"
+  local dir=".worktrees/${project}-${slug}"
+  if git show-ref --verify --quiet "refs/heads/$branch"; then
+    git worktree add "$dir" "$branch"
+  elif git show-ref --verify --quiet "refs/remotes/origin/$branch"; then
+    git worktree add -b "$branch" "$dir" "origin/$branch"
+  else
+    git worktree add -b "$branch" "$dir" "$base"
+  fi
+}
+
+wtr() {
+  # usage: wtr <branch-name>
+  if [ -z "$1" ]; then
+    echo "usage: wtr <branch-name>" >&2
+    return 1
+  fi
+  local branch="$1"
+  local slug="${branch//\//-}"
+  local root; root=$(git rev-parse --show-toplevel 2>/dev/null) || { echo "wtr: not a git repo" >&2; return 1; }
+  local project="${root##*/}"
+  git worktree remove ".worktrees/${project}-${slug}" && git branch -d "$branch"
+}
+
+wtb() {
+  # usage: wtb [query]   — pick a worktree and cd into it
+  local lines
+  lines=$(git worktree list 2>/dev/null) || { echo "wtb: not a git repo" >&2; return 1; }
+  local picked
+  if command -v fzf >/dev/null 2>&1; then
+    picked=$(printf '%s\n' "$lines" | fzf --query="${1:-}" --select-1 --exit-0 --height=40% --reverse) || return 1
+  else
+    printf '%s\n' "$lines" | nl -ba
+    printf 'select #: '
+    local n; read -r n
+    [ -z "$n" ] && return 1
+    picked=$(printf '%s\n' "$lines" | sed -n "${n}p")
+  fi
+  [ -z "$picked" ] && return 1
+  local path="${picked%% *}"
+  cd "$path" || return 1
+}
+
+```
+

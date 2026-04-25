@@ -16,6 +16,7 @@ export const navItems = [
   { href: "/talks", label: "Talks" },
   { href: "/wakatime", label: "Wakatime" },
   { href: "/blog", label: "Blog" },
+  { href: "/gist", label: "Gist" },
   { href: "/contact", label: "Contact" },
 ]
 
@@ -221,7 +222,7 @@ export function NavMenuPanel({
                     <NavItem
                       href={href}
                       label={label}
-                      isActive={pathname === href}
+                      isActive={href === "/" ? pathname === "/" : pathname.startsWith(href)}
                       onClick={onClose}
                     />
                   </motion.div>

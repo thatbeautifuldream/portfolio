@@ -1,0 +1,42 @@
+---
+title: "zshrc file with git user switcher"
+description: "zshrc file with git user switcher"
+datePublished: 2025-02-02T09:47:33.000Z
+date: 2025-02-02T09:47:33.000Z
+slug: zshrc-file-with-git-user-switcher
+tags: shell, gist
+gistId: 89c0e7f03cb032594e105b3d645c4788
+gistUrl: https://gist.github.com/thatbeautifuldream/89c0e7f03cb032594e105b3d645c4788
+isPublic: true
+---
+
+```shell title=".zshrc"
+# Git user switcher for zsh
+# Usage: gsu work | gsu personal | gsu
+
+function gsu() {
+  local work_email="work@company.com"
+  local work_name="Work Name"
+  local personal_email="personal@email.com"
+  local personal_name="Personal Name"
+
+  case $1 in
+    work)
+      git config --global user.email "$work_email"
+      git config --global user.name "$work_name"
+      echo "Switched to work identity"
+      ;;
+    personal)
+      git config --global user.email "$personal_email"
+      git config --global user.name "$personal_name"
+      echo "Switched to personal identity"
+      ;;
+    *)
+      echo "Current identity:"
+      git config --global user.name
+      git config --global user.email
+      echo "Usage: gsu work | gsu personal"
+      ;;
+  esac
+}
+```

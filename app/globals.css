@@ -1,8 +1,9 @@
+@source "../node_modules/streamdown/dist/index.js";
+@source "../node_modules/@streamdown/code/dist/*.js";
+@source "../node_modules/@streamdown/mermaid/dist/*.js";
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-
-@source "../node_modules/streamdown/dist/index.js";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -28,6 +29,8 @@
   --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
   --color-ring: var(--ring);
   --radius-sm: calc(var(--radius) - 0.25rem);
   --radius-md: calc(var(--radius) - 0.125rem);
@@ -60,6 +63,8 @@
   --chart-3: #a3a3a3;
   --chart-4: #d4d4d4;
   --chart-5: #f5f5f5;
+  --sidebar: #f5f5f5;
+  --sidebar-foreground: #171717;
 }
 
 .dark {
@@ -86,6 +91,8 @@
   --chart-3: #737373;
   --chart-4: #525252;
   --chart-5: #262626;
+  --sidebar: #262626;
+  --sidebar-foreground: #fafafa;
 }
 
 @utility section-shell {
@@ -102,7 +109,7 @@
     font-weight: var(--font-weight-semibold);
     letter-spacing: var(--tracking-tight);
     text-balance: balance;
-    margin-top: --spacing(8);
+    margin-top: --spacing(2);
     margin-bottom: --spacing(4);
   }
 
@@ -111,7 +118,7 @@
     font-weight: var(--font-weight-semibold);
     letter-spacing: var(--tracking-tight);
     text-balance: balance;
-    margin-top: --spacing(8);
+    margin-top: --spacing(2);
     margin-bottom: --spacing(3);
     scroll-margin-top: 5rem;
   }
@@ -121,7 +128,7 @@
     font-weight: var(--font-weight-semibold);
     letter-spacing: var(--tracking-tight);
     text-balance: balance;
-    margin-top: --spacing(6);
+    margin-top: --spacing(2);
     margin-bottom: --spacing(2);
     scroll-margin-top: 5rem;
   }
@@ -131,7 +138,7 @@
     font-weight: var(--font-weight-semibold);
     letter-spacing: var(--tracking-tight);
     text-balance: balance;
-    margin-top: --spacing(4);
+    margin-top: --spacing(2);
     margin-bottom: --spacing(2);
   }
 
@@ -140,8 +147,8 @@
     line-height: 1.75;
     text-pretty: pretty;
     color: var(--color-muted-foreground);
-    margin-top: --spacing(4);
-    margin-bottom: --spacing(4);
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   & :where(a) {
@@ -168,23 +175,23 @@
   & :where(ul) {
     list-style: disc;
     padding-left: --spacing(6);
-    margin-top: --spacing(4);
-    margin-bottom: --spacing(4);
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   & :where(ol) {
     list-style: decimal;
     padding-left: --spacing(6);
-    margin-top: --spacing(4);
-    margin-bottom: --spacing(4);
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   & :where(li) {
     font-size: var(--text-base);
     line-height: 1.75;
     color: var(--color-muted-foreground);
-    margin-top: --spacing(1);
-    margin-bottom: --spacing(1);
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   & :where(blockquote) {
@@ -192,8 +199,8 @@
     padding-left: --spacing(4);
     font-style: italic;
     color: var(--color-muted-foreground);
-    margin-top: --spacing(4);
-    margin-bottom: --spacing(4);
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   & :where(code) {
@@ -208,12 +215,10 @@
     font-family: var(--font-mono);
     font-size: var(--text-sm);
     line-height: 1.75;
-    background-color: var(--color-muted);
     border-radius: var(--radius-lg);
-    padding: --spacing(4);
     overflow-x: auto;
-    margin-top: --spacing(4);
-    margin-bottom: --spacing(4);
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   & :where(pre code) {
@@ -225,22 +230,22 @@
 
   & :where(img) {
     border-radius: var(--radius-lg);
-    margin-top: --spacing(4);
-    margin-bottom: --spacing(4);
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   & :where(hr) {
     border-color: var(--color-border);
-    margin-top: --spacing(6);
-    margin-bottom: --spacing(6);
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   & :where(table) {
     width: 100%;
     border-collapse: collapse;
     font-size: var(--text-sm);
-    margin-top: --spacing(4);
-    margin-bottom: --spacing(4);
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   & :where(th) {

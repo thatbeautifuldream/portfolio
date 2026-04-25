@@ -1,14 +1,13 @@
-import { allPosts } from "content-collections"
+import { allGists } from "content-collections"
 import { notFound } from "next/navigation"
-import { BlogIndex } from "@/components/portfolio/blog-index"
+import { RiExternalLinkLine } from "@remixicon/react"
 import { StreamdownWrapper } from "@/components/streamdown-wrapper"
 import { createMetadata } from "@/lib/metadata"
 import { JsonLd } from "@/components/json-ld"
-import { extractHeadings } from "@/lib/extract-headings"
 
 export async function generateStaticParams() {
-  return allPosts.map((post) => ({
-    slug: post.slug,
+  return allGists.map((gist) => ({
+    slug: gist.slug,
   }))
 }
 
@@ -18,18 +17,18 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const post = allPosts.find((p) => p.slug === slug)
+  const gist = allGists.find((g) => g.slug === slug)
 
-  if (!post) {
+  if (!gist) {
     return {}
   }
 
   return createMetadata({
-    title: post.title,
-    description: post.description,
-    canonical: `https://milindmishra.com/blog/${slug}`,
+    title: gist.title,
+    description: gist.description ?? "",
+    canonical: `https://milindmishra.com/gist/${slug}`,
     ogType: "blog-post",
-    slug: slug,
+    slug,
   })
 }
 
@@ -38,8 +37,7 @@ const author = {
   href: "https://milindmishra.com",
 }
 
-function formatDate(dateString: string): string {
-  const date = new Date(dateString)
+function formatDate(date: Date): string {
   return date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
@@ -47,39 +45,37 @@ function formatDate(dateString: string): string {
   })
 }
 
-export default async function BlogPostPage({
+export default async function GistPage({
   params,
 }: {
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const post = allPosts.find((p) => p.slug === slug)
+  const gist = allGists.find((g) => g.slug === slug)
 
-  if (!post) {
+  if (!gist) {
     notFound()
   }
+
+  const tag = gist.tags?.split(",")[0]?.trim() ?? "Gist"
 
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: post.title,
-    description: post.description,
+    headline: gist.title,
+    description: gist.description ?? "",
     author: {
       "@type": "Person",
       name: author.name,
       url: author.href,
     },
-    datePublished: post.date,
-    dateModified: post.date,
+    datePublished: gist.date.toISOString(),
+    dateModified: gist.date.toISOString(),
   }
-
-  const headings = extractHeadings(post.content)
 
   return (
     <>
       <JsonLd data={articleSchema} />
-
-      <BlogIndex headings={headings} />
 
       <main className="isolate">
         <section className="section-shell">
@@ -90,21 +86,32 @@ export default async function BlogPostPage({
                 style={{ animationDelay: "100ms" }}
               >
                 <p className="font-mono text-sm tracking-wide text-muted-foreground uppercase">
-                  {post.category} · {formatDate(post.date)}
+                  {tag} · {formatDate(gist.date)}
                 </p>
                 <h1 className="max-w-[24ch] text-3xl font-semibold tracking-tight text-pretty md:text-5xl">
-                  {post.title}
+                  {gist.title}
                 </h1>
-                <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
-                  {post.description}
-                </p>
+                {gist.description && (
+                  <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
+                    {gist.description}
+                  </p>
+                )}
+                <a
+                  href={gist.gistUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex w-fit items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+                >
+                  View on GitHub
+                  <RiExternalLinkLine className="size-3" />
+                </a>
               </header>
 
               <div
                 className="animate-fade-up prose max-w-none overflow-x-hidden"
                 style={{ animationDelay: "200ms" }}
               >
-                <StreamdownWrapper content={post.content} />
+                <StreamdownWrapper content={gist.content} />
               </div>
             </article>
           </div>
