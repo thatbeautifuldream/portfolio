@@ -20,14 +20,14 @@ export default function Page() {
         <div className="section-inner grid gap-16">
           <div className="grid gap-12">
             <div
-            className="animate-fade-up grid gap-4"
-            style={{ animationDelay: "100ms" }}
-          >
+              className="animate-fade-up grid gap-4"
+              style={{ animationDelay: "100ms" }}
+            >
               <div className="grid gap-6">
                 <p className="text-sm text-muted-foreground">
                   Bengaluru, India. Product engineer.
                 </p>
-                <h1 className="max-w-[22ch] text-4xl font-semibold tracking-tight text-balance select-none md:text-6xl">
+                <h1 className="max-w-[22ch] text-4xl leading-tight font-semibold tracking-tight text-balance select-none md:text-6xl md:leading-[1.2]">
                   <span className="text-foreground">Building</span>{" "}
                   <span className="text-muted-foreground/50">AI-native</span>{" "}
                   <HeroBadge
@@ -70,9 +70,9 @@ export default function Page() {
             </div>
 
             <div
-            className="animate-fade-up flex flex-wrap items-center gap-x-6 gap-y-2 text-sm"
-            style={{ animationDelay: "200ms" }}
-          >
+              className="animate-fade-up flex flex-wrap items-center gap-x-6 gap-y-2 text-sm"
+              style={{ animationDelay: "200ms" }}
+            >
               <Link href={siteLinks.primaryCta.href} className="font-medium">
                 {siteLinks.primaryCta.label}
               </Link>
@@ -81,9 +81,9 @@ export default function Page() {
             </div>
 
             <div
-            className="animate-fade-up md:grid md:grid-cols-3 md:divide-x md:divide-border/40"
-            style={{ animationDelay: "300ms" }}
-          >
+              className="animate-fade-up md:grid md:grid-cols-3 md:divide-x md:divide-border/40"
+              style={{ animationDelay: "300ms" }}
+            >
               {heroStats.map((stat, index) => (
                 <div
                   key={stat.label}
