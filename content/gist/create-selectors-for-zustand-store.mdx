@@ -1,0 +1,34 @@
+---
+title: "create selectors for zustand store"
+description: "create selectors for zustand store"
+datePublished: 2024-10-19T15:35:15.000Z
+date: 2024-10-19T15:35:15.000Z
+slug: create-selectors-for-zustand-store
+tags: typescript, gist
+gistId: afff5267956e0d41069661d7e370e139
+gistUrl: https://gist.github.com/thatbeautifuldream/afff5267956e0d41069661d7e370e139
+isPublic: true
+---
+
+```typescript title="create-selectors.ts"
+import { type StoreApi, type UseBoundStore } from "zustand";
+
+type WithSelectors<S> = S extends { getState: () => infer T }
+  ? S & { use: { [K in keyof T]: () => T[K] } }
+  : never;
+
+export const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(
+  _store: S
+) => {
+  const store = _store as WithSelectors<typeof _store>;
+  store.use = {};
+  for (const k of Object.keys(store.getState())) {
+    (store.use as Record<string, () => unknown>)[k] = () =>
+      store((s) => s[k as keyof typeof s]);
+  }
+
+  return store;
+};
+
+```
+

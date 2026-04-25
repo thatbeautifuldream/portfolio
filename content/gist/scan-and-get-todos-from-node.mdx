@@ -1,0 +1,97 @@
+---
+title: "Scan and get todos from Node"
+description: "Scan and get todos from Node"
+datePublished: 2024-10-26T22:24:08.000Z
+date: 2024-10-26T22:24:08.000Z
+slug: scan-and-get-todos-from-node
+tags: javascript, gist
+gistId: 50626d75be14f6d57864da37bc450f18
+gistUrl: https://gist.github.com/thatbeautifuldream/50626d75be14f6d57864da37bc450f18
+isPublic: true
+---
+
+```javascript title="scan.js"
+#!/usr/bin/env node
+
+import fs from 'fs';
+import path from 'path';
+import chalk from 'chalk';
+
+// Directories to exclude from scanning
+const EXCLUDE_DIRS = [
+  'node_modules', 
+  '.next', 
+  '.out', 
+  '.dist', 
+  '.git', 
+  'build', 
+  '.cache'
+];
+
+// File extensions to include in scanning
+const INCLUDE_EXTENSIONS = [
+  '.js', 
+  '.jsx', 
+  '.ts', 
+  '.tsx', 
+  '.md', 
+  '.mdx', 
+  '.html', 
+  '.css', 
+  '.json', 
+  '.yml', 
+  '.yaml', 
+  '.scss', 
+  '.sass', 
+  '.less'
+];
+
+// Function to recursively scan directories and look for TODO/FIXME comments
+const scanDirectory = (dir) => {
+  const files = fs.readdirSync(dir);
+
+  files.forEach((file) => {
+    const filePath = path.join(dir, file);
+    const stat = fs.statSync(filePath);
+
+    if (stat.isDirectory()) {
+      // Skip excluded directories
+      if (!EXCLUDE_DIRS.includes(file)) {
+        scanDirectory(filePath);
+      }
+    } else if (stat.isFile() && INCLUDE_EXTENSIONS.some(ext => file.endsWith(ext))) {
+      scanFileForComments(filePath);
+    }
+  });
+};
+
+// Function to find TODO/FIXME comments in a file
+const scanFileForComments = (file) => {
+  const content = fs.readFileSync(file, 'utf-8');
+  const lines = content.split('\n');
+
+  lines.forEach((line, index) => {
+    const todoMatch = line.match(/(TODO|FIXME):?\s*(.*)/);
+    if (todoMatch) {
+      const [ , type, text ] = todoMatch;
+
+      console.log(
+        `${chalk.cyan.bold(type)}: ${chalk.green(text.trim())} \n` +
+        `${chalk.gray(file)}:${chalk.yellow(index + 1)}\n`
+      );
+    }
+  });
+};
+
+// Start scanning from the current directory
+const startScan = () => {
+  console.log(chalk.blue.bold('🔍 Scanning project for TODO/FIXME comments...\n'));
+  scanDirectory(process.cwd());
+  console.log(chalk.blue.bold('\n✅ Scan complete.'));
+};
+
+// Execute the scan
+startScan();
+
+```
+

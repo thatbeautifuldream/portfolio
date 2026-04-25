@@ -1,0 +1,47 @@
+---
+title: "pm2 ci cd github action "
+description: "pm2 ci cd github action "
+datePublished: 2024-11-07T10:35:44.000Z
+date: 2024-11-07T10:35:44.000Z
+slug: pm2-ci-cd-github-action-
+tags: yaml, gist
+gistId: d7af833d36c0b2200802dfc88684f3e3
+gistUrl: https://gist.github.com/thatbeautifuldream/d7af833d36c0b2200802dfc88684f3e3
+isPublic: true
+---
+
+```yaml title="deploy.yml"
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+
+      - name: Deploy to server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: your-host
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/key.pem
+          chmod 600 ~/.ssh/key.pem
+          ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+          npx pm2 deploy ecosystem.config.js main
+
+```
+

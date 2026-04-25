@@ -53,16 +53,16 @@ export default function GistsPage() {
               </h1>
             </div>
 
-            <div className="grid gap-0 divide-y divide-border/40">
-              {sortedGists.map((gist, index) => {
+            <div
+              className="animate-fade-up grid gap-0 divide-y divide-border/40"
+              style={{ animationDelay: "150ms" }}
+            >
+              {sortedGists.map((gist) => {
                 const tag = gist.tags?.split(",")[0]?.trim() ?? "Gist"
                 return (
                   <div
                     key={gist.slug}
-                    className="animate-fade-up grid gap-1 py-5 first:pt-0 last:pb-0"
-                    style={{
-                      animationDelay: `${200 + index * 80}ms`,
-                    }}
+                    className="grid gap-1 py-5 first:pt-0 last:pb-0"
                   >
                     <h2 className="text-lg font-semibold tracking-tight">
                       <Link href={`/gist/${gist.slug}`}>{gist.title}</Link>

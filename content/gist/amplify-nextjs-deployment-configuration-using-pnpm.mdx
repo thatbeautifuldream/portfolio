@@ -1,0 +1,34 @@
+---
+title: "Amplify + Next.js Deployment Configuration (using pnpm)"
+description: "Amplify + Next.js Deployment Configuration (using pnpm)"
+datePublished: 2024-07-12T10:36:34.000Z
+date: 2024-07-12T10:36:34.000Z
+slug: amplify-nextjs-deployment-configuration-using-pnpm
+tags: yaml, gist
+gistId: b45ada7756d51dce76aa307ecfc13b81
+gistUrl: https://gist.github.com/thatbeautifuldream/b45ada7756d51dce76aa307ecfc13b81
+isPublic: true
+---
+
+```yaml title="amplify.yml"
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npx pnpm install
+    build:
+      commands:
+        - npx pnpm build
+        - rm -f node_modules/@swc/core-linux-x64-gnu/swc.linux-x64-gnu.node
+        - rm -f node_modules/@swc/core-linux-x64-musl/swc.linux-x64-musl.node
+  artifacts:
+    baseDirectory: .next
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - node_modules/**/*
+
+```
+

@@ -1,0 +1,178 @@
+---
+title: "Multiple git user setup with conventional commit aliases"
+description: "Multiple git user setup with conventional commit aliases"
+datePublished: 2025-06-17T00:40:26.000Z
+date: 2025-06-17T00:40:26.000Z
+slug: multiple-git-user-setup-with-conventional-commit-aliases
+tags: shell, gist
+gistId: 7420d8f0e8fe9e6264f660166ba1a46e
+gistUrl: https://gist.github.com/thatbeautifuldream/7420d8f0e8fe9e6264f660166ba1a46e
+isPublic: true
+---
+
+```shell title=".git_helpers.zsh"
+# Git user configurations
+declare -A GH_USERS=(
+  [personal]="thatbeautifuldream:Milind Mishra:milind.mishra4@gmail.com"
+  [work]="milind-foyer:Milind Mishra:milind@foyer.work"
+)
+
+guser() {
+    if [[ $# -eq 0 ]]; then
+        echo "Usage: guser [personal|work|current]"
+        return 1
+    fi
+
+    local first_arg="$1"
+    local config
+
+    case "$first_arg" in
+        personal)
+            config=(${(s/:/)GH_USERS[personal]})
+            ;;
+        work)
+            config=(${(s/:/)GH_USERS[work]})
+            ;;
+        current)
+            echo "Current Git Config:"
+            echo "Name: $(git config user.name)"
+            echo "Email: $(git config user.email)"
+            echo "GitHub: $(git config user.github)"
+            return 0
+            ;;
+        *)
+            echo "Error: Unknown account '$first_arg'"
+            echo "Available: personal, work, current"
+            return 1
+            ;;
+    esac
+
+    local gh_user="${config[1]}"
+    local git_name="${config[2]}"
+    local git_email="${config[3]}"
+
+    echo "🔄 Switching to $first_arg account..."
+
+    # Switch GitHub auth
+    gh auth switch --user "$gh_user" 2>/dev/null || {
+        echo "❌ Failed to switch GitHub auth. Run: gh auth login"
+        return 1
+    }
+
+    # Update Git config
+    git config --global user.name "$git_name"
+    git config --global user.email "$git_email"
+    git config --global user.github "$gh_user"
+
+    echo "✅ Switched to $first_arg"
+    echo "Git: $git_name <$git_email> [$gh_user]"
+}
+
+# Directory-based credential checking
+check-directory-credentials() {
+    local current_dir="$PWD"
+    local expected=""
+    if [[ "$current_dir" == "$HOME/code/self"* ]]; then
+        expected="personal"
+    elif [[ "$current_dir" == "$HOME/code/work"* ]]; then
+        expected="work"
+    else
+        return 0  # No restriction outside managed directories
+    fi
+    local current_github=$(git config user.github 2>/dev/null)
+    local expected_config=(${(s/:/)GH_USERS[$expected]})
+    local expected_github="${expected_config[1]}"
+    if [[ "$current_github" != "$expected_github" ]]; then
+        echo "❌ Wrong credentials for $expected directory"
+        echo "Current: $current_github"
+        echo "Expected: $expected_github"
+        echo "Run: guser $expected"
+        return 1
+    fi
+    return 0
+}
+
+# Auto-switch on directory change
+chpwd() {
+    if [[ ! -d ".git" ]]; then
+        return 0
+    fi
+    local current_dir="$PWD"
+    if [[ "$current_dir" == "$HOME/code/self"* ]]; then
+        if ! check-directory-credentials; then
+            echo "🔄 Auto-switching to personal credentials..."
+            guser personal
+        fi
+    elif [[ "$current_dir" == "$HOME/code/work"* ]]; then
+        if ! check-directory-credentials; then
+            echo "🔄 Auto-switching to work credentials..."
+            guser work
+        fi
+    fi
+}
+
+# Commit with credentials check (no flag support, just message)
+gcap() {
+    if [[ $# -eq 0 ]]; then
+        echo "❌ Commit message required"
+        return 1
+    fi
+
+    if ! git rev-parse --git-dir >/dev/null 2>&1; then
+        echo "❌ Not in a git repository"
+        return 1
+    fi
+
+    if ! check-directory-credentials; then
+        echo "❌ COMMIT BLOCKED: Fix credentials first"
+        return 1
+    fi
+
+    git commit -m "$*"
+    if [[ $? -eq 0 ]]; then
+        echo "✅ Commit successful"
+    else
+        echo "❌ Commit failed"
+        return 1
+    fi
+}
+
+# Commit type helpers (no flag support, just the message)
+gfeat()     { gcap "feat: $*"; }
+gnew()      { gcap "feat: $*"; }
+gfix()      { gcap "fix: $*"; }
+gdocs()     { gcap "docs: $*"; }
+gstyle()    { gcap "style: $*"; }
+grefactor() { gcap "refactor: $*"; }
+gperf()     { gcap "perf: $*"; }
+gtest()     { gcap "test: $*"; }
+gbuild()    { gcap "build: $*"; }
+gci()       { gcap "ci: $*"; }
+gchore()    { gcap "chore: $*"; }
+gbrk()      { gcap "feat!: $*"; }
+
+gtype() {
+    echo ""
+    echo "🔒 STRICT MODE: Credentials verified before commits"
+    echo ""
+    echo "Commands:"
+    echo "  guser personal  - Switch to personal account"
+    echo "  guser work      - Switch to work account"
+    echo "  guser current   - Show current account"
+    echo ""
+    echo "Commit helpers:"
+    echo "  gfeat <msg>         - feat: commit"
+    echo "  gfix <msg>          - fix: commit"
+    echo "  gdocs <msg>         - docs: commit"
+    echo "  gstyle <msg>        - style: commit"
+    echo "  grefactor <msg>     - refactor: commit"
+    echo "  gperf <msg>         - perf: commit"
+    echo "  gtest <msg>         - test: commit"
+    echo "  gbuild <msg>        - build: commit"
+    echo "  gci <msg>           - ci: commit"
+    echo "  gchore <msg>        - chore: commit"
+    echo "  gbrk <msg>          - feat!: commit (breaking)"
+    echo ""
+}
+```
+

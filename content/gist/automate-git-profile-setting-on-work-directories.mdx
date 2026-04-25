@@ -1,0 +1,49 @@
+---
+title: "Automate git profile setting on work directories"
+description: "Automate git profile setting on work directories"
+datePublished: 2025-01-27T07:48:31.000Z
+date: 2025-01-27T07:48:31.000Z
+slug: automate-git-profile-setting-on-work-directories
+tags: shell, gist
+gistId: 3a98b47641436e9fdc2285c984c388e1
+gistUrl: https://gist.github.com/thatbeautifuldream/3a98b47641436e9fdc2285c984c388e1
+isPublic: true
+---
+
+```shell title="automate-git-config-forwork.sh"
+function check-git-config() {
+  local name=$(git config user.name)
+  local email=$(git config user.email)
+  echo "Current git config:"
+  echo "  user.name:  $name"
+  echo "  user.email: $email"
+  # Return values for reuse
+  echo "$name:$email"
+}
+
+function set-git-work() {
+  local target_name="John Doe"
+  local target_email="john.doe@company.com"
+  
+  # Use check-git-config and capture its output
+  local config_output=$(check-git-config)
+  local current_config=(${(s/:/)config_output[-1]}) # Split last line by ':'
+  local current_name=$current_config[1]
+  local current_email=$current_config[2]
+
+  if [[ "$current_name" != "$target_name" ]] || [[ "$current_email" != "$target_email" ]]; then
+    git config user.name "$target_name"
+    git config user.email "$target_email"
+    echo "Git config updated: user.name='$target_name', user.email='$target_email'"
+  fi
+}
+
+# Auto set git config for work directories
+function chpwd() {
+  local current_dir="$PWD"
+  if [[ "$current_dir" == "$HOME/code/work/company"* ]] && [[ -d ".git" ]]; then
+    set-git-work
+  fi
+}
+```
+

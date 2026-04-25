@@ -1,0 +1,37 @@
+---
+title: "breadcrumbs registry"
+description: "breadcrumbs registry"
+datePublished: 2024-09-26T15:34:41.000Z
+date: 2024-09-26T15:34:41.000Z
+slug: breadcrumbs-registry
+tags: json, gist
+gistId: c8aa6a50ced14508ac2a8572ef2e9d47
+gistUrl: https://gist.github.com/thatbeautifuldream/c8aa6a50ced14508ac2a8572ef2e9d47
+isPublic: true
+---
+
+```json title="breadcrumbs.json"
+{
+  "name": "next-breadcrumb",
+  "type": "registry:block",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "./components/breadcrumbs.tsx",
+      "content": "import { cn } from \"@/lib/utils\";\nimport { Home } from \"lucide-react\";\nimport Link from \"next/link\";\n\nexport type BreadcrumbItem = {\n  name: string;\n  href?: string;\n  current?: boolean;\n};\n\ntype BreadcrumbsProps = {\n  pages: BreadcrumbItem[];\n  homeIcon?: React.ReactNode;\n  separator?: React.ReactNode;\n  className?: string;\n  maxItems?: number;\n  showHomeIcon?: boolean;\n};\n\nexport default function Breadcrumbs({\n  pages,\n  homeIcon = <Home className=\"h-5 w-5 flex-shrink-0\" />,\n  separator = (\n    <svg\n      className=\"h-5 w-5 flex-shrink-0 text-gray-300\"\n      fill=\"currentColor\"\n      viewBox=\"0 0 20 20\"\n      aria-hidden=\"true\"\n    >\n      <path d=\"M5.555 17.776l8-16 .894.448-8 16-.894-.448z\" />\n    </svg>\n  ),\n  className = \"\",\n  maxItems = Infinity,\n  showHomeIcon = true,\n}: BreadcrumbsProps) {\n  const visiblePages = pages.slice(-Math.min(maxItems, pages.length));\n  const showEllipsis = pages.length > maxItems;\n\n  return (\n    <nav aria-label=\"Breadcrumb\" className={cn(\"flex\", className)}>\n      <ol role=\"list\" className=\"flex items-center space-x-4\">\n        {showHomeIcon && (\n          <li>\n            <Link href=\"/\" className=\"text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400\">\n              {homeIcon}\n              <span className=\"sr-only\">Home</span>\n            </Link>\n          </li>\n        )}\n        {showEllipsis && (\n          <li className=\"text-sm\">\n            <span className=\"text-gray-500 dark:text-gray-400\">...</span>\n          </li>\n        )}\n        {visiblePages.map((page, index) => (\n          <li key={page.name}>\n            <div className=\"flex items-center\">\n              {(index > 0 || showHomeIcon) && separator}\n              <Link\n                href={page.href ?? \"#\"}\n                aria-current={page.current ? \"page\" : undefined}\n                className={cn(\n                  \"ml-4 text-sm font-medium hover:text-gray-700 dark:hover:text-gray-300\",\n                  page.current ? \"text-gray-900 dark:text-gray-100\" : \"text-gray-500 dark:text-gray-400\"\n                )}\n              >\n                {page.name}\n              </Link>\n            </div>\n          </li>\n        ))}\n      </ol>\n    </nav>\n  );\n}\n",
+      "type": "registry:example",
+      "target": "./components/breadcrumbs.tsx"
+    }
+  ],
+  "tailwind": {},
+  "cssVars": {},
+  "meta": {
+    "description": "A flexible Breadcrumbs component for Next.js applications",
+    "author": "Milind Mishra"
+  }
+}
+
+```
+

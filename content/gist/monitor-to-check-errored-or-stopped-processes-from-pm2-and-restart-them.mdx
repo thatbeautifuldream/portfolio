@@ -1,0 +1,85 @@
+---
+title: "Monitor to check errored or stopped processes from pm2 and restart them"
+description: "Monitor to check errored or stopped processes from pm2 and restart them"
+datePublished: 2024-11-25T14:54:49.000Z
+date: 2024-11-25T14:54:49.000Z
+slug: monitor-to-check-errored-or-stopped-processes-from-pm2-and-restart-them
+tags: javascript, gist
+gistId: 165693313b48bc898803b71230cd6cde
+gistUrl: https://gist.github.com/thatbeautifuldream/165693313b48bc898803b71230cd6cde
+isPublic: true
+---
+
+```javascript title="ecosystem.config.js"
+module.exports = {
+  apps: [
+    {
+      name: "fe-monitor",
+      script: "./monitor.js",
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      max_memory_restart: "200M",
+    },
+  ],
+};
+
+```
+
+```javascript title="monitor.js"
+const { exec } = require("child_process");
+
+// Function to check the status of all apps and reload any down apps
+function checkAndReloadApps() {
+  exec("pm2 jlist", (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing pm2 jlist: ${error.message}`);
+      return;
+    }
+
+    if (stderr) {
+      console.error(`Error: ${stderr}`);
+      return;
+    }
+
+    try {
+      const apps = JSON.parse(stdout);
+      apps.forEach((app) => {
+        const appName = app.name;
+        const appStatus = app.pm2_env.status;
+
+        if (appStatus !== "online") {
+          console.log(
+            `App ${appName} is ${appStatus}. Attempting to reload...`
+          );
+          exec(
+            `pm2 reload ${appName}`,
+            (reloadError, reloadStdout, reloadStderr) => {
+              if (reloadError) {
+                console.error(
+                  `Error reloading app ${appName}: ${reloadError.message}`
+                );
+                return;
+              }
+              if (reloadStderr) {
+                console.error(`Error reloading ${appName}: ${reloadStderr}`);
+                return;
+              }
+              console.log(`App ${appName} reloaded successfully.`);
+            }
+          );
+        }
+      });
+    } catch (parseError) {
+      console.error(`Error parsing pm2 jlist output: ${parseError.message}`);
+    }
+  });
+}
+
+// Schedule the check every 5 seconds using setInterval
+setInterval(checkAndReloadApps, 5000);
+
+console.log("PM2 app monitoring script is running...");
+
+```
+

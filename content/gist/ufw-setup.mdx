@@ -1,0 +1,62 @@
+---
+title: "ufw setup"
+description: "ufw setup"
+datePublished: 2024-10-13T01:33:35.000Z
+date: 2024-10-13T01:33:35.000Z
+slug: ufw-setup
+tags: shell, gist
+gistId: cc87d398b07688fa447b5c54b2c0c2cc
+gistUrl: https://gist.github.com/thatbeautifuldream/cc87d398b07688fa447b5c54b2c0c2cc
+isPublic: true
+---
+
+```shell title="ufw-setup.sh"
+#!/bin/bash
+
+# Script to set up UFW and open necessary ports for SSH and Nginx Proxy Manager
+
+echo "Starting UFW setup..."
+
+# Update package lists
+sudo apt-get update
+
+# Install UFW if it's not already installed
+sudo apt-get install -y ufw
+
+# Allow SSH (port 22)
+sudo ufw allow 22/tcp
+
+# Allow HTTP (port 80)
+sudo ufw allow 80/tcp
+
+# Allow HTTPS (port 443)
+sudo ufw allow 443/tcp
+
+# Allow Nginx Proxy Manager Admin Panel (port 81)
+sudo ufw allow 81/tcp
+
+# Allow custom application ports
+sudo ufw allow 3000/tcp
+sudo ufw allow 3001/tcp
+sudo ufw allow 4000/tcp
+sudo ufw allow 4001/tcp
+sudo ufw allow 5000/tcp
+sudo ufw allow 5001/tcp
+
+# Enable UFW
+sudo ufw --force enable
+
+# Set default policies to deny all incoming connections except allowed ones
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+# Reload UFW to apply all changes
+sudo ufw reload
+
+# Display UFW status to verify the rules
+sudo ufw status verbose
+
+echo "UFW setup complete. All necessary ports are now open."
+
+```
+

@@ -1,0 +1,28 @@
+---
+title: "public github file to jsdelivr "
+description: "public github file to jsdelivr "
+datePublished: 2025-09-27T02:21:17.000Z
+date: 2025-09-27T02:21:17.000Z
+slug: public-github-file-to-jsdelivr-
+tags: javascript, gist
+gistId: fc2009bc61f68fa7dfc96286724379ab
+gistUrl: https://gist.github.com/thatbeautifuldream/fc2009bc61f68fa7dfc96286724379ab
+isPublic: true
+---
+
+```javascript title="github-to-jsdelivr.js"
+function githubToJsDelivr(url) {
+  // Example GitHub URL:
+  // https://github.com/username/repo/blob/branch/path/to/file.js
+
+  const regex =
+    /^https:\/\/github\.com\/([^\/]+)\/([^\/]+)\/blob\/([^\/]+)\/(.+)$/;
+  const match = url.match(regex);
+  if (!match) return null;
+
+  const [, user, repo, branch, path] = match;
+  // Build jsDelivr CDN URL
+  return `https://cdn.jsdelivr.net/gh/${user}/${repo}@${branch}/${path}`;
+}
+```
+

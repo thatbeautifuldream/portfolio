@@ -1,0 +1,37 @@
+---
+title: "Website Masking Worker"
+description: "Website Masking Worker"
+datePublished: 2024-11-26T12:30:53.000Z
+date: 2024-11-26T12:30:53.000Z
+slug: website-masking-worker
+tags: typescript, gist
+gistId: 641a0d39e019febb573fe064f287f311
+gistUrl: https://gist.github.com/thatbeautifuldream/641a0d39e019febb573fe064f287f311
+isPublic: true
+---
+
+```typescript title="index.ts"
+export default {
+	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+		const url = new URL(request.url);
+		const targetURL = `https://milindmishra.com${url.pathname}`;
+
+		// Fetch content from the target URL
+		const response = await fetch(targetURL, {
+			headers: {
+				...Object.fromEntries(request.headers),
+				Host: 'milindmishra.com',
+			},
+		});
+
+		// Return the proxied response
+		return new Response(response.body, {
+			status: response.status,
+			statusText: response.statusText,
+			headers: response.headers,
+		});
+	},
+} satisfies ExportedHandler<Env>;
+
+```
+

@@ -1,0 +1,47 @@
+---
+title: "global git config and ignore files for macos systems"
+description: "global git config and ignore files for macos systems"
+datePublished: 2025-07-24T10:00:13.000Z
+date: 2025-07-24T10:00:13.000Z
+slug: global-git-config-and-ignore-files-for-macos-systems
+tags: git config, gist
+gistId: 0576996ba3910ae327c77ea59b9e51d5
+gistUrl: https://gist.github.com/thatbeautifuldream/0576996ba3910ae327c77ea59b9e51d5
+isPublic: true
+---
+
+```git config title=".gitconfig"
+[core]
+  excludesfile = .gitignore
+```
+
+```ignore list title=".gitignore"
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk 
+```
+

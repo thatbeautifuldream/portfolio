@@ -1,0 +1,23 @@
+---
+title: "Get hostname through headers on the server side in next.js"
+description: "Get hostname through headers on the server side in next.js"
+datePublished: 2025-06-13T08:26:29.000Z
+date: 2025-06-13T08:26:29.000Z
+slug: get-hostname-through-headers-on-the-server-side-in-nextjs
+tags: tsx, gist
+gistId: f35cbded357bd2a3716b7ed6045729ce
+gistUrl: https://gist.github.com/thatbeautifuldream/f35cbded357bd2a3716b7ed6045729ce
+isPublic: true
+---
+
+```tsx title="page.tsx"
+import { headers } from "next/headers";
+
+export function page() {
+  const headersList = headers();
+  const hostname = headersList.get("x-forwarded-host");
+  
+  return <pre>{hostname}</pre>;
+}
+```
+

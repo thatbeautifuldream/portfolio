@@ -1,0 +1,138 @@
+---
+title: "Pipe Next js Logs to Slack Webhook"
+description: "Pipe Next js Logs to Slack Webhook"
+datePublished: 2024-11-22T12:44:39.000Z
+date: 2024-11-22T12:44:39.000Z
+slug: pipe-next-js-logs-to-slack-webhook
+tags: typescript, gist
+gistId: d1e413b4877b2b38693f86da1edbc7f6
+gistUrl: https://gist.github.com/thatbeautifuldream/d1e413b4877b2b38693f86da1edbc7f6
+isPublic: true
+---
+
+```typescript title="logger.ts"
+type LogType = "log" | "warn" | "error";
+
+/**
+ * Send logs to the /api/log endpoint.
+ * @param type - The type of log (log, warn, error)
+ * @param messages - The log messages
+ */
+const sendToApiLog = async (
+  type: LogType,
+  messages: unknown[]
+): Promise<void> => {
+  const formattedMessages = messages.map((msg) =>
+    typeof msg === "object" ? JSON.stringify(msg, null, 2) : String(msg)
+  );
+
+  try {
+    const response = await fetch("/api/log", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type,
+        messages: formattedMessages,
+        source: "Next.js",
+      }),
+    });
+
+    if (!response.ok) {
+      console.error(`Failed to send log to API: ${await response.text()}`);
+    }
+  } catch (err) {
+    console.error("Error sending log to API:", err);
+  }
+};
+
+// Override console methods
+const originalConsoleLog = console.log;
+const originalConsoleWarn = console.warn;
+const originalConsoleError = console.error;
+
+if (process.env.NODE_ENV === "production") {
+  console.log = (...args: unknown[]) => {
+    sendToApiLog("log", args);
+  };
+
+  console.warn = (...args: unknown[]) => {
+    sendToApiLog("warn", args);
+  };
+
+  console.error = (...args: unknown[]) => {
+    sendToApiLog("error", args);
+  };
+} else {
+  // In development, keep the original console methods
+  console.log = (...args: unknown[]) => {
+    originalConsoleLog(...args);
+  };
+
+  console.warn = (...args: unknown[]) => {
+    originalConsoleWarn(...args);
+  };
+
+  console.error = (...args: unknown[]) => {
+    originalConsoleError(...args);
+  };
+}
+
+```
+
+```typescript title="route.ts"
+import { NextResponse } from "next/server";
+import { env } from "~/env";
+
+export async function POST(request: Request) {
+  try {
+    const { messages, source, type } = await request.json();
+
+    const slackLogsWebhookUrl = env.SLACK_LOGS_WEBHOOK_URL;
+    const slackErrorsWebhookUrl = env.SLACK_ERRORS_WEBHOOK_URL;
+
+    if (!slackLogsWebhookUrl || !slackErrorsWebhookUrl) {
+      throw new Error("Slack webhook URLs are not configured.");
+    }
+
+    let webhookUrl: string;
+    let prefix: string;
+    switch (type) {
+      case "error":
+        webhookUrl = slackErrorsWebhookUrl;
+        prefix = "🚨 *ERROR*";
+        break;
+      case "warn":
+        webhookUrl = slackLogsWebhookUrl;
+        prefix = "⚠️ *WARN*";
+        break;
+      default:
+        webhookUrl = slackLogsWebhookUrl;
+        prefix = "📝 *LOG*";
+    }
+
+    const formattedMessage = `${prefix} - *[${source}]*\n${messages.join(
+      "\n"
+    )}`;
+
+    const slackResponse = await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: formattedMessage }),
+    });
+
+    if (!slackResponse.ok) {
+      throw new Error(`Slack webhook failed: ${await slackResponse.text()}`);
+    }
+
+    return NextResponse.json({ success: true }, { status: 200 });
+  } catch (err) {
+    console.error("Error in report-error route:", err);
+    return NextResponse.json(
+      { success: false, error: "Error processing request" },
+      { status: 500 }
+    );
+  }
+}
+
+```
+

@@ -1,0 +1,38 @@
+---
+title: "aliases"
+description: "aliases"
+datePublished: 2025-08-08T20:28:51.000Z
+date: 2025-08-08T20:28:51.000Z
+slug: aliases
+tags: shell, gist
+gistId: d8d442538dc6729acda7692c0da8ad0e
+gistUrl: https://gist.github.com/thatbeautifuldream/d8d442538dc6729acda7692c0da8ad0e
+isPublic: true
+---
+
+```shell title=".aliases.zsh"
+# Package manager aliases
+alias pn=pnpm
+alias px="pnpm dlx"
+alias pnd="pnpm run dev"
+alias pnb="pnpm run build"
+alias pns="pnpm run start"
+
+alias cloc-next="cloc . --exclude-dir=node_modules,.next,public --not-match-f='(next.config.js|package.json|package-lock.json|tsconfig.json|README.md)'"
+
+# ai commit messages
+aicmt() {
+  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "Not in a git repo"; return 1
+  fi
+  local diff
+  diff=$(git diff --cached --no-color)
+  if [ -z "$diff" ]; then
+    echo "No staged changes"; return 1
+  fi
+  command claude -p "Write a Conventional Commit message for the following changes. Only output the commit message. Do not add any extra text, attributions, or notes:
+
+$diff"
+}
+```
+

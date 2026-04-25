@@ -1,0 +1,347 @@
+---
+title: "Gist: searxng-openapi.yaml"
+description: "A GitHub gist"
+datePublished: 2026-03-06T14:21:44.000Z
+date: 2026-03-06T14:21:44.000Z
+slug: gist-searxng-openapiyaml
+tags: oasv3-yaml, gist
+gistId: a66dfa845e68fb58b826a3dd4f8106ed
+gistUrl: https://gist.github.com/thatbeautifuldream/a66dfa845e68fb58b826a3dd4f8106ed
+isPublic: true
+---
+
+```oasv3-yaml title="searxng-openapi.yaml"
+openapi: 3.1.0
+info:
+  title: SearXNG Search API
+  version: 1.0.0
+  description: |
+    HTTP API for querying a SearXNG instance.
+    Supports GET and POST requests on `/` and `/search`.
+
+    GET expects parameters as query parameters.
+    POST expects parameters as form data.
+
+servers:
+  - url: http://localhost:8888
+    description: Example SearXNG instance
+
+paths:
+  /:
+    get:
+      operationId: searchRootGet
+      summary: Search (GET)
+      description: Perform a search query using URL query parameters.
+      parameters:
+        - $ref: '#/components/parameters/q'
+        - $ref: '#/components/parameters/categories'
+        - $ref: '#/components/parameters/engines'
+        - $ref: '#/components/parameters/language'
+        - $ref: '#/components/parameters/pageno'
+        - $ref: '#/components/parameters/time_range'
+        - $ref: '#/components/parameters/format'
+        - $ref: '#/components/parameters/results_on_new_tab'
+        - $ref: '#/components/parameters/image_proxy'
+        - $ref: '#/components/parameters/autocomplete'
+        - $ref: '#/components/parameters/safesearch'
+        - $ref: '#/components/parameters/theme'
+        - $ref: '#/components/parameters/enabled_plugins'
+        - $ref: '#/components/parameters/disabled_plugins'
+        - $ref: '#/components/parameters/enabled_engines'
+        - $ref: '#/components/parameters/disabled_engines'
+      responses:
+        '200':
+          description: Successful search response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+            text/csv:
+              schema:
+                type: string
+            application/rss+xml:
+              schema:
+                type: string
+        '403':
+          description: Requested format not enabled
+
+    post:
+      operationId: searchRootPost
+      summary: Search (POST)
+      description: Perform a search query using form data.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+      responses:
+        '200':
+          description: Successful search response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+            text/csv:
+              schema:
+                type: string
+            application/rss+xml:
+              schema:
+                type: string
+        '403':
+          description: Requested format not enabled
+
+  /search:
+    get:
+      operationId: searchGet
+      summary: Search endpoint
+      parameters:
+        - $ref: '#/components/parameters/q'
+        - $ref: '#/components/parameters/categories'
+        - $ref: '#/components/parameters/engines'
+        - $ref: '#/components/parameters/language'
+        - $ref: '#/components/parameters/pageno'
+        - $ref: '#/components/parameters/time_range'
+        - $ref: '#/components/parameters/format'
+        - $ref: '#/components/parameters/results_on_new_tab'
+        - $ref: '#/components/parameters/image_proxy'
+        - $ref: '#/components/parameters/autocomplete'
+        - $ref: '#/components/parameters/safesearch'
+        - $ref: '#/components/parameters/theme'
+        - $ref: '#/components/parameters/enabled_plugins'
+        - $ref: '#/components/parameters/disabled_plugins'
+        - $ref: '#/components/parameters/enabled_engines'
+        - $ref: '#/components/parameters/disabled_engines'
+      responses:
+        '200':
+          description: Successful search response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+            text/csv:
+              schema:
+                type: string
+            application/rss+xml:
+              schema:
+                type: string
+
+    post:
+      operationId: searchPost
+      summary: Search endpoint (POST)
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+      responses:
+        '200':
+          description: Successful search response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+            text/csv:
+              schema:
+                type: string
+            application/rss+xml:
+              schema:
+                type: string
+
+components:
+  parameters:
+    q:
+      name: q
+      in: query
+      required: true
+      schema:
+        type: string
+      description: Search query string.
+
+    categories:
+      name: categories
+      in: query
+      schema:
+        type: string
+      description: Comma-separated list of search categories.
+
+    engines:
+      name: engines
+      in: query
+      schema:
+        type: string
+      description: Comma-separated list of search engines.
+
+    language:
+      name: language
+      in: query
+      schema:
+        type: string
+      description: Language code.
+
+    pageno:
+      name: pageno
+      in: query
+      schema:
+        type: integer
+        default: 1
+      description: Search page number.
+
+    time_range:
+      name: time_range
+      in: query
+      schema:
+        type: string
+        enum: [day, month, year]
+      description: Time range filter.
+
+    format:
+      name: format
+      in: query
+      schema:
+        type: string
+        enum: [json, csv, rss]
+      description: Output format.
+
+    results_on_new_tab:
+      name: results_on_new_tab
+      in: query
+      schema:
+        type: integer
+        enum: [0, 1]
+        default: 0
+
+    image_proxy:
+      name: image_proxy
+      in: query
+      schema:
+        type: boolean
+
+    autocomplete:
+      name: autocomplete
+      in: query
+      schema:
+        type: string
+        enum:
+          - google
+          - dbpedia
+          - duckduckgo
+          - mwmbl
+          - startpage
+          - wikipedia
+          - swisscows
+          - qwant
+
+    safesearch:
+      name: safesearch
+      in: query
+      schema:
+        type: integer
+        enum: [0, 1, 2]
+
+    theme:
+      name: theme
+      in: query
+      schema:
+        type: string
+        default: simple
+
+    enabled_plugins:
+      name: enabled_plugins
+      in: query
+      schema:
+        type: string
+      description: Comma separated plugin list.
+
+    disabled_plugins:
+      name: disabled_plugins
+      in: query
+      schema:
+        type: string
+
+    enabled_engines:
+      name: enabled_engines
+      in: query
+      schema:
+        type: string
+
+    disabled_engines:
+      name: disabled_engines
+      in: query
+      schema:
+        type: string
+
+  schemas:
+    SearchRequest:
+      type: object
+      required:
+        - q
+      properties:
+        q:
+          type: string
+        categories:
+          type: string
+        engines:
+          type: string
+        language:
+          type: string
+        pageno:
+          type: integer
+          default: 1
+        time_range:
+          type: string
+          enum: [day, month, year]
+        format:
+          type: string
+          enum: [json, csv, rss]
+        results_on_new_tab:
+          type: integer
+          enum: [0, 1]
+        image_proxy:
+          type: boolean
+        autocomplete:
+          type: string
+        safesearch:
+          type: integer
+          enum: [0, 1, 2]
+        theme:
+          type: string
+        enabled_plugins:
+          type: string
+        disabled_plugins:
+          type: string
+        enabled_engines:
+          type: string
+        disabled_engines:
+          type: string
+
+    SearchResponse:
+      type: object
+      description: Simplified JSON search response
+      properties:
+        query:
+          type: string
+        number_of_results:
+          type: integer
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResult'
+
+    SearchResult:
+      type: object
+      properties:
+        title:
+          type: string
+        url:
+          type: string
+        content:
+          type: string
+        engine:
+          type: string
+        score:
+          type: number
+
+```
+

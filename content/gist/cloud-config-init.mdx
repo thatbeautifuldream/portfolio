@@ -1,0 +1,42 @@
+---
+title: "Cloud Config Init"
+description: "Cloud Config Init"
+datePublished: 2024-12-10T13:27:17.000Z
+date: 2024-12-10T13:27:17.000Z
+slug: cloud-config-init
+tags: yaml, gist
+gistId: 3d1148ed9e883268469f213b5f9fd7bc
+gistUrl: https://gist.github.com/thatbeautifuldream/3d1148ed9e883268469f213b5f9fd7bc
+isPublic: true
+---
+
+```yaml title="milind-cloud-init.yml"
+#cloud-config
+users:
+  - name: milind
+    ssh_authorized_keys:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDJuhkazXyOhSx372gj4KgNfoSnz7V0RByCUhgOrsHDK6L/VxoRZOSNmPFtLvxp8jczyzVLBI3TkcFUSWaKR3CvNVWSBI/wFmC1t3ibYaROslNEcUBFC6a5dZmGgbW5Hxsbj+Ry9OrGS3f+ZjD0V01YplkkqbITwSCNinxmmgCOS4ONpGbMSX10eI4HTA3D1hhw5G64b9TjBdEbYIm1P1AvHvA4/AFNkU9J34/CWbhbJXA6zQPkrqonJlRJCIRsufC+1TRLhFqC7NTeAOc3zTOojqDqF3LXqBaH0/ZOdLTVQ3/vArrhSByvAhejBHlSkKASuja6oH9QkUj2zp82OEBIxgSMuXZbKtEp/AeU400dj2TmVZL86XZHs9UVcBt5/AhXNS4ND5O+F1b1EBS2rijpPkKrkjAmT3EIGAbQ6kflJnU2+K1tMHzBOukTIDhhTfGAruAe/MeAjfbhkS1db1sVJpebscLkV/AikfbwFEY0r4L1+hE8Qm7TT4o6f8VBItBQqRkTKBsUnK7VLrSCu1p+xLoSt1g1KKG81Tg+i8Ab1/E6rX3bMcKcWz0geKvK5mpTLFvZSft2JQmE27JbdR184tQzreN9u3MLHhs1SFBaXdw0d63mN9nSWazMOtyrobRQ+kD4m5OlVtVyZe1bKOfcNqna7pGNAXXU34wzZff0ew== milindmishra4@gmail.com"
+    sudo: ALL=(ALL:ALL) ALL
+    groups: sudo
+    shell: /bin/bash
+chpasswd:
+  expire: true
+  users:
+    - name: milind
+      password: changeme
+      type: text
+runcmd:
+  - sed -i '/PermitRootLogin/d' /etc/ssh/sshd_config
+  - echo "PermitRootLogin without-password" >> /etc/ssh/sshd_config
+  - sed -i '/PubkeyAuthentication/d' /etc/ssh/sshd_config
+  - echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config
+  - sed -i '/PasswordAuthentication/d' /etc/ssh/sshd_config
+  - echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+  - echo "\$nrconf{kernelhints} = -1;" > /etc/needrestart/conf.d/99disable-prompt.conf
+  - apt update
+  - apt upgrade -y --allow-downgrades --allow-remove-essential --allow-change-held-packages
+  - reboot
+
+```
+

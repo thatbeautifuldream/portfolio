@@ -1,0 +1,51 @@
+---
+title: "Block explicit content from host"
+description: "Block explicit content from host"
+datePublished: 2025-06-02T23:53:22.000Z
+date: 2025-06-02T23:53:22.000Z
+slug: block-explicit-content-from-host
+tags: shell, gist
+gistId: a36cd44b174a2d6b76a329ae1608ee94
+gistUrl: https://gist.github.com/thatbeautifuldream/a36cd44b174a2d6b76a329ae1608ee94
+isPublic: true
+---
+
+```shell title="block-porn.sh"
+#!/bin/bash
+
+# URL of the porn blocklist (StevenBlack)
+BLOCKLIST_URL="https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/porn-only/hosts"
+
+# Temp file to hold the downloaded blocklist
+TEMP_BLOCKLIST="/tmp/porn-blocklist.hosts"
+
+# Backup current /etc/hosts
+echo "[*] Backing up current /etc/hosts to /etc/hosts.backup"
+sudo cp /etc/hosts /etc/hosts.backup
+
+# Download blocklist
+echo "[*] Downloading porn blocklist..."
+curl -sSL "$BLOCKLIST_URL" -o "$TEMP_BLOCKLIST"
+
+# Extract only the valid blocking lines (ignore comments and blank lines)
+BLOCK_ENTRIES=$(grep -E "^(0.0.0.0|127.0.0.1) " "$TEMP_BLOCKLIST")
+
+# Append to /etc/hosts
+echo "[*] Appending blocklist to /etc/hosts"
+echo -e "\n# BEGIN PORN BLOCKLIST ($(date))" | sudo tee -a /etc/hosts > /dev/null
+echo "$BLOCK_ENTRIES" | sudo tee -a /etc/hosts > /dev/null
+echo "# END PORN BLOCKLIST" | sudo tee -a /etc/hosts > /dev/null
+
+# Flush DNS cache
+echo "[*] Flushing DNS cache..."
+sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
+
+# Make /etc/hosts immutable
+echo "[*] Locking /etc/hosts to prevent edits"
+sudo chflags schg /etc/hosts
+
+echo "[✅] Porn sites blocked and hosts file locked."
+echo "[!] To unlock it in the future, use:"
+echo "    sudo chflags noschg /etc/hosts"
+```
+

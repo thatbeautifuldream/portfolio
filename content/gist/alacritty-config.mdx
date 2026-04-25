@@ -1,0 +1,47 @@
+---
+title: "Alacritty Config"
+description: "Alacritty Config"
+datePublished: 2024-07-18T05:52:01.000Z
+date: 2024-07-18T05:52:01.000Z
+slug: alacritty-config
+tags: toml, gist
+gistId: 6dac388be801dcd08bba64061af988d1
+gistUrl: https://gist.github.com/thatbeautifuldream/6dac388be801dcd08bba64061af988d1
+isPublic: true
+---
+
+```toml title="alacritty.toml"
+import= ["~/.config/alacritty/catppuccin/catppuccin-mocha.toml"]
+
+live_config_reload = true
+
+[window]
+decorations = "buttonless"
+dynamic_padding = false
+opacity = 0.9
+
+[window.padding]
+x = 25
+y = 20
+
+[font]
+size = 20.0
+
+[font.bold]
+family = "Iosevka Nerd Font"
+style = "Semibold"
+
+[font.bold_italic]
+family = "Iosevka Nerd Font"
+style = "Semibold Italic"
+
+[font.italic]
+family = "Iosevka Nerd Font"
+style = "Medium Italic"
+
+[font.normal]
+family = "Iosevka Nerd Font"
+style = "Regular"
+
+```
+

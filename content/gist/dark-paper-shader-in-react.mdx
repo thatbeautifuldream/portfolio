@@ -1,0 +1,45 @@
+---
+title: "dark paper shader in react"
+description: "dark paper shader in react"
+datePublished: 2025-08-19T17:01:43.000Z
+date: 2025-08-19T17:01:43.000Z
+slug: dark-paper-shader-in-react
+tags: tsx, gist
+gistId: c6b25bac98b8cdddfc2b5ad6ee3c277b
+gistUrl: https://gist.github.com/thatbeautifuldream/c6b25bac98b8cdddfc2b5ad6ee3c277b
+isPublic: true
+---
+
+```tsx title="dark-paper-shader-bg.tsx"
+import { MeshGradient } from '@paper-design/shaders-react';
+
+const DARK_GRADIENT_COLORS = ['#000000', '#0d0d0d', '#1a1a1a', '#262626'];
+
+/**
+ * Renders a fixed, full-screen mesh gradient using dark colors only.
+ * 
+ * Example usage (mount this in your root layout):
+ * <DarkPaperShaderBG />
+ */
+export default function DarkPaperShaderBG({ style = {}, ...props }) {
+  return (
+    <MeshGradient
+      colors={DARK_GRADIENT_COLORS}
+      distortion={0.6}
+      speed={0.15}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: -1,
+        ...style,
+      }}
+      swirl={0.6}
+      {...props}
+    />
+  );
+}
+
+```
+

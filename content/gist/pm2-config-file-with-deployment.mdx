@@ -1,0 +1,48 @@
+---
+title: "PM2 Config file with Deployment"
+description: "PM2 Config file with Deployment"
+datePublished: 2024-09-08T04:01:23.000Z
+date: 2024-09-08T04:01:23.000Z
+slug: pm2-config-file-with-deployment
+tags: javascript, gist
+gistId: 008a47b216edd0316cfa6fdd3123a181
+gistUrl: https://gist.github.com/thatbeautifuldream/008a47b216edd0316cfa6fdd3123a181
+isPublic: true
+---
+
+```javascript title="ecosystem.config.js"
+module.exports = {
+  apps: [
+    {
+      name: "my-nextjs-app",  // The name of your app in PM2
+      script: "node_modules/next/dist/bin/next",  // Path to Next.js start script
+      args: "start -p 3000",  // Command arguments (start on port 3000)
+      time: true,  // Add timestamp to logs
+      autorestart: true,  // Restart app if it crashes
+    },
+  ],
+  deploy: {
+    production: {  // Production environment settings
+      user: "ubuntu",  // The username on your server
+      host: "myapp.example.com",  // Your server's domain or IP
+      key: "~/.ssh/myapp_server_key.pem",  // Path to your SSH key
+      ref: "origin/main",  // Git branch to deploy
+      repo: "https://github.com/myusername/my-nextjs-app.git",  // Your GitHub repo URL
+      path: "/home/ubuntu/apps/my-nextjs-app",  // Where to deploy on the server
+      "pre-deploy-local": "echo 'Deploying to production...'",  // Local command before deploy
+      "pre-deploy": "source ~/.bashrc && source ~/.nvm/nvm.sh && nvm use 16",  // Server command before deploy
+      "post-deploy":  // Server commands after code is updated
+        "source ~/.bashrc && " +
+        "source ~/.nvm/nvm.sh && " +
+        "nvm use 16 && " +  // Use Node.js v16
+        "pnpm install && " +  // Install dependencies
+        "pnpm run build && " +  // Build the Next.js app
+        "pm2 startOrRestart ecosystem.config.js --env production",  // Start/restart the app
+    },
+    staging: {  // You can add multiple environments
+      // ... similar structure to production, but for staging
+    },
+  },
+};
+```
+

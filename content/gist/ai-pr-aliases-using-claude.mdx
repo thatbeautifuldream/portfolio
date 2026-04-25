@@ -1,0 +1,83 @@
+---
+title: "ai pr aliases using claude"
+description: "ai pr aliases using claude"
+datePublished: 2025-09-16T10:22:03.000Z
+date: 2025-09-16T10:22:03.000Z
+slug: ai-pr-aliases-using-claude
+tags: shell, gist
+gistId: 01d717137c2a67a0ccfd4076da6f4736
+gistUrl: https://gist.github.com/thatbeautifuldream/01d717137c2a67a0ccfd4076da6f4736
+isPublic: true
+---
+
+```shell title=".ai-aliases.zsh"
+# Spinner helper function for showing progress
+spinner() {
+  local pid=$1
+  local delay=0.1
+  local spinstr='|/-\'
+  while kill -0 $pid 2>/dev/null; do
+    local temp=${spinstr#?}
+    printf " [%c]  " "$spinstr"
+    local spinstr=$temp${spinstr%"$temp"}
+    sleep $delay
+    printf "\b\b\b\b\b\b"
+  done
+  printf "       \b\b\b\b\b\b"
+}
+
+aipr() {
+  local branch=""
+
+  # Parse command line arguments
+  for arg in "$@"; do
+    case $arg in
+      --branch=*)
+        branch="${arg#*=}"
+        shift
+        ;;
+      *)
+        echo "Unknown option: $arg"
+        echo "Usage: aipr --branch=<branch_name>"
+        return 1
+        ;;
+    esac
+  done
+
+  if [ -z "$branch" ]; then
+    echo "Error: --branch flag is required"
+    echo "Usage: aipr --branch=<branch_name>"
+    return 1
+  fi
+
+  if ! git rev-parse --is-inside-work-tree &>/dev/null; then
+    echo "Not inside a Git repository."
+    return 1
+  fi
+
+  ahead_count=$(git rev-list --left-right --count ${branch}...HEAD 2>/dev/null | awk '{print $2}')
+  if [ "$ahead_count" -eq 0 ]; then
+    echo "No commits ahead of the ${branch} branch to create a PR."
+    return 1
+  fi
+
+  system_prompt="system: you are to make a draft pull request against the ${branch} branch. title should use conventional commit style, all smallcase. description should have no attribution. do not assign, label, or mention anyone. always create the pr as draft."
+
+  echo "Generating draft pull request description via AI..."
+  claude --verbose --dangerously-skip-permissions -p "$system_prompt" &
+  spinner $!
+  echo -e "\nDraft PR generation complete."
+
+  exec zsh
+}
+
+aiprdevelop() {
+  aipr --branch=develop
+}
+
+aiprmain() {
+  aipr --branch=main
+}
+
+```
+

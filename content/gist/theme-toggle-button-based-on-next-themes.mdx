@@ -1,0 +1,38 @@
+---
+title: "Theme Toggle Button based on next-themes"
+description: "Theme Toggle Button based on next-themes"
+datePublished: 2025-10-18T17:27:09.000Z
+date: 2025-10-18T17:27:09.000Z
+slug: theme-toggle-button-based-on-next-themes
+tags: tsx, gist
+gistId: 644fc9ff13e1b86135e64b31c954d289
+gistUrl: https://gist.github.com/thatbeautifuldream/644fc9ff13e1b86135e64b31c954d289
+isPublic: true
+---
+
+```tsx title="theme-toggle.tsx"
+"use client";
+
+import * as React from "react";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+
+import { Button } from "@/components/ui/button";
+
+export function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
+  return (
+    <Button variant="ghost" size="icon" onClick={toggleTheme}>
+      <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+      <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+      <span className="sr-only">Toggle theme</span>
+    </Button>
+  );
+}
+```
+

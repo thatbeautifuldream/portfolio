@@ -1,0 +1,175 @@
+---
+title: "Setting Up Multiple Git Accounts on Machine"
+description: "Setting Up Multiple Git Accounts on Machine"
+datePublished: 2025-01-21T19:35:59.000Z
+date: 2025-01-21T19:35:59.000Z
+slug: setting-up-multiple-git-accounts-on-machine
+tags: markdown, gist
+gistId: 318b33f62794fc977803dfb62fcea86a
+gistUrl: https://gist.github.com/thatbeautifuldream/318b33f62794fc977803dfb62fcea86a
+isPublic: true
+---
+
+```markdown title="setup-multiple-git.md"
+# Setting Up Multiple Git Accounts on Mac
+
+Managing multiple Git accounts on the same machine can be simplified with the following steps. This guide ensures you can seamlessly work with personal and work accounts.
+
+---
+
+## 1. Create SSH Keys for Each Account
+
+Generate separate SSH key pairs for each GitHub account:
+
+\`\`\`bash
+cd ~/.ssh
+ssh-keygen -t rsa -C "your_email_for_personal_account@example.com" -f "github-personal"
+ssh-keygen -t rsa -C "your_email_for_work_account@example.com" -f "github-work"
+\`\`\`
+
+- Replace the email addresses with the ones associated with your respective GitHub accounts.
+- The `-f` flag specifies the filenames for the key pairs.
+
+---
+
+## 2. Add SSH Keys to the SSH Agent
+
+Add the generated keys to your SSH agent:
+
+\`\`\`bash
+ssh-add --apple-use-keychain ~/.ssh/github-personal
+ssh-add --apple-use-keychain ~/.ssh/github-work
+\`\`\`
+
+For Linux or non-Mac environments:
+
+\`\`\`bash
+ssh-add ~/.ssh/github-personal
+ssh-add ~/.ssh/github-work
+\`\`\`
+
+---
+
+## 3. Add Public Keys to GitHub
+
+Copy each public key and add them to the corresponding GitHub accounts.
+
+\`\`\`bash
+pbcopy < ~/.ssh/github-personal.pub # Mac
+cat ~/.ssh/github-personal.pub | xclip -selection clipboard # Linux
+\`\`\`
+
+1. Go to [GitHub SSH Settings](https://github.com/settings/keys) for each account.
+2. Click **"New SSH Key"**, paste the public key, and save.
+
+Repeat for the second account:
+
+\`\`\`bash
+pbcopy < ~/.ssh/github-work.pub
+\`\`\`
+
+---
+
+## 4. Configure SSH for Multiple Accounts
+
+Edit the SSH config file to define separate host entries for each account:
+
+\`\`\`bash
+open -e ~/.ssh/config # Mac
+nano ~/.ssh/config    # Linux
+\`\`\`
+
+Add the following configuration:
+
+\`\`\`text
+# Personal account
+Host github-personal
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/github-personal
+
+# Work account
+Host github-work
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/github-work
+\`\`\`
+
+---
+
+## 5. Set Default Git Configurations
+
+Set your global Git username and email for the default (personal) account:
+
+\`\`\`bash
+git config --global user.name "Your Personal Name"
+git config --global user.email "your_email_for_personal_account@example.com"
+\`\`\`
+
+For repositories requiring your work account, override the default configuration:
+
+\`\`\`bash
+cd /path/to/your/repository
+git config user.name "Your Work Name"
+git config user.email "your_email_for_work_account@example.com"
+\`\`\`
+
+---
+
+## 6. Clone Repositories with Correct Accounts
+
+Use the host alias defined in the SSH config:
+
+- For personal account:
+  \`\`\`bash
+  git clone git@github-personal:username/repo.git
+  \`\`\`
+
+- For work account:
+  \`\`\`bash
+  git clone git@github-work:username/repo.git
+  \`\`\`
+
+---
+
+## 7. Update Existing Repository Remotes
+
+To switch the account used by an existing repository:
+
+\`\`\`bash
+git remote set-url origin git@github-work:username/repo.git
+\`\`\`
+
+---
+
+## 8. Test SSH Connection
+
+Verify the SSH setup for each account:
+
+\`\`\`bash
+ssh -T github-personal
+ssh -T github-work
+\`\`\`
+
+You should see a welcome message for each respective GitHub account.
+
+---
+
+## 9. Optional: Switch Accounts Easily
+
+Check which account is in use for a repository:
+
+\`\`\`bash
+git config user.name
+git config user.email
+\`\`\`
+
+Update them as necessary:
+
+\`\`\`bash
+git config user.name "Your Work Name"
+git config user.email "your_email_for_work_account@example.com"
+\`\`\`
+
+```
+

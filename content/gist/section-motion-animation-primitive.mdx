@@ -1,0 +1,374 @@
+---
+title: "Section Motion Animation Primitive"
+description: "Section Motion Animation Primitive"
+datePublished: 2025-09-10T22:03:00.000Z
+date: 2025-09-10T22:03:00.000Z
+slug: section-motion-animation-primitive
+tags: tsx, gist
+gistId: fa3d63995666e7b812ab2390ad21f334
+gistUrl: https://gist.github.com/thatbeautifuldream/fa3d63995666e7b812ab2390ad21f334
+isPublic: true
+---
+
+```tsx title="section.tsx"
+import {
+	motion,
+	type Transition,
+	useReducedMotion,
+	type Variants,
+} from "motion/react";
+import type { ComponentProps, ReactNode } from "react";
+import { cn } from "@/lib/utils";
+
+type TVariant =
+	| "fade"
+	| "none"
+	| "slide-up"
+	| "slide-down"
+	| "slide-left"
+	| "slide-right"
+	| "blur"
+	| "blur-up"
+	| "blur-down"
+	| "blur-left"
+	| "blur-right"
+	| "scale"
+	| "scale-up"
+	| "scale-down"
+	| "zoom-in"
+	| "zoom-out"
+	| "rotate-in"
+	| "rotate-in-left"
+	| "rotate-in-right"
+	| "bounce"
+	| "bounce-up"
+	| "bounce-down"
+	| "bounce-left"
+	| "bounce-right"
+	| "flip-x"
+	| "flip-y"
+	| "roll-left"
+	| "roll-right"
+	| "back-up"
+	| "back-down"
+	| "back-left"
+	| "back-right"
+	| "elastic"
+	| "elastic-up"
+	| "elastic-down";
+
+type TEasing =
+	| "linear"
+	| "ease"
+	| "ease-in"
+	| "ease-out"
+	| "ease-in-out"
+	| "ease-in-sine"
+	| "ease-out-sine"
+	| "ease-in-out-sine"
+	| "ease-in-quad"
+	| "ease-out-quad"
+	| "ease-in-out-quad"
+	| "ease-in-cubic"
+	| "ease-out-cubic"
+	| "ease-in-out-cubic"
+	| "ease-in-quart"
+	| "ease-out-quart"
+	| "ease-in-out-quart"
+	| "ease-in-quint"
+	| "ease-out-quint"
+	| "ease-in-out-quint"
+	| "ease-in-expo"
+	| "ease-out-expo"
+	| "ease-in-out-expo"
+	| "ease-in-circ"
+	| "ease-out-circ"
+	| "ease-in-out-circ"
+	| "ease-in-back"
+	| "ease-out-back"
+	| "ease-in-out-back";
+
+type TSectionProps = {
+	className?: ComponentProps<typeof motion.div>["className"];
+	variant?: TVariant;
+	easing?: TEasing;
+	duration?: Transition["duration"];
+	delay?: Transition["delay"];
+	children: ReactNode;
+};
+
+const variants: Record<TVariant, Variants> = {
+	fade: {
+		hidden: { opacity: 0 },
+		visible: { opacity: 1 },
+	},
+	none: {
+		hidden: {},
+		visible: {},
+	},
+	"slide-up": {
+		hidden: { opacity: 0, y: 20 },
+		visible: { opacity: 1, y: 0 },
+	},
+	"slide-down": {
+		hidden: { opacity: 0, y: -20 },
+		visible: { opacity: 1, y: 0 },
+	},
+	"slide-left": {
+		hidden: { opacity: 0, x: 20 },
+		visible: { opacity: 1, x: 0 },
+	},
+	"slide-right": {
+		hidden: { opacity: 0, x: -20 },
+		visible: { opacity: 1, x: 0 },
+	},
+	blur: {
+		hidden: { opacity: 0, filter: "blur(4px)" },
+		visible: { opacity: 1, filter: "blur(0px)" },
+	},
+	"blur-up": {
+		hidden: { opacity: 0, filter: "blur(4px)", y: 20 },
+		visible: { opacity: 1, filter: "blur(0px)", y: 0 },
+	},
+	"blur-down": {
+		hidden: { opacity: 0, filter: "blur(4px)", y: -20 },
+		visible: { opacity: 1, filter: "blur(0px)", y: 0 },
+	},
+	"blur-left": {
+		hidden: { opacity: 0, filter: "blur(4px)", x: 20 },
+		visible: { opacity: 1, filter: "blur(0px)", x: 0 },
+	},
+	"blur-right": {
+		hidden: { opacity: 0, filter: "blur(4px)", x: -20 },
+		visible: { opacity: 1, filter: "blur(0px)", x: 0 },
+	},
+	scale: {
+		hidden: { opacity: 0, scale: 0.95 },
+		visible: { opacity: 1, scale: 1 },
+	},
+	"scale-up": {
+		hidden: { opacity: 0, scale: 0.95, y: 10 },
+		visible: { opacity: 1, scale: 1, y: 0 },
+	},
+	"scale-down": {
+		hidden: { opacity: 0, scale: 0.95, y: -10 },
+		visible: { opacity: 1, scale: 1, y: 0 },
+	},
+	"zoom-in": {
+		hidden: { opacity: 0, scale: 0.8 },
+		visible: { opacity: 1, scale: 1 },
+	},
+	"zoom-out": {
+		hidden: { opacity: 0, scale: 1.2 },
+		visible: { opacity: 1, scale: 1 },
+	},
+	"rotate-in": {
+		hidden: { opacity: 0, rotate: -10 },
+		visible: { opacity: 1, rotate: 0 },
+	},
+	"rotate-in-left": {
+		hidden: { opacity: 0, rotate: -10, x: -20 },
+		visible: { opacity: 1, rotate: 0, x: 0 },
+	},
+	"rotate-in-right": {
+		hidden: { opacity: 0, rotate: 10, x: 20 },
+		visible: { opacity: 1, rotate: 0, x: 0 },
+	},
+	bounce: {
+		hidden: { opacity: 0, y: -20 },
+		visible: {
+			opacity: 1,
+			y: 0,
+			transition: {
+				type: "spring",
+				stiffness: 400,
+				damping: 10,
+			},
+		},
+	},
+	"bounce-up": {
+		hidden: { opacity: 0, y: 40 },
+		visible: {
+			opacity: 1,
+			y: 0,
+			transition: {
+				type: "spring",
+				stiffness: 400,
+				damping: 10,
+			},
+		},
+	},
+	"bounce-down": {
+		hidden: { opacity: 0, y: -40 },
+		visible: {
+			opacity: 1,
+			y: 0,
+			transition: {
+				type: "spring",
+				stiffness: 400,
+				damping: 10,
+			},
+		},
+	},
+	"bounce-left": {
+		hidden: { opacity: 0, x: 40 },
+		visible: {
+			opacity: 1,
+			x: 0,
+			transition: {
+				type: "spring",
+				stiffness: 400,
+				damping: 10,
+			},
+		},
+	},
+	"bounce-right": {
+		hidden: { opacity: 0, x: -40 },
+		visible: {
+			opacity: 1,
+			x: 0,
+			transition: {
+				type: "spring",
+				stiffness: 400,
+				damping: 10,
+			},
+		},
+	},
+	"flip-x": {
+		hidden: { opacity: 0, rotateX: -90 },
+		visible: { opacity: 1, rotateX: 0 },
+	},
+	"flip-y": {
+		hidden: { opacity: 0, rotateY: -90 },
+		visible: { opacity: 1, rotateY: 0 },
+	},
+	"roll-left": {
+		hidden: { opacity: 0, x: -100, rotate: -180 },
+		visible: { opacity: 1, x: 0, rotate: 0 },
+	},
+	"roll-right": {
+		hidden: { opacity: 0, x: 100, rotate: 180 },
+		visible: { opacity: 1, x: 0, rotate: 0 },
+	},
+	"back-up": {
+		hidden: { opacity: 0, y: 20 },
+		visible: { opacity: 1, y: 0 },
+	},
+	"back-down": {
+		hidden: { opacity: 0, y: -20 },
+		visible: { opacity: 1, y: 0 },
+	},
+	"back-left": {
+		hidden: { opacity: 0, x: 20 },
+		visible: { opacity: 1, x: 0 },
+	},
+	"back-right": {
+		hidden: { opacity: 0, x: -20 },
+		visible: { opacity: 1, x: 0 },
+	},
+	elastic: {
+		hidden: { opacity: 0, scale: 0 },
+		visible: {
+			opacity: 1,
+			scale: 1,
+			transition: {
+				type: "spring",
+				stiffness: 200,
+				damping: 8,
+			},
+		},
+	},
+	"elastic-up": {
+		hidden: { opacity: 0, y: 40, scale: 0.8 },
+		visible: {
+			opacity: 1,
+			y: 0,
+			scale: 1,
+			transition: {
+				type: "spring",
+				stiffness: 200,
+				damping: 8,
+			},
+		},
+	},
+	"elastic-down": {
+		hidden: { opacity: 0, y: -40, scale: 0.8 },
+		visible: {
+			opacity: 1,
+			y: 0,
+			scale: 1,
+			transition: {
+				type: "spring",
+				stiffness: 200,
+				damping: 8,
+			},
+		},
+	},
+};
+
+const easings: Record<TEasing, readonly [number, number, number, number]> = {
+	linear: [0, 0, 1, 1],
+	ease: [0.25, 0.1, 0.25, 1],
+	"ease-in": [0.42, 0, 1, 1],
+	"ease-out": [0, 0, 0.58, 1],
+	"ease-in-out": [0.42, 0, 0.58, 1],
+	"ease-in-sine": [0.12, 0, 0.39, 0],
+	"ease-out-sine": [0.61, 1, 0.88, 1],
+	"ease-in-out-sine": [0.37, 0, 0.63, 1],
+	"ease-in-quad": [0.11, 0, 0.5, 0],
+	"ease-out-quad": [0.5, 1, 0.89, 1],
+	"ease-in-out-quad": [0.45, 0, 0.55, 1],
+	"ease-in-cubic": [0.32, 0, 0.67, 0],
+	"ease-out-cubic": [0.33, 1, 0.68, 1],
+	"ease-in-out-cubic": [0.65, 0, 0.35, 1],
+	"ease-in-quart": [0.5, 0, 0.75, 0],
+	"ease-out-quart": [0.25, 1, 0.5, 1],
+	"ease-in-out-quart": [0.76, 0, 0.24, 1],
+	"ease-in-quint": [0.64, 0, 0.78, 0],
+	"ease-out-quint": [0.22, 1, 0.36, 1],
+	"ease-in-out-quint": [0.83, 0, 0.17, 1],
+	"ease-in-expo": [0.7, 0, 0.84, 0],
+	"ease-out-expo": [0.16, 1, 0.3, 1],
+	"ease-in-out-expo": [0.87, 0, 0.13, 1],
+	"ease-in-circ": [0.55, 0, 1, 0.45],
+	"ease-out-circ": [0, 0.55, 0.45, 1],
+	"ease-in-out-circ": [0.85, 0, 0.15, 1],
+	"ease-in-back": [0.36, 0, 0.66, -0.56],
+	"ease-out-back": [0.34, 1.56, 0.64, 1],
+	"ease-in-out-back": [0.68, -0.6, 0.32, 1.6],
+};
+
+export const Section = ({
+	className,
+	variant = "blur",
+	easing = "ease-out-cubic",
+	duration = 0.3,
+	delay = 0,
+	children,
+}: TSectionProps) => {
+	const shouldReduceMotion = useReducedMotion();
+
+	if (shouldReduceMotion) {
+		return <div className={cn("grid gap-4", className)}>{children}</div>;
+	}
+
+	return (
+		<motion.div
+			className={cn("grid gap-4", className)}
+			initial="hidden"
+			whileInView="visible"
+			viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+			variants={variants[variant]}
+			transition={{
+				duration,
+				delay,
+				ease: easings[easing],
+			}}
+		>
+			{children}
+		</motion.div>
+	);
+};
+
+```
+

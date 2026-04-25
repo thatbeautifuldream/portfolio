@@ -1,0 +1,253 @@
+---
+title: "idb + dexie + zustand state persistance"
+description: "idb + dexie + zustand state persistance"
+datePublished: 2025-08-23T16:34:35.000Z
+date: 2025-08-23T16:34:35.000Z
+slug: idb-dexie-zustand-state-persistance
+tags: typescript, gist
+gistId: 6c92ce6bed97ab96aa6e42e974d99d2b
+gistUrl: https://gist.github.com/thatbeautifuldream/6c92ce6bed97ab96aa6e42e974d99d2b
+isPublic: true
+---
+
+```typescript title="idb-service.ts"
+// lib/idb-service.ts
+import Dexie, { type Table } from "dexie";
+
+/* ---------------------------
+ *  Event Emitter
+ * --------------------------- */
+type TEventCallback = (...args: unknown[]) => void;
+
+class EventEmitter {
+  private events: Record<string, TEventCallback[]> = {};
+
+  on(event: string, callback: TEventCallback) {
+    if (!this.events[event]) this.events[event] = [];
+    this.events[event].push(callback);
+  }
+
+  off(event: string, callback: TEventCallback) {
+    if (!this.events[event]) return;
+    this.events[event] = this.events[event].filter((cb) => cb !== callback);
+  }
+
+  emit(event: string, ...args: unknown[]) {
+    if (!this.events[event]) return;
+    this.events[event].forEach((callback) => callback(...args));
+  }
+}
+
+export const appEventEmitter = new EventEmitter();
+
+/* ---------------------------
+ *  Base Types
+ * --------------------------- */
+export type TBaseRecord = {
+  id: string;
+  name: string;
+  createdAt: number;
+  updatedAt: number;
+  size?: number;
+};
+
+export type TStoredRecord<TContent = unknown> = TBaseRecord & {
+  content: TContent;
+};
+
+export type TRecord<TContent = unknown> = Omit<TStoredRecord<TContent>, "createdAt" | "updatedAt"> & {
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+/* ---------------------------
+ *  Dexie Database Class
+ * --------------------------- */
+export class IdbDatabase<TContent> extends Dexie {
+  records!: Table<TStoredRecord<TContent>>;
+
+  constructor(name: string) {
+    super(name);
+    this.version(1).stores({
+      records: "id, name, createdAt, updatedAt",
+    });
+  }
+}
+
+/* ---------------------------
+ *  IDB Service
+ * --------------------------- */
+export class IdbService<TContent> {
+  private db: IdbDatabase<TContent>;
+
+  constructor(dbName: string) {
+    this.db = new IdbDatabase<TContent>(dbName);
+  }
+
+  private toEntity(stored: TStoredRecord<TContent>): TRecord<TContent> {
+    return {
+      ...stored,
+      createdAt: new Date(stored.createdAt),
+      updatedAt: new Date(stored.updatedAt),
+    };
+  }
+
+  private toStored(entity: TRecord<TContent>): TStoredRecord<TContent> {
+    return {
+      ...entity,
+      createdAt: entity.createdAt.getTime(),
+      updatedAt: entity.updatedAt.getTime(),
+    };
+  }
+
+  async init(): Promise<void> {
+    await this.db.open();
+  }
+
+  async save(entity: TRecord<TContent>): Promise<void> {
+    await this.db.records.put(this.toStored(entity));
+    appEventEmitter.emit("record-saved", entity.id);
+  }
+
+  async get(id: string): Promise<TRecord<TContent> | null> {
+    const stored = await this.db.records.get(id);
+    return stored ? this.toEntity(stored) : null;
+  }
+
+  async getAll(): Promise<TRecord<TContent>[]> {
+    const stored = await this.db.records.orderBy("updatedAt").reverse().toArray();
+    return stored.map((s) => this.toEntity(s));
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.db.records.delete(id);
+    appEventEmitter.emit("record-deleted", id);
+  }
+
+  async update(id: string, update: Partial<TStoredRecord<TContent>>): Promise<void> {
+    const result = await this.db.records.update(id, { ...update, updatedAt: Date.now() });
+    if (result === 0) throw new Error("Record not found");
+    appEventEmitter.emit("record-updated", id);
+  }
+
+  async search(query: string): Promise<TRecord<TContent>[]> {
+    const lower = query.toLowerCase();
+    const stored = await this.db.records
+      .filter((e) => e.name.toLowerCase().includes(lower) || String(e.content).toLowerCase().includes(lower))
+      .sortBy("updatedAt");
+    return stored.reverse().map((s) => this.toEntity(s));
+  }
+}
+
+```
+
+```typescript title="record-store.ts"
+// stores/record-store.ts
+import { create } from "zustand";
+import { IdbService, appEventEmitter, type TRecord } from "@/lib/idb-service";
+
+/* ---------------------------
+ *  Example Record Type
+ * --------------------------- */
+export type TNote = TRecord<string>; // e.g. string-based content
+
+/* ---------------------------
+ *  Store Shape
+ * --------------------------- */
+type TRecordStore<T> = {
+  records: T[];
+  activeId: string | null;
+  isLoading: boolean;
+  error?: string;
+
+  create: (name?: string, content?: T["content"]) => Promise<string>;
+  load: (id: string) => Promise<void>;
+  loadAll: () => Promise<void>;
+  save: (id: string, content: T["content"]) => Promise<void>;
+  remove: (id: string) => Promise<void>;
+  rename: (id: string, newName: string) => Promise<void>;
+
+  getActive: () => T | null;
+  getAll: () => T[];
+};
+
+/* ---------------------------
+ *  Store Factory
+ * --------------------------- */
+export const createRecordStore = <TContent>(dbName: string) => {
+  const db = new IdbService<TContent>(dbName);
+
+  return create<TRecordStore<TRecord<TContent>>>()((set, get) => ({
+    records: [],
+    activeId: null,
+    isLoading: false,
+    error: undefined,
+
+    create: async (name = "Untitled", content?: TContent) => {
+      const now = new Date();
+      const record: TRecord<TContent> = {
+        id: crypto.randomUUID(),
+        name,
+        content: content ?? ("" as TContent),
+        createdAt: now,
+        updatedAt: now,
+        size: content ? new Blob([JSON.stringify(content)]).size : 0,
+      };
+
+      await db.save(record);
+      set((s) => ({ records: [...s.records, record], activeId: record.id }));
+      return record.id;
+    },
+
+    load: async (id) => {
+      const record = await db.get(id);
+      if (!record) throw new Error("Record not found");
+      set((s) => ({
+        records: [...s.records.filter((e) => e.id !== id), record],
+        activeId: id,
+      }));
+    },
+
+    loadAll: async () => {
+      const records = await db.getAll();
+      set({ records });
+    },
+
+    save: async (id, content) => {
+      const now = new Date();
+      set((s) => ({
+        records: s.records.map((r) =>
+          r.id === id ? { ...r, content, updatedAt: now } : r
+        ),
+      }));
+      await db.update(id, { content });
+    },
+
+    remove: async (id) => {
+      await db.delete(id);
+      set((s) => ({
+        records: s.records.filter((r) => r.id !== id),
+        activeId: s.activeId === id ? null : s.activeId,
+      }));
+    },
+
+    rename: async (id, newName) => {
+      await db.update(id, { name: newName });
+      set((s) => ({
+        records: s.records.map((r) =>
+          r.id === id ? { ...r, name: newName } : r
+        ),
+      }));
+    },
+
+    getActive: () => {
+      const activeId = get().activeId;
+      return activeId ? get().records.find((r) => r.id === activeId) ?? null : null;
+    },
+
+    getAll: () => get().records,
+  }));
+};
+
+```
+

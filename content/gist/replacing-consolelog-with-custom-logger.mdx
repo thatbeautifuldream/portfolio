@@ -1,0 +1,118 @@
+---
+title: "Replacing `console.log` with custom `logger`"
+description: "Replacing `console.log` with custom `logger`"
+datePublished: 2024-12-03T12:05:15.000Z
+date: 2024-12-03T12:05:15.000Z
+slug: replacing-consolelog-with-custom-logger
+tags: markdown, gist
+gistId: 76690b125ff76222c9fc8e2e16e73338
+gistUrl: https://gist.github.com/thatbeautifuldream/76690b125ff76222c9fc8e2e16e73338
+isPublic: true
+---
+
+```markdown title="readme.md"
+### **Setup Instructions**
+
+#### **1. Install Dependencies**
+Install `jscodeshift` globally if not already installed:
+\`\`\`bash
+npm install -g jscodeshift
+\`\`\`
+
+Install dev dependencies
+\`\`\`bash
+npm i -D @babel/parser @babel/traverse @babel/types @babel/generator
+\`\`\`
+
+
+#### **2. Run the Codemod**
+Run the codemod across your project with the following command:
+\`\`\`bash
+jscodeshift -t replace-console-with-logger.js --parser=babel --extensions=ts,tsx,js,jsx src/
+\`\`\`
+
+#### **Explanation of Options**:
+- `-t replace-console-with-logger.js`: Specifies the codemod script.
+- `--extensions=ts,tsx,js,jsx`: Tells `jscodeshift` to process files with these extensions.
+- `--parser=babel-ts`: Uses Babel to parse TypeScript and JavaScript.
+- `src/`: The root directory of your source files.
+
+---
+
+### **Testing the Codemod**
+1. Choose a small subset of your files and run the codemod on them:
+   \`\`\`bash
+   jscodeshift -t replace-console-with-logger.js --extensions=ts,tsx,js,jsx --parser=babel-ts src/some/subdirectory
+   \`\`\`
+2. Verify that:
+   - All `console.log`, `console.warn`, and `console.error` are replaced with `logger.log`, `logger.warn`, and `logger.error`.
+   - `import { logger } from "~/logger";` is correctly added at the top of the file (if not already present).
+
+---
+
+### **Handling Edge Cases**
+If you encounter any parsing issues, ensure that:
+1. The project uses valid TypeScript/JavaScript syntax.
+2. JSX components are properly structured.
+
+```
+
+```javascript title="replace-console-with-logger.js"
+const { parse } = require("@babel/parser");
+const traverse = require("@babel/traverse").default;
+const t = require("@babel/types");
+const generate = require("@babel/generator").default;
+
+module.exports = function transformer(fileInfo, api) {
+  const j = api.jscodeshift;
+  const source = fileInfo.source;
+
+  const ast = parse(source, {
+    sourceType: "module",
+    plugins: ["typescript", "jsx"], // Support TS, TSX, JS, and JSX syntax
+  });
+
+  let loggerImported = false;
+
+  // Check if `logger` is already imported
+  traverse(ast, {
+    ImportDeclaration(path) {
+      if (path.node.source.value === "~/logger") {
+        loggerImported = true;
+      }
+    },
+  });
+
+  if (!loggerImported) {
+    // Add `import { logger } from "~/logger";` at the top
+    const importDeclaration = t.importDeclaration(
+      [t.importSpecifier(t.identifier("logger"), t.identifier("logger"))],
+      t.stringLiteral("~/logger")
+    );
+    ast.program.body.unshift(importDeclaration);
+  }
+
+  // Replace console.* calls with logger.*
+  traverse(ast, {
+    CallExpression(path) {
+      const callee = path.node.callee;
+
+      if (
+        t.isMemberExpression(callee) &&
+        t.isIdentifier(callee.object, { name: "console" }) &&
+        ["log", "warn", "error"].includes(callee.property.name)
+      ) {
+        const loggerMethod = t.memberExpression(
+          t.identifier("logger"),
+          t.identifier(callee.property.name)
+        );
+        path.node.callee = loggerMethod;
+      }
+    },
+  });
+
+  return generate(ast).code;
+};
+
+```
+

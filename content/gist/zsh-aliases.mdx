@@ -1,0 +1,29 @@
+---
+title: "zsh aliases"
+description: "zsh aliases"
+datePublished: 2025-11-18T03:41:00.000Z
+date: 2025-11-18T03:41:00.000Z
+slug: zsh-aliases
+tags: shell, gist
+gistId: 827aa2ff317ebc3abe9c256706a793c3
+gistUrl: https://gist.github.com/thatbeautifuldream/827aa2ff317ebc3abe9c256706a793c3
+isPublic: true
+---
+
+```shell title=".aliases.zsh"
+alias cd=z
+
+alias claude="$HOME/.local/bin/claude"
+alias clauded="claude --dangerously-skip-permissions"
+alias claudedr="claude --dangerously-skip-permissions -r"
+alias claudedc="claude --dangerously-skip-permissions --continue"
+
+alias pn=pnpm
+alias px="pnpm dlx"
+alias pnd="pnpm run dev"
+alias pnb="pnpm run build"
+alias pns="pnpm run start"
+
+alias cloc-next="cloc . --exclude-dir=node_modules,.next,public --not-match-f='(next.config.js|package.json|package-lock.json|tsconfig.json|README.md)'"
+```
+

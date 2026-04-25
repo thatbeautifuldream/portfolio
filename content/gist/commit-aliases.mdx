@@ -1,0 +1,55 @@
+---
+title: "commit aliases"
+description: "commit aliases"
+datePublished: 2024-11-04T06:25:43.000Z
+date: 2024-11-04T06:25:43.000Z
+slug: commit-aliases
+tags: shell, gist
+gistId: f629f8d98785f289cdb1ca319e89fc14
+gistUrl: https://gist.github.com/thatbeautifuldream/f629f8d98785f289cdb1ca319e89fc14
+isPublic: true
+---
+
+```shell title="conventional_commit_aliases.sh"
+gcap() {
+    git add . && git commit -m "$*" && git push
+}
+gnew() {
+    gcap "feat: $@"
+}
+gimp() {
+    gcap "improve: $@"
+}
+gfix() {
+    gcap "fix: $@"
+}
+grlz() {
+    gcap "release: $@"
+}
+gdoc() {
+    gcap "docs: $@"
+}
+gtst() {
+    gcap "test: $@"
+}
+gbrk() {
+    gcap "BREAKING CHANGE: $@"
+}
+gchr() {
+    gcap "chore: $@"
+}
+gtype() {
+    NORMAL='\033[0;39m'
+    GREEN='\033[0;32m'
+    echo "$GREEN gnew$NORMAL — feat
+    $GREEN gimp$NORMAL — improve
+    $GREEN gfix$NORMAL — fix
+    $GREEN grlz$NORMAL — release
+    $GREEN gdoc$NORMAL — docs
+    $GREEN gtst$NORMAL — test
+    $GREEN gbrk$NORMAL — BREAKING CHANGE
+    $GREEN gchr$NORMAL — chore"
+}
+
+```
+

@@ -1,0 +1,76 @@
+---
+title: "Add Caddy Config Workflow"
+description: "Add Caddy Config Workflow"
+datePublished: 2024-12-25T15:37:56.000Z
+date: 2024-12-25T15:37:56.000Z
+slug: add-caddy-config-workflow
+tags: yaml, gist
+gistId: 1e7d8f3f0b34fcec1653534615957082
+gistUrl: https://gist.github.com/thatbeautifuldream/1e7d8f3f0b34fcec1653534615957082
+isPublic: true
+---
+
+```yaml title="setup.yml"
+name: Update Caddy Configuration
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "development/caddyfile.txt"
+      - "production/caddyfile.txt"
+
+jobs:
+  deploy-development:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH for Development
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.DEV_SSH_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Upload and reload Caddy configuration (Development)
+        env:
+          SSH_HOST: ${{ secrets.DEV_SSH_HOST }}
+        run: |
+          scp -i ~/.ssh/id_rsa development/caddyfile.txt ubuntu@$SSH_HOST:~/caddyfile_temp
+          ssh -i ~/.ssh/id_rsa ubuntu@$SSH_HOST 'sudo mv ~/caddyfile_temp /etc/caddy/Caddyfile && sudo systemctl reload caddy || { echo "Caddy reload failed"; exit 1; }'
+
+  deploy-production:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH for Production
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.PROD_SSH_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Upload and reload Caddy configuration (Production)
+        env:
+          SSH_HOST: ${{ secrets.PROD_SSH_HOST }}
+        run: |
+          scp -i ~/.ssh/id_rsa production/caddyfile.txt ubuntu@$SSH_HOST:~/caddyfile_temp
+          ssh -i ~/.ssh/id_rsa ubuntu@$SSH_HOST 'sudo mv ~/caddyfile_temp /etc/caddy/Caddyfile && sudo systemctl reload caddy || { echo "Caddy reload failed"; exit 1; }'
+
+```
+

@@ -1,0 +1,66 @@
+---
+title: "AI Contacts Parser"
+description: "AI Contacts Parser"
+datePublished: 2024-12-06T09:53:51.000Z
+date: 2024-12-06T09:53:51.000Z
+slug: ai-contacts-parser
+tags: typescript, gist
+gistId: e4e7f39f086156f4519afd6655b912fe
+gistUrl: https://gist.github.com/thatbeautifuldream/e4e7f39f086156f4519afd6655b912fe
+isPublic: true
+---
+
+```typescript title="route.ts"
+import { NextRequest, NextResponse } from "next/server";
+import { generateObject } from "ai";
+import { openai } from "@ai-sdk/openai";
+import { z } from "zod";
+
+const personSchema = z.object({
+  name: z.string().describe("Full name of the person"),
+  email: z.string().email().describe("Email address of the person"),
+  number: z.string().describe("Phone number of the person"),
+});
+
+// Wrap the array in an object
+const extractSchema = z.object({
+  people: z.array(personSchema),
+});
+
+export async function POST(req: NextRequest) {
+  const { input } = await req.json();
+
+  if (!process.env.OPENAI_API_KEY) {
+    return NextResponse.json(
+      { type: "failure", error: "OpenAI API key not configured" },
+      { status: 500 }
+    );
+  }
+
+  try {
+    const result = await generateObject({
+      model: openai("gpt-4"),
+      schema: extractSchema,
+      prompt: `Extract name, email, and number information from the following input. Validate and format the phone numbers to international format without spaces or special characters. If it's a CSV, parse it accordingly. If it's unstructured text, do your best to extract the information:
+
+${input}
+
+Return the information as an array of objects under the 'people' key, each containing name, email, and number.`,
+    });
+
+    return NextResponse.json({ type: "success", data: result.object });
+  } catch (error) {
+    console.error("Error:", error);
+    return NextResponse.json(
+      {
+        type: "failure",
+        error:
+          error instanceof Error ? error.message : "Failed to process input",
+      },
+      { status: 500 }
+    );
+  }
+}
+
+```
+

@@ -1,0 +1,138 @@
+---
+title: "AI for React Developers"
+description: "AI for React Developers"
+datePublished: 2025-03-29T02:00:54.000Z
+date: 2025-03-29T02:00:54.000Z
+slug: ai-for-react-developers
+tags: typescript, gist
+gistId: 81b5d579e38fb79432ac2f5d525d80ba
+gistUrl: https://gist.github.com/thatbeautifuldream/81b5d579e38fb79432ac2f5d525d80ba
+isPublic: true
+---
+
+```typescript title="generate-text.ts"
+// /app/api/generate-text/route.ts
+
+import { openai } from "@ai-sdk/openai";
+import { generateText } from "ai";
+
+export const maxDuration = 30;
+
+export async function POST(req: Request, res: Response) {
+  const { messages } = await req.json();
+
+  const response = await generateText({
+    model: openai("gpt-4o-mini"),
+    system:
+      "You are a helpful assistant that provides information about my best projects and experiences.",
+    messages,
+  });
+
+  return Response.json(response);
+}
+
+```
+
+```typescript title="stream-object.ts"
+// /app/api/stream-object/route.ts
+
+import { openai } from "@ai-sdk/openai";
+import { streamObject } from "ai";
+import { z } from "zod";
+
+export const projectSchema = z.object({
+  projects: z.array(
+    z.object({
+      name: z.string().describe("Name of a side project idea."),
+      description: z
+        .string()
+        .describe(
+          "Description of the project. It should be a short description of the project."
+        ),
+      technologies: z
+        .array(z.string())
+        .describe("Technologies used in the project."),
+    })
+  ),
+});
+
+export const maxDuration = 30;
+
+export async function POST(req: Request) {
+  const context = await req.json();
+
+  const result = streamObject({
+    model: openai("gpt-4o-mini"),
+    schema: projectSchema,
+    system: `
+    You are a helpful assistant that generates side projects.
+    Focus on bringing value and learning for the developer.
+    By default you should be able to generate 5 projects, unless the user specifies otherwise.
+    `,
+    prompt: `Generate projects in this context:` + context,
+  });
+
+  return result.toTextStreamResponse();
+}
+
+```
+
+```typescript title="stream-text.ts"
+// /app/api/stream-text/route.ts
+
+import { openai } from "@ai-sdk/openai";
+import { generateText, streamText } from "ai";
+
+export const maxDuration = 30;
+
+export async function POST(req: Request, res: Response) {
+  const { messages } = await req.json();
+
+  const response = await streamText({
+    model: openai("gpt-4o-mini"),
+    system:
+      "You are a helpful assistant that provides information about my best projects and experiences.",
+    messages,
+  });
+
+  return response.toDataStreamResponse();
+}
+
+```
+
+```typescript title="tool-calling.ts"
+// /app/api/tool-calling/route.ts
+
+import { openai } from "@ai-sdk/openai";
+import { streamText } from "ai";
+
+export const maxDuration = 30;
+
+export async function POST(req: Request, res: Response) {
+  const { messages } = await req.json();
+
+  const response = await streamText({
+    model: openai.responses("gpt-4o-mini"),
+    system: `You are a helpful AI assistant that can search the web for real-time information.
+When asked questions, use the web_search_preview tool to find relevant and up-to-date information.
+Always cite your sources when providing information from web searches.
+Keep your responses concise and focused on the user's query.`,
+    tools: {
+      web_search_preview: openai.tools.webSearchPreview({
+        searchContextSize: "medium",
+        userLocation: {
+          type: "approximate",
+          country: "IN",
+          region: "Karnataka",
+          city: "Bangalore",
+        },
+      }),
+    },
+    messages,
+  });
+
+  return response.toDataStreamResponse();
+}
+
+```
+

@@ -1,0 +1,31 @@
+---
+title: "useDebounce Hook"
+description: "useDebounce Hook"
+datePublished: 2024-09-13T11:53:13.000Z
+date: 2024-09-13T11:53:13.000Z
+slug: usedebounce-hook
+tags: typescript, gist
+gistId: a9577c7c9958ca908cdbd036f9d58f5f
+gistUrl: https://gist.github.com/thatbeautifuldream/a9577c7c9958ca908cdbd036f9d58f5f
+isPublic: true
+---
+
+```typescript title="use-debounce.ts"
+import { useEffect, useState } from "react";
+
+export function useDebounce<T>(value: T, delay?: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedValue(value), delay || 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+```
+

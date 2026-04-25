@@ -1,0 +1,18 @@
+---
+title: "Portfolio path revalidation script"
+description: "Portfolio path revalidation script"
+datePublished: 2025-06-22T17:25:40.000Z
+date: 2025-06-22T17:25:40.000Z
+slug: portfolio-path-revalidation-script
+tags: shell, gist, script
+gistId: 532a0267104aa6da9d2942dd6fd7602c
+gistUrl: https://gist.github.com/thatbeautifuldream/532a0267104aa6da9d2942dd6fd7602c
+isPublic: true
+---
+
+```shell title="revalidate.sh"
+curl -X POST https://milindmishra.com/api/revalidate \
+  -H "Content-Type: application/json" \
+  -d '{"path": "/blog", "secret": "lol"}'
+```
+

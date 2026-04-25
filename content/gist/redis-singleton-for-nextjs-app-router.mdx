@@ -1,0 +1,61 @@
+---
+title: "Redis Singleton for Next.js App router"
+description: "Redis Singleton for Next.js App router"
+datePublished: 2024-09-05T16:56:16.000Z
+date: 2024-09-05T16:56:16.000Z
+slug: redis-singleton-for-nextjs-app-router
+tags: typescript, gist
+gistId: 0163c57b2a08896e2de8c9f21eada746
+gistUrl: https://gist.github.com/thatbeautifuldream/0163c57b2a08896e2de8c9f21eada746
+isPublic: true
+---
+
+```typescript title="redis.ts"
+import { createClient } from "redis";
+import { env } from "~/env";
+
+class RedisClient {
+  private static instance: ReturnType<typeof createClient> | null = null;
+  private static connectionCount: number = 0;
+
+  private constructor() {}
+
+  public static async getInstance(): Promise<ReturnType<typeof createClient>> {
+    if (!RedisClient.instance) {
+      console.log("Creating new Redis connection...");
+      RedisClient.instance = createClient({
+        url: `redis://${env.REDIS_HOST}:${env.REDIS_PORT}`,
+      });
+
+      await RedisClient.instance.connect();
+      RedisClient.connectionCount++;
+      console.log(
+        `Redis connection established. Connection count: ${RedisClient.connectionCount}`
+      );
+    } else {
+      console.log(
+        `Reusing existing Redis connection. Connection count: ${RedisClient.connectionCount}`
+      );
+    }
+
+    return RedisClient.instance;
+  }
+
+  public static getConnectionCount(): number {
+    return RedisClient.connectionCount;
+  }
+
+  public static async closeConnection(): Promise<void> {
+    if (RedisClient.instance) {
+      await RedisClient.instance.quit();
+      RedisClient.instance = null;
+      RedisClient.connectionCount = 0;
+      console.log("Redis connection closed.");
+    }
+  }
+}
+
+export default RedisClient;
+
+```
+
