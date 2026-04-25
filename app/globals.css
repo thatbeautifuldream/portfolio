@@ -366,15 +366,26 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    scrollbar-width: thin;
+    scrollbar-color: gray transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 3px;
   }
 
   html {
     @apply bg-background font-sans;
-    scrollbar-width: none;
-  }
-
-  html::-webkit-scrollbar {
-    display: none;
   }
 
   body {
