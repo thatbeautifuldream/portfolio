@@ -2,7 +2,9 @@
 
 > **Self-Improving Directive**: This file is the single source of truth for all project conventions, architecture, and patterns. Whenever a new pattern, approach, convention, feature, or dependency is established during a session, update this file immediately to reflect that change. If existing conventions are corrected or replaced, update the relevant section here. This file should self-improve after every session where new knowledge is gained.
 >
-> **Agent Rule**: At the end of every task or feature implementation, review this file and append or update sections to capture what was learned. Pay special attention to new dependencies, changed file structures, new animation patterns, new API routes, or modified data flows.
+> **Companion Document**: For all visual design decisions, tokens, component styling, animation treatments, layout compositions, and surface patterns, refer to and update **`DESIGN.md`** (the self-improving design system). Keep `AGENTS.md` focused on architecture, code conventions, and feature mechanics; keep `DESIGN.md` focused on visual language and interaction design.
+>
+> **Agent Rule**: At the end of every task or feature implementation, review this file and append or update sections to capture what was learned. Pay special attention to new dependencies, changed file structures, new animation patterns, new API routes, or modified data flows. If the work involves any visual or design changes, also review and update `DESIGN.md`.
 
 ---
 
@@ -456,6 +458,8 @@ After completing any task that introduces or modifies:
 7. **New components**: Add to Section 8.
 8. **New env vars**: Add to Section 10.
 9. **New writing rules**: Add to Section 11.
+
+**Design-related changes** (color tokens, typography scales, spacing rhythms, surface treatments, component variants, layout compositions, or OG templates) should be recorded in **`DESIGN.md`** instead of, or in addition to, this file. Cross-reference between the two documents when a change spans both architecture and visual design.
 
 If a convention is **replaced**, mark the old one as deprecated with a strikethrough and add the new one immediately below it. Do not delete old conventions without explicit user confirmation, as they may apply to legacy code.
 
