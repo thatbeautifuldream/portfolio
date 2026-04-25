@@ -13,6 +13,7 @@ type MetadataOptions = {
     | "work"
     | "talks"
     | "contact"
+    | "tweets"
   slug?: string
 }
 

@@ -7,6 +7,7 @@ import { AnalyticsProvider } from "@/components/providers/analytics-provider"
 import localFont from "next/font/local"
 import type { Metadata, Viewport } from "next"
 import "./globals.css"
+import "react-tweet/theme.css"
 
 const openRunde = localFont({
   src: [

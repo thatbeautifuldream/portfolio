@@ -385,3 +385,22 @@
     @apply text-foreground underline decoration-1 underline-offset-4 hover:text-muted-foreground;
   }
 }
+
+/* react-tweet theme overrides */
+.react-tweet-theme {
+  --tweet-bg-color: #ffffff;
+  --tweet-bg-color-hover: #f5f5f5;
+  --tweet-font-color: #171717;
+  --tweet-font-color-secondary: #737373;
+  --tweet-border: 1px solid #e5e5e5;
+  --tweet-skeleton-gradient: linear-gradient(270deg, #ffffff, #f5f5f5, #f5f5f5, #ffffff);
+}
+
+.dark .react-tweet-theme {
+  --tweet-bg-color: #0a0a0a;
+  --tweet-bg-color-hover: #171717;
+  --tweet-font-color: #fafafa;
+  --tweet-font-color-secondary: #a3a3a3;
+  --tweet-border: 1px solid #262626;
+  --tweet-skeleton-gradient: linear-gradient(270deg, #0a0a0a, #171717, #171717, #0a0a0a);
+}

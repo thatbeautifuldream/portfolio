@@ -17,6 +17,7 @@ export const navItems = [
   { href: "/wakatime", label: "Wakatime" },
   { href: "/blog", label: "Blog" },
   { href: "/gist", label: "Gist" },
+  { href: "/tweets", label: "Tweets" },
   { href: "/contact", label: "Contact" },
 ]
 
