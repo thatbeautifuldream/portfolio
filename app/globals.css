@@ -388,6 +388,7 @@
 
 /* react-tweet theme overrides */
 .react-tweet-theme {
+  --tweet-container-margin: 0;
   --tweet-bg-color: #ffffff;
   --tweet-bg-color-hover: #f5f5f5;
   --tweet-font-color: #171717;

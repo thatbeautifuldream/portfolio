@@ -42,7 +42,7 @@ export default async function TweetsPage() {
 
       <main className="isolate">
         <section className="section-shell">
-          <div className="section-inner grid gap-12">
+          <div className="section-inner">
             <div
               className="animate-fade-up grid gap-4"
               style={{ animationDelay: "100ms" }}
@@ -52,21 +52,19 @@ export default async function TweetsPage() {
                 Thoughts and observations.
               </h1>
             </div>
+          </div>
+        </section>
 
-            <div
-              className="animate-fade-up grid gap-8"
-              style={{ animationDelay: "150ms" }}
-            >
-              {tweets.map((tweet, index) => (
-                <div key={tweetIds[index]} className="max-w-[550px]">
-                  {tweet ? (
-                    <EmbeddedTweet tweet={tweet} />
-                  ) : (
-                    <TweetNotFound />
-                  )}
-                </div>
-              ))}
-            </div>
+        <section className="pb-6 md:pb-8">
+          <div
+            className="animate-fade-up mx-auto max-w-7xl columns-1 px-4 sm:columns-2 sm:px-6 lg:columns-3 lg:px-8"
+            style={{ animationDelay: "150ms" }}
+          >
+            {tweets.map((tweet, index) => (
+              <div key={tweetIds[index]} className="mb-3 break-inside-avoid">
+                {tweet ? <EmbeddedTweet tweet={tweet} /> : <TweetNotFound />}
+              </div>
+            ))}
           </div>
         </section>
       </main>
