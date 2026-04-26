@@ -108,7 +108,11 @@ Colors are defined as CSS custom properties in `app/globals.css` and consumed vi
 - Cards / images / code blocks: `rounded-lg` (`var(--radius-lg)`)
 - Badges: `rounded-lg`
 - Navigation (scrolled): `rounded-2xl`
+- Command palette dialog: `rounded-3xl`
+- Command palette search input: `rounded-xl` (nested radius: outer radius minus padding)
 - Small inline elements (code): `rounded-sm`
+
+**Nested Radius Formula**: When a rounded element sits inside a padded rounded container, inner radius = outer radius − padding. E.g., `3xl` (1.5rem) container with `p-1` (0.25rem) padding → inner element should use `xl` (0.75rem).
 
 ### 2.5 Shadows & Elevation
 
@@ -200,6 +204,14 @@ Cards are intentionally minimal:
 - Use `bg-muted` for recessed secondary content.
 - Code blocks: `bg-muted` inline, `pre` blocks use theme-specific backgrounds from `rehypeCode`.
 
+### 4.5 Gradient Fades
+
+- Scroll-aware gradient overlays use `from-popover to-transparent` for theme consistency (adapts to light/dark automatically).
+- Top fade: `bg-linear-to-b from-popover to-transparent`. Bottom fade: `bg-linear-to-t from-popover to-transparent`.
+- Always `pointer-events-none` with `z-10` to sit above content but not block interaction.
+- Use `transition-opacity` for smooth appearance/disappearance based on scroll position.
+- Hairline gradient dividers use `bg-linear-to-r from-transparent via-foreground/20 to-transparent` at `h-px`.
+
 ---
 
 ## 5. Components & Primitives
@@ -248,6 +260,17 @@ File: `components/ui/theme-toggle.tsx`
 
 - `"icon"` variant: Custom SVG sun/moon with motion path animations.
 - `"text"` variant: Shows "Light" / "Dark" label.
+
+### 5.5 Command Palette
+
+File: `components/ui/command.tsx` + `components/command-palette.tsx`
+
+- **Dialog**: `rounded-3xl`, no shadow/border inside (`border-0 shadow-none ring-0`).
+- **Search input**: `InputGroup` with `rounded-xl`, `bg-input/50`. Contains `RiSearchLine` icon addon.
+- **Gradient hairline**: `h-px` divider below input with `bg-linear-to-r from-transparent via-foreground/20 to-transparent`, `pointer-events-none`.
+- **List scroll fades**: Top gradient (`bg-linear-to-b from-popover to-transparent`) and bottom gradient (`bg-linear-to-t from-popover to-transparent`), each `h-6`. Track scroll state to show/hide with `opacity-0`/`opacity-100` + `transition-opacity`.
+- **Items**: `rounded-xl`, `data-selected:bg-muted`. Check icon (`RiCheckLine`) at `absolute right-3`, only visible on `group-data-[checked=true]`.
+- **External link arrows**: `RiArrowRightUpLine` at `ml-auto` to right-align.
 
 ---
 
@@ -374,7 +397,27 @@ File: `components/section.tsx`
 - Items: `break-inside-avoid mb-3`.
 - No `gap` on the columns container; use `mb-3` on items for vertical rhythm.
 
-### 9.6 Blog / Gist Reading Experience
+### 9.6 Guestbook
+
+- **No cards**: Entries use pure whitespace and dividers instead of card containers.
+- **Typography hierarchy**: Entry name in `text-base font-medium text-foreground`, date in `text-sm tabular-nums text-muted-foreground/60`, message in `text-base text-pretty leading-relaxed text-muted-foreground`.
+- **Divider pattern**: `divide-y divide-border/40` between entries, with `py-5 first:pt-0 last:pb-0` for organic spacing.
+- **Delete button**: Hidden by default (`opacity-0`), appears on `group-hover:opacity-100` and `focus-visible:opacity-100`. Uses `ml-auto` to push to the end of the baseline row.
+- **Form**: Borderless inputs with bottom border only (`border-b border-border/60`), focus state activates `focus:border-foreground`. No rounded containers, no background fill. Container uses `flex flex-col gap-6` so submit button doesn't stretch full width.
+- **Submit button**: Pill shape (`rounded-4xl`) with `RiArrowRightUpLine` icon, `self-start` alignment.
+- **Character counter**: `text-sm tabular-nums text-muted-foreground/60` (subtler than labels).
+- **Skeleton loading**: Simplified to 3 minimal bars matching entry hierarchy (name, date, message).
+- **Page layout**: Eyebrow (`text-sm text-muted-foreground`), H1 with `max-w-[28ch]`, description with `max-w-[56ch]`. Section gap of `gap-16`.
+
+### 9.7 Command Palette
+
+- **Dialog surface**: `rounded-3xl` (no shadow override, border-0).
+- **Search input**: `InputGroup` with `rounded-xl` (nested radius: outer `3xl` minus `p-1` padding = `xl`). Gradient hairline divider below input: `bg-linear-to-r from-transparent via-foreground/20 to-transparent`, `h-px`, `pointer-events-none`.
+- **List gradient fades**: Top and bottom gradient overlays on the scrollable list. Use `bg-linear-to-b from-popover to-transparent` (top) and `bg-linear-to-t from-popover to-transparent` (bottom). Both fade in/out via `transition-opacity` based on `canScrollUp`/`canScrollDown` state tracked via `onScroll`. Height `h-6`, `pointer-events-none`, `z-10`.
+- **Check icon**: Positioned `absolute right-3` on `CommandItem` to avoid competing with external link arrows (`RiArrowRightUpLine` uses `ml-auto`).
+- **External link arrows**: Right-aligned with `ml-auto` on the icon element.
+
+### 9.7 Blog / Gist Reading Experience
 
 - Rendered via `StreamdownWrapper`.
 - Floating TOC: `BlogIndex` component as a floating pill with SVG progress ring.

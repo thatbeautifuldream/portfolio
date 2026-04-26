@@ -41,3 +41,6 @@ next-env.d.ts
 .worktrees
 .worktrees/*
 .vercel
+
+.env
+.env.local

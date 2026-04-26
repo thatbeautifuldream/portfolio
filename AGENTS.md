@@ -10,7 +10,7 @@
 
 ## 1. Project Overview
 
-This is the personal portfolio website of Milind Kumar Mishra. It is a statically generated Next.js application featuring a home page, work experience, projects, talks, blog, gists, tweets, contact, and a WakaTime coding activity dashboard. The site emphasizes motion design, interaction quality, and editorial typography.
+This is the personal portfolio website of Milind Kumar Mishra. It is a full-stack Next.js application featuring a home page, work experience, projects, talks, blog, gists, tweets, contact, a WakaTime coding activity dashboard, a guestbook, Spotify integration, Discord presence, YouTube page, portfolio stats, and a command palette. The site emphasizes motion design, interaction quality, and editorial typography, with an ORPC-powered backend for type-safe API calls and Drizzle ORM for database persistence.
 
 **Production URL**: `https://milindmishra.com`
 
@@ -28,6 +28,14 @@ This is the personal portfolio website of Milind Kumar Mishra. It is a staticall
 | Animation | motion | Framer Motion v12, imported as `motion/react` |
 | Theme | next-themes | `attribute="class"`, default dark, no transition on change |
 | Data Fetching | @tanstack/react-query | Server prefetch + client hydration pattern |
+| Backend API | ORPC | Type-safe RPC with OpenAPI docs, Zod validation |
+| Database | Neon Postgres + Drizzle ORM | Serverless Postgres with Drizzle ORM for persistence |
+| State Management | Zustand | Client-side state (command palette, layout debug) |
+| Command Palette | cmdk + Fuse.js | CMD+K with fuzzy search, navigation, theme control |
+| Discord Presence | use-lanyard | Real-time Discord status via WebSocket |
+| Spotify | ORPC procedures | Now playing + top tracks via Spotify Web API |
+| GitHub Calendar | react-github-calendar | Contribution graph on homepage |
+| Image Zoom | react-medium-image-zoom | Zoom wrapper for images |
 | Blog Content | @content-collections/core | Markdown (`.md`) and MDX (`.mdx`) with Zod validation |
 | Charts | recharts | Used with shadcn `chart.tsx` wrapper |
 | OG Images | satori + next/og | Edge runtime, dynamic OG image generation |
@@ -44,7 +52,17 @@ This is the personal portfolio website of Milind Kumar Mishra. It is a staticall
 - `reading-time`: Reading time estimation for gists
 - `fumadocs-core`: MDX plugins (`rehypeCode`, `remarkGfm`, `remarkHeading`)
 - `sharp`: Image optimization
-- `zod`: Schema validation (content collections, env vars)
+- `zod`: Schema validation (content collections, env vars, ORPC)
+- `@orpc/server` + `@orpc/client` + `@orpc/tanstack-query`: Type-safe API layer
+- `@orpc/openapi` + `@orpc/zod`: OpenAPI docs and Zod-to-JSON schema conversion
+- `drizzle-orm` + `drizzle-zod`: ORM and Zod schema generation for Postgres
+- `@neondatabase/serverless`: Neon serverless Postgres driver
+- `cmdk` + `fuse.js`: Command palette with fuzzy search
+- `use-lanyard`: Discord presence via WebSocket
+- `react-github-calendar`: GitHub contribution graph
+- `react-medium-image-zoom`: Image zoom wrapper
+- `http-status-codes`: HTTP status code constants
+- `date-fns`: Date formatting utilities
 
 ---
 
@@ -52,12 +70,12 @@ This is the personal portfolio website of Milind Kumar Mishra. It is a staticall
 
 ```
 app/                          → Next.js App Router pages and layouts
-  layout.tsx                  → Root layout with ThemeProvider, QueryProvider, Navigation, Footer
+  layout.tsx                  → Root layout with ThemeProvider, QueryProvider, Navigation, Footer, CommandPalette
   globals.css                 → Tailwind v4 config, CSS variables, keyframes, @utility classes, base styles
   page.tsx                    → Home page (hero badges, stats, quick nav)
   work/page.tsx               → Work experience page
   projects/page.tsx           → Projects page
-  talks/page.tsx              → Talks and open source contributions
+  talks/page.tsx               → Talks and open source contributions
   blog/page.tsx               → Blog index
   blog/[slug]/page.tsx        → Individual blog post (renders Markdown)
   blog/[slug]/not-found.tsx   → 404 for missing posts
@@ -66,9 +84,34 @@ app/                          → Next.js App Router pages and layouts
   tweets/page.tsx             → Embedded tweets gallery (masonry columns)
   contact/page.tsx            → Contact page
   wakatime/page.tsx           → WakaTime dashboard
+  guestbook/page.tsx          → Guestbook page (eyebrow, heading, editorial layout with gap-16 rhythm)
+  spotify/page.tsx            → Spotify now playing + top tracks
+  presence/page.tsx           → Discord live presence
+  youtube/page.tsx            → YouTube channel embed
+  portfolio-stats-2025/page.tsx → Year in review stats page
+  (orpc)/orpc/[[...rest]]/route.ts → ORPC OpenAPI docs endpoint
+  (orpc)/rpc/[[...rest]]/route.ts   → ORPC RPC endpoint
   api/og/route.tsx            → Dynamic OG image API (edge runtime)
   api/wakatime/[endpoint]/route.ts  → WakaTime data proxy API
   manifest.ts                 → PWA manifest
+
+backend/                      → ORPC backend procedures
+  orpc.ts                     → Authed middleware
+  routing.ts                  → Root router (health, clarity, github, wakatime, guestbook, spotify)
+  health/                     → Health check procedures
+  clarity/                    → Microsoft Clarity API caching
+  github/                     → GitHub contributions API
+  guestbook/                  → Guestbook CRUD procedures
+  spotify/                    → Spotify now-playing + top-tracks + auth
+  wakatime/                   → WakaTime data proxies
+
+db/                           → Drizzle ORM
+  schema.ts                   → Database schema (guestbook, clarity_requests)
+  drizzle.ts                  → Drizzle client initialization
+  migrations/                 → Generated migrations
+
+middlewares/                  → Next.js middleware
+  auth.ts                     → ORPC auth middleware (Bearer token)
 
 components/
   portfolio/                  → App-specific components
@@ -78,8 +121,13 @@ components/
     sign.tsx                  → SVG signature logo
     hero-badge.tsx            → Interactive badge with particle burst effect
     blog-index.tsx            → Floating table of contents with progress ring
+  command-palette.tsx         → Global CMD+K with Fuse.js search
+  guestbook.tsx               → Guestbook form and entries list (client)
+  spotify-now-playing.tsx     → Spotify currently playing card (client)
+  spotify-top-tracks.tsx      → Spotify top tracks list (client)
+  discord-presence.tsx        → Discord presence via Lanyard (client)
   ui/                         → shadcn/ui primitives
-    button.tsx, card.tsx, badge.tsx, separator.tsx, scroll-area.tsx, tabs.tsx, chart.tsx, theme-toggle.tsx
+    button.tsx, card.tsx, badge.tsx, separator.tsx, scroll-area.tsx, tabs.tsx, chart.tsx, theme-toggle.tsx, command.tsx, dialog.tsx, input.tsx, textarea.tsx, input-group.tsx
   section.tsx                 → Motion-based scroll animation wrapper
   streamdown-wrapper.tsx      → Client wrapper for streamdown markdown renderer
   theme-provider.tsx          → next-themes wrapper ("use client")
@@ -93,7 +141,8 @@ lib/
   portfolio-data.ts           → Site content: roles, projects, talks, contributions, links, stats
   metadata.ts                 → createMetadata() helper for OG/SEO
   motion-tokens.ts            → Shared motion values: easings, durations, staggers
-  env.ts                      → T3 env validation (CLARITY_ID, GA_ID)
+  env.ts                      → T3 env validation (DATABASE_URL, SPOTIFY_*, SERVER_URL, API_AUTH_TOKEN, CLARITY_*, GA, COMMIT_SHA)
+  orpc.ts                     → ORPC client + TanStack Query utils
   date-formatters.ts          → Intl.DateTimeFormat instances
   extract-headings.ts         → Markdown heading extraction for TOC
   tweets-data.ts              → Tweet URL/ID definitions
@@ -102,6 +151,8 @@ lib/
     fetch.ts                  → Generic fetch helper
     api.ts                    → Client-side fetch functions
     constants.ts              → Public WakaTime share URLs
+  constants/
+    url-constants.ts           → APP_URL and RPC_URL constants
   og/                         → OG image generation system
     config.ts                 → OG dimensions and colors
     font.ts                   → Font loading utility (Familjen Grotesk)
@@ -134,6 +185,10 @@ pnpm format                   # Prettier with tailwindcss plugin
 pnpm content:build            # Build content collections
 pnpm content:watch            # Watch content collections
 pnpm gists:fetch              # Sync GitHub gists to content/gist/
+pnpm db:generate              # Generate Drizzle migrations
+pnpm db:migrate               # Run Drizzle migrations
+pnpm db:studio                # Open Drizzle Studio
+pnpm db:push                  # Push schema to database
 ```
 
 ---
@@ -281,6 +336,13 @@ Shared values in `lib/motion-tokens.ts`:
 | `/tweets` | Page | Masonry grid of embedded tweets |
 | `/contact` | Page | Contact links and email |
 | `/wakatime` | Page | Coding activity dashboard with tabs and charts |
+| `/guestbook` | Page | Guestbook with create mutation, entries list |
+| `/spotify` | Page | Spotify now playing + top tracks via ORPC |
+| `/presence` | Page | Discord live presence via Lanyard WebSocket |
+| `/youtube` | Page | YouTube channel embed |
+| `/portfolio-stats-2025` | Page | Year in review stats page |
+| `/orpc/[[...rest]]` | API Route | ORPC OpenAPI docs |
+| `/rpc/[[...rest]]` | API Route | ORPC RPC handler |
 | `/api/og` | API Route | Dynamic OG image generation (edge runtime) |
 | `/api/wakatime/*` | API Route | Proxied WakaTime data endpoints |
 
@@ -373,7 +435,53 @@ Shared values in `lib/motion-tokens.ts`:
 - Body scroll is locked when menu is open
 - **Hidden on internal blog pages** (`isInternalBlogPage` check)
 
-### 8.3 Theme Toggle
+### 8.3 Command Palette
+
+- `components/command-palette.tsx` (app-level) + `components/ui/command.tsx` (primitives)
+- Global CMD+K triggered with `Cmd+K` / `Ctrl+K`
+- Uses `cmdk` for the dialog and `fuse.js` for fuzzy search
+- Categories: Navigation, Analytics & Stats, Social Media, Contact
+- Handles both internal navigation (Next.js router) and external links (`window.open`)
+- **CommandDialog**: `rounded-3xl` dialog surface
+- **CommandInput**: `rounded-xl` InputGroup (nested radius formula: outer radius minus padding), gradient hairline divider below (`bg-linear-to-r from-transparent via-foreground/20 to-transparent`)
+- **CommandList**: Scroll-aware gradient fades at top/bottom edges. Uses `onScroll` to track `canScrollUp`/`canScrollDown` state, fading overlays in/out with `transition-opacity`. Gradients use `from-popover to-transparent` for theme consistency.
+- **CommandItem**: Check icon positioned `absolute right-3` to avoid competing with external link arrows (`RiArrowRightUpLine`). External icons use `ml-auto` to right-align.
+
+### 8.4 Guestbook
+
+- `components/guestbook.tsx`
+- Client component using ORPC for type-safe API calls
+- Uses `useMutation` for create/delete with optimistic invalidation
+- **Typography-first, no cards**: Entries separated by `divide-y divide-border/40` instead of bordered card containers
+- **Form**: Borderless inputs with bottom border only (`border-b border-border/60`), `bg-transparent`, focus state `focus:border-foreground`. Container uses `flex flex-col gap-6` (not grid) so buttons don't stretch full width.
+- **Entries**: Each entry is a `motion.article` with `py-5 first:pt-0 last:pb-0`. Name in `text-base font-medium`, date in `text-sm tabular-nums text-muted-foreground/60`, message in `text-base text-pretty leading-relaxed text-muted-foreground`.
+- **Delete button**: Hidden by default (`opacity-0`), appears on `group-hover:opacity-100` and `focus-visible:opacity-100`. Uses `ml-auto` to right-align.
+- **Character counter**: `text-sm tabular-nums text-muted-foreground/60` (subtler than labels).
+- **Skeleton loading**: 3 minimal bar groups matching entry hierarchy (name, date, message).
+- **Submit button**: Pill shape (`rounded-4xl`) with `RiArrowRightUpLine` icon, `self-start` alignment.
+- **Date formatting**: Local `formatDate` helper using `toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })`.
+
+### 8.5 Spotify Now Playing
+
+- `components/spotify-now-playing.tsx`
+- Uses `orpc.spotify['currently-playing'].queryOptions()` with 30s refetch
+- Shows album art, track name, artists, and external link
+- Handles track, episode, and not-playing states
+
+### 8.6 Spotify Top Tracks
+
+- `components/spotify-top-tracks.tsx`
+- Uses `orpc.spotify['top-tracks'].queryOptions()`
+- Renders ranked track list with album art
+
+### 8.7 Discord Presence
+
+- `components/discord-presence.tsx`
+- Uses `useLanyardWS` for real-time Discord presence via WebSocket
+- Shows Spotify activity (with progress bar) and other activities
+- Displays Discord status indicator (online/idle/dnd/offline)
+
+### 8.8 Theme Toggle
 
 - `components/ui/theme-toggle.tsx`
 - `"icon"` variant: Custom SVG sun/moon with motion path animations (used in navbar)
@@ -418,9 +526,16 @@ Validated via `@t3-oss/env-nextjs` in `lib/env.ts`:
 
 | Variable | Type | Purpose |
 |----------|------|---------|
+| `DATABASE_URL` | server | Neon Postgres connection string |
+| `SPOTIFY_CLIENT_ID` | server | Spotify API client ID |
+| `SPOTIFY_CLIENT_SECRET` | server | Spotify API client secret |
+| `SPOTIFY_REFRESH_TOKEN` | server | Spotify API refresh token |
+| `SERVER_URL` | server | Domain only (no protocol) for Spotify callback |
+| `API_AUTH_TOKEN` | server | Bearer token for protected ORPC endpoints |
+| `IP_SALT` | server | Optional salt for IP hashing |
+| `CLARITY_API_TOKEN` | server | Optional Clarity API token |
 | `NEXT_PUBLIC_CLARITY_ID` | client | Microsoft Clarity project ID |
 | `NEXT_PUBLIC_GA_ID` | client | Google Analytics measurement ID |
-| `CLARITY_API_TOKEN` | server | Optional Clarity API token |
 | `NEXT_PUBLIC_COMMIT_SHA` | client | Git commit SHA for footer link |
 
 Load `.env.local` for the gist script (`lib/scripts/gists.ts` reads it manually since it runs outside Next.js).
