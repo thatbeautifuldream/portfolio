@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 import { useEffect, useRef, useSyncExternalStore } from "react"
 import { createPortal } from "react-dom"
 
-import { Sign } from "@/components/portfolio/sign"
+import { FullSign } from "@/components/portfolio/full-sign"
 import { cn } from "@/lib/utils"
 
 export const navItems = [
@@ -197,7 +197,7 @@ export function NavMenuPanel({
                     aria-label={logoLabel}
                     onClick={onClose}
                   >
-                    <Sign className="h-5 w-auto" />
+                    <FullSign className="h-6 w-auto" />
                   </Link>
                   <button
                     type="button"

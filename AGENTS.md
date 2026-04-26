@@ -108,7 +108,8 @@ components/
     navigation.tsx            → Fixed navbar with scroll-aware styling
     nav-menu-panel.tsx        → Mobile/desktop menu panel (createPortal)
     footer.tsx                → Footer with social links and commit SHA
-    sign.tsx                  → SVG signature logo
+    sign.tsx                  → SVG signature logo (short)
+    full-sign.tsx             → SVG full signature logo (wide, used in navbar and menu)
     hero-badge.tsx            → Interactive badge with particle burst effect
     blog-index.tsx            → Floating table of contents with progress ring
   command-palette.tsx         → Global CMD+K with Fuse.js search
