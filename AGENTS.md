@@ -10,7 +10,7 @@
 
 ## 1. Project Overview
 
-This is the personal portfolio website of Milind Kumar Mishra. It is a full-stack Next.js application featuring a home page, work experience, projects, talks, blog, gists, tweets, contact, a WakaTime coding activity dashboard, a guestbook, Spotify integration, Discord presence, YouTube page, portfolio stats, and a command palette. The site emphasizes motion design, interaction quality, and editorial typography, with an ORPC-powered backend for type-safe API calls and Drizzle ORM for database persistence.
+This is the personal portfolio website of Milind Kumar Mishra. It is a full-stack Next.js application featuring a home page, work experience, projects, talks, blog, gists, tweets, contact, a WakaTime coding activity dashboard, a guestbook, Spotify integration, and a command palette. The site emphasizes motion design, interaction quality, and editorial typography, with an ORPC-powered backend for type-safe API calls and Drizzle ORM for database persistence.
 
 **Production URL**: `https://milindmishra.com`
 
@@ -30,12 +30,8 @@ This is the personal portfolio website of Milind Kumar Mishra. It is a full-stac
 | Data Fetching | @tanstack/react-query | Server prefetch + client hydration pattern |
 | Backend API | ORPC | Type-safe RPC with OpenAPI docs, Zod validation |
 | Database | Neon Postgres + Drizzle ORM | Serverless Postgres with Drizzle ORM for persistence |
-| State Management | Zustand | Client-side state (command palette, layout debug) |
 | Command Palette | cmdk + Fuse.js | CMD+K with fuzzy search, navigation, theme control |
-| Discord Presence | use-lanyard | Real-time Discord status via WebSocket |
 | Spotify | ORPC procedures | Now playing + top tracks via Spotify Web API |
-| GitHub Calendar | react-github-calendar | Contribution graph on homepage |
-| Image Zoom | react-medium-image-zoom | Zoom wrapper for images |
 | Blog Content | @content-collections/core | Markdown (`.md`) and MDX (`.mdx`) with Zod validation |
 | Charts | recharts | Used with shadcn `chart.tsx` wrapper |
 | OG Images | satori + next/og | Edge runtime, dynamic OG image generation |
@@ -58,9 +54,6 @@ This is the personal portfolio website of Milind Kumar Mishra. It is a full-stac
 - `drizzle-orm` + `drizzle-zod`: ORM and Zod schema generation for Postgres
 - `@neondatabase/serverless`: Neon serverless Postgres driver
 - `cmdk` + `fuse.js`: Command palette with fuzzy search
-- `use-lanyard`: Discord presence via WebSocket
-- `react-github-calendar`: GitHub contribution graph
-- `react-medium-image-zoom`: Image zoom wrapper
 - `http-status-codes`: HTTP status code constants
 - `date-fns`: Date formatting utilities
 
@@ -86,9 +79,6 @@ app/                          → Next.js App Router pages and layouts
   wakatime/page.tsx           → WakaTime dashboard
   guestbook/page.tsx          → Guestbook page (eyebrow, heading, editorial layout with gap-16 rhythm)
   spotify/page.tsx            → Spotify now playing + top tracks
-  presence/page.tsx           → Discord live presence
-  youtube/page.tsx            → YouTube channel embed
-  portfolio-stats-2025/page.tsx → Year in review stats page
   (orpc)/orpc/[[...rest]]/route.ts → ORPC OpenAPI docs endpoint
   (orpc)/rpc/[[...rest]]/route.ts   → ORPC RPC endpoint
   api/og/route.tsx            → Dynamic OG image API (edge runtime)
@@ -125,7 +115,6 @@ components/
   guestbook.tsx               → Guestbook form and entries list (client)
   spotify-now-playing.tsx     → Spotify currently playing card (client)
   spotify-top-tracks.tsx      → Spotify top tracks list (client)
-  discord-presence.tsx        → Discord presence via Lanyard (client)
   ui/                         → shadcn/ui primitives
     button.tsx, card.tsx, badge.tsx, separator.tsx, scroll-area.tsx, tabs.tsx, chart.tsx, theme-toggle.tsx, command.tsx, dialog.tsx, input.tsx, textarea.tsx, input-group.tsx
   section.tsx                 → Motion-based scroll animation wrapper
@@ -338,9 +327,6 @@ Shared values in `lib/motion-tokens.ts`:
 | `/wakatime` | Page | Coding activity dashboard with tabs and charts |
 | `/guestbook` | Page | Guestbook with create mutation, entries list |
 | `/spotify` | Page | Spotify now playing + top tracks via ORPC |
-| `/presence` | Page | Discord live presence via Lanyard WebSocket |
-| `/youtube` | Page | YouTube channel embed |
-| `/portfolio-stats-2025` | Page | Year in review stats page |
 | `/orpc/[[...rest]]` | API Route | ORPC OpenAPI docs |
 | `/rpc/[[...rest]]` | API Route | ORPC RPC handler |
 | `/api/og` | API Route | Dynamic OG image generation (edge runtime) |
@@ -474,14 +460,7 @@ Shared values in `lib/motion-tokens.ts`:
 - Uses `orpc.spotify['top-tracks'].queryOptions()`
 - Renders ranked track list with album art
 
-### 8.7 Discord Presence
-
-- `components/discord-presence.tsx`
-- Uses `useLanyardWS` for real-time Discord presence via WebSocket
-- Shows Spotify activity (with progress bar) and other activities
-- Displays Discord status indicator (online/idle/dnd/offline)
-
-### 8.8 Theme Toggle
+### 8.7 Theme Toggle
 
 - `components/ui/theme-toggle.tsx`
 - `"icon"` variant: Custom SVG sun/moon with motion path animations (used in navbar)
