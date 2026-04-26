@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { RiHeartFill, RiMagicFill, RiSparklingFill } from "@remixicon/react"
 
+import { FullSign } from "@/components/portfolio/full-sign"
 import { HeroBadge } from "@/components/portfolio/hero-badge"
 import { heroStats, siteLinks } from "@/lib/portfolio-data"
 import { createMetadata } from "@/lib/metadata"
@@ -127,6 +128,7 @@ export default function Page() {
                   intuition through close study of the people and work I admire,
                   with AI accelerating how fast I can ship polished work.
                 </p>
+                <FullSign className="h-12 w-auto sm:h-14" />
               </div>
 
               <div className="grid gap-4 text-sm">

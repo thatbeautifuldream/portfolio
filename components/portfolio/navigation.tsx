@@ -8,7 +8,7 @@ import {
   HamburgerIcon,
   NavMenuPanel,
 } from "@/components/portfolio/nav-menu-panel"
-import { FullSign } from "@/components/portfolio/full-sign"
+import { Sign } from "@/components/portfolio/sign"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
@@ -54,7 +54,7 @@ export function Navigation() {
             href="/"
             aria-label="Homepage"
           >
-            <FullSign className="h-6 w-auto" />
+            <Sign className="h-5 w-auto" />
           </Link>
         </div>
 

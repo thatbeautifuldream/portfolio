@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 import { useEffect, useRef, useSyncExternalStore } from "react"
 import { createPortal } from "react-dom"
 
-import { FullSign } from "@/components/portfolio/full-sign"
+import { Sign } from "@/components/portfolio/sign"
 import { cn } from "@/lib/utils"
 
 export const navItems = [
@@ -197,7 +197,7 @@ export function NavMenuPanel({
                     aria-label={logoLabel}
                     onClick={onClose}
                   >
-                    <FullSign className="h-6 w-auto" />
+                    <Sign className="h-5 w-auto" />
                   </Link>
                   <button
                     type="button"
@@ -225,7 +225,11 @@ export function NavMenuPanel({
                     <NavItem
                       href={href}
                       label={label}
-                      isActive={href === "/" ? pathname === "/" : pathname.startsWith(href)}
+                      isActive={
+                        href === "/"
+                          ? pathname === "/"
+                          : pathname.startsWith(href)
+                      }
                       onClick={onClose}
                     />
                   </motion.div>

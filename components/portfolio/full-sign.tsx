@@ -1,5 +1,3 @@
-import { cn } from "@/lib/utils"
-
 interface FullSignProps {
   className?: string
 }
@@ -8,10 +6,7 @@ export function FullSign({ className }: FullSignProps) {
   return (
     <svg
       aria-hidden="true"
-      className={cn(
-        "transition-all duration-300 hover:scale-105 active:scale-95",
-        className,
-      )}
+      className={className}
       fill="currentColor"
       focusable="false"
       viewBox="0 0 1448 419"
