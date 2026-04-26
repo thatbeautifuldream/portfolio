@@ -1,5 +1,6 @@
 import { Footer } from "@/components/portfolio/footer"
 import { Navigation } from "@/components/portfolio/navigation"
+import { CommandPalette } from "@/components/command-palette"
 import { QueryProvider } from "@/components/query-provider"
 import { ServiceWorkerProvider } from "@/components/service-worker-provider"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -76,6 +77,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AnalyticsProvider />
+          <CommandPalette />
           <QueryProvider>
             <ServiceWorkerProvider />
             <Navigation />
