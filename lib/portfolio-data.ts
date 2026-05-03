@@ -59,6 +59,36 @@ export const roles = [
 
 export const projects = [
   {
+    name: "Expense Agent",
+    status: "Active",
+    href: "https://expense.milind.fyi",
+    github: "https://api.expense.milind.fyi/docs",
+    description:
+      "Full-stack AI bookkeeping agent that tracks expenses, income, and savings through natural conversation across a Next.js 16 PWA, a Telegram bot, and an MCP server, all backed by a single Express API and unified PostgreSQL ledger.",
+    metrics: [
+      { label: "Transports", value: "REST · BOT · MCP" },
+      { label: "Stack", value: "Next.js 16 · Express · Postgres" },
+    ],
+    highlights: [
+      "Architected and shipped the entire stack solo as a Bun and Turbo monorepo, with the Postgres schema, Express API, Next.js PWA frontend, Telegram bot, and MCP server all sharing one domain layer.",
+      "Designed a unified transactions ledger in PostgreSQL with Drizzle ORM that powers expenses, income, and savings together, with multi-currency FX conversion resolved at query time.",
+      "Built conversational ingestion on AI SDK 6 with receipt vision, voice memo transcription via Whisper, and Composio-backed Gmail extraction so the agent can read inbox receipts on demand.",
+      "Wired OpenTelemetry plus Langfuse across every transport, and auto-generated OpenAPI types from express-zod-api endpoints to keep the frontend perfectly in sync with the API.",
+    ],
+    tags: [
+      "TypeScript",
+      "Next.js",
+      "Express",
+      "PostgreSQL",
+      "Drizzle",
+      "AI SDK",
+      "Telegram Bot",
+      "MCP",
+      "Better Auth",
+      "PWA",
+    ],
+  },
+  {
     name: "JSON Visualiser",
     status: "Live",
     href: "https://jsonvisualiser.com",
