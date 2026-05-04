@@ -58,7 +58,7 @@ function NavItem({
       href={href}
       onClick={onClick}
       className={cn(
-        "text-2xl font-medium no-underline",
+        "block text-2xl font-medium no-underline transition-transform duration-200 ease-out hover:translate-x-1.5",
         isActive
           ? "text-muted-foreground"
           : "text-foreground hover:text-muted-foreground"
@@ -236,7 +236,7 @@ export function NavMenuPanel({
                 ))}
                 <motion.div {...getLinkMotion(navItems.length)}>
                   <Link
-                    className="text-2xl font-medium text-foreground no-underline hover:text-muted-foreground"
+                    className="block text-2xl font-medium text-foreground no-underline transition-transform duration-200 ease-out hover:translate-x-1.5 hover:text-muted-foreground"
                     href="https://cal.com/milind"
                     onClick={onClose}
                   >
