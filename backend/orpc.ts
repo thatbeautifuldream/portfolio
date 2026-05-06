@@ -1,4 +1,4 @@
 import { os } from "@orpc/server";
-import { requiredAuthMiddleware } from "@/middlewares/auth";
+import { requiredAuthMiddleware } from "@/backend/middleware/auth";
 
 export const authed = os.use(requiredAuthMiddleware);
