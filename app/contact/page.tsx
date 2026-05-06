@@ -2,6 +2,7 @@ import Link from "next/link"
 
 import { contactLinks, siteLinks } from "@/lib/portfolio-data"
 import { createMetadata } from "@/lib/metadata"
+import { JsonLd } from "@/components/json-ld"
 
 export const metadata = createMetadata({
   title: "Contact",
@@ -10,9 +11,30 @@ export const metadata = createMetadata({
   ogType: "contact",
 })
 
+const contactSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: "Contact — Milind Kumar Mishra",
+  description: "Get in touch: email, GitHub, LinkedIn, or book a time.",
+  url: "https://milindmishra.com/contact",
+  mainEntity: {
+    "@type": "Person",
+    name: "Milind Kumar Mishra",
+    email: "milindmishra.work@gmail.com",
+    url: "https://milindmishra.com",
+    sameAs: [
+      "https://github.com/thatbeautifuldream",
+      "https://www.linkedin.com/in/mishramilind/",
+      "https://x.com/milindmishra_",
+    ],
+  },
+}
+
 export default function contactPage() {
   return (
-    <main className="isolate">
+    <>
+      <JsonLd data={contactSchema} />
+      <main className="isolate">
       <section className="section-shell">
         <div className="section-inner grid gap-12">
           <div
@@ -71,6 +93,7 @@ export default function contactPage() {
           </div>
         </div>
       </section>
-    </main>
+      </main>
+    </>
   )
 }
