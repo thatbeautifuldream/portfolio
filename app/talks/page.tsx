@@ -3,6 +3,7 @@ import Link from "next/link"
 import { Separator } from "@/components/ui/separator"
 import { talks, contributions } from "@/lib/portfolio-data"
 import { createMetadata } from "@/lib/metadata"
+import { JsonLd } from "@/components/json-ld"
 
 export const metadata = createMetadata({
   title: "Talks",
@@ -12,8 +13,39 @@ export const metadata = createMetadata({
   ogType: "talks",
 })
 
+const talksSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Talks — Milind Kumar Mishra",
+  description:
+    "Talks on React, motion systems, interface architecture, and AI for frontend engineers.",
+  url: "https://milindmishra.com/talks",
+  author: {
+    "@type": "Person",
+    name: "Milind Kumar Mishra",
+    url: "https://milindmishra.com",
+  },
+  hasPart: talks.map((talk) => ({
+    "@type": "Event",
+    name: talk.title,
+    description: talk.description,
+    startDate: talk.date,
+    location: {
+      "@type": "Place",
+      name: talk.event,
+    },
+    url: talk.href,
+    performer: {
+      "@type": "Person",
+      name: "Milind Kumar Mishra",
+    },
+  })),
+}
+
 export default function talksPage() {
   return (
+    <>
+      <JsonLd data={talksSchema} />
     <main className="isolate">
       <section className="section-shell">
         <div className="section-inner grid gap-12">
@@ -96,6 +128,7 @@ export default function talksPage() {
           </div>
         </div>
       </section>
-    </main>
+      </main>
+    </>
   )
 }

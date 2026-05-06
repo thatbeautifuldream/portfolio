@@ -5,6 +5,7 @@ import { FullSign } from "@/components/portfolio/full-sign"
 import { HeroBadge } from "@/components/portfolio/hero-badge"
 import { heroStats, siteLinks } from "@/lib/portfolio-data"
 import { createMetadata } from "@/lib/metadata"
+import { JsonLd } from "@/components/json-ld"
 
 export const metadata = createMetadata({
   title: "Milind Kumar Mishra",
@@ -14,9 +15,25 @@ export const metadata = createMetadata({
   ogType: "home",
 })
 
+const homePageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Milind Kumar Mishra — Product Engineer",
+  description:
+    "Product engineer building AI-native interfaces, product systems, and tools people return to.",
+  url: "https://milindmishra.com",
+  author: {
+    "@type": "Person",
+    name: "Milind Kumar Mishra",
+    url: "https://milindmishra.com",
+  },
+}
+
 export default function Page() {
   return (
-    <main className="isolate">
+    <>
+      <JsonLd data={homePageSchema} />
+      <main className="isolate">
       <section className="section-shell">
         <div className="section-inner grid gap-16">
           <div className="grid gap-12">
@@ -146,7 +163,8 @@ export default function Page() {
             </div>
           </div>
         </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    </>
   )
 }

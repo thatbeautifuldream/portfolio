@@ -2,6 +2,7 @@ import Link from "next/link"
 
 import { projects } from "@/lib/portfolio-data"
 import { createMetadata } from "@/lib/metadata"
+import { JsonLd } from "@/components/json-ld"
 
 export const metadata = createMetadata({
   title: "Projects",
@@ -11,9 +12,33 @@ export const metadata = createMetadata({
   ogType: "projects",
 })
 
+const projectsSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Projects — Milind Kumar Mishra",
+  description:
+    "Side projects born from curiosity. Built to understand technology, shipped to find clarity.",
+  url: "https://milindmishra.com/projects",
+  author: {
+    "@type": "Person",
+    name: "Milind Kumar Mishra",
+    url: "https://milindmishra.com",
+  },
+  hasPart: projects.map((project) => ({
+    "@type": "SoftwareApplication",
+    name: project.name,
+    description: project.description,
+    url: project.href,
+    applicationCategory: "DeveloperApplication",
+    programmingLanguage: "TypeScript",
+  })),
+}
+
 export default function ProjectsPage() {
   return (
-    <main className="isolate">
+    <>
+      <JsonLd data={projectsSchema} />
+      <main className="isolate">
       <section className="section-shell">
         <div className="section-inner grid gap-16">
           <div
@@ -115,6 +140,7 @@ export default function ProjectsPage() {
           </div>
         </div>
       </section>
-    </main>
+      </main>
+    </>
   )
 }

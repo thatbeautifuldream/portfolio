@@ -15,7 +15,13 @@ type MetadataOptions = {
     | "contact"
     | "tweets"
   slug?: string
+  keywords?: string[]
+  noIndex?: boolean
 }
+
+const siteUrl = "https://milindmishra.com"
+
+const articleTypes = new Set(["blog-post", "blog", "tweets", "work", "talks"])
 
 export function createMetadata({
   title,
@@ -24,14 +30,16 @@ export function createMetadata({
   image,
   ogType = "home",
   slug,
+  keywords,
+  noIndex,
 }: MetadataOptions): Metadata {
-  const siteUrl = "https://milindmishra.com"
-
   let ogImageUrl: string
   if (image) {
     ogImageUrl = image
   } else if (ogType === "blog-post" && slug) {
     ogImageUrl = `${siteUrl}/api/og?type=blog&slug=${slug}`
+  } else if (ogType === "tweets") {
+    ogImageUrl = `${siteUrl}/api/og?type=blog`
   } else {
     ogImageUrl = `${siteUrl}/api/og?type=${ogType}`
   }
@@ -42,10 +50,12 @@ export function createMetadata({
     alternates: {
       canonical: canonical,
     },
+    keywords: keywords,
+    robots: noIndex ? { index: false, follow: false } : undefined,
     openGraph: {
       title,
       description,
-      type: "article",
+      type: articleTypes.has(ogType) ? "article" : "website",
       url: canonical,
       images: [
         {

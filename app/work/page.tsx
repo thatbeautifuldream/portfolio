@@ -1,5 +1,6 @@
 import { roles } from "@/lib/portfolio-data"
 import { createMetadata } from "@/lib/metadata"
+import { JsonLd } from "@/components/json-ld"
 
 export const metadata = createMetadata({
   title: "Work",
@@ -9,9 +10,33 @@ export const metadata = createMetadata({
   ogType: "work",
 })
 
+const workSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Work Experience — Milind Kumar Mishra",
+  description:
+    "Work across startup environments. Different products and teams, but a consistent pull toward the surfaces people touch and the craft behind them.",
+  url: "https://milindmishra.com/work",
+  author: {
+    "@type": "Person",
+    name: "Milind Kumar Mishra",
+    url: "https://milindmishra.com",
+  },
+  hasPart: roles.map((role) => ({
+    "@type": "OrganizationRole",
+    roleName: role.role,
+    worksFor: {
+      "@type": "Organization",
+      name: role.company,
+    },
+  })),
+}
+
 export default function WorkPage() {
   return (
-    <main className="isolate">
+    <>
+      <JsonLd data={workSchema} />
+      <main className="isolate">
       <section className="section-shell">
         <div className="section-inner grid gap-12">
           <div
@@ -77,6 +102,7 @@ export default function WorkPage() {
           </div>
         </div>
       </section>
-    </main>
+      </main>
+    </>
   )
 }
