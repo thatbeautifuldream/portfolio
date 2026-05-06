@@ -1,15 +1,27 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
+import { isAICrawler, logAICrawlerRequest } from "@/lib/ai-crawler-logger"
 
 export function middleware(request: NextRequest) {
+  const userAgent = request.headers.get("user-agent") ?? ""
+  const { pathname } = request.nextUrl
+
+  if (isAICrawler(userAgent)) {
+    logAICrawlerRequest(pathname, userAgent)
+  }
+
   const acceptHeader = request.headers.get("accept") ?? ""
 
   if (!acceptHeader.includes("text/markdown")) {
     return NextResponse.next()
   }
 
-  const { pathname } = request.nextUrl
   const cleanPath = pathname.replace(/\/$/, "")
+
+  logAICrawlerRequest(cleanPath, userAgent, {
+    event: "content_negotiation",
+    accept: "text/markdown",
+  })
 
   const mdPath = `${cleanPath}.md`
   const url = request.nextUrl.clone()

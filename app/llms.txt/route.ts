@@ -1,5 +1,7 @@
 import { allPosts, allGists } from "content-collections"
 import { projects, roles, talks } from "@/lib/portfolio-data"
+import { logAICrawlerRequest } from "@/lib/ai-crawler-logger"
+import type { RequestInfo, RequestInit } from "next/dist/server/web/spec-extension/request"
 
 const SITE_URL = "https://milindmishra.com"
 
@@ -13,7 +15,9 @@ function formatDate(date: Date | string): string {
   })
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+  const userAgent = request.headers.get("user-agent") ?? ""
+  logAICrawlerRequest("/llms.txt", userAgent, { event: "llms_txt_fetch" })
   const sortedPosts = [...allPosts].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   )
