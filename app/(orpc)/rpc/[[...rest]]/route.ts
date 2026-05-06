@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { RPCHandler } from "@orpc/server/fetch";
 import { router } from "@/backend/routing";
 

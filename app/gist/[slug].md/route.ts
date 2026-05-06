@@ -4,9 +4,10 @@ const SITE_URL = "https://milindmishra.com"
 
 export async function GET(
   _request: Request,
-  { params }: { params: Promise<{ "slug.md": string }> }
+  { params }: { params: Promise<Record<string, string>> }
 ) {
-  const { "slug.md": slugWithExt } = await params
+  const resolved = await params
+  const slugWithExt = Object.values(resolved)[0] ?? ""
   const slug = slugWithExt.replace(/\.md$/, "")
   const gist = allGists.find((g) => g.slug === slug)
 

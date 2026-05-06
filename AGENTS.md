@@ -86,7 +86,7 @@ app/                          → Next.js App Router pages and layouts
   manifest.ts                 → PWA manifest
 
 backend/                      → ORPC backend procedures
-  orpc.ts                     → Authed middleware
+  orpc.ts                     → Authed middleware (ORPC)
   routing.ts                  → Root router (health, clarity, github, wakatime, guestbook, spotify)
   health/                     → Health check procedures
   clarity/                    → Microsoft Clarity API caching
@@ -100,7 +100,8 @@ db/                           → Drizzle ORM
   drizzle.ts                  → Drizzle client initialization
   migrations/                 → Generated migrations
 
-middlewares/                  → Next.js middleware
+proxy.ts                      → Next.js proxy (v16+, was middleware.ts)
+  middlewares/
   auth.ts                     → ORPC auth middleware (Bearer token)
 
 components/

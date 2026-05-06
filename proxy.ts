@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { isAICrawler, logAICrawlerRequest } from "@/lib/ai-crawler-logger"
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const userAgent = request.headers.get("user-agent") ?? ""
   const { pathname } = request.nextUrl
 
