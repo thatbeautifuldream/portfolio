@@ -37,11 +37,11 @@ export function createMetadata({
   if (image) {
     ogImageUrl = image
   } else if (ogType === "blog-post" && slug) {
-    ogImageUrl = `${siteUrl}/api/og?type=blog&slug=${slug}`
+    ogImageUrl = `${siteUrl}/api/og/blog/${slug}`
   } else if (ogType === "tweets") {
-    ogImageUrl = `${siteUrl}/api/og?type=blog`
+    ogImageUrl = `${siteUrl}/api/og/blog`
   } else {
-    ogImageUrl = `${siteUrl}/api/og?type=${ogType}`
+    ogImageUrl = `${siteUrl}/api/og/${ogType}`
   }
 
   return {

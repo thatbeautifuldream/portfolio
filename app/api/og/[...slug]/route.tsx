@@ -13,22 +13,25 @@ import {
 
 export const runtime = "edge"
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url)
-  const type = searchParams.get("type")
-  const slug = searchParams.get("slug")
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string[] }> }
+) {
+  const { slug } = await params
+  const [section, ...rest] = slug
 
   try {
     let jsx: React.ReactNode
 
-    switch (type) {
+    switch (section) {
       case "home":
         jsx = <HomeTemplate />
         break
 
-      case "blog":
-        if (slug) {
-          const post = allPosts.find((p) => p.slug === slug)
+      case "blog": {
+        const postSlug = rest.join("/")
+        if (postSlug) {
+          const post = allPosts.find((p) => p.slug === postSlug)
           if (!post) {
             return new Response("Post not found", { status: 404 })
           }
@@ -44,6 +47,7 @@ export async function GET(request: NextRequest) {
           jsx = <BlogIndexTemplate />
         }
         break
+      }
 
       case "projects":
         jsx = <ProjectsTemplate />
