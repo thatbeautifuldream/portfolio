@@ -42,12 +42,6 @@ export function HamburgerIcon({ open }: { open: boolean }) {
   )
 }
 
-const navItemClass = cn(
-  "relative block text-2xl font-medium no-underline transition-transform duration-200 ease-out hover:translate-x-5",
-  "before:absolute before:top-1/2 before:-left-5 before:size-1.5 before:-translate-y-1/2 before:rounded-full before:bg-foreground before:opacity-0 before:scale-0 before:transition before:duration-200 before:ease-out before:content-['']",
-  "hover:before:opacity-100 hover:before:scale-100"
-)
-
 function NavItem({
   href,
   label,
@@ -64,13 +58,15 @@ function NavItem({
       href={href}
       onClick={onClick}
       className={cn(
-        navItemClass,
+        "group relative block text-2xl font-medium no-underline transition-colors duration-200 ease-out",
         isActive
           ? "text-foreground"
           : "text-muted-foreground hover:text-foreground"
       )}
     >
-      {label}
+      <span className="relative inline-block transition-transform duration-200 ease-out group-hover:translate-x-5 before:absolute before:top-1/2 before:-left-5 before:size-1.5 before:-translate-y-1/2 before:scale-0 before:rounded-full before:bg-foreground before:opacity-0 before:transition before:duration-200 before:ease-out before:content-[''] group-hover:before:scale-100 group-hover:before:opacity-100">
+        {label}
+      </span>
     </Link>
   )
 }
@@ -242,14 +238,13 @@ export function NavMenuPanel({
                 ))}
                 <motion.div {...getLinkMotion(navItems.length)}>
                   <Link
-                    className={cn(
-                      navItemClass,
-                      "text-muted-foreground hover:text-foreground"
-                    )}
+                    className="group relative block text-2xl font-medium text-muted-foreground no-underline transition-colors duration-200 ease-out hover:text-foreground"
                     href="https://cal.com/milind"
                     onClick={onClose}
                   >
-                    Book time
+                    <span className="relative inline-block transition-transform duration-200 ease-out group-hover:translate-x-5 before:absolute before:top-1/2 before:-left-5 before:size-1.5 before:-translate-y-1/2 before:scale-0 before:rounded-full before:bg-foreground before:opacity-0 before:transition before:duration-200 before:ease-out before:content-[''] group-hover:before:scale-100 group-hover:before:opacity-100">
+                      Book time
+                    </span>
                   </Link>
                 </motion.div>
               </div>
