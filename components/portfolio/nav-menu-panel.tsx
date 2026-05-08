@@ -42,6 +42,12 @@ export function HamburgerIcon({ open }: { open: boolean }) {
   )
 }
 
+const navItemClass = cn(
+  "relative block text-2xl font-medium no-underline transition-transform duration-200 ease-out hover:translate-x-5",
+  "before:absolute before:top-1/2 before:-left-5 before:size-1.5 before:-translate-y-1/2 before:rounded-full before:bg-foreground before:opacity-0 before:scale-0 before:transition before:duration-200 before:ease-out before:content-['']",
+  "hover:before:opacity-100 hover:before:scale-100"
+)
+
 function NavItem({
   href,
   label,
@@ -58,10 +64,10 @@ function NavItem({
       href={href}
       onClick={onClick}
       className={cn(
-        "block text-2xl font-medium no-underline transition-transform duration-200 ease-out hover:translate-x-1.5",
+        navItemClass,
         isActive
-          ? "text-muted-foreground"
-          : "text-foreground hover:text-muted-foreground"
+          ? "text-foreground"
+          : "text-muted-foreground hover:text-foreground"
       )}
     >
       {label}
@@ -236,7 +242,10 @@ export function NavMenuPanel({
                 ))}
                 <motion.div {...getLinkMotion(navItems.length)}>
                   <Link
-                    className="block text-2xl font-medium text-foreground no-underline transition-transform duration-200 ease-out hover:translate-x-1.5 hover:text-muted-foreground"
+                    className={cn(
+                      navItemClass,
+                      "text-muted-foreground hover:text-foreground"
+                    )}
                     href="https://cal.com/milind"
                     onClick={onClose}
                   >
