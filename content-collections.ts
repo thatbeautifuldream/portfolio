@@ -26,6 +26,7 @@ const posts = defineCollection({
     content: z.string(),
     category: z.string(),
     date: z.string(),
+    coverImage: z.string().optional(),
   }),
   transform: (document) => {
     return {

@@ -38,6 +38,7 @@ export default function BlogPage() {
   const sortedPosts = [...allPosts].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   )
+  const [featured, ...rest] = sortedPosts
 
   return (
     <>
@@ -56,25 +57,77 @@ export default function BlogPage() {
               </h1>
             </div>
 
-            <div className="grid gap-0 divide-y divide-border/40">
-              {sortedPosts.map((post, index) => (
-                <div
-                  key={post.slug}
-                  className="animate-fade-up grid gap-2 py-6 first:pt-0 last:pb-0"
-                  style={{ animationDelay: `${200 + index * 80}ms` }}
-                >
-                  <p className="font-mono text-sm tracking-wide text-muted-foreground uppercase">
-                    {post.category} · {formatDate(post.date)}
-                  </p>
-                  <h2 className="text-xl font-semibold tracking-tight">
-                    <Link href={`/blog/${post.slug}`}>{post.title}</Link>
-                  </h2>
-                  <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
-                    {post.description}
-                  </p>
-                </div>
-              ))}
-            </div>
+            {featured && (
+              <article
+                className="animate-fade-up group grid gap-4"
+                style={{ animationDelay: "200ms" }}
+              >
+                {featured.coverImage && (
+                  <Link
+                    href={`/blog/${featured.slug}`}
+                    aria-label={featured.title}
+                    className="block w-full overflow-hidden rounded-3xl border border-border/60 bg-muted no-underline ring-1 ring-inset ring-white/5 dark:border-border/40"
+                  >
+                    {/** biome-ignore lint/performance/noImgElement: external Twitter-hosted images */}
+                    <img
+                      src={featured.coverImage}
+                      alt=""
+                      className="block w-full transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                    />
+                  </Link>
+                )}
+                <p className="font-mono text-sm tracking-wide text-muted-foreground uppercase">
+                  Latest · {featured.category} · {formatDate(featured.date)}
+                </p>
+                <h2 className="max-w-[28ch] text-3xl font-semibold tracking-tight text-pretty md:text-4xl">
+                  <Link href={`/blog/${featured.slug}`}>{featured.title}</Link>
+                </h2>
+                <p className="max-w-[60ch] text-base text-pretty text-muted-foreground">
+                  {featured.description}
+                </p>
+              </article>
+            )}
+
+            {rest.length > 0 && (
+              <div className="grid gap-0 divide-y divide-border/40 border-t border-border/40">
+                {rest.map((post, index) => (
+                  <article
+                    key={post.slug}
+                    className="animate-fade-up group grid grid-cols-[88px_1fr] items-start gap-4 py-5 sm:grid-cols-[120px_1fr] sm:gap-6"
+                    style={{ animationDelay: `${280 + index * 80}ms` }}
+                  >
+                    {post.coverImage ? (
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        aria-label={post.title}
+                        className="block aspect-square overflow-hidden rounded-xl border border-border/60 bg-muted no-underline ring-1 ring-inset ring-white/5 dark:border-border/40"
+                      >
+                        {/** biome-ignore lint/performance/noImgElement: external Twitter-hosted images */}
+                        <img
+                          src={post.coverImage}
+                          alt=""
+                          loading="lazy"
+                          className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
+                        />
+                      </Link>
+                    ) : (
+                      <div className="aspect-square rounded-xl bg-muted" />
+                    )}
+                    <div className="grid gap-1.5">
+                      <p className="font-mono text-xs tracking-wide text-muted-foreground uppercase">
+                        {post.category} · {formatDate(post.date)}
+                      </p>
+                      <h3 className="text-base font-semibold tracking-tight sm:text-lg">
+                        <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+                      </h3>
+                      <p className="line-clamp-2 max-w-[56ch] text-sm text-pretty text-muted-foreground">
+                        {post.description}
+                      </p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
           </div>
         </section>
       </main>

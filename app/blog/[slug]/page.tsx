@@ -79,15 +79,32 @@ export default async function BlogPostPage({
     <>
       <JsonLd data={articleSchema} />
 
-      <BlogIndex headings={headings} />
+      <BlogIndex
+        headings={headings}
+        backHref="/blog"
+        backLabel="Back to blog"
+      />
 
       <main className="isolate">
         <section className="section-shell">
           <div className="section-inner grid min-w-0 gap-12">
             <article className="grid min-w-0 gap-8">
+              {post.coverImage && (
+                <div
+                  className="animate-fade-up overflow-hidden rounded-2xl border border-border/60 bg-muted ring-1 ring-inset ring-white/5 dark:border-border/40"
+                  style={{ animationDelay: "80ms" }}
+                >
+                  {/** biome-ignore lint/performance/noImgElement: external Twitter-hosted images */}
+                  <img
+                    src={post.coverImage}
+                    alt=""
+                    className="block w-full"
+                  />
+                </div>
+              )}
               <header
                 className="animate-fade-up grid gap-2"
-                style={{ animationDelay: "100ms" }}
+                style={{ animationDelay: "160ms" }}
               >
                 <p className="font-mono text-sm tracking-wide text-muted-foreground uppercase">
                   {post.category} · {formatDate(post.date)}
@@ -102,7 +119,7 @@ export default async function BlogPostPage({
 
               <div
                 className="animate-fade-up prose max-w-none overflow-x-hidden"
-                style={{ animationDelay: "200ms" }}
+                style={{ animationDelay: "240ms" }}
               >
                 <StreamdownWrapper content={post.content} />
               </div>

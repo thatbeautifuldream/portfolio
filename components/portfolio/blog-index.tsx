@@ -1,8 +1,9 @@
 "use client"
 
 import NumberFlow from "@number-flow/react"
-import { RiArrowDownSLine } from "@remixicon/react"
+import { RiArrowDownSLine, RiArrowLeftLine } from "@remixicon/react"
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
+import Link from "next/link"
 import { useCallback, useEffect, useRef, useState } from "react"
 
 import type { Heading } from "@/lib/extract-headings"
@@ -11,6 +12,8 @@ import { cn } from "@/lib/utils"
 type BlogIndexProps = {
   headings: Heading[]
   articleSelector?: string
+  backHref?: string
+  backLabel?: string
 }
 
 const RING_RADIUS = 7
@@ -22,6 +25,8 @@ const layoutTransition = { duration: 0.22, ease: EASE_OUT }
 export function BlogIndex({
   headings,
   articleSelector = "article",
+  backHref,
+  backLabel = "Back",
 }: BlogIndexProps) {
   const [expanded, setExpanded] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -165,22 +170,43 @@ export function BlogIndex({
       }
 
   return (
-    <motion.div
-      ref={pillRef}
-      layout
-      transition={shouldReduceMotion ? { duration: 0 } : layoutTransition}
-      {...entrance}
-      style={{ borderRadius: 22 }}
-      className={cn(
-        "fixed top-4 left-1/2 z-50 -translate-x-1/2",
-        "w-[18rem] max-w-[calc(100vw-1.5rem)]",
-        "overflow-hidden",
-        "bg-gradient-to-b from-foreground/90 via-foreground/95 to-foreground",
-        "text-background",
-        "shadow-xl shadow-foreground/20",
-        "ring-1 inset-ring-1 ring-foreground/20 inset-ring-background/10"
+    <div className="fixed top-4 left-1/2 z-50 flex -translate-x-1/2 items-start gap-2">
+      {backHref && (
+        <motion.div
+          {...entrance}
+          transition={shouldReduceMotion ? { duration: 0 } : layoutTransition}
+        >
+          <Link
+            href={backHref}
+            aria-label={backLabel}
+            className={cn(
+              "flex size-9 items-center justify-center rounded-full",
+              "bg-gradient-to-b from-foreground/90 via-foreground/95 to-foreground",
+              "text-background",
+              "shadow-xl shadow-foreground/20",
+              "ring-1 inset-ring-1 ring-foreground/20 inset-ring-background/10",
+              "transition-transform hover:scale-105 active:scale-95"
+            )}
+          >
+            <RiArrowLeftLine className="size-4" />
+          </Link>
+        </motion.div>
       )}
-    >
+      <motion.div
+        ref={pillRef}
+        layout
+        transition={shouldReduceMotion ? { duration: 0 } : layoutTransition}
+        {...entrance}
+        style={{ borderRadius: 22 }}
+        className={cn(
+          "w-[15rem] max-w-[calc(100vw-4.5rem)]",
+          "overflow-hidden",
+          "bg-gradient-to-b from-foreground/90 via-foreground/95 to-foreground",
+          "text-background",
+          "shadow-xl shadow-foreground/20",
+          "ring-1 inset-ring-1 ring-foreground/20 inset-ring-background/10"
+        )}
+      >
       <motion.button
         layout="position"
         ref={triggerRef}
@@ -302,7 +328,8 @@ export function BlogIndex({
           </motion.ul>
         ) : null}
       </AnimatePresence>
-    </motion.div>
+      </motion.div>
+    </div>
   )
 }
 

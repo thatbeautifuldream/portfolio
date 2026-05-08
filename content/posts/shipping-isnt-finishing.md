@@ -2,10 +2,9 @@
 title: The Day I Realized Shipping Isn't Finishing
 description: Early in my career at Merlin AI, I shipped a feature called Prompt Enhancer. What happened next taught me that the craft isn't finished when you ship it—it's finished when someone else feels it.
 category: Product
+coverImage: https://pbs.twimg.com/media/HEpawb3bQAAtIfg?format=jpg&name=medium
 date: "2025-04-05"
 ---
-
-![The Day I Realized Shipping Isn't Finishing](https://pbs.twimg.com/media/HEpawb3bQAAtIfg?format=jpg&name=medium)
 
 Early in my career at [Merlin AI](https://getmerlin.in/chat), I shipped a feature called Prompt Enhancer, a button that rewrites your prompt in real-time, streaming the enhanced version directly into the input. I was proud of it.
 
