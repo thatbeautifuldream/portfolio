@@ -1,5 +1,6 @@
 import { allPosts } from "content-collections"
 import Link from "next/link"
+import { RoughNote } from "@/components/portfolio/rough-note"
 import { createMetadata } from "@/lib/metadata"
 import { JsonLd } from "@/components/json-ld"
 
@@ -53,7 +54,18 @@ export default function BlogPage() {
             >
               <p className="text-sm text-muted-foreground">Blog</p>
               <h1 className="max-w-[24ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
-                Notes on the journey of building products.
+                Notes on the{" "}
+                <RoughNote
+                  type="underline"
+                  color="currentColor"
+                  strokeWidth={2}
+                  padding={2}
+                  animationDuration={500}
+                  iterations={1}
+                >
+                  journey of building
+                </RoughNote>{" "}
+                products.
               </h1>
             </div>
 

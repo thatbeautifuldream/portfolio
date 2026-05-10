@@ -1,3 +1,4 @@
+import { RoughNote } from "@/components/portfolio/rough-note"
 import { roles } from "@/lib/portfolio-data"
 import { createMetadata } from "@/lib/metadata"
 import { JsonLd } from "@/components/json-ld"
@@ -48,10 +49,20 @@ export default function WorkPage() {
               Product and AI work across startup environments.
             </h1>
             <p className="max-w-[56ch] text-base text-pretty text-muted-foreground md:text-lg">
-              Different products and teams, but a consistent pull toward the
-              surfaces people touch and the craft behind them. I&apos;m still
-              sharpening that instinct, and honestly, that&apos;s what keeps the
-              work alive for me.
+              Different products and teams, but a consistent pull toward the{" "}
+              <RoughNote
+                type="underline"
+                color="currentColor"
+                strokeWidth={2}
+                padding={2}
+                animationDuration={500}
+                iterations={1}
+              >
+                surfaces people touch
+              </RoughNote>{" "}
+              and the craft behind them. I&apos;m still sharpening that
+              instinct, and honestly, that&apos;s what keeps the work alive for
+              me.
             </p>
           </div>
 

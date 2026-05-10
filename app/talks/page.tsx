@@ -1,6 +1,7 @@
 import Link from "next/link"
 
 import { Separator } from "@/components/ui/separator"
+import { RoughNote } from "@/components/portfolio/rough-note"
 import { talks, contributions } from "@/lib/portfolio-data"
 import { createMetadata } from "@/lib/metadata"
 import { JsonLd } from "@/components/json-ld"
@@ -55,7 +56,18 @@ export default function talksPage() {
           >
             <p className="text-sm text-muted-foreground">Talks</p>
             <h1 className="max-w-[24ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
-              I share what I learn because it forces me to learn it deeper.
+              I share what I learn because it forces me to{" "}
+              <RoughNote
+                type="underline"
+                color="currentColor"
+                strokeWidth={2}
+                padding={2}
+                animationDuration={500}
+                iterations={1}
+              >
+                learn it deeper
+              </RoughNote>
+              .
             </h1>
             <p className="max-w-[56ch] text-pretty text-muted-foreground">
               These talks come from things I ran into firsthand and

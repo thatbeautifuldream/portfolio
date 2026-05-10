@@ -1,3 +1,4 @@
+import { RoughNote } from "@/components/portfolio/rough-note"
 import { createMetadata } from "@/lib/metadata"
 import { SpotifyNowPlaying } from "@/components/spotify-now-playing"
 import { SpotifyTopTracks } from "@/components/spotify-top-tracks"
@@ -19,7 +20,18 @@ export default function SpotifyPage() {
           >
             <p className="text-sm text-muted-foreground">Spotify</p>
             <h1 className="max-w-[24ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
-              What I am listening to right now.
+              What I am listening to{" "}
+              <RoughNote
+                type="underline"
+                color="currentColor"
+                strokeWidth={2}
+                padding={2}
+                animationDuration={400}
+                iterations={1}
+              >
+                right now
+              </RoughNote>
+              .
             </h1>
           </div>
 

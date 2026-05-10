@@ -1,5 +1,6 @@
 import Link from "next/link"
 
+import { RoughNote } from "@/components/portfolio/rough-note"
 import { projects } from "@/lib/portfolio-data"
 import { createMetadata } from "@/lib/metadata"
 import { JsonLd } from "@/components/json-ld"
@@ -67,10 +68,18 @@ export default function ProjectsPage() {
                 Why I ship experiments publicly
               </h2>
               <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
-                Finishing something is harder than starting it. Shipping forces
-                clarity. These projects are my way of closing the loop on ideas
-                that kept me up, and sharing them because the best feedback is
-                from people who actually use what you build.
+                Finishing something is harder than starting it.{" "}
+                <RoughNote
+                  type="highlight"
+                  color="rgba(128, 128, 128, 0.18)"
+                  animationDuration={700}
+                  iterations={1}
+                >
+                  Shipping forces clarity.
+                </RoughNote>{" "}
+                These projects are my way of closing the loop on ideas that kept
+                me up, and sharing them because the best feedback is from people
+                who actually use what you build.
               </p>
             </div>
           </div>
@@ -105,7 +114,16 @@ export default function ProjectsPage() {
                           {metric.label}
                         </span>
                         <span className="text-xl font-semibold tabular-nums">
-                          {metric.value}
+                          <RoughNote
+                            type="underline"
+                            color="currentColor"
+                            strokeWidth={1.5}
+                            padding={2}
+                            animationDuration={400}
+                            iterations={1}
+                          >
+                            {metric.value}
+                          </RoughNote>
                         </span>
                       </div>
                     ))}

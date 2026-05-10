@@ -3,7 +3,9 @@ import { RiHeartFill, RiMagicFill, RiSparklingFill } from "@remixicon/react"
 
 import { FullSign } from "@/components/portfolio/full-sign"
 import { HeroBadge } from "@/components/portfolio/hero-badge"
-import { heroStats, siteLinks } from "@/lib/portfolio-data"
+import { HeroStats } from "@/components/portfolio/hero-stats"
+import { RoughNote } from "@/components/portfolio/rough-note"
+import { siteLinks } from "@/lib/portfolio-data"
 import { createMetadata } from "@/lib/metadata"
 import { JsonLd } from "@/components/json-ld"
 
@@ -98,30 +100,7 @@ export default function Page() {
               <Link href={siteLinks.github.href}>{siteLinks.github.label}</Link>
             </div>
 
-            <div
-              className="animate-fade-up md:grid md:grid-cols-3 md:divide-x md:divide-border/40"
-              style={{ animationDelay: "300ms" }}
-            >
-              {heroStats.map((stat, index) => (
-                <div
-                  key={stat.label}
-                  className={`grid gap-1 py-6 md:py-0 ${
-                    index === 0
-                      ? "md:pr-6"
-                      : index === heroStats.length - 1
-                        ? "md:pl-6"
-                        : "md:px-6"
-                  }`}
-                >
-                  <p className="text-3xl font-semibold tabular-nums">
-                    {stat.value}
-                  </p>
-                  <p className="text-sm text-pretty text-muted-foreground">
-                    {stat.label}
-                  </p>
-                </div>
-              ))}
-            </div>
+            <HeroStats />
           </div>
 
           <div
@@ -134,13 +113,32 @@ export default function Page() {
                   Where I&apos;m headed
                 </p>
                 <h2 className="max-w-[24ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-                  Toward design engineering, where craft and code meet at the
-                  surface.
+                  Toward design engineering, where{" "}
+                  <RoughNote
+                    type="underline"
+                    color="currentColor"
+                    strokeWidth={2}
+                    padding={2}
+                    animationDuration={500}
+                    iterations={1}
+                  >
+                    craft and code
+                  </RoughNote>{" "}
+                  meet at the surface.
                 </h2>
                 <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
-                  I started as a product engineer who kept caring too much about
-                  how things looked and moved. Now I&apos;m making that the
-                  focus. I build agentic flows, design systems, and
+                  I started as a product engineer who kept caring{" "}
+                  <RoughNote
+                    type="crossed-off"
+                    color="currentColor"
+                    strokeWidth={1.5}
+                    animationDuration={400}
+                    iterations={1}
+                  >
+                    too much
+                  </RoughNote>{" "}
+                  about how things looked and moved. Now I&apos;m making that
+                  the focus. I build agentic flows, design systems, and
                   interaction-heavy surfaces, and I&apos;m sharpening my design
                   intuition through close study of the people and work I admire,
                   with AI accelerating how fast I can ship polished work.

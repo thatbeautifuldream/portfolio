@@ -1,3 +1,4 @@
+import { RoughNote } from "@/components/portfolio/rough-note"
 import { createMetadata } from "@/lib/metadata"
 import { Guestbook } from "@/components/guestbook"
 
@@ -19,7 +20,18 @@ export default function GuestbookPage() {
           >
             <p className="text-sm text-muted-foreground">Guestbook</p>
             <h1 className="max-w-[28ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
-              Leave a note, say hello, or share a thought.
+              Leave a note,{" "}
+              <RoughNote
+                type="box"
+                color="currentColor"
+                strokeWidth={1.5}
+                padding={4}
+                animationDuration={500}
+                iterations={1}
+              >
+                say hello
+              </RoughNote>
+              , or share a thought.
             </h1>
             <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
               Whatever brought you here, I&apos;d like to hear about it. Entries

@@ -1,5 +1,6 @@
 import Link from "next/link"
 
+import { RoughNote } from "@/components/portfolio/rough-note"
 import { contactLinks, siteLinks } from "@/lib/portfolio-data"
 import { createMetadata } from "@/lib/metadata"
 import { JsonLd } from "@/components/json-ld"
@@ -43,8 +44,19 @@ export default function contactPage() {
           >
             <p className="text-sm text-muted-foreground">Contact</p>
             <h1 className="max-w-[28ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
-              If the work needs product judgment and implementation discipline,
-              I&apos;d like to hear about it.
+              If the work needs{" "}
+              <RoughNote
+                type="underline"
+                color="currentColor"
+                strokeWidth={2}
+                padding={2}
+                animationDuration={600}
+                iterations={1}
+                multiline={true}
+              >
+                product judgment and implementation discipline
+              </RoughNote>
+              , I&apos;d like to hear about it.
             </h1>
           </div>
 
@@ -56,9 +68,19 @@ export default function contactPage() {
               The best way to reach me
             </h2>
             <p className="max-w-[56ch] text-base text-pretty text-muted-foreground">
-              I&apos;m most responsive on email and LinkedIn. If you have something
-              interesting to discuss, I&apos;d rather you send a detailed message than
-              a generic introduction.
+              I&apos;m most responsive on email and LinkedIn. If you have
+              something interesting to discuss, I&apos;d rather you send a
+              detailed message than{" "}
+              <RoughNote
+                type="strike-through"
+                color="currentColor"
+                strokeWidth={1.5}
+                animationDuration={400}
+                iterations={1}
+              >
+                a generic introduction
+              </RoughNote>
+              .
             </p>
           </div>
 
