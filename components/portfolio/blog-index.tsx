@@ -2,7 +2,7 @@
 
 import NumberFlow from "@number-flow/react"
 import { RiArrowDownSLine, RiArrowLeftLine } from "@remixicon/react"
-import { AnimatePresence, motion, useReducedMotion } from "motion/react"
+import { motion, useReducedMotion } from "motion/react"
 import Link from "next/link"
 import { useCallback, useEffect, useRef, useState } from "react"
 
@@ -19,8 +19,8 @@ type BlogIndexProps = {
 const RING_RADIUS = 7
 const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS
 
-const EASE_OUT = [0.23, 1, 0.32, 1] as const
-const layoutTransition = { duration: 0.22, ease: EASE_OUT }
+const EMIL_EASE = [0.32, 0.72, 0, 1] as const
+const layoutTransition = { duration: 0.32, ease: EMIL_EASE }
 
 export function BlogIndex({
   headings,
@@ -165,12 +165,72 @@ export function BlogIndex({
   const entrance = shouldReduceMotion
     ? { initial: { opacity: 0 }, animate: { opacity: 1 } }
     : {
-        initial: { opacity: 0, y: -12, scale: 0.96 },
-        animate: { opacity: 1, y: 0, scale: 1 },
+        initial: { opacity: 0, y: -8 },
+        animate: { opacity: 1, y: 0 },
       }
 
   return (
-    <div className="fixed top-4 left-1/2 z-50 flex -translate-x-1/2 items-start gap-2">
+    <>
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-x-0 top-0 z-40 h-28"
+      >
+        <div
+          className="absolute inset-0 backdrop-blur-[2px]"
+          style={{
+            maskImage:
+              "linear-gradient(to bottom, black 0%, black 25%, transparent 50%)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, black 0%, black 25%, transparent 50%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 backdrop-blur-[4px]"
+          style={{
+            maskImage:
+              "linear-gradient(to bottom, black 0%, black 20%, transparent 45%)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, black 0%, black 20%, transparent 45%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 backdrop-blur-[8px]"
+          style={{
+            maskImage:
+              "linear-gradient(to bottom, black 0%, black 15%, transparent 40%)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, black 0%, black 15%, transparent 40%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 backdrop-blur-[16px]"
+          style={{
+            maskImage:
+              "linear-gradient(to bottom, black 0%, black 10%, transparent 35%)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, black 0%, black 10%, transparent 35%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 backdrop-blur-[24px]"
+          style={{
+            maskImage:
+              "linear-gradient(to bottom, black 0%, black 5%, transparent 30%)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, black 0%, black 5%, transparent 30%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 bg-background/30"
+          style={{
+            maskImage:
+              "linear-gradient(to bottom, black 0%, transparent 60%)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, black 0%, transparent 60%)",
+          }}
+        />
+      </div>
+      <div className="fixed top-4 left-1/2 z-50 flex -translate-x-1/2 items-start gap-2">
       {backHref && (
         <motion.div
           {...entrance}
@@ -194,12 +254,11 @@ export function BlogIndex({
       )}
       <motion.div
         ref={pillRef}
-        layout
-        transition={shouldReduceMotion ? { duration: 0 } : layoutTransition}
         {...entrance}
-        style={{ borderRadius: 22 }}
+        transition={shouldReduceMotion ? { duration: 0 } : layoutTransition}
+        style={{ borderRadius: 18 }}
         className={cn(
-          "w-[15rem] max-w-[calc(100vw-4.5rem)]",
+          "relative w-[15rem] max-w-[calc(100vw-4.5rem)]",
           "overflow-hidden",
           "bg-gradient-to-b from-foreground/90 via-foreground/95 to-foreground",
           "text-background",
@@ -207,20 +266,18 @@ export function BlogIndex({
           "ring-1 inset-ring-1 ring-foreground/20 inset-ring-background/10"
         )}
       >
-      <motion.button
-        layout="position"
+      <button
         ref={triggerRef}
         type="button"
         onClick={() => hasHeadings && setExpanded((v) => !v)}
         aria-expanded={expanded}
         aria-label={expanded ? "Collapse index" : "Expand index"}
         className={cn(
-          "flex w-full items-center gap-2 px-3 py-2 text-left",
+          "relative flex w-full items-center gap-2 px-3 py-2 text-left",
           hasHeadings ? "cursor-pointer" : "cursor-default"
         )}
       >
-        <motion.svg
-          layout="position"
+        <svg
           width="20"
           height="20"
           viewBox="0 0 20 20"
@@ -261,58 +318,41 @@ export function BlogIndex({
                 : "stroke-dashoffset 0.2s linear",
             }}
           />
-        </motion.svg>
-        <motion.span layout="position" className="text-sm font-medium">
-          Index
-        </motion.span>
+        </svg>
+        <span className="text-sm font-medium">Index</span>
         {hasHeadings && (
-          <motion.span
-            layout="position"
-            animate={{ rotate: expanded ? 180 : 0 }}
-            transition={layoutTransition}
-            className="flex"
+          <span
+            className="flex transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]"
+            style={{ transform: expanded ? "rotate(180deg)" : "rotate(0deg)" }}
           >
             <RiArrowDownSLine className="size-3.5 opacity-80" />
-          </motion.span>
+          </span>
         )}
-        <motion.span
-          layout="position"
-          className="ml-auto flex items-center text-xs text-background/70 tabular-nums"
-        >
-          <span className="inline-flex w-[3ch] justify-end">
-            <NumberFlow value={percent} />
+        <span className="ml-auto flex items-center text-xs text-background/70 tabular-nums">
+          <span className="inline-flex w-[3ch] justify-end tabular-nums">
+            <NumberFlow value={percent} className="tabular-nums" />
           </span>
           %
-        </motion.span>
-      </motion.button>
+        </span>
+      </button>
 
-      <AnimatePresence initial={false} mode="popLayout">
-        {expanded && hasHeadings ? (
-          <motion.ul
-            key="toc"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.18, ease: EASE_OUT }}
-            className="flex flex-col gap-0.5 px-3 pt-1 pb-3"
-          >
-            {headings.map((h, i) => (
-              <motion.li
-                key={h.id}
-                layout="position"
-                initial={
-                  shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: -6 }
-                }
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.18,
-                  delay: shouldReduceMotion ? 0 : i * 0.03,
-                  ease: EASE_OUT,
-                }}
-              >
+      <div
+        className={cn(
+          "grid transition-[grid-template-rows,opacity] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
+          expanded && hasHeadings
+            ? "grid-rows-[1fr] opacity-100"
+            : "grid-rows-[0fr] opacity-0"
+        )}
+        aria-hidden={!expanded}
+      >
+        <div className="overflow-hidden">
+          <ul className="flex min-w-56 flex-col gap-0.5 px-3 pt-1 pb-3">
+            {headings.map((h) => (
+              <li key={h.id}>
                 <button
                   type="button"
                   onClick={() => scrollTo(h.id)}
+                  tabIndex={expanded ? 0 : -1}
                   className={cn(
                     "block w-full cursor-pointer truncate rounded-md px-2 py-1 text-left text-sm transition-colors",
                     h.level === 3 && "pl-5",
@@ -323,13 +363,14 @@ export function BlogIndex({
                 >
                   {h.text}
                 </button>
-              </motion.li>
+              </li>
             ))}
-          </motion.ul>
-        ) : null}
-      </AnimatePresence>
+          </ul>
+        </div>
+      </div>
       </motion.div>
-    </div>
+      </div>
+    </>
   )
 }
 
