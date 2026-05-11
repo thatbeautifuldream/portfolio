@@ -1,36 +1,33 @@
 "use client"
 
+import { markIntroPlayed } from "@/app/actions"
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { useCallback, useEffect, useState } from "react"
 import { FullSignAnimated } from "@/components/portfolio/full-sign-animated"
 import { easings } from "@/lib/motion-tokens"
 
-const STORAGE_KEY = "intro-played"
 const HOLD_AFTER_DRAW_MS = 250
 
-type Stage = "pending" | "drawing" | "done"
+type Stage = "drawing" | "done"
 
-export function IntroOverlay() {
-  const [stage, setStage] = useState<Stage>("pending")
+interface IntroOverlayProps {
+  alreadyPlayed: boolean
+}
+
+export function IntroOverlay({ alreadyPlayed }: IntroOverlayProps) {
   const reducedMotion = useReducedMotion()
+  const [stage, setStage] = useState<Stage>(
+    alreadyPlayed || reducedMotion ? "done" : "drawing"
+  )
 
   useEffect(() => {
-    if (typeof window === "undefined") return
-    const alreadyPlayed = window.sessionStorage.getItem(STORAGE_KEY) === "1"
-    if (alreadyPlayed || reducedMotion) {
-      window.sessionStorage.setItem(STORAGE_KEY, "1")
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setStage("done")
-      return
+    if (stage === "done" && !alreadyPlayed) {
+      markIntroPlayed()
     }
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setStage("drawing")
-  }, [reducedMotion])
+  }, [stage, alreadyPlayed])
 
   const finish = useCallback(() => {
-    if (typeof window !== "undefined") {
-      window.sessionStorage.setItem(STORAGE_KEY, "1")
-    }
+    markIntroPlayed()
     setStage("done")
   }, [])
 

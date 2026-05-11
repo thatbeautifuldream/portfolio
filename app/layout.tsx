@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { AnalyticsProvider } from "@/components/providers/analytics-provider"
 import { JsonLd } from "@/components/json-ld"
 import localFont from "next/font/local"
+import { cookies } from "next/headers"
 import type { Metadata, Viewport } from "next"
 import "react-tweet/theme.css"
 import "./globals.css"
@@ -134,11 +135,14 @@ const rootSchema = {
   ],
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const cookieStore = await cookies()
+  const introPlayed = cookieStore.get("intro-played")?.value === "1"
+
   return (
     <html
       lang="en"
@@ -171,7 +175,7 @@ export default function RootLayout({
             {children}
             <Footer />
           </QueryProvider>
-          <IntroOverlay />
+          <IntroOverlay alreadyPlayed={introPlayed} />
         </ThemeProvider>
       </body>
     </html>

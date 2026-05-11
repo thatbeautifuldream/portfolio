@@ -63,7 +63,8 @@ This is the personal portfolio website of Milind Kumar Mishra. It is a full-stac
 
 ```
 app/                          → Next.js App Router pages and layouts
-  layout.tsx                  → Root layout with ThemeProvider, QueryProvider, Navigation, Footer, CommandPalette
+  layout.tsx                  → Root layout (async, reads intro cookie server-side) with ThemeProvider, QueryProvider, Navigation, Footer, CommandPalette
+  actions.ts                  → Server Actions (markIntroPlayed cookie setter)
   globals.css                 → Tailwind v4 config, CSS variables, keyframes, @utility classes, base styles
   page.tsx                    → Home page (hero badges, stats, quick nav)
   work/page.tsx               → Work experience page
@@ -111,6 +112,8 @@ components/
     footer.tsx                → Footer with social links and commit SHA
     sign.tsx                  → SVG signature logo (short)
     full-sign.tsx             → SVG full signature logo (wide, used in navbar and menu)
+    full-sign-animated.tsx   → Animated SVG signature with stroke-draw + fill (motion/react)
+    intro-overlay.tsx        → Intro overlay (cookie-based, server-determined, no flash)
     hero-badge.tsx            → Interactive badge with particle burst effect
     blog-index.tsx            → Floating table of contents with progress ring
   command-palette.tsx         → Global CMD+K with Fuse.js search
@@ -468,7 +471,18 @@ Shared values in `lib/motion-tokens.ts`:
 - `"icon"` variant: Custom SVG sun/moon with motion path animations (used in navbar)
 - `"text"` variant: Shows "Light" / "Dark" text
 
-### 8.4 Hero Badge
+### 8.4 Intro Overlay
+
+- `components/portfolio/intro-overlay.tsx`
+- Cookie-based: server reads `intro-played` cookie in `layout.tsx`, passes `alreadyPlayed` prop
+- No flash: initial state is set synchronously from the prop (no `useEffect` needed to check storage)
+- Cookie is set via Server Action (`markIntroPlayed` in `app/actions.ts`) using `cookies().set()`
+- `FullSignAnimated` component plays SVG stroke-draw + fill animation, then fade-outs after 250ms hold
+- Respects `useReducedMotion()`: skips to `"done"` immediately
+- Escape key or click dismisses the overlay early
+- Body scroll locked while drawing
+
+### 8.5 Hero Badge
 
 - `components/portfolio/hero-badge.tsx`
 - Interactive inline badge with spring physics
