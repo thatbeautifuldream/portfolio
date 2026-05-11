@@ -1,4 +1,5 @@
 import { Footer } from "@/components/portfolio/footer"
+import { IntroOverlay } from "@/components/portfolio/intro-overlay"
 import { Navigation } from "@/components/portfolio/navigation"
 import { CommandPalette } from "@/components/command-palette"
 import { QueryProvider } from "@/components/query-provider"
@@ -170,6 +171,7 @@ export default function RootLayout({
             {children}
             <Footer />
           </QueryProvider>
+          <IntroOverlay />
         </ThemeProvider>
       </body>
     </html>
