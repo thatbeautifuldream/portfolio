@@ -82,7 +82,8 @@ app/                          → Next.js App Router pages and layouts
   spotify/page.tsx            → Spotify now playing + top tracks
   (orpc)/orpc/[[...rest]]/route.ts → ORPC OpenAPI docs endpoint
   (orpc)/rpc/[[...rest]]/route.ts   → ORPC RPC endpoint
-  api/og/route.tsx            → Dynamic OG image API (edge runtime)
+  og/[...slug]/route.tsx      → Public dynamic OG image endpoint (edge runtime)
+  api/og/[...slug]/route.tsx  → Backward-compatible redirect to `/og/...`
   api/wakatime/[endpoint]/route.ts  → WakaTime data proxy API
   manifest.ts                 → PWA manifest
 
@@ -205,7 +206,7 @@ pnpm db:push                  # Push schema to database
 ### 5.2 Next.js App Router Patterns
 
 - **Metadata**: Every page exports metadata via `createMetadata()` from `lib/metadata.ts`.
-- **OG Images**: `createMetadata({ ogType: "blog-post", slug })` auto-generates `/api/og?type=...` URLs.
+- **OG Images**: `createMetadata({ ogType: "blog-post", slug })` auto-generates public `/og/...` URLs.
 - **Static Params**: Blog and gist slugs use `generateStaticParams()`.
 - **Not Found**: Blog posts use `notFound()` from `next/navigation` for missing slugs.
 - **Prefetching**: WakaTime page prefetches react-query data server-side using `QueryClient` + `dehydrate`.
@@ -334,7 +335,8 @@ Shared values in `lib/motion-tokens.ts`:
 | `/spotify` | Page | Spotify now playing + top tracks via ORPC |
 | `/orpc/[[...rest]]` | API Route | ORPC OpenAPI docs |
 | `/rpc/[[...rest]]` | API Route | ORPC RPC handler |
-| `/api/og` | API Route | Dynamic OG image generation (edge runtime) |
+| `/og/[...slug]` | API Route | Public dynamic OG image generation (edge runtime) |
+| `/api/og/[...slug]` | API Route | Backward-compatible redirect to `/og/...` |
 | `/api/wakatime/*` | API Route | Proxied WakaTime data endpoints |
 
 ### 7.2 OG Image System
@@ -343,7 +345,8 @@ Shared values in `lib/motion-tokens.ts`:
 - **Library**: Satori + `next/og` `ImageResponse`
 - **Font**: Familjen Grotesk SemiBold (loaded from `public/fonts/`)
 - **Templates**: One per page type in `lib/og/templates/`
-- **URL Pattern**: `/api/og?type={home|blog|projects|work|talks|contact}&slug={optional}`
+- **URL Pattern**: `/og/{home|blog|projects|work|talks|contact}` and `/og/blog/{slug}` for blog posts
+- **Crawler compatibility**: OG image URLs must stay outside `/api`, `/rpc`, and `/orpc` because `robots.ts` blocks those paths for crawlers. Use explicit `image/png`, 1200x630 dimensions, alt text, and long-lived cache headers.
 - **Design**: Dark only (#0a0a0a bg, #fafafa primary text), minimal editorial aesthetic, 1200x630px
 - **Integration**: `createMetadata()` in `lib/metadata.ts` auto-generates OG and Twitter card URLs
 

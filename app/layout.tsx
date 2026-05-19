@@ -114,7 +114,7 @@ const rootSchema = {
         "https://www.linkedin.com/in/mishramilind/",
         "https://x.com/milindmishra_",
       ],
-      image: `${SITE_URL}/api/og/home`,
+      image: `${SITE_URL}/og/home`,
     },
     {
       "@type": "WebSite",
@@ -122,7 +122,7 @@ const rootSchema = {
       url: SITE_URL,
       description:
         "Product engineer building AI-native interfaces, product systems, and independent tools with sharper interaction quality.",
-      image: `${SITE_URL}/api/og/home`,
+      image: `${SITE_URL}/og/home`,
       potentialAction: {
         "@type": "SearchAction",
         target: {

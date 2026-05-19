@@ -37,11 +37,11 @@ export function createMetadata({
   if (image) {
     ogImageUrl = image
   } else if (ogType === "blog-post" && slug) {
-    ogImageUrl = `${siteUrl}/api/og/blog/${slug}`
+    ogImageUrl = `${siteUrl}/og/blog/${slug}`
   } else if (ogType === "tweets") {
-    ogImageUrl = `${siteUrl}/api/og/blog`
+    ogImageUrl = `${siteUrl}/og/blog`
   } else {
-    ogImageUrl = `${siteUrl}/api/og/${ogType}`
+    ogImageUrl = `${siteUrl}/og/${ogType}`
   }
 
   return {
@@ -62,15 +62,23 @@ export function createMetadata({
           url: ogImageUrl,
           width: 1200,
           height: 630,
+          type: "image/png",
           alt: title,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
+      site: "@milindmishra_",
+      creator: "@milindmishra_",
       title,
       description,
-      images: [ogImageUrl],
+      images: [
+        {
+          url: ogImageUrl,
+          alt: title,
+        },
+      ],
     },
   }
 }
