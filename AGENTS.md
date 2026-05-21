@@ -489,8 +489,10 @@ Shared values in `lib/motion-tokens.ts`:
 
 - `components/portfolio/hero-badge.tsx`
 - Interactive inline badge with spring physics
-- On press: scale down; on release: particle burst of icon copies
-- Configurable `burstIcon`, `hoverRotate`, and color classes
+- On press: scale down; on release: particle burst of WebP image copies
+- Home page emoji assets live in `public/emojis/` and are passed as `iconSrc` / `iconAlt`
+- Default styling is monochrome and token-based: `bg-muted`, `text-foreground`, `ring-border`, with `dark:shadow-none` and dark inset rings. Avoid per-badge color classes when using colorful emoji assets.
+- Configurable `hoverRotate` and optional `className`
 - Respects `useReducedMotion()`
 
 ### 8.5 Footer

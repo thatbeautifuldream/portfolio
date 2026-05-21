@@ -1,19 +1,11 @@
 "use client"
 
-import { RiHeartFill, RiMagicFill, RiSparklingFill } from "@remixicon/react"
+import Image from "next/image"
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { useCallback, useRef, useState } from "react"
 import type { ReactNode } from "react"
 
 import { cn } from "@/lib/utils"
-
-const burstIcons = {
-  RiSparklingFill,
-  RiMagicFill,
-  RiHeartFill,
-} as const
-
-type BurstIconKey = keyof typeof burstIcons
 
 type Particle = {
   id: number
@@ -26,8 +18,8 @@ type Particle = {
 
 type HeroBadgeProps = {
   children: ReactNode
-  icon: ReactNode
-  burstIcon: BurstIconKey
+  iconSrc: string
+  iconAlt: string
   hoverRotate?: number
   className?: string
 }
@@ -68,12 +60,11 @@ const hoverSpring = {
 
 export function HeroBadge({
   children,
-  icon,
-  burstIcon,
+  iconSrc,
+  iconAlt,
   hoverRotate = 0,
   className,
 }: HeroBadgeProps) {
-  const BurstIcon = burstIcons[burstIcon]
   const { particles, burst } = useIconBurst()
   const [pressed, setPressed] = useState(false)
   const [hovered, setHovered] = useState(false)
@@ -95,7 +86,7 @@ export function HeroBadge({
     <span className="relative inline-flex">
       <motion.span
         className={cn(
-          "inline-flex translate-y-[-0.08em] cursor-pointer items-center gap-1.5 rounded-xl py-1 pr-3 pl-2 text-[0.85em] shadow-sm ring-1 transition-shadow duration-200 ease-out select-none ring-inset hover:shadow-lg",
+          "inline-flex translate-y-[-0.08em] cursor-pointer items-center gap-1.5 rounded-xl bg-muted/55 py-1 pr-3 pl-2 text-[0.85em] text-foreground shadow-sm ring-1 ring-border/70 transition-[box-shadow,background-color] duration-200 ease-out select-none ring-inset hover:bg-muted/75 hover:shadow-md dark:bg-muted/35 dark:shadow-none dark:ring-white/10 dark:hover:bg-muted/45 dark:hover:shadow-none dark:inset-ring dark:inset-ring-white/5",
           className
         )}
         animate={{
@@ -125,7 +116,13 @@ export function HeroBadge({
           }
         }}
       >
-        {icon}
+        <Image
+          src={iconSrc}
+          alt={iconAlt}
+          width={24}
+          height={24}
+          className="size-[0.9em] shrink-0 object-contain"
+        />
         {children}
         <AnimatePresence>
           {particles.map((p) => (
@@ -147,7 +144,14 @@ export function HeroBadge({
                 ease: [0.15, 0.85, 0.25, 1],
               }}
             >
-              <BurstIcon style={{ width: p.size, height: p.size }} />
+              <Image
+                src={iconSrc}
+                alt=""
+                aria-hidden="true"
+                width={20}
+                height={20}
+                style={{ width: p.size, height: p.size }}
+              />
             </motion.span>
           ))}
         </AnimatePresence>

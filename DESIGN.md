@@ -247,11 +247,13 @@ File: `components/ui/badge.tsx`
 File: `components/portfolio/hero-badge.tsx`
 
 An interactive inline badge used inside the hero H1:
-- Inline-flex with an icon and text.
+- Inline-flex with a WebP emoji image and text.
 - **Spring physics** on press (`scale: 0.95`).
-- **Particle burst** on release: copies of `burstIcon` explode outward.
+- **Particle burst** on release: copies of the same WebP emoji explode outward.
 - **Hover rotation**: subtle `rotate` on hover.
-- **Color convention**: Light mode uses `bg-{color}-100 text-{color}-700 ring-{color}-200/80`. Dark mode uses `dark:bg-{color}-500/15 dark:text-{color}-300 dark:ring-{color}-400/20`.
+- **Color convention**: Monochrome token surface. Use `bg-muted`, `text-foreground`, and `ring-border` with opacity modifiers. Do not use per-badge brand colors when the badge already contains colorful emoji art.
+- **Dark mode**: No shadows. Use `dark:shadow-none`, subtle `dark:ring-white/10`, and `dark:inset-ring dark:inset-ring-white/5` for definition.
+- **Asset location**: Home page badge images live in `public/emojis/`.
 - Respects `useReducedMotion()`.
 
 ### 5.4 Theme Toggle
