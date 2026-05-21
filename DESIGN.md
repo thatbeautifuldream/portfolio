@@ -54,7 +54,7 @@ Colors are defined as CSS custom properties in `app/globals.css` and consumed vi
 - Weights: 400 (Regular), 500 (Medium), 600 (Semibold), 700 (Bold)
 - Applied in `layout.tsx` via `next/font/local`
 
-**Monospace**: `ui-monospace, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", Liberation Mono, monospace`
+**Monospace**: Google Sans Code via `next/font/google`, loaded as `--font-mono`, with system monospace fallbacks.
 
 **Scale & Rules**:
 

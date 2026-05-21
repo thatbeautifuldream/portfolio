@@ -9,9 +9,7 @@
 
 @theme inline {
   --font-sans: ui-sans-serif, system-ui, sans-serif;
-  --font-mono:
-    ui-monospace, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono",
-    monospace;
+  --font-mono: var(--font-mono);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

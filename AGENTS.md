@@ -241,7 +241,7 @@ pnpm db:push                  # Push schema to database
 - **Primary font**: OpenRunde, loaded via `next/font/local` as `--font-sans`.
 - Weights: 400 (Regular), 500 (Medium), 600 (Semibold), 700 (Bold).
 - Applied in `layout.tsx` via `openRunde.variable` and `openRunde.className`.
-- Monospace: `var(--font-mono)` (system mono stack).
+- Monospace: Google Sans Code via `next/font/google`, exposed to Tailwind as `var(--font-mono)` with system mono fallbacks.
 
 ### 5.6 Theme
 

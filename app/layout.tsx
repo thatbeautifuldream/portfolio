@@ -7,6 +7,7 @@ import { ServiceWorkerProvider } from "@/components/service-worker-provider"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AnalyticsProvider } from "@/components/providers/analytics-provider"
 import { JsonLd } from "@/components/json-ld"
+import { Google_Sans_Code } from "next/font/google"
 import localFont from "next/font/local"
 import { cookies } from "next/headers"
 import type { Metadata, Viewport } from "next"
@@ -38,6 +39,14 @@ const openRunde = localFont({
   ],
   variable: "--font-sans",
   display: "swap",
+})
+
+const googleSansCode = Google_Sans_Code({
+  subsets: ["latin"],
+  weight: "variable",
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-mono",
 })
 
 export const metadata: Metadata = {
@@ -147,7 +156,7 @@ export default async function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`antialiased scheme-only-dark ${openRunde.variable}`}
+      className={`antialiased scheme-only-dark ${openRunde.variable} ${googleSansCode.variable}`}
     >
       <head>
         <link rel="llms-txt" href={`${SITE_URL}/llms.txt`} />
