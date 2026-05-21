@@ -4,6 +4,7 @@ import Link from "next/link"
 import { FullSign } from "@/components/portfolio/full-sign"
 import { HeroStats } from "@/components/portfolio/hero-stats"
 import { RoughNote } from "@/components/portfolio/rough-note"
+import { SelectedWork } from "@/components/portfolio/selected-work"
 import { siteLinks } from "@/lib/portfolio-data"
 import { createMetadata } from "@/lib/metadata"
 import { JsonLd } from "@/components/json-ld"
@@ -97,6 +98,13 @@ export default function Page() {
                 <Link href={siteLinks.github.href}>
                   {siteLinks.github.label}
                 </Link>
+              </div>
+
+              <div
+                className="animate-fade-up"
+                style={{ animationDelay: "300ms" }}
+              >
+                <SelectedWork />
               </div>
 
               <HeroStats />
