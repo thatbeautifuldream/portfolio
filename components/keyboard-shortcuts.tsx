@@ -27,6 +27,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { Kbd, KbdGroup } from "@/components/ui/kbd"
 
 type KeyboardShortcutsContextValue = {
   commandOpen: boolean
@@ -44,6 +45,38 @@ const routeBySequence: Array<{ sequence: HotkeySequence; href: string }> = [
   { sequence: ["G", "T"], href: "/talks" },
   { sequence: ["G", "C"], href: "/contact" },
 ]
+
+function renderChord(hotkey: string) {
+  const keys = hotkey.split("+")
+
+  return (
+    <KbdGroup>
+      {keys.map((key, index) => (
+        <span key={`${key}-${index}`} className="inline-flex items-center gap-1">
+          <Kbd>{formatForDisplay(key as never)}</Kbd>
+          {index < keys.length - 1 ? (
+            <span className="text-xs text-muted-foreground">+</span>
+          ) : null}
+        </span>
+      ))}
+    </KbdGroup>
+  )
+}
+
+function renderSequence(sequence: string[]) {
+  return (
+    <span className="inline-flex items-center gap-2">
+      {sequence.map((step, stepIndex) => (
+        <span key={`${step}-${stepIndex}`} className="inline-flex items-center gap-2">
+          {renderChord(step)}
+          {stepIndex < sequence.length - 1 ? (
+            <span className="text-xs text-muted-foreground">then</span>
+          ) : null}
+        </span>
+      ))}
+    </span>
+  )
+}
 
 function KeyboardShortcutsDialog({
   open,
@@ -83,21 +116,16 @@ function KeyboardShortcutsDialog({
               <h3 className="text-sm font-medium text-foreground">{category}</h3>
               <ul className="space-y-1.5">
                 {shortcuts.map((shortcut) => {
-                  const binding = shortcut.hotkey
-                    ? formatForDisplay(shortcut.hotkey)
-                    : shortcut.sequence?.join(" then ")
-
                   return (
                     <li
                       key={shortcut.id}
-                      className="flex items-center justify-between gap-4 rounded-lg bg-muted/40 px-3 py-2"
+                      className="flex items-center justify-between gap-4 px-1 py-1.5"
                     >
                       <span className="text-sm text-muted-foreground">
                         {shortcut.name}
                       </span>
-                      <kbd className="rounded-md border border-border/60 bg-background px-2 py-1 font-mono text-xs text-foreground">
-                        {binding}
-                      </kbd>
+                      {shortcut.hotkey ? renderChord(shortcut.hotkey) : null}
+                      {shortcut.sequence ? renderSequence(shortcut.sequence) : null}
                     </li>
                   )
                 })}
