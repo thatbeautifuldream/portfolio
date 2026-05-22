@@ -32,6 +32,7 @@ import { Kbd, KbdGroup } from "@/components/ui/kbd"
 type KeyboardShortcutsContextValue = {
   commandOpen: boolean
   setCommandOpen: (open: boolean) => void
+  setShortcutsOpen: (open: boolean) => void
 }
 
 const KeyboardShortcutsContext =
@@ -52,11 +53,8 @@ function renderChord(hotkey: string) {
   return (
     <KbdGroup>
       {keys.map((key, index) => (
-        <span key={`${key}-${index}`} className="inline-flex items-center gap-1">
+        <span key={`${key}-${index}`} className="inline-flex items-center">
           <Kbd>{formatForDisplay(key as never)}</Kbd>
-          {index < keys.length - 1 ? (
-            <span className="text-xs text-muted-foreground">+</span>
-          ) : null}
         </span>
       ))}
     </KbdGroup>
@@ -212,8 +210,8 @@ function KeyboardShortcutsRuntime({ children }: PropsWithChildren) {
   )
 
   const contextValue = useMemo(
-    () => ({ commandOpen, setCommandOpen }),
-    [commandOpen]
+    () => ({ commandOpen, setCommandOpen, setShortcutsOpen: setHelpOpen }),
+    [commandOpen, setHelpOpen]
   )
 
   return (

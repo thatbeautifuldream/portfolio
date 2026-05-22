@@ -8,7 +8,10 @@ import {
   HamburgerIcon,
   NavMenuPanel,
 } from "@/components/portfolio/nav-menu-panel"
+import { useKeyboardShortcuts } from "@/components/keyboard-shortcuts"
 import { Sign } from "@/components/portfolio/sign"
+import { Button } from "@/components/ui/button"
+import { Kbd, KbdGroup } from "@/components/ui/kbd"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
@@ -20,6 +23,7 @@ export function Navigation() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const triggerRef = useRef<HTMLButtonElement>(null)
+  const { setShortcutsOpen } = useKeyboardShortcuts()
 
   useHotkey(
     "Mod+B",
@@ -70,7 +74,21 @@ export function Navigation() {
           </Link>
         </div>
 
-        <div className="relative z-10 flex items-center">
+        <div className="relative z-10 flex items-center gap-1">
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="hidden cursor-pointer rounded-full px-2.5 text-xs text-muted-foreground sm:mr-1 sm:inline-flex"
+            onClick={() => setShortcutsOpen(true)}
+            aria-label="Open keyboard shortcuts"
+          >
+            <KbdGroup>
+              <Kbd className="min-h-5 min-w-5 px-1 text-[10px]">⌘</Kbd>
+              <Kbd className="min-h-5 min-w-5 px-1 text-[10px]">⇧</Kbd>
+              <Kbd className="min-h-5 min-w-5 px-1 text-[10px]">K</Kbd>
+            </KbdGroup>
+          </Button>
           <ThemeToggle variant="icon" />
           <button
             ref={triggerRef}
