@@ -1,6 +1,7 @@
 "use client"
 
 import { markIntroPlayed } from "@/app/actions"
+import { useHotkey } from "@tanstack/react-hotkeys"
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { useCallback, useEffect, useState } from "react"
 import { FullSignAnimated } from "@/components/portfolio/full-sign-animated"
@@ -31,19 +32,21 @@ export function IntroOverlay({ alreadyPlayed }: IntroOverlayProps) {
     setStage("done")
   }, [])
 
+  useHotkey("Escape", finish, {
+    enabled: stage === "drawing",
+    meta: {
+      name: "Dismiss intro",
+      description: "Close intro overlay",
+    },
+  })
+
   useEffect(() => {
     if (stage !== "drawing") return
     const original = document.body.style.overflow
     document.body.style.overflow = "hidden"
 
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") finish()
-    }
-    window.addEventListener("keydown", onKey)
-
     return () => {
       document.body.style.overflow = original
-      window.removeEventListener("keydown", onKey)
     }
   }, [stage, finish])
 

@@ -31,6 +31,7 @@ This is the personal portfolio website of Milind Kumar Mishra. It is a full-stac
 | Backend API | ORPC | Type-safe RPC with OpenAPI docs, Zod validation |
 | Database | Neon Postgres + Drizzle ORM | Serverless Postgres with Drizzle ORM for persistence |
 | Command Palette | cmdk + Fuse.js | CMD+K with fuzzy search, navigation, theme control |
+| Keyboard Shortcuts | @tanstack/react-hotkeys | Centralized hotkey registry, sequences, and shortcuts dialog |
 | Spotify | ORPC procedures | Now playing + top tracks via Spotify Web API |
 | Blog Content | @content-collections/core | Markdown (`.md`) and MDX (`.mdx`) with Zod validation |
 | Charts | recharts | Used with shadcn `chart.tsx` wrapper |
@@ -432,14 +433,23 @@ Shared values in `lib/motion-tokens.ts`:
 ### 8.3 Command Palette
 
 - `components/command-palette.tsx` (app-level) + `components/ui/command.tsx` (primitives)
-- Global CMD+K triggered with `Cmd+K` / `Ctrl+K`
-- Uses `cmdk` for the dialog and `fuse.js` for fuzzy search
+- Global CMD+K triggered by centralized hotkeys (`Mod+K`)
+- Uses `cmdk` for the dialog and command keywords for filtering
 - Categories: Navigation, Analytics & Stats, Social Media, Contact
 - Handles both internal navigation (Next.js router) and external links (`window.open`)
 - **CommandDialog**: `rounded-3xl` dialog surface
 - **CommandInput**: `rounded-xl` InputGroup (nested radius formula: outer radius minus padding), gradient hairline divider below (`bg-linear-to-r from-transparent via-foreground/20 to-transparent`)
 - **CommandList**: Scroll-aware gradient fades at top/bottom edges. Uses `onScroll` to track `canScrollUp`/`canScrollDown` state, fading overlays in/out with `transition-opacity`. Gradients use `from-popover to-transparent` for theme consistency.
 - **CommandItem**: Check icon positioned `absolute right-3` to avoid competing with external link arrows (`RiArrowRightUpLine`). External icons use `ml-auto` to right-align.
+
+### 8.8 Keyboard shortcuts
+
+- `components/keyboard-shortcuts.tsx` is the single source of truth for app-wide keyboard behavior
+- Provider stack: `ThemeProvider` wraps app with `KeyboardShortcutsProvider` (TanStack `HotkeysProvider`)
+- Global hotkeys: `Mod+K` (command palette), `Mod+B` (toggle hamburger menu), `Mod+Shift+K` (shortcuts help), `D` (toggle theme)
+- Navigation sequences: `G H`, `G W`, `G P`, `G B`, `G T`, `G C`
+- Contextual dismiss actions now use `useHotkey("Escape")` in intro overlay, nav menu panel, and blog index
+- Registration metadata (`meta.name`, `meta.description`) is required for discoverability in shortcuts UI
 
 ### 8.4 Guestbook
 

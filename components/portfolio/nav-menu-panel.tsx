@@ -1,6 +1,7 @@
 "use client"
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
+import { useHotkey } from "@tanstack/react-hotkeys"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useRef, useSyncExternalStore } from "react"
@@ -101,6 +102,14 @@ export function NavMenuPanel({
   const panelRef = useRef<HTMLDivElement>(null)
   const shouldReduceMotion = useReducedMotion()
 
+  useHotkey("Escape", onClose, {
+    enabled: open,
+    meta: {
+      name: "Close navigation menu",
+      description: "Close mobile and overlay menu",
+    },
+  })
+
   useEffect(() => {
     if (!open) return
 
@@ -118,17 +127,11 @@ export function NavMenuPanel({
         onClose()
       }
     }
-    const onEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose()
-    }
-
     document.addEventListener("mousedown", onPointerDown)
-    document.addEventListener("keydown", onEscape)
     return () => {
       document.body.style.overflow = prevBody
       document.documentElement.style.overflow = prevHtml
       document.removeEventListener("mousedown", onPointerDown)
-      document.removeEventListener("keydown", onEscape)
     }
   }, [open, onClose, triggerRef])
 

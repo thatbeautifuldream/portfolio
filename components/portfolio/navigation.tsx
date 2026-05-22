@@ -1,6 +1,6 @@
 "use client"
 
-import { useReducedMotion } from "motion/react"
+import { useHotkey } from "@tanstack/react-hotkeys"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 
@@ -20,7 +20,19 @@ export function Navigation() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const triggerRef = useRef<HTMLButtonElement>(null)
-  const shouldReduceMotion = useReducedMotion()
+
+  useHotkey(
+    "Mod+B",
+    () => {
+      setOpen((prev) => !prev)
+    },
+    {
+      meta: {
+        name: "Toggle navigation menu",
+        description: "Open or close the hamburger menu",
+      },
+    }
+  )
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 32)

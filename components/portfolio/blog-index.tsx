@@ -2,6 +2,7 @@
 
 import NumberFlow from "@number-flow/react"
 import { RiArrowDownSLine, RiArrowLeftLine } from "@remixicon/react"
+import { useHotkey } from "@tanstack/react-hotkeys"
 import { motion, useReducedMotion } from "motion/react"
 import Link from "next/link"
 import { useCallback, useEffect, useRef, useState } from "react"
@@ -35,6 +36,14 @@ export function BlogIndex({
   const pillRef = useRef<HTMLDivElement>(null)
   const shouldReduceMotion = useReducedMotion()
 
+  useHotkey("Escape", () => setExpanded(false), {
+    enabled: expanded,
+    meta: {
+      name: "Collapse table of contents",
+      description: "Close expanded blog index",
+    },
+  })
+
   useEffect(() => {
     if (!expanded) return
 
@@ -44,15 +53,9 @@ export function BlogIndex({
         setExpanded(false)
       }
     }
-    const onEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setExpanded(false)
-    }
-
     document.addEventListener("mousedown", onPointerDown)
-    document.addEventListener("keydown", onEscape)
     return () => {
       document.removeEventListener("mousedown", onPointerDown)
-      document.removeEventListener("keydown", onEscape)
     }
   }, [expanded])
 

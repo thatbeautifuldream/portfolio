@@ -7,11 +7,12 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  CommandShortcut,
 } from "@/components/ui/command"
+import { useKeyboardShortcuts } from "@/components/keyboard-shortcuts"
 import { RiArrowRightUpLine } from "@remixicon/react"
-import Fuse from "fuse.js"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useMemo } from "react"
 
 type Action = {
   id: string
@@ -159,30 +160,25 @@ const actions: Action[] = [
   },
 ]
 
-const fuse = new Fuse<Action>([...actions], {
-  keys: ["label", "description", "keywords"],
-  threshold: 0.3,
-})
-
-const categories = [...new Set(actions.map((a) => a.category))]
+const navigationShortcutByHref: Record<string, string> = {
+  "/": "G H",
+  "/work": "G W",
+  "/projects": "G P",
+  "/blog": "G B",
+  "/talks": "G T",
+  "/contact": "G C",
+}
 
 export function CommandPalette() {
-  const [open, setOpen] = useState(false)
+  const { commandOpen, setCommandOpen } = useKeyboardShortcuts()
   const router = useRouter()
-
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setOpen((prev) => !prev)
-      }
-    }
-    document.addEventListener("keydown", down)
-    return () => document.removeEventListener("keydown", down)
-  }, [])
+  const categories = useMemo(
+    () => [...new Set(actions.map((a) => a.category))],
+    []
+  )
 
   const runAction = (action: Action) => {
-    setOpen(false)
+    setCommandOpen(false)
     if (action.external || action.href.startsWith("http")) {
       window.open(action.href, "_blank", "noopener")
     } else {
@@ -191,7 +187,7 @@ export function CommandPalette() {
   }
 
   return (
-    <CommandDialog open={open} onOpenChange={setOpen}>
+    <CommandDialog open={commandOpen} onOpenChange={setCommandOpen}>
       <CommandInput placeholder="Search pages" />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
@@ -206,6 +202,11 @@ export function CommandPalette() {
                   keywords={[action.keywords, action.description]}
                 >
                   <span>{action.label}</span>
+                  {!action.external && navigationShortcutByHref[action.href] && (
+                    <CommandShortcut>
+                      {navigationShortcutByHref[action.href]}
+                    </CommandShortcut>
+                  )}
                   {action.external && (
                     <RiArrowRightUpLine className="ml-auto size-3.5 shrink-0 text-muted-foreground" />
                   )}
