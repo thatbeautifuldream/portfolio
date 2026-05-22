@@ -171,7 +171,7 @@ export function NavMenuPanel({
       {open ? (
         <div className="fixed inset-0 z-120">
           <motion.div
-            className="absolute inset-0 bg-background dark:bg-background/80 dark:backdrop-blur-xl"
+            className="absolute inset-0 bg-background dark:bg-background/90 [transform:translateZ(0)] [backface-visibility:hidden] will-change-[opacity]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{

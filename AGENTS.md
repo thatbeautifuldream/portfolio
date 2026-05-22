@@ -227,6 +227,7 @@ pnpm db:push                  # Push schema to database
 - Prefer `gap-*` on flex/grid parents over `mt-*`/`mb-*` between children.
 - Use `min-h-svh` / `min-h-dvh`, never `min-h-screen` (deprecated).
 - Links default style: `text-foreground` with underline, `hover:text-muted-foreground` (set in `@layer base`).
+- For full-screen overlays in dialogs/menus, prefer tint overlays without `backdrop-filter` on Chromium to avoid flicker. If blur is required, add guards: `[-webkit-backdrop-filter:blur(...)]`, `[transform:translateZ(0)]`, `[backface-visibility:hidden]`, and `will-change-[opacity]`.
 
 ### 5.4 Icons
 
