@@ -1,6 +1,5 @@
 "use client"
 
-import NumberFlow from "@number-flow/react"
 import { RiArrowDownSLine, RiArrowLeftLine } from "@remixicon/react"
 import { useHotkey } from "@tanstack/react-hotkeys"
 import { motion, useReducedMotion } from "motion/react"
@@ -38,6 +37,7 @@ export function BlogIndex({
 
   useHotkey("Escape", () => setExpanded(false), {
     enabled: expanded,
+    conflictBehavior: "allow",
     meta: {
       name: "Collapse table of contents",
       description: "Close expanded blog index",
@@ -332,9 +332,7 @@ export function BlogIndex({
           </span>
         )}
         <span className="ml-auto flex items-center text-xs text-background/70 tabular-nums">
-          <span className="inline-flex w-[3ch] justify-end tabular-nums">
-            <NumberFlow value={percent} className="tabular-nums" />
-          </span>
+          <span className="inline-flex w-[3ch] justify-end tabular-nums">{percent}</span>
           %
         </span>
       </button>

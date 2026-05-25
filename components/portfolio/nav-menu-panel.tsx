@@ -104,6 +104,7 @@ export function NavMenuPanel({
 
   useHotkey("Escape", onClose, {
     enabled: open,
+    conflictBehavior: "allow",
     meta: {
       name: "Close navigation menu",
       description: "Close mobile and overlay menu",

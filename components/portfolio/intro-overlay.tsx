@@ -34,6 +34,7 @@ export function IntroOverlay({ alreadyPlayed }: IntroOverlayProps) {
 
   useHotkey("Escape", finish, {
     enabled: stage === "drawing",
+    conflictBehavior: "allow",
     meta: {
       name: "Dismiss intro",
       description: "Close intro overlay",

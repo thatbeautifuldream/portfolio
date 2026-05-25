@@ -303,6 +303,7 @@ Used for interactive and scroll-triggered animations:
 - `useReducedMotion()` is checked before running animations
 - `components/section.tsx`: Scroll-triggered entrance with blur + translateY
 - `components/portfolio/blog-index.tsx`: Floating pill with progress ring, layout animations
+- `components/portfolio/blog-index.tsx`: Floating pill with progress ring, layout animations, use plain tabular numeric text for progress percent to avoid hydration instability
 - `components/portfolio/hero-badge.tsx`: Spring-based press + particle burst
 - `components/portfolio/nav-menu-panel.tsx`: Portal-based menu with blur + stagger
 
@@ -450,7 +451,12 @@ Shared values in `lib/motion-tokens.ts`:
 - Global hotkeys: `Mod+K` (command palette), `Mod+B` (toggle hamburger menu), `Mod+Shift+K` (shortcuts help), `D` (toggle theme)
 - Navigation sequences: `G H`, `G W`, `G P`, `G B`, `G T`, `G C`
 - Contextual dismiss actions now use `useHotkey("Escape")` in intro overlay, nav menu panel, and blog index
+- Contextual `Escape` handlers should set `conflictBehavior: "allow"` because overlays can register the same key conditionally
 - Registration metadata (`meta.name`, `meta.description`) is required for discoverability in shortcuts UI
+
+### 8.9 Removed experiments
+
+- Removed `components/font-picker-dialog.tsx` and related font preference action usage, there is no app-level runtime font picker in this project
 
 ### 8.4 Guestbook
 
