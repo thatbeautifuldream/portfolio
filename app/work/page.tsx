@@ -45,7 +45,7 @@ export default function WorkPage() {
             style={{ animationDelay: "100ms" }}
           >
             <p className="text-sm text-muted-foreground">Selected work</p>
-            <h1 className="max-w-[28ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
+            <h1 className="max-w-[28ch] text-3xl font-serif italic font-normal tracking-tight text-balance md:text-5xl">
               Product and AI work across startup environments.
             </h1>
             <p className="max-w-[56ch] text-base text-pretty text-muted-foreground md:text-lg">

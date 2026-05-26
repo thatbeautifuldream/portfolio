@@ -82,7 +82,7 @@ export default async function WakatimePage() {
             className="animate-fade-up grid gap-4"
             style={{ animationDelay: "100ms" }}
           >
-            <h1 className="max-w-[28ch] text-3xl font-semibold tracking-tight md:text-5xl">
+            <h1 className="max-w-[28ch] text-3xl font-serif italic font-normal tracking-tight md:text-5xl">
               Wakatime
             </h1>
             <p className="max-w-[56ch] text-base text-pretty text-muted-foreground md:text-lg">

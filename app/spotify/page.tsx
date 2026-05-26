@@ -19,7 +19,7 @@ export default function SpotifyPage() {
             style={{ animationDelay: "100ms" }}
           >
             <p className="text-sm text-muted-foreground">Spotify</p>
-            <h1 className="max-w-[24ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
+            <h1 className="max-w-[24ch] text-3xl font-serif italic font-normal tracking-tight text-balance md:text-5xl">
               What I am listening to{" "}
               <RoughNote
                 type="underline"

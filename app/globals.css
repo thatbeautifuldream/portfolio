@@ -10,6 +10,7 @@
 @theme inline {
   --font-sans: ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-mono);
+  --font-serif: var(--font-libre-baskerville), ui-serif, Georgia, serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

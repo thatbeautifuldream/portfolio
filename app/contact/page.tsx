@@ -43,7 +43,7 @@ export default function contactPage() {
             style={{ animationDelay: "100ms" }}
           >
             <p className="text-sm text-muted-foreground">Contact</p>
-            <h1 className="max-w-[28ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
+            <h1 className="max-w-[28ch] text-3xl font-serif italic font-normal tracking-tight text-balance md:text-5xl">
               If the work needs{" "}
               <RoughNote
                 type="underline"

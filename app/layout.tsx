@@ -7,47 +7,11 @@ import { ServiceWorkerProvider } from "@/components/service-worker-provider"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AnalyticsProvider } from "@/components/providers/analytics-provider"
 import { JsonLd } from "@/components/json-ld"
-import { Google_Sans_Code } from "next/font/google"
-import localFont from "next/font/local"
 import { cookies } from "next/headers"
 import type { Metadata, Viewport } from "next"
+import { openRunde, googleSansCode, libreBaskerville } from "@/lib/fonts"
 import "react-tweet/theme.css"
 import "./globals.css"
-
-const openRunde = localFont({
-  src: [
-    {
-      path: "../fonts/OpenRunde-Regular.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../fonts/OpenRunde-Medium.woff2",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../fonts/OpenRunde-Semibold.woff2",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "../fonts/OpenRunde-Bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-  ],
-  variable: "--font-sans",
-  display: "swap",
-})
-
-const googleSansCode = Google_Sans_Code({
-  subsets: ["latin"],
-  weight: "variable",
-  style: ["normal", "italic"],
-  display: "swap",
-  variable: "--font-mono",
-})
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://milindmishra.com"),
@@ -156,7 +120,7 @@ export default async function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`antialiased scheme-only-dark ${openRunde.variable} ${googleSansCode.variable}`}
+      className={`antialiased scheme-only-dark ${openRunde.variable} ${googleSansCode.variable} ${libreBaskerville.variable}`}
     >
       <head>
         <link rel="llms-txt" href={`${SITE_URL}/llms.txt`} />

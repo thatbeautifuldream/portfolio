@@ -48,7 +48,7 @@ export default function GistsPage() {
               style={{ animationDelay: "100ms" }}
             >
               <p className="text-sm text-muted-foreground">Gists</p>
-              <h1 className="max-w-[24ch] text-3xl font-semibold tracking-tight text-balance md:text-5xl">
+              <h1 className="max-w-[24ch] text-3xl font-serif italic font-normal tracking-tight text-balance md:text-5xl">
                 Code snippets and quick solutions.
               </h1>
             </div>

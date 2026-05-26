@@ -50,7 +50,7 @@ export default function ProjectsPage() {
               style={{ animationDelay: "100ms" }}
             >
               <p className="text-sm text-muted-foreground">Side projects</p>
-              <h1 className="max-w-[28ch] text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+              <h1 className="max-w-[28ch] text-3xl font-serif italic font-normal tracking-tight text-balance md:text-4xl">
                 My experimental ground. Build something, break something, learn
                 everything.
               </h1>
