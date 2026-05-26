@@ -48,8 +48,9 @@ export function StreamdownWrapper({ content }: StreamdownWrapperProps) {
       components={{
         p: ({ children, ...props }) => {
           const kids = Children.toArray(children).filter(
-            (child) => !(typeof child === "string" && child.trim() === "")
+            (child) => !(typeof child === "string" && /^\s*$/.test(child))
           )
+
           if (kids.length === 1) {
             const id = extractTweetId(kids[0])
             if (id) {
@@ -62,7 +63,16 @@ export function StreamdownWrapper({ content }: StreamdownWrapperProps) {
               )
             }
           }
-          return <p {...props}>{children}</p>
+
+          const className = [props.className, "whitespace-pre-line"]
+            .filter(Boolean)
+            .join(" ")
+
+          return (
+            <p {...props} className={className}>
+              {children}
+            </p>
+          )
         },
       }}
     >

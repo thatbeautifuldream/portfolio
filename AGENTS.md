@@ -359,6 +359,7 @@ Shared values in `lib/motion-tokens.ts`:
 - **Collection**: `posts` in `content-collections.ts`
 - **Schema**: `title`, `description`, `content`, `category`, `date`
 - **Rendering**: `StreamdownWrapper` with `streamdown` + `@streamdown/code` + `@streamdown/mermaid`
+- **Line breaks**: Blog paragraph rendering preserves authored newline structure via `whitespace-pre-line` in `StreamdownWrapper` paragraph override
 - **TOC**: `BlogIndex` component extracts `h2`/`h3` headings, creates floating pill with SVG progress ring
 - **Code blocks**: `rehypeCode` with `github-light` / `github-dark-default` themes
 - **Not found**: `app/blog/[slug]/not-found.tsx`
