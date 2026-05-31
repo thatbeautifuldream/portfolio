@@ -1,7 +1,7 @@
-import { execSync } from "child_process";
-import { withContentCollections } from "@content-collections/next";
+import { execSync } from "child_process"
+import { withContentCollections } from "@content-collections/next"
 
-const commitHash = execSync("git rev-parse HEAD").toString().trim();
+const commitHash = execSync("git rev-parse HEAD").toString().trim()
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -41,7 +41,16 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
+    async redirects() {
+      return [
+        {
+          source: "/whatsapp",
+          destination: "https://wa.me/919631333128",
+          permanent: true,
+        },
+      ]
+    },
   },
-};
+}
 
-export default withContentCollections(nextConfig);
+export default withContentCollections(nextConfig)
