@@ -51,6 +51,15 @@ const nextConfig = {
       },
     ]
   },
+  async rewrites() {
+    return [
+      {
+        source: "/resume",
+        destination:
+          "https://cdn.jsdelivr.net/gh/thatbeautifuldream/resume-tex/resume.pdf",
+      },
+    ]
+  },
 }
 
 export default withContentCollections(nextConfig)
