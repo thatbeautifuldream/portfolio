@@ -41,15 +41,15 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
-    async redirects() {
-      return [
-        {
-          source: "/whatsapp",
-          destination: "https://wa.me/919631333128",
-          permanent: true,
-        },
-      ]
-    },
+  },
+  async redirects() {
+    return [
+      {
+        source: "/whatsapp",
+        destination: "https://wa.me/919631333128",
+        permanent: true,
+      },
+    ]
   },
 }
 
