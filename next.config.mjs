@@ -58,6 +58,11 @@ const nextConfig = {
         destination:
           "https://cdn.jsdelivr.net/gh/thatbeautifuldream/resume-tex/resume.pdf",
       },
+      {
+        source: "/merlin",
+        destination:
+          "https://www.getmerlin.in",
+      },
     ]
   },
 }
