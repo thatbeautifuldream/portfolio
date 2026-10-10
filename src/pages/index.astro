@@ -4,12 +4,11 @@ import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
-import wavingHand from "../assets/emojis/waving-hand.webp";
 import merlin from "../assets/emojis/merlin.webp";
-import cityscape from "../assets/emojis/cityscape.png";
 import jsonVisualiser from "../assets/icons/json-visualiser.png";
 import markdownVisualizer from "../assets/icons/markdown-visualizer.png";
 import IndexList from "../components/IndexList.astro";
+import AboutHeadline from "../components/AboutHeadline.astro";
 import GitHubChart from "../components/GitHubChart.astro";
 import {
   contactEmail,
@@ -67,7 +66,7 @@ const jsonLd = [
 
 <Layout title={siteConfig.name} description={t.description} jsonLd={jsonLd}>
   <main class="stagger grid gap-12">
-    <article class="grid gap-8">
+    <article class="grid min-w-0 gap-8" data-animated-about>
       <header class="grid gap-4">
         <p class="text-faint">
           {
@@ -80,27 +79,13 @@ const jsonLd = [
             )
           }
         </p>
-        <h1 class="text-3xl font-medium tracking-tight text-pretty sm:text-4xl">
-          <span class="text-faint">{home.hi}</span>
-          <Image
-            src={wavingHand}
-            alt=""
-            width={96}
-            class="wave inline-block size-[0.9em] align-[-0.1em]"
-          />
-          <span class="text-faint">{home.im}</span>
-          {home.name}
-          <span class="text-faint">{home.build}</span>
-          {home.feels}
-        </h1>
+        <AboutHeadline locale={locale} />
       </header>
       <div class="grid gap-4 text-base/7 sm:text-sm/6">
         <p class="text-pretty">
           {home.intro[0]}<a href="https://www.getmerlin.in/chat" class="chip"
             ><Image src={merlin} alt="" width={40} />Merlin AI</a
-          >{home.intro[1]}<span class="chip"
-            ><Image src={cityscape} alt="" width={40} />{t.city}</span
-          >{home.intro[2]}
+          >{home.intro[1]}{t.city}{home.intro[2]}
         </p>
         <p class="text-pretty">
           {home.tools[0]}<a

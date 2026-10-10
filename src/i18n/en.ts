@@ -35,15 +35,15 @@ const en = {
     intro: [
       "Product engineer at ",
       " in ",
-      ". 130+ releases across mobile, desktop and web, and a coding agent from zero to v1.0 in two weeks.",
+      ". I turn the messy middle of an idea into something you can actually use. 130+ releases across mobile, desktop, and web; one coding agent from zero to v1.0 in two weeks.",
     ],
     tools: [
-      "My work has reached 2m+ people across five 0-to-1 products, and I build tools I use every day, like ",
+      "The big picture matters. So does the way a button feels. My work has reached 2m+ people across five 0-to-1 products. On the side, I make tools for my own everyday friction, like ",
       " and ",
       ".",
     ],
     next: [
-      "Next, I'm heading into design engineering. Find me on ",
+      "Currently exploring the space between engineering and design. Find me on ",
       ", ",
       " and ",
       ", read my ",
