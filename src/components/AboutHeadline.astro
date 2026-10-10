@@ -39,62 +39,64 @@ const groups = [
   <p class="text-muted-foreground text-base/7 sm:text-sm/6">
     {copy.greeting}
   </p>
-  <h1
-    class="about-heading max-w-[35ch] text-3xl font-medium tracking-tight sm:text-4xl"
-  >
-    {
-      groups.map((group) => (
-        <>
-          {group.before}{" "}
-          <span class="inline-flex items-baseline whitespace-nowrap">
-            <button
-              type="button"
-              class="morph-word"
-              data-morph-words={JSON.stringify(group.values)}
-              aria-label={`${group.label}: ${group.values[0]}`}
-              data-label={group.label}
-            >
-              <span class="morph-icon-slot" aria-hidden="true">
-                {group.values.map((_, index) => (
-                  <span
-                    class="morph-icon"
-                    data-morph-icon={index}
-                    hidden={index !== 0}
-                  >
-                    {group.logos ? (
-                      <>
-                        <img
-                          src={`/icons/about/${group.logos[index]}-light.svg`}
-                          alt=""
-                          width="36"
-                          height="36"
-                          class="dark:hidden"
+  <div class="about-heading-flow">
+    <h1
+      class="about-heading max-w-[35ch] text-3xl font-medium tracking-tight sm:text-4xl"
+    >
+      {
+        groups.map((group) => (
+          <>
+            {group.before}{" "}
+            <span class="inline-flex items-baseline whitespace-nowrap">
+              <button
+                type="button"
+                class="morph-word"
+                data-morph-words={JSON.stringify(group.values)}
+                aria-label={`${group.label}: ${group.values[0]}`}
+                data-label={group.label}
+              >
+                <span class="morph-icon-slot" aria-hidden="true">
+                  {group.values.map((_, index) => (
+                    <span
+                      class="morph-icon"
+                      data-morph-icon={index}
+                      hidden={index !== 0}
+                    >
+                      {group.logos ? (
+                        <>
+                          <img
+                            src={`/icons/about/${group.logos[index]}-light.svg`}
+                            alt=""
+                            width="36"
+                            height="36"
+                            class="dark:hidden"
+                          />
+                          <img
+                            src={`/icons/about/${group.logos[index]}-dark.svg`}
+                            alt=""
+                            width="36"
+                            height="36"
+                            class="not-dark:hidden"
+                          />
+                        </>
+                      ) : (
+                        <Icon
+                          name={group.icons![index]!}
+                          class={group.colors![index]}
                         />
-                        <img
-                          src={`/icons/about/${group.logos[index]}-dark.svg`}
-                          alt=""
-                          width="36"
-                          height="36"
-                          class="not-dark:hidden"
-                        />
-                      </>
-                    ) : (
-                      <Icon
-                        name={group.icons![index]!}
-                        class={group.colors![index]}
-                      />
-                    )}
-                  </span>
-                ))}
-              </span>
-              <span data-morph-text>{group.values[0]}</span>
-            </button>
-            <span>{group.punctuation}</span>
-          </span>{" "}
-        </>
-      ))
-    }
-  </h1>
+                      )}
+                    </span>
+                  ))}
+                </span>
+                <span data-morph-text>{group.values[0]}</span>
+              </button>
+              <span>{group.punctuation}</span>
+            </span>{" "}
+          </>
+        ))
+      }
+    </h1>
+  </div>
 </div>
 
 <script>
@@ -147,6 +149,10 @@ const groups = [
   }
 
   @media (prefers-reduced-motion: no-preference) {
+    .about-heading-flow {
+      transition: height 550ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
     .morph-icon:not([hidden]) {
       animation: icon-in 550ms cubic-bezier(0.22, 1, 0.36, 1) both;
     }

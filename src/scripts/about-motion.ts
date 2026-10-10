@@ -8,6 +8,14 @@ async function initializeAbout() {
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
   const controller = new AbortController();
   const { signal } = controller;
+  const heading = root.querySelector<HTMLHeadingElement>("h1")!;
+  const headingFlow = heading.parentElement!;
+  const followHeadingHeight = () => {
+    headingFlow.style.height = `${heading.getBoundingClientRect().height}px`;
+  };
+  followHeadingHeight();
+  const headingObserver = new ResizeObserver(followHeadingHeight);
+  headingObserver.observe(heading);
   const instances: TextMorph[] = [];
   const morph = (element: HTMLElement) => {
     const instance = new TextMorph({
@@ -94,6 +102,7 @@ async function initializeAbout() {
       if (!event.persisted) {
         controller.abort();
         observer.disconnect();
+        headingObserver.disconnect();
         instances.forEach((instance) => instance.destroy());
       }
     },
