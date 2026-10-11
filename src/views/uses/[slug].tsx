@@ -1,3 +1,4 @@
+import Content from "../../components/Content";
 import SiteLink from "../../components/SiteLink";
 import type { ComponentProps } from "../../lib/ui";
 import { classes } from "../../lib/ui";
@@ -64,10 +65,7 @@ export default async function View(props: ComponentProps) {
                 className="w-full rounded-lg outline-1 -outline-offset-1 outline-black/5 dark:outline-white/10"
               />
             )}
-            <div
-              className="prose min-w-0"
-              dangerouslySetInnerHTML={{ __html: item.html }}
-            />
+            <Content className="prose min-w-0" html={item.html} />
           </article>
         </main>
       </Layout>

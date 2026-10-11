@@ -1,3 +1,4 @@
+import Content from "../../components/Content";
 import type { ComponentProps } from "../../lib/ui";
 import { classes } from "../../lib/ui";
 import ClientScript from "../../components/ClientScript";
@@ -73,10 +74,7 @@ export default async function View(props: ComponentProps) {
                 className="w-full rounded-lg outline-1 -outline-offset-1 outline-black/5 dark:outline-white/10"
               />
             )}
-            <div
-              className="prose min-w-0"
-              dangerouslySetInnerHTML={{ __html: post.html }}
-            />
+            <Content className="prose min-w-0" html={post.html} />
           </article>
         </main>
         <CodeCopy context={context} />

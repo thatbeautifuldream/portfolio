@@ -203,3 +203,42 @@ test("native Next.js OG and story exports retain their reviewed design", async (
     assert.deepEqual([...pixel], [253, 253, 252], file);
   }
 });
+
+test("content images use native blur placeholders and retain responsive sources", async () => {
+  const images = JSON.parse(
+    await fs.readFile(".generated/images.json", "utf8"),
+  );
+  const bySrc = new Map(
+    Object.values(images).map((image: any) => [image.src, image]),
+  );
+  for (const image of bySrc.values()) {
+    if (!image.blurDataURL) continue;
+    const preview = Buffer.from(image.blurDataURL.split(",")[1], "base64");
+    const metadata = await sharp(preview).metadata();
+    assert.ok(metadata.width! <= 10 && metadata.height! <= 10);
+    assert.ok(preview.length < 1024, "placeholder should stay tiny");
+  }
+  let checked = 0;
+  for (const file of Object.keys(baseline.pages)) {
+    if (file === "whatsapp/index.html") continue;
+    function walk(node: any, parent?: any) {
+      const image = node.tagName === "img" && bySrc.get(node.properties.src);
+      if (image?.blurDataURL) {
+        checked++;
+        assert.equal(node.properties.dataNimg, "1", file);
+        assert.match(node.properties.style, /background-image:url\(/, file);
+        assert.equal(node.properties.width, image.width, file);
+        assert.equal(node.properties.height, image.height, file);
+        assert.equal(parent.tagName, "picture", file);
+        const source = parent.children.find(
+          (child: any) => child.tagName === "source",
+        );
+        assert.equal(source.properties.srcSet, image.srcSet, file);
+        assert.equal(source.properties.sizes, image.sizes, file);
+      }
+      for (const child of node.children ?? []) walk(child, node);
+    }
+    walk(fromHtml(await fs.readFile(path.join("dist", file), "utf8")));
+  }
+  assert.ok(checked > 0, "check exported images, including Markdown images");
+});

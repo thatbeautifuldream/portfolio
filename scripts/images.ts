@@ -8,14 +8,30 @@ export interface ResponsiveImage {
   height: number;
   srcSet: string;
   sizes: string;
+  blurDataURL?: string;
 }
 // Static image optimization retains responsive images without a runtime server.
 export async function optimizeContentImages(files: string[]) {
   const manifest: Record<string, ResponsiveImage> = {};
   for (const file of files) {
     if (!/\.(png|jpe?g|webp|avif)$/i.test(file)) continue;
-    const { width, height } = await sharp(file).metadata();
+    const { width, height, pages } = await sharp(file).metadata();
     if (!width || !height) continue;
+    // A tiny, aspect-matched preview is inlined; no extra request or runtime work.
+    const blurDataURL =
+      !pages || pages === 1
+        ? `data:image/webp;base64,${(
+            await sharp(file)
+              .resize({
+                width: 10,
+                height: 10,
+                fit: "inside",
+                withoutEnlargement: true,
+              })
+              .webp({ quality: 30 })
+              .toBuffer()
+          ).toString("base64")}`
+        : undefined;
     const widths = [
       ...new Set(
         [640, 750, 828, 1080, 1280, 1600, 1920, width].filter(
@@ -40,6 +56,7 @@ export async function optimizeContentImages(files: string[]) {
       height,
       srcSet: variants.map((v) => `${v.src} ${v.width}w`).join(", "),
       sizes: `(min-width: ${width}px) ${width}px, 100vw`,
+      blurDataURL,
     };
   }
   await fs.mkdir(".generated", { recursive: true });

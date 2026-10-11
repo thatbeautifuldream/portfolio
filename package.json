@@ -28,6 +28,7 @@
     "entities": "^8.1.0",
     "gray-matter": "^4.0.3",
     "hast-util-from-html": "^2.0.3",
+    "hast-util-to-jsx-runtime": "^2.3.6",
     "next": "^16.4.0",
     "posthog-js": "^1.395.0",
     "react": "^19.3.0",

@@ -1,3 +1,4 @@
+import Content from "../../components/Content";
 import SiteLink from "../../components/SiteLink";
 import type { ComponentProps } from "../../lib/ui";
 import { classes } from "../../lib/ui";
@@ -66,10 +67,7 @@ export default async function View(props: ComponentProps) {
                 </SiteLink>
               </p>
             </div>
-            <div
-              className="prose min-w-0"
-              dangerouslySetInnerHTML={{ __html: gist.html }}
-            />
+            <Content className="prose min-w-0" html={gist.html} />
           </article>
         </main>
         <CodeCopy context={context} />

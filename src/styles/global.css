@@ -414,7 +414,17 @@ html.theme-transition::view-transition-new(root) {
     outline: 1px solid var(--color-border);
     outline-offset: -1px;
   }
-  & > * + :where(p:has(> img), img, figure, video, pre, [data-code-block]) {
+  &
+    > *
+    + :where(
+      p:has(> img, > picture > img),
+      img,
+      picture,
+      figure,
+      video,
+      pre,
+      [data-code-block]
+    ) {
     margin-top: --spacing(6);
   }
   & :where(hr) {
