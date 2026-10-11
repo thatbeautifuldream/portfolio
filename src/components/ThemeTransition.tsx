@@ -78,7 +78,10 @@ export default function ThemeTransition({ children }: { children: ReactNode }) {
       default="none"
       update={{ "theme-toggle": "theme-wipe", default: "none" }}
     >
-      <div className="min-h-svh" data-theme={theme ?? undefined}>
+      <div
+        className="bg-background text-foreground min-h-svh"
+        data-theme={theme ?? undefined}
+      >
         {children}
       </div>
     </ViewTransition>
