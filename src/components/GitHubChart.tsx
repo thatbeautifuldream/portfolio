@@ -1,6 +1,5 @@
 import SiteLink from "./SiteLink";
 import type { ComponentProps } from "../lib/ui";
-import { classes } from "../lib/ui";
 import ClientScript from "./ClientScript";
 import { siteLinks } from "../data/portfolio";
 import Tooltip from "./Tooltip";

@@ -1,5 +1,4 @@
 import type { ComponentProps } from "../lib/ui";
-import { classes } from "../lib/ui";
 import Layout from "../layouts/Layout";
 import PageHeader from "../components/PageHeader";
 import IndexList from "../components/IndexList";
@@ -25,28 +24,13 @@ export default async function View(props: ComponentProps) {
               you back on track.
             </p>
           </article>
-          <section className="grid min-w-0 gap-4">
-            <h2 className="section-title">Agent recovery links</h2>
-            <div className="prose min-w-0">
-              <pre>
-                <code>{`# Not found
-
-Try the homepage, sitemap, Markdown content, or API docs:
-
-- [Home](/)
-- [Sitemap](/sitemap-index.xml)
-- [Machine-readable context](/llms.txt)
-- [API documentation](/docs)`}</code>
-              </pre>
-            </div>
-          </section>
           <IndexList
             context={context}
             title="Go somewhere"
             items={[
               { href: "/", title: "Home" },
               { href: "/blog", title: "Read the blog" },
-              { href: "/docs", title: "API documentation" },
+              { href: "/index.md", title: "Homepage Markdown" },
             ]}
           />
         </main>

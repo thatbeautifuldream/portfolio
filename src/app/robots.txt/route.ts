@@ -1,7 +1,6 @@
-import type { APIRoute } from "../lib/resource";
-import { siteConfig } from "../lib/seo";
+import { siteConfig } from "../../lib/seo";
 
-export const prerender = true;
+export const dynamic = "force-static";
 
 // AI crawlers are explicitly allowed so assistants can cite and index the
 // site. Listed by user-agent rather than relying on the blanket `User-agent:
@@ -41,11 +40,11 @@ Sitemap: ${sitemapURL.href}
 `;
 };
 
-export const GET: APIRoute = ({ site }) => {
-  const sitemapURL = new URL("sitemap-index.xml", site ?? siteConfig.url);
+export function GET() {
+  const sitemapURL = new URL("sitemap-index.xml", siteConfig.url);
   return new Response(getRobotsTxt(sitemapURL), {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
     },
   });
-};
+}

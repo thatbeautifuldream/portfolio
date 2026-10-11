@@ -75,7 +75,7 @@ async function highlightTree(tree: any) {
         const { fromHtml } = await import("hast-util-from-html");
         const replacement = fromHtml(html, { fragment: true })
           .children[0] as any;
-        replacement.properties.className = ["astro-code"];
+        replacement.properties.className = ["code-highlight"];
         Object.assign(child, replacement);
       } else await walk(child);
     }

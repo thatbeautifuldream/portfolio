@@ -25,14 +25,9 @@ function staticPage(path: string, site?: URL | null): string | null {
       `I'm most responsive on email and LinkedIn. If you have something interesting to discuss, send a detailed message rather than a generic introduction.\n\nEmail: ${siteConfig.email}\n\nBased in ${siteConfig.location.city}, ${siteConfig.location.country} (${siteConfig.location.timezoneLabel}). I keep a 3–4 hour overlap with US mornings and most of the European workday, and I'm open to remote roles, B2B contractor, or EOR arrangements.\n\n${list(contactLinks.map((item) => `[${item.label}](${item.href}) — ${item.copy}`))}`,
       site,
     ),
-    "/docs": page(
-      `API documentation · ${siteConfig.name}`,
-      `This is the public API documentation for ${siteConfig.name}. It provides stable, read-only access to professional identity, current role, expertise, blog posts, gists, and canonical links.\n\n## Quickstart\n\nNo authentication or API key is required.\n\n\`\`\`sh\ncurl -s ${absoluteUrl("/api/v1/index.json", site)}\ncurl -s ${absoluteUrl("/api/v1/profile.json", site)}\n\`\`\`\n\n## Resources\n\n- ${link("OpenAPI", "/openapi.json", site)}\n- ${link("API index", "/api/v1/index.json", site)}\n- ${link("Profile JSON", "/api/v1/profile.json", site)}\n- ${link("Posts JSON", "/api/v1/posts.json", site)}\n- ${link("Gists JSON", "/api/v1/gists.json", site)}\n\nUse \/api\/v1\/ for integrations. JSON errors expose stable \`code\`, \`message\`, and \`hint\` fields.`,
-      site,
-    ),
     "/privacy": page(
       `Privacy · ${siteConfig.name}`,
-      `The pages are primarily static content. When analytics are enabled, Google Analytics and Microsoft Clarity load only after a visitor interacts with the page or after the idle fallback. Those services may receive page-view, device, browser, and interaction information according to their own policies. The site does not ask visitors to create an account or submit a password.\n\nIf you email me, I receive the information you choose to include so I can reply. I use it for the conversation you initiated and do not sell personal information. The public profile and developer API are read-only and do not require cookies, login, API keys, or personal data.`,
+      `The pages are primarily static content. When analytics are enabled, Google Analytics and Microsoft Clarity load only after a visitor interacts with the page or after the idle fallback. Those services may receive page-view, device, browser, and interaction information according to their own policies. The site does not ask visitors to create an account or submit a password.\n\nIf you email me, I receive the information you choose to include so I can reply. I use it for the conversation you initiated and do not sell personal information.`,
       site,
     ),
     "/work": page(
@@ -184,10 +179,7 @@ export async function getMarkdownPaths() {
   paths.add("/uses");
   const pages = await collectionPages();
   for (const path of pages.keys()) paths.add(path);
-  paths.delete("/");
-  return [...paths].map((path) => ({
-    params: { path: path.slice(1) },
-  }));
+  return [...paths];
 }
 
 export async function buildPageMarkdown(path: string, site?: URL | null) {
@@ -207,13 +199,6 @@ Based in ${siteConfig.location.city}, ${siteConfig.location.country}. Current ro
 ## Projects
 
 ${projects.map((project) => `- ${link(project.data.title, `/project/${project.id}`, site)} — ${project.data.description}`).join("\n")}
-
-## Resources
-
-- ${link("API documentation", "/docs", site)}
-- ${link("OpenAPI contract", "/openapi.json", site)}
-- ${link("Profile JSON", "/api/v1/profile.json", site)}
-- ${link("Full context", "/llms-full.txt", site)}
 
 ## Navigation
 

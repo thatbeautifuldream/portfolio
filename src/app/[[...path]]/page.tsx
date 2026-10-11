@@ -13,7 +13,6 @@ import Work from "../../views/work";
 import Talks from "../../views/talks";
 import Contact from "../../views/contact";
 import Privacy from "../../views/privacy";
-import Docs from "../../views/docs";
 import Post from "../../views/blog/[slug]";
 import Gist from "../../views/gist/[slug]";
 import Project from "../../views/project/[slug]";
@@ -29,7 +28,6 @@ const views = {
   talks: Talks,
   contact: Contact,
   privacy: Privacy,
-  docs: Docs,
   "404": Missing,
 };
 const collections = {
@@ -44,7 +42,7 @@ export async function generateStaticParams() {
   for (const locale of ["en", "hi"] as Locale[]) {
     const prefix = locale === "en" ? [] : ["hi"];
     for (const key of Object.keys(views)) {
-      if (locale === "hi" && ["docs", "404"].includes(key)) continue;
+      if (locale === "hi" && key === "404") continue;
       paths.push([...prefix, ...(key ? [key] : [])]);
     }
     for (const [route, collection] of Object.entries(collections)) {

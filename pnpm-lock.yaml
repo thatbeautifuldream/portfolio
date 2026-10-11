@@ -32,9 +32,6 @@ importers:
       next:
         specifier: ^16.4.0
         version: 16.4.0(@opentelemetry/api@1.9.1)(@types/node@26.6.5)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      posthog-js:
-        specifier: ^1.395.0
-        version: 1.395.0
       react:
         specifier: ^19.3.0
         version: 19.3.0
@@ -898,12 +895,6 @@ packages:
   '@paulirish/trace_engine@0.0.65':
     resolution: {integrity: sha512-Qsm6F5C8xf6ZzQXbQc2+wcpe6sggfs/gvc/ytqSurdvYg3kyW0ECHCqE0CWBKZpqgjVfPNX9c7SCS3r2nEIRGg==}
 
-  '@posthog/core@1.38.0':
-    resolution: {integrity: sha512-QLrJh0hMVpEJXHNyiJR9YhvIO5tzLDedw4UHdvB+ub4fXHMtHCA8H44qgl11HWR3ajpjxtJ8hs3HyOGVF3Zc1w==}
-
-  '@posthog/types@1.391.1':
-    resolution: {integrity: sha512-ASwd7Nf4pViqdYRYaNRyPYRVKWa1CcHUAUWR0XeQJLGdNnsWACBwe0sSieb/cHnKsRXjRwO/23KIY83lm/Ccpw==}
-
   '@prisma/instrumentation@6.11.1':
     resolution: {integrity: sha512-mrZOev24EDhnefmnZX7WVVT7v+r9LttPRqf54ONvj6re4XMF7wFTpK2tLJi4XHB7fFp/6xhYbgRel8YV7gQiyA==}
     peerDependencies:
@@ -1136,9 +1127,6 @@ packages:
   '@types/tedious@4.0.14':
     resolution: {integrity: sha512-KHPsfX/FoVbUGbyYvk1q9MMQHLPeRZhRJZdO45Q4YjvFkv4hMNghCWTvy7rdKessBsmtz4euWCWAB6/tVpI1Iw==}
 
-  '@types/trusted-types@2.0.7':
-    resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
-
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
 
@@ -1293,9 +1281,6 @@ packages:
     resolution: {integrity: sha512-N4oog6YJWbR9kGyXvS7jEykLDXIE2C0ILYqNBZBp9iwiJpoCBWYsuAdW6PPFn6w06jjnC+3JstVvWHO4cZqvRg==}
     engines: {node: '>=18'}
 
-  core-js@3.49.0:
-    resolution: {integrity: sha512-es1U2+YTtzpwkxVLwAFdSpaIMyQaq0PBgm3YD1W3Qpsn1NAmO3KSgZfu+oGSWVu6NvLHoHCV/aYcsE5wiB7ALg==}
-
   csp_evaluator@1.1.8:
     resolution: {integrity: sha512-EwOnfYuNbTytvbMKsLixTrRgnjOa0WZCxGy8A9nnSYAicrdwn+T/epU/yjgymmOxlgKnvH+8wXt+7p/8ak5Feg==}
 
@@ -1354,9 +1339,6 @@ packages:
 
   devtools-protocol@0.0.1638949:
     resolution: {integrity: sha512-mXwg4Fqnv0WR4iuAT/gYUmctNkjILwXFHyZ+m7Ty1dfr0ezZt2U3gnrrJTfRobJTHoXf+IbuFvFITzLrLFjwJA==}
-
-  dompurify@3.4.11:
-    resolution: {integrity: sha512-zhlUV12GsaRzMsf9q5M254YhA4+VuF0fG+QFqu6aYpoGlKtz+w8//jBcGVYBgQkR5GHjUomejY84AV+/uPbWdw==}
 
   dot-prop@9.0.0:
     resolution: {integrity: sha512-1gxPBJpI/pcjQhKgIU91II6Wkay+dLcN3M6rf2uwP8hRur3HtQXjVrdAK3sjC0piaEuxzMwjXChcETiJl47lAQ==}
@@ -1457,9 +1439,6 @@ packages:
 
   extend@3.0.2:
     resolution: {integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==}
-
-  fflate@0.4.8:
-    resolution: {integrity: sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==}
 
   fflate@0.7.3:
     resolution: {integrity: sha512-0Zz1jOzJWERhyhsimS54VTqOteCNwRtIlh8isdL0AXLo0g7xNTfTL7oWrkmCnPhZGocKIkWHBistBrrpoNH3aw==}
@@ -2030,12 +2009,6 @@ packages:
     resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
     engines: {node: '>=0.10.0'}
 
-  posthog-js@1.395.0:
-    resolution: {integrity: sha512-5iTb00CGt2eQUUiBQysQiX89RAbCN6wK2sDNzvs9zv0alaY8mJ0ZySrUD3LQ+XyLhgM5pCpacBuUwChqiYDLDw==}
-
-  preact@10.29.3:
-    resolution: {integrity: sha512-D9NL1GAnJZhc3RndVs4gDdxEeU9TcHgywMrhhOsnpdlvFjdbx0gAsLUnH6JEhlJH5giL7Tx5biWPUSEXE/HPzw==}
-
   prettier-plugin-astro@0.14.1:
     resolution: {integrity: sha512-RiBETaaP9veVstE4vUwSIcdATj6dKmXljouXc/DDNwBSPTp8FRkLGDSGFClKsAFeeg+13SB0Z1JZvbD76bigJw==}
     engines: {node: ^14.15.0 || >=16.0.0}
@@ -2106,9 +2079,6 @@ packages:
   puppeteer-core@25.2.1:
     resolution: {integrity: sha512-MwEZ4FFGJ1ZLOmu/04eISxoEMKtCnHyJBRFfgpwPPSYNG6gT6Xw1laNziFSV7uwDcx3jK+ATYIo9SfOd8Uhc3w==}
     engines: {node: '>=22.12.0'}
-
-  query-selector-shadow-dom@1.0.1:
-    resolution: {integrity: sha512-lT5yCqEBgfoMYpf3F2xQRK7zEr1rhIIZuceDK6+xRkJQ4NMbHTwXqk4NkwDwQMNqXgG9r9fyHnzwNVs6zV5KRw==}
 
   react-dom@19.3.0:
     resolution: {integrity: sha512-JDk8dgif51OjFoDE70+OT9ICyYr+69HlmihNwp1+Nsfbna3t5sIiCa9ZJktDmQ4/1b/rn26hIAR2uYXDMr5r0Q==}
@@ -2475,9 +2445,6 @@ packages:
 
   web-namespaces@2.0.1:
     resolution: {integrity: sha512-bKr1DkiNa2krS7qxNtdrtHAmzuYGFQLiQ13TsorsdT6ULTkPLKuu5+GsFpDlg6JFjUTwX2DyhMPG2be8uPrqsQ==}
-
-  web-vitals@5.3.0:
-    resolution: {integrity: sha512-q6LWsLatGYZp5VGBIOvbTj6JBV2nOmC8KvWztXBmwJcfFAzhwKwbOxhUH306XY3CcaZDUlSmSuNPBsCn0bFu+g==}
 
   webdriver-bidi-protocol@0.4.2:
     resolution: {integrity: sha512-VSV+fzfChirL3e7jay2yUC7B4HQCGtEWEg/MSSQbK+qWbqeGlRLlXTzPpYr3XGUvbpDHumWZBJxgesg4N7dbtA==}
@@ -3222,12 +3189,6 @@ snapshots:
       legacy-javascript: 0.0.3
       third-party-web: 0.30.0
 
-  '@posthog/core@1.38.0':
-    dependencies:
-      '@posthog/types': 1.391.1
-
-  '@posthog/types@1.391.1': {}
-
   '@prisma/instrumentation@6.11.1(@opentelemetry/api@1.9.1)':
     dependencies:
       '@opentelemetry/api': 1.9.1
@@ -3488,9 +3449,6 @@ snapshots:
     dependencies:
       '@types/node': 26.6.5
 
-  '@types/trusted-types@2.0.7':
-    optional: true
-
   '@types/unist@2.0.11': {}
 
   '@types/unist@3.0.3': {}
@@ -3621,8 +3579,6 @@ snapshots:
       graceful-fs: 4.2.11
       xdg-basedir: 5.1.0
 
-  core-js@3.49.0: {}
-
   csp_evaluator@1.1.8: {}
 
   css-background-parser@0.1.0: {}
@@ -3664,10 +3620,6 @@ snapshots:
   devtools-protocol@0.0.1625959: {}
 
   devtools-protocol@0.0.1638949: {}
-
-  dompurify@3.4.11:
-    optionalDependencies:
-      '@types/trusted-types': 2.0.7
 
   dot-prop@9.0.0:
     dependencies:
@@ -3790,8 +3742,6 @@ snapshots:
       is-extendable: 0.1.1
 
   extend@3.0.2: {}
-
-  fflate@0.4.8: {}
 
   fflate@0.7.3: {}
 
@@ -4721,19 +4671,6 @@ snapshots:
     dependencies:
       xtend: 4.0.2
 
-  posthog-js@1.395.0:
-    dependencies:
-      '@posthog/core': 1.38.0
-      '@posthog/types': 1.391.1
-      core-js: 3.49.0
-      dompurify: 3.4.11
-      fflate: 0.4.8
-      preact: 10.29.3
-      query-selector-shadow-dom: 1.0.1
-      web-vitals: 5.3.0
-
-  preact@10.29.3: {}
-
   prettier-plugin-astro@0.14.1:
     dependencies:
       '@astrojs/compiler': 2.13.1
@@ -4763,8 +4700,6 @@ snapshots:
       - bufferutil
       - proxy-agent
       - utf-8-validate
-
-  query-selector-shadow-dom@1.0.1: {}
 
   react-dom@19.3.0(react@19.3.0):
     dependencies:
@@ -5257,8 +5192,6 @@ snapshots:
   web-features@3.31.0: {}
 
   web-namespaces@2.0.1: {}
-
-  web-vitals@5.3.0: {}
 
   webdriver-bidi-protocol@0.4.2: {}
 

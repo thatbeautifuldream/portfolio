@@ -68,9 +68,6 @@ const en = {
     usesMeta: "Tools I rely on",
     contact: "Contact",
     contactMeta: "Say hello",
-    api: "API",
-    apiMeta: "OpenAPI docs",
-    agent: "Agent context",
   },
   work: {
     title: "Work",
@@ -139,7 +136,7 @@ const en = {
     contactPage: "contact page",
     choices: "Your choices",
     choicesBody: [
-      "You can browse without interacting with the page, block analytics in your browser, or disable JavaScript. The public profile and developer API are read-only and do not require cookies, login, API keys, or personal data. The repository can also build the site with analytics disabled using ",
+      "You can browse without interacting with the page, block analytics in your browser, or disable JavaScript. The repository can also build the site with analytics disabled using ",
       ".",
     ],
     note: "This page describes the behavior of this personal site as currently implemented and will be updated if that behavior changes.",

@@ -5,7 +5,7 @@ import { createHash } from "node:crypto";
 import test from "node:test";
 import sharp from "sharp";
 import { isDeepStrictEqual } from "node:util";
-import { apiSignature, sitemapSignature } from "./resource-parity";
+import { sitemapSignature } from "./resource-parity";
 import { fromHtml } from "hast-util-from-html";
 
 const baseline = JSON.parse(
@@ -156,17 +156,6 @@ test("every public machine-readable resource and OG image exists", async () => {
   }
   assert.deepEqual(missing, []);
   assert.deepEqual(resourceDifferences, []);
-});
-
-test("JSON API fields and rendered content preserve the Astro contract", async () => {
-  const differences: string[] = [];
-  for (const [file, expected] of Object.entries(baseline.apiSignatures)) {
-    const actual = apiSignature(
-      JSON.parse(await fs.readFile(path.join("dist", file), "utf8")),
-    );
-    if (actual !== expected) differences.push(file);
-  }
-  assert.deepEqual(differences, []);
 });
 
 test("sitemap retains every URL, priority, frequency, and language alternate", async () => {

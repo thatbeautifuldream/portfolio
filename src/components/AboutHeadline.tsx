@@ -1,6 +1,5 @@
 import { Fragment } from "react";
 import type { ComponentProps } from "../lib/ui";
-import { classes } from "../lib/ui";
 import AboutMotion from "./AboutMotion";
 import { Icon } from "../lib/ui";
 import { aboutCopy } from "../data/about";
@@ -9,7 +8,6 @@ interface Props {
   locale: Locale;
 }
 export default async function View(props: ComponentProps & Props) {
-  const context = props.context;
   const { locale } = props;
   const copy = aboutCopy[locale];
   const groups = [

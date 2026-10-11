@@ -1,8 +1,6 @@
 import Content from "../../components/Content";
 import SiteLink from "../../components/SiteLink";
 import type { ComponentProps } from "../../lib/ui";
-import { classes } from "../../lib/ui";
-import { getCollection } from "../../lib/content";
 import { Image } from "../../lib/ui";
 import Layout from "../../layouts/Layout";
 import PageHeader from "../../components/PageHeader";

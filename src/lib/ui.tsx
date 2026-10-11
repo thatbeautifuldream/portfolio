@@ -1,4 +1,4 @@
-import type { ReactNode, CSSProperties } from "react";
+import type { ReactNode } from "react";
 import { readFileSync } from "node:fs";
 import type { ResponsiveImage } from "../../scripts/images";
 import NextImage from "next/image";

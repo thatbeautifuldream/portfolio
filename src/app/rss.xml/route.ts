@@ -1,3 +1,4 @@
+export const dynamic = "force-static";
 const encodeXML = (value: string) =>
   value.replace(
     /[&<>"']/g,
@@ -10,8 +11,8 @@ const encodeXML = (value: string) =>
         "'": "&apos;",
       })[char]!,
   );
-import { getCollection } from "../lib/content";
-import { siteConfig } from "../lib/seo";
+import { getCollection } from "../../lib/content";
+import { siteConfig } from "../../lib/seo";
 export async function GET() {
   const posts = (await getCollection("posts")).sort(
     (a, b) => b.data.date.getTime() - a.data.date.getTime(),

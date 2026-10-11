@@ -13,7 +13,7 @@ export const defaultLocale: Locale = "en";
 const dictionaries = { en, hi };
 
 // Pages with a translated version, plus every post, gist, project and uses
-// entry (see isTranslated). The API docs stay English-only.
+// entry (see isTranslated).
 export const translatedPaths = [
   "/",
   "/work",

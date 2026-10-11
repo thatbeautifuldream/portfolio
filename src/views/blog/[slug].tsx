@@ -1,8 +1,6 @@
 import Content from "../../components/Content";
 import type { ComponentProps } from "../../lib/ui";
-import { classes } from "../../lib/ui";
 import ClientScript from "../../components/ClientScript";
-import { getCollection } from "../../lib/content";
 import { Image } from "../../lib/ui";
 import { Icon } from "../../lib/ui";
 import Layout from "../../layouts/Layout";

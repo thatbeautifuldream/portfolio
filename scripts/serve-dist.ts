@@ -112,14 +112,13 @@ export function startServer(opts: ServerOptions = {}): Promise<ServerHandle> {
     const wantsMarkdown =
       acceptsMarkdown &&
       (contentPath === "/" ||
-        (!pathname.startsWith("/api/") &&
-          !pathname.startsWith("/_next/") &&
+        (!pathname.startsWith("/_next/") &&
           !extname(pathname) &&
           existsSync(markdownPath)));
     let filePath = wantsMarkdown
       ? markdownPath
       : normalize(join(dist, pathname));
-    let status = pathname.endsWith("/error.json") ? 404 : 200;
+    const status = 200;
     if (!filePath.startsWith(dist)) {
       res.writeHead(403).end();
       return;
@@ -128,10 +127,6 @@ export function startServer(opts: ServerOptions = {}): Promise<ServerHandle> {
       filePath = join(filePath, "index.html");
     if (!existsSync(filePath) && existsSync(filePath + ".html"))
       filePath += ".html";
-    if (!existsSync(filePath) && pathname.startsWith("/api/")) {
-      filePath = join(dist, "api/v1/error.json");
-      status = 404;
-    }
 
     try {
       let body = await readFile(filePath);

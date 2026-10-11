@@ -1,9 +1,7 @@
 import type { ComponentProps } from "../lib/ui";
-import { classes } from "../lib/ui";
 import ClientScript from "./ClientScript";
 
-export default async function View(props: ComponentProps) {
-  const context = props.context;
+export default async function View(_props: ComponentProps) {
   const CLARITY_ID = "sz0cgixbfc";
   const GA_ID = "G-W9JFLQ2YJR";
   const enabled = process.env.PUBLIC_DISABLE_ANALYTICS !== "true";

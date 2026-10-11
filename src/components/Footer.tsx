@@ -1,6 +1,5 @@
 import SiteLink from "./SiteLink";
 import type { ComponentProps } from "../lib/ui";
-import { classes } from "../lib/ui";
 import ClientScript from "./ClientScript";
 import { execSync } from "node:child_process";
 import { Icon } from "../lib/ui";
@@ -20,7 +19,7 @@ export default async function View(props: ComponentProps) {
   const path = stripLocale(context.url.pathname);
   const otherLocale = locale === "hi" ? "en" : "hi";
   const otherHref = localizePath(isTranslated(path) ? path : "/", otherLocale);
-  const repoUrl = "https://github.com/thatbeautifuldream/portfolio-astro";
+  const repoUrl = "https://github.com/thatbeautifuldream/portfolio";
   let commitHash = process.env.VERCEL_GIT_COMMIT_SHA ?? "";
   if (!commitHash) {
     try {

@@ -17,8 +17,8 @@ Keep pre-commit fast: it only runs `lint-staged` (Prettier on staged files). The
 ## Project Notes
 
 - Next.js App Router static export (`output: "export"`). Route dispatch and localized root layout live in `src/app/[[...path]]`; page views live in `src/views`, with shared chrome in `src/layouts/Layout.tsx`.
-- Content lives in Markdown/MDX collections loaded by `src/lib/content-build.tsx`. `scripts/generate.ts` renders them into `.generated/content.json` and writes public JSON/Markdown/feed/OG resources. `src/lib/content.tsx` reads that manifest in Server Components. `src/content/` is excluded from Prettier — do not reformat authored content.
-- SEO is centralized in `src/lib/seo.ts` (`siteConfig`, `sitePages`, structured-data builders). Sitemap priorities, `robots.txt`, `llms.txt`, and `llms-full.txt` all derive from it — update there, not in scattered files.
+- Content lives in Markdown/MDX collections loaded by `src/lib/content-build.tsx`. `scripts/generate.ts` renders them into `.generated/content.json` and writes public Markdown resources. `src/lib/content.tsx` reads that manifest in Server Components. `src/content/` is excluded from Prettier — do not reformat authored content.
+- SEO is centralized in `src/lib/seo.ts` (`siteConfig`, `sitePages`, structured-data builders). Sitemap priorities and `robots.txt` derive from it — update there, not in scattered files.
 - Package manager is **pnpm**. Use `pnpm`, never `npm`/`npx`.
 - Match the surrounding style: 2-space indentation, double quotes, semicolons. Prettier enforces this.
 - Prefer small, targeted changes that reuse existing layout, content, and SEO patterns.
@@ -43,9 +43,9 @@ Interpreting results:
 - The local server is HTTP/1.1, so Lighthouse's lantern simulation over-penalizes **mobile** (inflated FCP/LCP vs production's HTTP/3). Trust **desktop** locally; use `--url` (or PageSpeed Insights) for the real mobile picture.
 - `Analytics.tsx` loads GA4 + Clarity only on first user interaction, so they stay out of the audit trace — don't "fix" this by eagerly loading them.
 - Response headers (HSTS, CSP, X-Frame-Options, COOP, etc.) live in **`vercel.json`** — the site is on Vercel (Cloudflare only proxies the domain). A Cloudflare `public/_headers` file is ignored. Update `vercel.json`, and keep `scripts/serve-dist.ts`'s parser in sync if the header shape changes.
-- **Fonts:** Inter and Noto Sans Devanagari are self-hosted in `public/fonts`, with the original metric-matched fallbacks in `src/styles/fonts.css`. The OG-image cards use the static `Inter-400.ttf`/`Inter-500.ttf` in `src/assets/fonts` since CanvasKit can't read woff2.
+- **Fonts:** Inter and Noto Sans Devanagari are self-hosted in `public/fonts`, with the original metric-matched fallbacks in `src/styles/fonts.css`. The OG-image cards use static TTF fonts in `src/assets/fonts` for `next/og`.
 - Best-Practices is capped below 100 by Cloudflare's injected bot script (`/cdn-cgi/challenge-platform/...`, the `deprecations` audit) — that is a Cloudflare dashboard setting (Bot Fight Mode / JavaScript Detections), not a code issue. Don't chase it in the repo.
 
 ## Migration verification
 
-`pnpm test:migration` verifies route/resource parity against the checked-in manifest, semantic content, and OG/story image hashes. Run `pnpm test:agentic` against the current export too. `pnpm build` writes Next output to `out` and mirrors it to `dist` for the existing audit tools.
+`pnpm test:migration` verifies route/resource parity against the checked-in manifest, semantic content, and OG/story image hashes. Run `pnpm test:content` against the current export too. `pnpm build` writes Next output to `out` and mirrors it to `dist` for the existing audit tools.

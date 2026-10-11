@@ -1,10 +1,7 @@
 import type { ComponentProps } from "../lib/ui";
-import { classes } from "../lib/ui";
 import ClientScript from "./ClientScript";
 
-export default async function View(props: ComponentProps) {
-  const context = props.context;
-
+export default async function View(_props: ComponentProps) {
   return (
     <>
       <ClientScript

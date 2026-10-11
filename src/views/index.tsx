@@ -1,6 +1,5 @@
 import SiteLink from "../components/SiteLink";
 import type { ComponentProps } from "../lib/ui";
-import { classes } from "../lib/ui";
 import { execSync } from "node:child_process";
 import { getCollection } from "../lib/content";
 import Layout from "../layouts/Layout";
@@ -208,8 +207,6 @@ export default async function View(props: ComponentProps) {
                 title: home.contact,
                 meta: home.contactMeta,
               },
-              { href: "/docs", title: home.api, meta: home.apiMeta },
-              { href: "/llms.txt", title: home.agent, meta: "llms.txt" },
             ]}
           />
         </main>

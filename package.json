@@ -1,5 +1,5 @@
 {
-  "name": "portfolio-astro",
+  "name": "portfolio",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -10,14 +10,14 @@
     "build": "tsx scripts/generate.ts && next build --webpack && node scripts/export.ts",
     "preview": "node scripts/serve-dist.ts 4321",
     "lighthouse": "node scripts/lighthouse.ts",
-    "test:agentic": "node --test scripts/agentic.test.ts",
     "check": "tsc --noEmit",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "verify": "pnpm format:check && pnpm check && pnpm build",
     "prepare": "husky",
     "test:migration": "tsx --test scripts/migration.test.ts",
-    "test:pwa": "node --test scripts/pwa.test.ts"
+    "test:pwa": "node --test scripts/pwa.test.ts",
+    "test:content": "tsx --test scripts/content.test.ts"
   },
   "lint-staged": {
     "*": "prettier --ignore-unknown --write"
@@ -31,7 +31,6 @@
     "hast-util-from-html": "^2.0.3",
     "hast-util-to-jsx-runtime": "^2.3.6",
     "next": "^16.4.0",
-    "posthog-js": "^1.395.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "rehype-raw": "^7.0.0",

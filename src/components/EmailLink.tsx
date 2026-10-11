@@ -5,9 +5,6 @@ import ClientScript from "./ClientScript";
 import { Icon } from "../lib/ui";
 import { contactEmail } from "../data/portfolio";
 import { getLocale, useTranslations } from "../i18n";
-interface Props {
-  class?: string;
-}
 export default async function View(props: ComponentProps) {
   const context = props.context;
   const { className } = props;

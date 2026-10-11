@@ -26,4 +26,4 @@ jobs:
         run: pnpm verify
 
       - name: Verify public contracts and migration parity
-        run: pnpm test:agentic && pnpm test:migration && pnpm test:pwa
+        run: pnpm test:content && pnpm test:migration && pnpm test:pwa

@@ -1,5 +1,5 @@
 {
-  "source": "Astro baseline at b941eb0 (with 10-second rotation)",
+  "source": "Astro baseline at b941eb0 (with 10-second rotation); intentionally removed docs/JSON APIs, agent resources, and their UI",
   "pages": {
     "404.html": {
       "title": "Milind Mishra · Not found",
@@ -54,14 +54,6 @@
         },
         {
           "tag": "h2",
-          "text": "Agentrecoverylinks"
-        },
-        {
-          "tag": "pre",
-          "text": "#NotfoundTrythehomepage,sitemap,Markdowncontent,orAPIdocs:-[Home](/)-[Sitemap](/sitemap-index.xml)-[Machine-readablecontext](/llms.txt)-[APIdocumentation](/docs)"
-        },
-        {
-          "tag": "h2",
           "text": "Gosomewhere"
         },
         {
@@ -76,8 +68,8 @@
         },
         {
           "tag": "a",
-          "text": "APIdocumentation",
-          "href": "/docs"
+          "text": "HomepageMarkdown",
+          "href": "/index.md"
         }
       ],
       "structuredData": [
@@ -1793,16 +1785,6 @@
           }
         }
       ]
-    },
-    "docs/index.html": {
-      "title": "Milind Mishra API Reference",
-      "lang": "en",
-      "meta": {
-        "viewport": "width=device-width, initial-scale=1"
-      },
-      "links": [],
-      "content": [],
-      "structuredData": []
     },
     "gist/add-caddy-config-workflow/index.html": {
       "title": "Milind Mishra · Add Caddy Config Workflow",
@@ -15309,16 +15291,6 @@
           "tag": "a",
           "text": "संपर्कनमस्तेकहें",
           "href": "/hi/contact"
-        },
-        {
-          "tag": "a",
-          "text": "APIOpenAPIडॉक्स",
-          "href": "/docs"
-        },
-        {
-          "tag": "a",
-          "text": "एजेंटकॉन्टेक्स्टllms.txt",
-          "href": "/llms.txt"
         }
       ],
       "structuredData": [
@@ -15549,7 +15521,7 @@
         },
         {
           "tag": "p",
-          "text": "आपपेजसेइंटरैक्टकिएबिनाब्राउज़करसकतेहैं,अपनेब्राउज़रमेंएनालिटिक्सब्लॉककरसकतेहैं,याJavaScriptबंदकरसकतेहैं।पब्लिकप्रोफ़ाइलऔरडेवलपरAPIसिर्फ़पढ़नेकेलिएहैंऔरइनकेलिएकुकीज़,लॉगिन,APIकीज़यानिजीडेटाकीज़रूरतनहींहोती।रिपॉज़िटरीसेसाइटकोएनालिटिक्सकेबिनाभीबिल्डकियाजासकताहै,इसकेलिएPUBLIC_DISABLE_ANALYTICS=trueइस्तेमालकरें।"
+          "text": "आपपेजसेइंटरैक्टकिएबिनाब्राउज़करसकतेहैं,अपनेब्राउज़रमेंएनालिटिक्सब्लॉककरसकतेहैं,याJavaScriptबंदकरसकतेहैं।रिपॉज़िटरीसेसाइटकोएनालिटिक्सकेबिनाभीबिल्डकियाजासकताहै,इसकेलिएPUBLIC_DISABLE_ANALYTICS=trueइस्तेमालकरें।"
         },
         {
           "tag": "p",
@@ -18044,16 +18016,6 @@
           "tag": "a",
           "text": "ContactSayhello",
           "href": "/contact"
-        },
-        {
-          "tag": "a",
-          "text": "APIOpenAPIdocs",
-          "href": "/docs"
-        },
-        {
-          "tag": "a",
-          "text": "Agentcontextllms.txt",
-          "href": "/llms.txt"
         }
       ],
       "structuredData": [
@@ -18284,7 +18246,7 @@
         },
         {
           "tag": "p",
-          "text": "Youcanbrowsewithoutinteractingwiththepage,blockanalyticsinyourbrowser,ordisableJavaScript.ThepublicprofileanddeveloperAPIareread-onlyanddonotrequirecookies,login,APIkeys,orpersonaldata.TherepositorycanalsobuildthesitewithanalyticsdisabledusingPUBLIC_DISABLE_ANALYTICS=true."
+          "text": "Youcanbrowsewithoutinteractingwiththepage,blockanalyticsinyourbrowser,ordisableJavaScript.TherepositorycanalsobuildthesitewithanalyticsdisabledusingPUBLIC_DISABLE_ANALYTICS=true."
         },
         {
           "tag": "p",
@@ -20531,72 +20493,6 @@
     }
   },
   "resources": {
-    "api/v1/error.json": "396834bc082faf06e12e0be4ab0b287098575f1188d50d1b830a2554e9b82631",
-    "api/v1/gists/add-caddy-config-workflow.json": "f604f01f12bc64504285e51a4f0f5d71a28caab8717807e9308dd26715bc3e0e",
-    "api/v1/gists/ai-contacts-parser.json": "25928686baaecd536b25d2f5c4cf1e60c285b99c31ff86b1671a92e0e6b96252",
-    "api/v1/gists/ai-for-react-developers.json": "fdedd29b7978358f020b956956f53dfa4e0061958e2948996325f5137cf83572",
-    "api/v1/gists/ai-pr-aliases-using-claude.json": "c34d5f77e7cab795c0aa306f1d30165f5c4da58d0059fc22fdbde41b93efa67c",
-    "api/v1/gists/alacritty-config.json": "6a3e597c98aac50cfb00f642befaf611d54fef905df2ad2768449eead83e33b0",
-    "api/v1/gists/aliases.json": "6246ba8b925063699f0c9bf4e630c8dade01c13cd72ada2d6e27c5ec78930365",
-    "api/v1/gists/amplify-nextjs-deployment-configuration-using-pnpm.json": "6982f3f60b90bb5a34f2201d91f4492e2f9bfe8dbcb5e73591f977a84f669af4",
-    "api/v1/gists/automate-git-profile-setting-on-work-directories.json": "ad49f9c96b797bb448b2fbb296066381097df20483dea0e537fac694b8f65b19",
-    "api/v1/gists/aws-secrets-manager-integration-with-nodejs-fetch-and-store-secrets-in-env-file.json": "f3318e4d941b251594e650b0d08df37daf4f85af3da36c981896f1d0f1cdf88e",
-    "api/v1/gists/block-explicit-content-from-host.json": "4c6f1b22d84a7ee6864cb9fd5acd2c115dd6604d98bf4a27cbdddec31039f681",
-    "api/v1/gists/breadcrumbs-registry.json": "839c6da0f9983e36f36a2ddf208a4434c87115d023974060a9cb58640da6ffaa",
-    "api/v1/gists/catppuccin-color-pallete.json": "4a0b26a21e5496cf8402bfefc6d32118759f270b31a1ed0c722cfa25744c1ccd",
-    "api/v1/gists/cloud-config-init.json": "ca04f5d95e483a98d8f5e85cbe32ea9a5ba91bec5d86a34aa73a62ca7fede819",
-    "api/v1/gists/cloudflare-email-worker.json": "a48f6bc4d57da8ae5d4ad6cbc2375357fa68e0cdacd7b35ebbf46c4315373aec",
-    "api/v1/gists/commit-aliases.json": "1479de1f8cc34969ecccead5cce133e2943e26ac48b05a8af46c292492eaa5ab",
-    "api/v1/gists/create-selectors-for-zustand-store.json": "826c253b2c84e2ae8aa2e8dbac0f5676a2dbc72ef0b9c574793bf052f8b35dda",
-    "api/v1/gists/cursor-rules-for-nextjs-project.json": "6cd2087095c9bc7fda2f9ab93d2058043c3bf329fc68856a0efe8e1034af4450",
-    "api/v1/gists/dark-paper-shader-in-react.json": "ccd91996c987c370bf2c0a4077fcdddf6bfe4398de35c5df156ec2ef40772ded",
-    "api/v1/gists/easing-classes.json": "6c8173fc317d4d0d0a246c7cc86d38a905997d21a7532e1b4ce5b2827ed09416",
-    "api/v1/gists/fetch-aws-secrets-from-secrets-manager.json": "d2ac462fe5c52fd23f94aaca495db893249a84fc962bf98745103488ea2e5850",
-    "api/v1/gists/get-hostname-through-headers-on-the-server-side-in-nextjs.json": "8584922ff9328995575973cd91cf576b1984ffb38640d9ae5da421a42d257e61",
-    "api/v1/gists/ghostty-config-at-homeconfigghosttyconfig.json": "83892e64dbe6438801ca1447b19ad998d1af0d8a365880e5c9b0c01588ea84c6",
-    "api/v1/gists/gist-aerospacemd.json": "e6a8c982d62bd80510f4c462a9cff596e4a36282c0a2aa7778da57b6232e6b0e",
-    "api/v1/gists/gist-searxng-openapiyaml.json": "c35427e4fd38993101733421aed02fcb767561aa791e76e14ca4cf3ecfeb60b7",
-    "api/v1/gists/git-worktree-helpers-for-zsh.json": "9c1181ea9c79d65d3476acaf4f86b1000a5766b4da7482809e356af6abb4fba9",
-    "api/v1/gists/global-git-config-and-ignore-files-for-macos-systems.json": "8def59eb992a1b4ed584e3c6d20eaabb3ce198d2b82dd385ca25b10b5893b703",
-    "api/v1/gists/idb-dexie-zustand-state-persistance.json": "fbfa95b16eb139761d60fdc96ef68c032e6651946e09e6f3027500e3cedebb06",
-    "api/v1/gists/ide-aliases.json": "cb26c373352153392c8a6988ae4a8cbce428b8b11b2ba2a97c506883cbb14eca",
-    "api/v1/gists/json-resume-og-image-satori.json": "2bfda81d8bbd4285e5d5044ad106f86f961c803f017182d62e24e330862bd9af",
-    "api/v1/gists/loader.json": "4b34bca414758ed416b87867b2f5b0a6634a92ba7b5374a5d12c84c9aab1a553",
-    "api/v1/gists/monitor-to-check-errored-or-stopped-processes-from-pm2-and-restart-them.json": "b7fd5db17f582cd67039408635b341ef5eac73736096c12b22583907afceb52a",
-    "api/v1/gists/motionreact-easing-configuration.json": "7cab8d03e33d0f43b996f4e096a7ad40e56a7b75bb67c969ff0f83a1d4cfea6c",
-    "api/v1/gists/multiple-git-user-setup-with-conventional-commit-aliases.json": "6c9b9b262c4408a3c141b178256ade40fcadcb36bcc18fa6b7d4eb4137c4d40f",
-    "api/v1/gists/next-js-confetti-component.json": "1cf9f9e40643c7b59c47e489055e5beb2ce159f5131dc5963137da6c4f1ca37a",
-    "api/v1/gists/pipe-next-js-logs-to-slack-webhook.json": "b074d40b53b94a485ac78d84aabfbffb1f782a7a72c0f702fd909a82f784a319",
-    "api/v1/gists/pm2-ci-cd-github-action-.json": "6dadde5fdf8fdbb220f6beb2a96dda3424dbabfe458a6750d4bd00cb60074e91",
-    "api/v1/gists/pm2-config-file-with-deployment.json": "69b79ccb63ad94b8d124ae2a266f369d8654feee93e1e8f01a5a122ef9a3e441",
-    "api/v1/gists/portfolio-path-revalidation-script.json": "411b5d8098a691c37e6850166a160de277e3b543fefa59e0f91ec5e3aae06149",
-    "api/v1/gists/public-github-file-to-jsdelivr-.json": "5b4f6a964b7a0f8e104eecd1410e70003dd2bd0b2a9acfce1133a770f9dc553d",
-    "api/v1/gists/redis-singleton-for-nextjs-app-router.json": "23c9b34ca1da7ad6ec020bffd3325d65e098296eb2667b0048ca82d9a7b784b3",
-    "api/v1/gists/replacing-consolelog-with-custom-logger.json": "5096c4d9db1d45b8d52ecb02394fc047a448a0b25ffa57b64d9ba158c52c51e4",
-    "api/v1/gists/resume-generated-from-httpsgithubcomthatbeautifuldreamjson-resume.json": "af7fa4ece3bfc3e7714ec0a82c789221296fd21b0b0e5a4cfd4937fbb54febd4",
-    "api/v1/gists/resume.json": "7ebe15988a7998712aa3ddb34bf608bef07e9183913625f1590ab463afda4da5",
-    "api/v1/gists/scan-and-get-todos-from-node.json": "f5107b5ff48d791f99e933682b97546aaa12869c9097ec6d008a435cc97f7bb5",
-    "api/v1/gists/section-motion-animation-primitive.json": "c25eed3f42a69d3bf91442393c48a11132a33b9db6aea6ff39670380877ecc4f",
-    "api/v1/gists/send-logs-using-slack-webhook.json": "e101889d03714e537b9fa5212235198dad90bedc60af4baacacd163cfa535852",
-    "api/v1/gists/setting-up-multiple-git-accounts-on-machine.json": "05695b206cc36d863fdcce87915398dfa8d8b413477984d767730b55f2b40057",
-    "api/v1/gists/svg-path-animation.json": "997150c498bb912c5e22d00555365844f80e8fa3e99954216ec98a47a6ba2494",
-    "api/v1/gists/theme-toggle-button-based-on-next-themes.json": "9225d4a3001e6354ec3b0bc4879dda1adf1b9e0eac730a54cf5e13cf8d605510",
-    "api/v1/gists/ufw-setup.json": "33d4b1b466b28aca5483c2d2476c1b97838fc5bac023e3ff461403372c3d5a96",
-    "api/v1/gists/usedebounce-hook.json": "a9bf0e975aa3287bb1f2816eac9d1be4afa58f02e8eb427896b4273fdb3a2261",
-    "api/v1/gists/vs-code-settings.json": "f405f4f51d49a22498c90f27edd14829795b1a1a444d649f0d08d978e8ba798a",
-    "api/v1/gists/website-masking-worker.json": "d02927fcf8e06c9cfdd6743547f987a88888a32270f97be3c05b0c3088bb8d1d",
-    "api/v1/gists/zsh-aliases.json": "396f3442c67fa28ba8e929a76b9393b27e883b71e430514b74e67531c1f4bdd7",
-    "api/v1/gists/zshrc-file-with-git-user-switcher.json": "cd3062b160d78c67fe69cac4477cd4f6d69c018f5c987cdab51226ffa672490b",
-    "api/v1/gists.json": "ca81f2e12a236bd60b685844b7aacd77ac0af2fc7c0e2a31693fb51f00a3f6e2",
-    "api/v1/health.json": "4fb26ac9ab36a2edd2869a8d010b23172ec5c548c5ba8e82327081aea9bd572e",
-    "api/v1/index.json": "de4b5978c4110f3edba6dbcf8b8de39346d5adb9e6d798ce1d333f82d893d83b",
-    "api/v1/posts/4-years-later.json": "1e703caf7f273d1b360b2bb4dabbd9030733b083b55f8877725cf3344cd6d49d",
-    "api/v1/posts/probably-the-best-work.json": "39ba3e43d4f93fa0d8d6ca5cf1b8eb0410bdd8975ce364eb9c10abc2a9bfbf51",
-    "api/v1/posts/shipping-isnt-finishing.json": "68b38e8a74e54c87d7909dcb3ff0b780c5170bcdbc7ba54f568912d77d76f6b9",
-    "api/v1/posts/the-part-a-person-actually-feels.json": "a28d08cd94d8c2768558d0162721fad4b363cd7ddd2da11d35ef9f1fe8c95dd8",
-    "api/v1/posts/you-dont-know-you-can-do-it.json": "d04ce0abc3e03bda0c23e8782e6133c45718be051487972aebeda1bcb6a79641",
-    "api/v1/posts.json": "25b314b5724c7cc7e7e43b152133e33fe208c8dbd995fe81f62316d46c368239",
-    "api/v1/profile.json": "aa8339adf72a3cedecc19b1e2de658c0baa2d1aee90ef677455085ee5657621e",
     "blog/4-years-later.md": "1de01a106297bc748c18cda5afbb6e94d1919be9405dc0894e2c740593efa3d9",
     "blog/probably-the-best-work.md": "3a765d96a6aae6fbdd57077c7ce92a2b93a13f0e20bd84b3490e71e57ae83923",
     "blog/shipping-isnt-finishing.md": "7fef457a2035e106b88b02d65b6cc6e6409048b35c17297f5705772fc57eb395",
@@ -20604,7 +20500,6 @@
     "blog/you-dont-know-you-can-do-it.md": "4e599958a16eddbf856bd7895a09361ef43a5412976d0fbb48fc30ba8ed55e1f",
     "blog.md": "78e726fdf351e08f804889f0b84e38e9057a80a2e56e455f08d462dbef8b3d06",
     "contact.md": "cdf9e3e781f94d7849d58d4a96095569467c569fdc946110b7ec44255fd172a4",
-    "docs.md": "6c75478b926dc078a5d8fe4326a80cab9d7622c25f5b8b3e36e8dabf2435917f",
     "gist/add-caddy-config-workflow.md": "142cacb0cc428d8612155a9de3afc48bc8559513847c6ecceab204580bdfc4cd",
     "gist/ai-contacts-parser.md": "4d906ec255136aa21d14663c3fdc031b34c3008ea57848723b1581fa86f7ed7c",
     "gist/ai-for-react-developers.md": "d3cbc1579a90be92a81458e60b8f09437ea25ef4d62cb067ceeb81263ec71318",
@@ -20661,9 +20556,7 @@
     "gist/zsh-aliases.md": "44ee54abddfc13c20a3b635cd02e26afe1ce7493f297648d87eea17220b95176",
     "gist/zshrc-file-with-git-user-switcher.md": "de03f484e8875151adf31d28bfca3e3c3903347dbcc950c0f6971d1e6812a138",
     "gist.md": "285213417f67de23d608eb556c3293bdea231922b1a0e8994bad5b3d08641a62",
-    "index.md": "50be5efb8397b28495629c96501f1218e15661a681e6c28263373cc765086164",
-    "llms-full.txt": "1862e72fe99b32603c311adf8d3a62286623de831205b8d8cfb4e037d6e5255f",
-    "llms.txt": "240ffc41a42f237d7ff76378d5a0b5b02da993bb72df24beadb1c6a54551fbb9",
+    "index.md": "6b8562ee75b0bba981ff737a324e59f53ffb89f2eaa53df3a67ff0924d886e55",
     "og/4-years-later.png": "af0143e1ad3e35d99d4c8132ab3818dd170cc79e29dfd48b44c085ed3e54328c",
     "og/gist/add-caddy-config-workflow.png": "500c895d33e4783e8b0096e0f06617e89ae81bea442cce3668ee92995b142201",
     "og/gist/ai-contacts-parser.png": "132160c9251248df353df5286d2ae06868459bc057a9346759f7417a424891d9",
@@ -20790,8 +20683,7 @@
     "og/the-part-a-person-actually-feels.png": "4520c9ae45e330baebae137e77776bc2845784db1f248c8a2cf2a9dccdf49090",
     "og/you-dont-know-you-can-do-it.png": "d261bb8ef143d3164c1bb7d5fc0876f1b855b97995e964389ff5acf31a104f5c",
     "og.png": "26fd13061caee69eb45bda7910153d9226dce0b01c4932c2ac5d123132825102",
-    "openapi.json": "505423b1b7f0207c3e1d13abe855cb55d00de7750da4b22e0be85d4cc406134b",
-    "privacy.md": "224792d11fe78f70d19986d159e52035f7078ded9233c3d6f260b8f4f7edc405",
+    "privacy.md": "5a0341b7af5a44a22657e6d2932273bdb8eb1d8e547913975621a4fcfa652aad",
     "project/json-visualiser.md": "8f338fc337bbd9b348eba727374538c077c108a67b1a8e7f7bd7d2a1eb9756ab",
     "project/markdown-visualizer.md": "3db64828eece394454f72f89d8e53c0c9147709aa25800c179ff057756b9a8b1",
     "project.md": "471d32a2192e6bc3434ec1b675fa0ca5bc66fa5deda946ecb22a5206ba780750",
@@ -20808,7 +20700,7 @@
     "share/shipping-isnt-finishing.png": "4abffbe29fc69e68b20095698c2b9973fc27332e5aa1bac8289d0702708832c7",
     "share/the-part-a-person-actually-feels.png": "f4dc925cc2830de00b830407af98336f2fcb405c28aebdf70db9162659f0a6a2",
     "share/you-dont-know-you-can-do-it.png": "725a88ad78fc66aa08d83200e686eccb61286180f191cb2e58c4ac421bc9150e",
-    "sitemap-0.xml": "e7197afed8845d97da60165baa67fc754618fe73ac04e3f0dda2e38e32bf3899",
+    "sitemap-0.xml": "6311b4d11c8d3059c7bc6d11d9cb764ca4af10cb54c8c654ca8ab97ad3c64c14",
     "sitemap-index.xml": "f927f7eb60a996ce286de6f0268386205afe103f687f982ed268b83dd236add1",
     "talks.md": "d994fe32daf14a01cb835a4e95fc4a515a1cb7ef2407d62edaebf60bbb92446f",
     "uses/claude-code.md": "91a89096ba8c9f12553de8ddecaad842842a257427e3429d8a550f9a056fccd6",
@@ -20825,74 +20717,5 @@
     "uses.md": "62d27012255217ab971c9e93c0e34267f08086b27314166db07848d580e3fdab",
     "work.md": "981619addf9f1174dee26f3591dc953147cc2703dae557eff3fa9582a4f321aa"
   },
-  "apiSignatures": {
-    "api/v1/error.json": "890730e55646c53f9869c04243bb4385f2d823ac303e3064c9e374f68d4d499b",
-    "api/v1/gists/add-caddy-config-workflow.json": "aaa197367589d69dc3bb15bcfd4c627ed256a7394b1da30afe0fb724babaea41",
-    "api/v1/gists/ai-contacts-parser.json": "7a2e46ec30b50434eda7057d9bab7dc132dd6f67eef2d7f9374604475321155e",
-    "api/v1/gists/ai-for-react-developers.json": "6ce1d091aca567ed40d61237adffd6f5fe6f8a48bdb4f2112c27e91452d6571d",
-    "api/v1/gists/ai-pr-aliases-using-claude.json": "d9a73bded7bb4b6524dfe59ebdded4ec13def35f0a35c4d2bcc9b09a220502ae",
-    "api/v1/gists/alacritty-config.json": "30c00447e3846f9e214cc1ca9d553a435d401b6bf4edbf7a0c76204bef911c8c",
-    "api/v1/gists/aliases.json": "4f7a23fa20ea2038dd2cb42510e6ab92f0942e3cd29b4d4aa7ff3f239839130e",
-    "api/v1/gists/amplify-nextjs-deployment-configuration-using-pnpm.json": "6f871b20736a07bf8467e5875290ce49c7e042ee38803bab47aefce4fdc25980",
-    "api/v1/gists/automate-git-profile-setting-on-work-directories.json": "91d03d6b3cb2e7bd01c430d35007072d091321bc0739075e99ca7832be4346b6",
-    "api/v1/gists/aws-secrets-manager-integration-with-nodejs-fetch-and-store-secrets-in-env-file.json": "a2e477db1c131d908977bc538c55de6b8f9e554bac8c2351b5a8486c8b686501",
-    "api/v1/gists/block-explicit-content-from-host.json": "6f193113d7fc7e786f119ae22095d71726a141913fbc7fd9fb7c8841edfa1ca9",
-    "api/v1/gists/breadcrumbs-registry.json": "f8c6d497ed09cc46d077a2b44a67eafdf6261bfe64444a7b797f49df524d928e",
-    "api/v1/gists/catppuccin-color-pallete.json": "36da197fabcfe39163ec82a44ac99b746f36b768aa83fc7fc6c3c6691a9d832f",
-    "api/v1/gists/cloud-config-init.json": "3e79b5e70e4515f91ae1375af14093a19e55169a9f1b32f782baf73af2d66064",
-    "api/v1/gists/cloudflare-email-worker.json": "7492d059be5a3693b763407b202fb58a45b87bed481552f4343fa0c58b83e5ea",
-    "api/v1/gists/commit-aliases.json": "0cf00367ab0e95332dee1808cc26aa35fdfcb22008d3258a625601b5dcca4429",
-    "api/v1/gists/create-selectors-for-zustand-store.json": "636457ee9aa048b4c0e4dc0f08b6a5fd140f1f0566e6e4f429e9a00435d08282",
-    "api/v1/gists/cursor-rules-for-nextjs-project.json": "279647a04539f4f17397f55eb7b6913e408a2d9eae67a561091347b1d8342f95",
-    "api/v1/gists/dark-paper-shader-in-react.json": "a5deb7274a431bd601c2f9b2998702eba8b0fc1c01c74a4ef18c923d0c58dc4c",
-    "api/v1/gists/easing-classes.json": "98c580801f050dff7912d9abcf55f2bcc20337d1cb7e5bcbcb6e1f1cfc8c7f47",
-    "api/v1/gists/fetch-aws-secrets-from-secrets-manager.json": "36bbdf3c2ba519c12722ba7e3400b02b036095ad929c6b7e49dfe0d415e00e23",
-    "api/v1/gists/get-hostname-through-headers-on-the-server-side-in-nextjs.json": "ef6282736133d34f6197c5468e52d7294936883fe7cd1e1c294e0adaed5748d3",
-    "api/v1/gists/ghostty-config-at-homeconfigghosttyconfig.json": "e57d72f1f6dc16f562e05d05553a790f371c2bf1dce7d059e43a8d76c89e2730",
-    "api/v1/gists/gist-aerospacemd.json": "48091c498fb02f2913bef59d38250f2de43151e15614cc36c93ee97c6956d67d",
-    "api/v1/gists/gist-searxng-openapiyaml.json": "162f9beaeced1a98f623e889bb408f6a96b5b151527fe98663ce3c99005a720b",
-    "api/v1/gists/git-worktree-helpers-for-zsh.json": "d34f29f05b37e7e1008d0d78e695bfe8da819078ad36621606e0f13924ff3f9f",
-    "api/v1/gists/global-git-config-and-ignore-files-for-macos-systems.json": "b4fb31eeb74df546e9485f45cf0e188618d2fe86813ec7919b0f2a83da14eff9",
-    "api/v1/gists/idb-dexie-zustand-state-persistance.json": "b7f659392c553e03f1e5bc7363b2531c2bfffb9de3ea9813cbcac52f9b1b95ce",
-    "api/v1/gists/ide-aliases.json": "42ebcc877b2e9f05d7839548d0456cf4a77e93b1f03901cd386cdf876addce8d",
-    "api/v1/gists/json-resume-og-image-satori.json": "0f90a4a686138ee6b091e7b9825d07646933a0a61d03cb129544da85d0563d47",
-    "api/v1/gists/loader.json": "661718000c545a0656f85d817e3dcc65543dbf7d4a348ceac917e933953aae2b",
-    "api/v1/gists/monitor-to-check-errored-or-stopped-processes-from-pm2-and-restart-them.json": "5b18660500a6e8d5304de98cf06185e28f4b2503ad502aec289352e78d9007b2",
-    "api/v1/gists/motionreact-easing-configuration.json": "25e6714b7d93a0d7c8e5512b1b84aee5549fd31c20b6c9fb3f944ed8db9ec0c6",
-    "api/v1/gists/multiple-git-user-setup-with-conventional-commit-aliases.json": "ac2377f43313c29cf55c3c71fa85ef60b14747d974748b794d0c6eb86b4a8fe9",
-    "api/v1/gists/next-js-confetti-component.json": "926614759fce36042441c71c85826f4e1f367ebba96473f7a4c2f9afa5524788",
-    "api/v1/gists/pipe-next-js-logs-to-slack-webhook.json": "60cac56a1e54b4d05b036ad7b95c0a36c12965653592e599e8789a8f20a00939",
-    "api/v1/gists/pm2-ci-cd-github-action-.json": "be7274df905cfa32910b0952dc9d5fb27d5e8484c885cdd769c805f727f61a18",
-    "api/v1/gists/pm2-config-file-with-deployment.json": "a984c42106f6c10466fd78ef100985f84b76a461111e0d49b2dfb1761d68a209",
-    "api/v1/gists/portfolio-path-revalidation-script.json": "a05841026ab53c6a3d663bc39073da9cd4780d8d5c6c73c65576d5c1d289c4e0",
-    "api/v1/gists/public-github-file-to-jsdelivr-.json": "7be4280e2b9aa49eaabf5b37a95e2e7ac1c4d81e043bcc501ee1a1744071b7aa",
-    "api/v1/gists/redis-singleton-for-nextjs-app-router.json": "22e134eff587bad564b3e7160b3aa1a8ace8999519e0197d7e3198e8d34c1dad",
-    "api/v1/gists/replacing-consolelog-with-custom-logger.json": "e782aa51a42fc852f6ab362e1a72e67b592bee862eb7864ac492c3ac3bb674d3",
-    "api/v1/gists/resume-generated-from-httpsgithubcomthatbeautifuldreamjson-resume.json": "a3d0cae7d3c6c1f460eae2dae61e46763738d6d82dbf88992dc1d24700cff4d1",
-    "api/v1/gists/resume.json": "0430373f4f99c284aa376cf4713bb8c86a0e60a365a011f8daa498fe36b54a37",
-    "api/v1/gists/scan-and-get-todos-from-node.json": "f60e919de0630d47d484a2ff024b829bb440c6fc3c448f170d9d8963d68611d0",
-    "api/v1/gists/section-motion-animation-primitive.json": "58b08bfcf2305ee5fe718a6b2cd10504b557ddd768be64d344ef61ce0009f9d9",
-    "api/v1/gists/send-logs-using-slack-webhook.json": "c65b25ad48cc6c7191ace646f39539b524f9be44b5a01a37bdc48fca2396e22d",
-    "api/v1/gists/setting-up-multiple-git-accounts-on-machine.json": "f0c743df4e7032987d225e520e6ffa20ffdc2ed4078e68f98e1f7624f7d27cd4",
-    "api/v1/gists/svg-path-animation.json": "0a01a574bcbd231b2fea96ff70586166dcf6b4a9c13b9c866b52e82895e701d3",
-    "api/v1/gists/theme-toggle-button-based-on-next-themes.json": "a05aa9b3fe2fe334ff91a3a46397d575ff2f10f30f936cb53969d9e1409cad32",
-    "api/v1/gists/ufw-setup.json": "a064834452ab4e56207e38c6ff9b07f29b48ff3ec1892968ccbee5b4f50f1ac2",
-    "api/v1/gists/usedebounce-hook.json": "f4814393e23bd8b724e914e9c58024cd7e82e8ccb49e43d3e2ccb15e89dddbf5",
-    "api/v1/gists/vs-code-settings.json": "cca21a83a28ddf39467ce46e2e9234497196c017379869e389579fdc12a694cf",
-    "api/v1/gists/website-masking-worker.json": "f86897ea0a30fbf7c86c4b2882739a323478f5290e2976f41eb448a93b8832ab",
-    "api/v1/gists/zsh-aliases.json": "b1f260e7d8e37c24f55cf0ad992c787cbe3084e3b1f876eb3e7188b23be274b6",
-    "api/v1/gists/zshrc-file-with-git-user-switcher.json": "84cac52e3164b21c1ab3f751b125a720db2044354265a0b03f636d66b9acb417",
-    "api/v1/gists.json": "c3f212044dae4a4ef6f50bee5ec4dc98528420b939ee9307fb0fe4d67ea730ee",
-    "api/v1/health.json": "f518ee134ea4b1d69dc6681624c059fb08bd53c97a47eb515198a38a66723c5b",
-    "api/v1/index.json": "f6bec614031e83512a52e5f80155d28621979a92f01abe9d919daa95727bb528",
-    "api/v1/posts/4-years-later.json": "3ce7c0b7e6e913627fc1daf2f77dd9f07dd17d5ed6d03d83c0599ddca6f3df70",
-    "api/v1/posts/probably-the-best-work.json": "d4ff02b0980ba54025fbf7c37c22a6435e5b8ab055e5b338fde4fbfd87bb80fc",
-    "api/v1/posts/shipping-isnt-finishing.json": "183d7e4e534bb901e448d711da3f738d82b16ff6d491107e5d4e6a832b2c48a9",
-    "api/v1/posts/the-part-a-person-actually-feels.json": "772469716765954de50502adef5d0ca3432496c5738b44057f6452f2511cabab",
-    "api/v1/posts/you-dont-know-you-can-do-it.json": "a08e0cf9c9276f568520b2f0c3836ce112b7386be1d3854bbde757e721b1f8cf",
-    "api/v1/posts.json": "65ef6a33bf075f22e7ea4a6b8afa332fc221b921477ba9577d1438b5c6044734",
-    "api/v1/profile.json": "76c16883d24cefe6a1e65d09c39f3a81eb581a1493f89a8124bc4d75a4454c4e",
-    "openapi.json": "43bf3f8767ce003ef7a68f09159dbbcae707983ecc26fa1eb34e354543a5af27"
-  },
-  "sitemapSignature": "ac7e23e76e4cbc3af4f446b3a7679e912ee4a5585656fcedf13e19abf6b10c01"
+  "sitemapSignature": "12e1974b880f34da21620100c6a0b49a47ee1bbf123022cd3e6c7d15b9b39b22"
 }

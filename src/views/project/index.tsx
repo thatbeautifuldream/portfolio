@@ -1,5 +1,4 @@
 import type { ComponentProps } from "../../lib/ui";
-import { classes } from "../../lib/ui";
 import Layout from "../../layouts/Layout";
 import PageHeader from "../../components/PageHeader";
 import IndexList from "../../components/IndexList";

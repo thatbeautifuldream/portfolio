@@ -31,9 +31,7 @@ export default async function RootLayout({
         />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.webmanifest" />
-        {path[0] !== "docs" && (
-          <meta name="theme-color" content={siteConfig.themeColor} />
-        )}
+        <meta name="theme-color" content={siteConfig.themeColor} />
         <link rel="sitemap" href="/sitemap-index.xml" />
         <script
           type="speculationrules"

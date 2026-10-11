@@ -1,9 +1,6 @@
 # build output
 dist/
 
-# generated types
-.astro/
-
 # dependencies
 node_modules/
 
@@ -28,7 +25,6 @@ pnpm-debug.log*
 out/
 *.tsbuildinfo
 public/content-assets/
-public/api/
 public/og/
 public/share/
 public/og.png
@@ -37,9 +33,5 @@ public/blog/
 public/gist/
 public/project/
 public/uses/
-public/robots.txt
-public/llms*.txt
-public/openapi.json
-public/rss.xml
 public/sitemap*.xml
 .generated/

@@ -1,11 +1,11 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { pathToFileURL } from "node:url";
 import { siteConfig, getSitePage } from "../src/lib/seo";
 import { getCollection } from "../src/lib/content";
 import { getCollection as buildCollection } from "../src/lib/content-build";
 import { stripLocale, isTranslated, localizePath } from "../src/i18n";
 import { optimizeContentImages } from "./images";
+import { buildPageMarkdown, getMarkdownPaths } from "../src/lib/page-markdown";
 const root = process.cwd();
 const publicDir = path.join(root, "public");
 async function walk(dir: string): Promise<string[]> {
@@ -58,36 +58,44 @@ const content = Object.fromEntries(
 );
 await fs.mkdir(".generated", { recursive: true });
 await fs.writeFile(".generated/content.json", JSON.stringify(content));
-const resourceFiles = (await walk(path.join(root, "src/resources"))).filter(
-  (f) => f.endsWith(".ts"),
-);
-await fs.rm(path.join(publicDir, "og.png"), { force: true });
-let count = 0;
-for (const file of resourceFiles) {
-  const module = await import(pathToFileURL(file).href);
-  const routes = module.getStaticPaths
-    ? await module.getStaticPaths()
-    : [{ params: {}, props: {} }];
-  const pattern = path
-    .relative(path.join(root, "src/resources"), file)
-    .replace(/\.ts$/, "");
-  for (const route of routes) {
-    const resourcePath = pattern.replace(
-      /\[\.\.\.(\w+)\]|\[(\w+)\]/g,
-      (_, spread, key) => route.params[spread ?? key],
-    );
-    const response = await module.GET({
-      params: route.params,
-      props: route.props ?? {},
-      site: new URL(siteConfig.url),
-      request: new Request(new URL(resourcePath, siteConfig.url)),
-    });
-    const target = path.join(publicDir, resourcePath);
-    await fs.mkdir(path.dirname(target), { recursive: true });
-    await fs.writeFile(target, new Uint8Array(await response.arrayBuffer()));
-    count++;
-  }
+// Remove resources from earlier builds before Next copies public assets.
+for (const file of [
+  "og.png",
+  "openapi.json",
+  "docs.md",
+  "llms.txt",
+  "llms-full.txt",
+  "rss.xml",
+  "robots.txt",
+]) {
+  await fs.rm(path.join(publicDir, file), { force: true });
 }
+const markdownPaths = await getMarkdownPaths();
+let count = 0;
+for (const route of markdownPaths) {
+  const markdown = await buildPageMarkdown(route);
+  if (!markdown) throw new Error(`Missing Markdown for ${route}`);
+  const target = path.join(
+    publicDir,
+    route === "/" ? "index.md" : `${route.slice(1)}.md`,
+  );
+  await fs.mkdir(path.dirname(target), { recursive: true });
+  await fs.writeFile(target, markdown);
+  count++;
+}
+const resume = (await getCollection("gists")).find(
+  (entry) => entry.id === "resume",
+);
+const resumeBody = resume?.body.trim() ?? "# Resume";
+const resumeMarkdown =
+  resumeBody.match(
+    /^```markdown(?: title="resume\.md")?\n([\s\S]*?)\n```\s*$/,
+  )?.[1] ?? resumeBody;
+await fs.writeFile(
+  path.join(publicDir, "resume.md"),
+  `${resumeMarkdown.trim()}\n`,
+);
+count++;
 const routes = [
   "/",
   "/work",
@@ -98,7 +106,6 @@ const routes = [
   "/gist",
   "/project",
   "/uses",
-  "/docs",
 ];
 for (const [prefix, name] of [
   ["blog", "posts"],
@@ -129,4 +136,6 @@ await fs.writeFile(
   path.join(publicDir, "sitemap-index.xml"),
   `<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><sitemap><loc>${siteConfig.url}/sitemap-0.xml</loc></sitemap></sitemapindex>`,
 );
-console.log(`Generated ${count} resources and ${urls.length} sitemap URLs.`);
+console.log(
+  `Generated ${count} Markdown resources and ${urls.length} sitemap URLs.`,
+);

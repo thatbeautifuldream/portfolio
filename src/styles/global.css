@@ -197,7 +197,7 @@ html {
   --page-in-delay: 100ms;
 }
 
-/* Both wipe variants stack the still old snapshot under the incoming one. */
+/* Stack the old document snapshot under the incoming one. */
 html::view-transition-old(root) {
   mix-blend-mode: normal;
   z-index: 1;
@@ -208,10 +208,7 @@ html::view-transition-new(root) {
   z-index: 2;
 }
 
-/* Page navigation: a quiet cross-blur — the old page blurs and fades out
-   fast, then the new one rises in softly. Gated on :not(.theme-transition)
-   so these rules can never match while a theme toggle's view transition is
-   running. */
+/* Document navigation uses the same cross-blur as the Next.js router. */
 @keyframes page-out {
   to {
     opacity: 0;
@@ -227,11 +224,11 @@ html::view-transition-new(root) {
   }
 }
 
-html:not(.theme-transition)::view-transition-old(root) {
+html::view-transition-old(root) {
   animation: page-out var(--page-out-dur) ease-out both;
 }
 
-html:not(.theme-transition)::view-transition-new(root) {
+html::view-transition-new(root) {
   animation: page-in var(--page-in-dur) var(--wipe-ease) var(--page-in-delay)
     both;
 }
@@ -243,10 +240,6 @@ html:not(.theme-transition)::view-transition-new(root) {
   view-transition-name: back-link;
 }
 
-html.theme-transition [data-back-link] {
-  view-transition-name: none;
-}
-
 ::view-transition-group(back-link),
 ::view-transition-new(back-link) {
   animation: none;
@@ -254,32 +247,6 @@ html.theme-transition [data-back-link] {
 
 ::view-transition-old(back-link) {
   display: none;
-}
-
-/* Theme toggle (html.theme-transition, set by the footer toggle): the old
-   snapshot holds still underneath while the new theme is revealed through an
-   oversized gradient mask sweeping from the bottom-left corner to the
-   top-right; the wide transparent band in the gradient is what gives the
-   wipe its soft blurred edge. */
-@keyframes wipe-diagonal {
-  from {
-    mask-position: 100% 0%;
-  }
-  to {
-    mask-position: 0% 100%;
-  }
-}
-
-html.theme-transition::view-transition-old(root) {
-  animation: none;
-}
-
-html.theme-transition::view-transition-new(root) {
-  mask-image: linear-gradient(45deg, #000 35%, transparent 65%);
-  mask-size: 300% 300%;
-  mask-repeat: no-repeat;
-  will-change: mask-position;
-  animation: wipe-diagonal var(--wipe-dur) var(--wipe-ease) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -396,17 +363,17 @@ html.theme-transition::view-transition-new(root) {
   & :where(pre code) {
     font-size: inherit;
   }
-  & :where(pre.astro-code) {
+  & :where(pre.code-highlight) {
     background-color: var(--color-muted) !important;
   }
-  :is(.dark *) & :where(pre.astro-code),
-  :is(.dark *) & :where(pre.astro-code span) {
+  :is(.dark *) & :where(pre.code-highlight),
+  :is(.dark *) & :where(pre.code-highlight span) {
     color: var(--shiki-dark) !important;
     font-style: var(--shiki-dark-font-style) !important;
     font-weight: var(--shiki-dark-font-weight) !important;
     text-decoration: var(--shiki-dark-text-decoration) !important;
   }
-  :is(.dark *) & :where(pre.astro-code) {
+  :is(.dark *) & :where(pre.code-highlight) {
     background-color: var(--color-muted) !important;
   }
   & :where(img, video) {

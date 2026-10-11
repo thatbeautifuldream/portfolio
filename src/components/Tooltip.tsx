@@ -3,7 +3,6 @@ import { classes } from "../lib/ui";
 import ClientScript from "./ClientScript";
 
 export default async function View(props: ComponentProps) {
-  const context = props.context;
   const { className } = props;
   return (
     <>

@@ -1,11 +1,5 @@
 import type { ComponentProps } from "../lib/ui";
-import { classes } from "../lib/ui";
-interface Props {
-  title: string;
-  meta?: string;
-}
 export default async function View(props: ComponentProps) {
-  const context = props.context;
   const { title, meta } = props;
   return (
     <>

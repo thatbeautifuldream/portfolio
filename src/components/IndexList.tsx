@@ -16,7 +16,6 @@ interface Props {
   class?: string;
 }
 export default async function View(props: ComponentProps & Props) {
-  const context = props.context;
   const { title, items, className } = props;
   const grouped = items.some((item) => item.group);
   const groups = items.reduce<{ label?: string; items: Item[] }[]>(
