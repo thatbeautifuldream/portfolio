@@ -16,7 +16,8 @@
     "format:check": "prettier . --check",
     "verify": "pnpm format:check && pnpm check && pnpm build",
     "prepare": "husky",
-    "test:migration": "tsx --test scripts/migration.test.ts"
+    "test:migration": "tsx --test scripts/migration.test.ts",
+    "test:pwa": "node --test scripts/pwa.test.ts"
   },
   "lint-staged": {
     "*": "prettier --ignore-unknown --write"

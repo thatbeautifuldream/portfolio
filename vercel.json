@@ -16,6 +16,15 @@
       "continue": true
     },
     {
+      "src": "/sw\\.js",
+      "headers": {
+        "Content-Type": "application/javascript; charset=utf-8",
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "Content-Security-Policy": "default-src 'self'; script-src 'self'"
+      },
+      "continue": true
+    },
+    {
       "src": "/api/(.*)",
       "headers": {
         "API-Version": "1",

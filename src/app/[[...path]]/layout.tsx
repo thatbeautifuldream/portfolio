@@ -1,3 +1,4 @@
+import PwaRegistration from "../../components/PwaRegistration";
 import ThemeTransition from "../../components/ThemeTransition";
 import "../../styles/global.css";
 import "../../styles/components.css";
@@ -56,6 +57,7 @@ export default async function RootLayout({
         />
       </head>
       <body className="bg-background text-foreground min-h-svh">
+        <PwaRegistration />
         <ThemeTransition>{children}</ThemeTransition>
       </body>
     </html>
