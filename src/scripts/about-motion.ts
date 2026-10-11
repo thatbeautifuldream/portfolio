@@ -1,13 +1,10 @@
 import { TextMorph } from "torph";
 
-async function initializeAbout() {
-  const root = document.querySelector<HTMLElement>("[data-animated-about]");
-  if (!root) return;
+export async function initializeAbout(root: HTMLElement, signal: AbortSignal) {
   await document.fonts.ready;
 
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
-  const controller = new AbortController();
-  const { signal } = controller;
+  if (signal.aborted) return;
   const heading = root.querySelector<HTMLHeadingElement>("h1")!;
   const headingFlow = heading.parentElement!;
   const followHeadingHeight = () => {
@@ -94,21 +91,14 @@ async function initializeAbout() {
   observer.observe(root.querySelector("h1")!);
   syncPlayback();
 
-  // Native page transitions can restore this document from the back-forward cache.
-  window.addEventListener(
-    "pagehide",
-    (event) => {
+  signal.addEventListener(
+    "abort",
+    () => {
       clearInterval(timer);
-      if (!event.persisted) {
-        controller.abort();
-        observer.disconnect();
-        headingObserver.disconnect();
-        instances.forEach((instance) => instance.destroy());
-      }
+      observer.disconnect();
+      headingObserver.disconnect();
+      instances.forEach((instance) => instance.destroy());
     },
-    { signal },
+    { once: true },
   );
-  window.addEventListener("pageshow", syncPlayback, { signal });
 }
-
-void initializeAbout();

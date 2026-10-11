@@ -61,6 +61,7 @@ await fs.writeFile(".generated/content.json", JSON.stringify(content));
 const resourceFiles = (await walk(path.join(root, "src/resources"))).filter(
   (f) => f.endsWith(".ts"),
 );
+await fs.rm(path.join(publicDir, "og.png"), { force: true });
 let count = 0;
 for (const file of resourceFiles) {
   const module = await import(pathToFileURL(file).href);

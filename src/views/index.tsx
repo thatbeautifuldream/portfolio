@@ -1,3 +1,4 @@
+import SiteLink from "../components/SiteLink";
 import type { ComponentProps } from "../lib/ui";
 import { classes } from "../lib/ui";
 import { execSync } from "node:child_process";
@@ -82,63 +83,63 @@ export default async function View(props: ComponentProps) {
             <div className="grid gap-4 text-base/7 sm:text-sm/6">
               <p className="text-pretty">
                 {home.intro[0]}
-                <a href="https://www.getmerlin.in/chat" className="chip">
+                <SiteLink href="https://www.getmerlin.in/chat" className="chip">
                   <Image src={merlin} alt="" width={40} />
                   Merlin AI
-                </a>
+                </SiteLink>
                 {home.intro[1]}
                 {t.city}
                 {home.intro[2]}
               </p>
               <p className="text-pretty">
                 {home.tools[0]}
-                <a
+                <SiteLink
                   href={localizePath("/project/json-visualiser", locale)}
                   className="chip"
                 >
                   <Image src={jsonVisualiser} alt="" width={40} />
                   {home.jsonVisualiser}
-                </a>
+                </SiteLink>
                 {home.tools[1]}
-                <a
+                <SiteLink
                   href={localizePath("/project/markdown-visualizer", locale)}
                   className="chip"
                 >
                   <Image src={markdownVisualizer} alt="" width={40} />
                   {home.markdownVisualizer}
-                </a>
+                </SiteLink>
                 {home.tools[2]}
               </p>
               <p className="text-pretty">
                 {home.next[0]}
-                <a href={siteLinks.github.href} className="chip">
+                <SiteLink href={siteLinks.github.href} className="chip">
                   <Icon name="ri:github-fill" />
                   GitHub
-                </a>
+                </SiteLink>
                 {home.next[1]}
-                <a href={siteLinks.linkedin.href} className="chip">
+                <SiteLink href={siteLinks.linkedin.href} className="chip">
                   <Icon name="ri:linkedin-box-fill" />
                   LinkedIn
-                </a>
+                </SiteLink>
                 {home.next[2]}
-                <a href={siteLinks.x.href} className="chip">
+                <SiteLink href={siteLinks.x.href} className="chip">
                   <Icon name="ri:twitter-x-fill" />X
-                </a>
+                </SiteLink>
                 {home.next[3]}
-                <a href={siteLinks.resume.pdf} className="chip">
+                <SiteLink href={siteLinks.resume.pdf} className="chip">
                   <Icon name="ri:file-text-line" />
                   {home.resume}
-                </a>
+                </SiteLink>
                 {home.next[4]}
-                <a href="https://cal.com/milind/15min" className="chip">
+                <SiteLink href="https://cal.com/milind/15min" className="chip">
                   <Icon name="ri:calendar-line" />
                   {home.book}
-                </a>
+                </SiteLink>
                 {home.next[5]}
-                <a href={`mailto:${contactEmail}`} className="chip">
+                <SiteLink href={`mailto:${contactEmail}`} className="chip">
                   <Icon name="ri:mail-line" />
                   {home.email}
-                </a>
+                </SiteLink>
                 {home.next[6]}
               </p>
             </div>

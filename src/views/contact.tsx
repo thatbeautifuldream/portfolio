@@ -1,3 +1,4 @@
+import SiteLink from "../components/SiteLink";
 import type { ComponentProps } from "../lib/ui";
 import { classes } from "../lib/ui";
 import ClientScript from "../components/ClientScript";
@@ -37,7 +38,7 @@ export default async function View(props: ComponentProps) {
             <EmailLink context={context} />
             <p className="text-pretty">
               {t.call[0]}
-              <a href="https://cal.com/milind/15min">{t.book}</a>
+              <SiteLink href="https://cal.com/milind/15min">{t.book}</SiteLink>
               {t.call[1]}
             </p>
           </article>

@@ -3,12 +3,16 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { createHash } from "node:crypto";
 import test from "node:test";
+import sharp from "sharp";
 import { isDeepStrictEqual } from "node:util";
 import { apiSignature, sitemapSignature } from "./resource-parity";
 import { fromHtml } from "hast-util-from-html";
 
 const baseline = JSON.parse(
   await fs.readFile("scripts/fixtures/astro-parity.json", "utf8"),
+);
+const nativeOG = JSON.parse(
+  await fs.readFile("scripts/fixtures/next-og.json", "utf8"),
 );
 function text(node: any): string {
   return node?.type === "text"
@@ -101,7 +105,24 @@ test("all Astro page routes retain their content and SEO", async () => {
         "content",
         "structuredData",
       ]) {
-        if (!isDeepStrictEqual(actual[key], (expected as any)[key])) {
+        // Next Link applies trailingSlash to internal hrefs. The two forms
+        // address the same exported page; preserve all other content fields.
+        const normalize = (value: any) =>
+          key === "content"
+            ? value.map((item: any) => ({
+                ...item,
+                href:
+                  typeof item.href === "string" && item.href.startsWith("/")
+                    ? item.href.replace(/\/(?=[?#]|$)/, "")
+                    : item.href,
+              }))
+            : value;
+        if (
+          !isDeepStrictEqual(
+            normalize(actual[key]),
+            normalize((expected as any)[key]),
+          )
+        ) {
           differences.push(`${file}: ${key}`);
         }
       }
@@ -124,6 +145,7 @@ test("every public machine-readable resource and OG image exists", async () => {
       const bytes = await fs.readFile(path.join("dist", file));
       if (
         file !== "sitemap-0.xml" &&
+        !nativeOG[file] &&
         /\.(png|md|txt|xml)$/.test(file) &&
         createHash("sha256").update(bytes).digest("hex") !== hash
       )
@@ -152,4 +174,32 @@ test("sitemap retains every URL, priority, frequency, and language alternate", a
     sitemapSignature(await fs.readFile("dist/sitemap-0.xml", "utf8")),
     baseline.sitemapSignature,
   );
+});
+
+test("native Next.js OG and story exports retain their reviewed design", async () => {
+  const expectedURLs = Object.keys(baseline.resources).filter(
+    (file) => file === "og.png" || /^(og|share)\//.test(file),
+  );
+  assert.deepEqual(Object.keys(nativeOG).sort(), expectedURLs.sort());
+  for (const [file, expected] of Object.entries(nativeOG) as [
+    string,
+    { sha256: string; width: number; height: number },
+  ][]) {
+    const bytes = await fs.readFile(path.join("dist", file));
+    const meta = await sharp(bytes).metadata();
+    assert.equal(meta.format, "png", file);
+    assert.equal(meta.width, file.startsWith("share/") ? 1080 : 1200, file);
+    assert.equal(meta.height, file.startsWith("share/") ? 1920 : 630, file);
+    assert.equal(
+      createHash("sha256").update(bytes).digest("hex"),
+      expected.sha256,
+      file,
+    );
+    const pixel = await sharp(bytes)
+      .extract({ left: 0, top: 0, width: 1, height: 1 })
+      .removeAlpha()
+      .raw()
+      .toBuffer();
+    assert.deepEqual([...pixel], [253, 253, 252], file);
+  }
 });

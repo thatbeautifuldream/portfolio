@@ -1,3 +1,4 @@
+import SiteLink from "../components/SiteLink";
 import type { ComponentProps } from "../lib/ui";
 import { classes } from "../lib/ui";
 import Layout from "../layouts/Layout";
@@ -34,7 +35,9 @@ export default async function View(props: ComponentProps) {
             <h2 className="section-title">{t.contactInfo}</h2>
             <p className="text-pretty">
               {t.contactInfoBody[0]}
-              <a href={localizePath("/contact", locale)}>{t.contactPage}</a>
+              <SiteLink href={localizePath("/contact", locale)}>
+                {t.contactPage}
+              </SiteLink>
               {t.contactInfoBody[1]}
             </p>
           </section>

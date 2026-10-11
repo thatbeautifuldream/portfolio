@@ -1,3 +1,4 @@
+import SiteLink from "./SiteLink";
 import type { ComponentProps } from "../lib/ui";
 import { classes } from "../lib/ui";
 import { Icon } from "../lib/ui";
@@ -42,7 +43,7 @@ export default async function View(props: ComponentProps & Props) {
               <ul role="list" className="divide-border divide-y">
                 {group.items.map((item) => (
                   <li key={`${item.href}:${item.title}`}>
-                    <a
+                    <SiteLink
                       href={item.href}
                       {...(item.external && {
                         target: "_blank",
@@ -65,7 +66,7 @@ export default async function View(props: ComponentProps & Props) {
                           {item.meta}
                         </span>
                       )}
-                    </a>
+                    </SiteLink>
                   </li>
                 ))}
               </ul>

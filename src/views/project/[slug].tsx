@@ -1,3 +1,4 @@
+import SiteLink from "../../components/SiteLink";
 import type { ComponentProps } from "../../lib/ui";
 import { classes } from "../../lib/ui";
 import { getCollection } from "../../lib/content";
@@ -43,7 +44,7 @@ export default async function View(props: ComponentProps) {
               title={project.data.title}
               meta={project.data.description}
             >
-              <a
+              <SiteLink
                 href={project.data.url}
                 className="text-faint hover:text-foreground inline-flex w-fit items-center gap-1 no-underline"
               >
@@ -52,7 +53,7 @@ export default async function View(props: ComponentProps) {
                   name="ri:arrow-right-up-line"
                   className="size-5 shrink-0 sm:size-4"
                 />
-              </a>
+              </SiteLink>
             </PageHeader>
             <div
               className="prose min-w-0"

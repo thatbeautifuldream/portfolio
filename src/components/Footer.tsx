@@ -1,3 +1,4 @@
+import SiteLink from "./SiteLink";
 import type { ComponentProps } from "../lib/ui";
 import { classes } from "../lib/ui";
 import ClientScript from "./ClientScript";
@@ -68,7 +69,7 @@ export default async function View(props: ComponentProps) {
               ></span>
               {t.footer.location}
             </p>
-            <a
+            <SiteLink
               href={shortHash ? `${repoUrl}/commit/${commitHash}` : repoUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -83,7 +84,7 @@ export default async function View(props: ComponentProps) {
                 className="size-5 shrink-0 sm:size-4"
               />
               {shortHash || t.footer.source}
-            </a>
+            </SiteLink>
           </Tooltip>
           <Tooltip
             context={context}
@@ -92,7 +93,7 @@ export default async function View(props: ComponentProps) {
             <ul role="list" className="flex items-center gap-x-4">
               {links.map(({ href, label, icon }) => (
                 <li key={href}>
-                  <a
+                  <SiteLink
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -102,12 +103,12 @@ export default async function View(props: ComponentProps) {
                     className="hover:text-foreground flex font-normal no-underline"
                   >
                     <Icon name={icon} className="size-5 shrink-0 sm:size-4" />
-                  </a>
+                  </SiteLink>
                 </li>
               ))}
             </ul>
             <div className="flex items-center gap-x-4">
-              <a
+              <SiteLink
                 href={otherHref}
                 hrefLang={otherLocale}
                 lang={otherLocale}
@@ -119,7 +120,7 @@ export default async function View(props: ComponentProps) {
                   name="ri:translate-2"
                   className="size-5 shrink-0 sm:size-4"
                 />
-              </a>
+              </SiteLink>
               <button
                 type="button"
                 id="theme-toggle"
@@ -147,7 +148,7 @@ export default async function View(props: ComponentProps) {
       <ClientScript
         id="src/components/Footer.tsx:0"
         code={
-          '"use strict";\ndocument.querySelectorAll("footer [data-footer-social]").forEach((link) => {\n    link.addEventListener("click", () => {\n        window.posthog?.capture("footer_social_clicked", {\n            platform: link.dataset.footerSocial,\n        });\n    });\n});\n(() => {\n    const el = document.querySelector("[data-local-time]");\n    if (!el)\n        return;\n    const format = new Intl.DateTimeFormat("en-US", {\n        hour: "numeric",\n        minute: "2-digit",\n        timeZone: "Asia/Kolkata",\n    });\n    const tick = () => {\n        el.textContent = `${format.format(new Date()).replace(" ", "").toLowerCase()}${el.dataset.separator}`;\n    };\n    tick();\n    setInterval(tick, 30_000);\n})();\n(() => {\n    let activeTransition = null;\n    document.getElementById("theme-toggle")?.addEventListener("click", () => {\n        const root = document.documentElement;\n        const next = root.classList.contains("dark") ? "light" : "dark";\n        window.posthog?.capture("theme_toggled", { theme: next });\n        const apply = () => {\n            root.classList.toggle("dark", next === "dark");\n            localStorage.setItem("theme", next);\n        };\n        const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;\n        if (!document.startViewTransition || reduced) {\n            apply();\n            return;\n        }\n        root.classList.add("theme-transition");\n        const transition = document.startViewTransition(apply);\n        activeTransition = transition;\n        // A rapid second toggle skips this transition and fires its finished\n        // callback while the new one is still running — only the latest\n        // transition may clean up the class, or the page-transition CSS takes\n        // over mid-wipe.\n        transition.finished.finally(() => {\n            if (activeTransition === transition) {\n                activeTransition = null;\n                root.classList.remove("theme-transition");\n            }\n        });\n    });\n})();\n'
+          '"use strict";\ndocument.querySelectorAll("footer [data-footer-social]").forEach((link) => {\n    link.addEventListener("click", () => {\n        window.posthog?.capture("footer_social_clicked", {\n            platform: link.dataset.footerSocial,\n        });\n    });\n});\n(() => {\n    const el = document.querySelector("[data-local-time]");\n    if (!el)\n        return;\n    const format = new Intl.DateTimeFormat("en-US", {\n        hour: "numeric",\n        minute: "2-digit",\n        timeZone: "Asia/Kolkata",\n    });\n    const tick = () => {\n        el.textContent = `${format.format(new Date()).replace(" ", "").toLowerCase()}${el.dataset.separator}`;\n    };\n    tick();\n    setInterval(tick, 30_000);\n})();\n'
         }
         vars={{}}
       />

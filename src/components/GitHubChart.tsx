@@ -1,3 +1,4 @@
+import SiteLink from "./SiteLink";
 import type { ComponentProps } from "../lib/ui";
 import { classes } from "../lib/ui";
 import ClientScript from "./ClientScript";
@@ -122,7 +123,7 @@ export default async function View(props: ComponentProps) {
             </span>
             <span className="flex shrink-0 gap-3 max-sm:hidden">
               {handles.map((href) => (
-                <a
+                <SiteLink
                   key={href}
                   href={href}
                   target="_blank"
@@ -130,7 +131,7 @@ export default async function View(props: ComponentProps) {
                   className="hover:text-foreground no-underline"
                 >
                   @{href.split("/").pop()}
-                </a>
+                </SiteLink>
               ))}
             </span>
           </p>

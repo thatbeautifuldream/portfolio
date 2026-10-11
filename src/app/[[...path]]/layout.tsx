@@ -1,3 +1,4 @@
+import ThemeTransition from "../../components/ThemeTransition";
 import "../../styles/global.css";
 import "../../styles/components.css";
 import "../../styles/fonts.css";
@@ -55,7 +56,7 @@ export default async function RootLayout({
         />
       </head>
       <body className="bg-background text-foreground min-h-svh">
-        {children}
+        <ThemeTransition>{children}</ThemeTransition>
       </body>
     </html>
   );

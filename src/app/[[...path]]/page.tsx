@@ -1,3 +1,4 @@
+import { ViewTransition } from "react";
 import { notFound } from "next/navigation";
 import { getCollection } from "../../lib/content";
 import { getLocalizedCollection } from "../../i18n/content";
@@ -71,7 +72,21 @@ export default async function Page({
   };
   if (parts.length <= 1) {
     const View = views[(parts[0] ?? "") as keyof typeof views];
-    if (View) return <View context={context} />;
+    if (View)
+      return (
+        <ViewTransition
+          key={context.url.pathname}
+          name="page-content"
+          default="none"
+          share="page-navigation"
+          enter="page-navigation"
+          exit="page-navigation"
+        >
+          <div className="min-h-svh">
+            <View context={context} />
+          </div>
+        </ViewTransition>
+      );
   }
   if (parts.length === 2 && parts[0]! in collections) {
     const collection = collections[parts[0] as keyof typeof collections];
@@ -88,7 +103,20 @@ export default async function Page({
         project: "project",
         uses: "item",
       }[parts[0] as keyof typeof collections];
-      return <View context={context} {...{ [key]: entry }} />;
+      return (
+        <ViewTransition
+          key={context.url.pathname}
+          name="page-content"
+          default="none"
+          share="page-navigation"
+          enter="page-navigation"
+          exit="page-navigation"
+        >
+          <div className="min-h-svh">
+            <View context={context} {...{ [key]: entry }} />
+          </div>
+        </ViewTransition>
+      );
     }
   }
   notFound();

@@ -1,3 +1,4 @@
+import SiteLink from "../../components/SiteLink";
 import type { ComponentProps } from "../../lib/ui";
 import { classes } from "../../lib/ui";
 import { getCollection } from "../../lib/content";
@@ -46,13 +47,13 @@ export default async function View(props: ComponentProps) {
               </p>
               {item.data.url && (
                 <p>
-                  <a
+                  <SiteLink
                     href={item.data.url}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     {hostname(item.data.url)}
-                  </a>
+                  </SiteLink>
                 </p>
               )}
             </div>

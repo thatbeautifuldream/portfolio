@@ -1,3 +1,4 @@
+import SiteLink from "../components/SiteLink";
 import Footer from "../components/Footer";
 import Analytics from "../components/Analytics";
 import PostHog from "../components/posthog";
@@ -142,7 +143,7 @@ export default async function Layout(props: ComponentProps) {
       />
       <div className="isolate mx-auto flex min-h-svh max-w-[36.375rem] flex-col gap-10 px-6 pt-8 md:px-4 md:pt-20">
         {back && (
-          <a
+          <SiteLink
             href={back.href}
             data-back-link
             className="text-faint hover:text-foreground relative z-20 inline-flex w-fit items-center gap-1.5 no-underline xl:fixed xl:top-20 xl:left-20"
@@ -152,7 +153,7 @@ export default async function Layout(props: ComponentProps) {
               className="size-5 shrink-0 sm:size-4"
             />
             {back.label}
-          </a>
+          </SiteLink>
         )}
         <div className="grow">{props.children}</div>
         <Footer context={context} />

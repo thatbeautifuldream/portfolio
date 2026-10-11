@@ -1,3 +1,4 @@
+import SiteLink from "./SiteLink";
 import type { ComponentProps } from "../lib/ui";
 import { classes } from "../lib/ui";
 import ClientScript from "./ClientScript";
@@ -16,13 +17,13 @@ export default async function View(props: ComponentProps) {
       <p
         className={classes(["flex flex-wrap items-center gap-x-2", className])}
       >
-        <a
+        <SiteLink
           href={`mailto:${contactEmail}`}
           data-email-link
           className="break-all"
         >
           {contactEmail}
-        </a>
+        </SiteLink>
         <button
           type="button"
           data-email-copy
