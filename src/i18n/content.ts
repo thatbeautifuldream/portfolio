@@ -1,4 +1,4 @@
-import { getCollection } from "astro:content";
+import { getCollection } from "../lib/content";
 import type { Locale } from ".";
 
 const translations = {

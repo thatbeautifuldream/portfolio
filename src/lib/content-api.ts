@@ -1,7 +1,5 @@
-import mdxRenderer from "@astrojs/mdx/server.js";
-import { experimental_AstroContainer } from "astro/container";
-import { getCollection, render, type CollectionEntry } from "astro:content";
-import { z } from "astro/zod";
+import { getCollection, type CollectionEntry } from "./content";
+import { z } from "zod";
 import { absoluteUrl } from "./seo";
 
 const registry = z.registry<{ id: string }>();
@@ -99,11 +97,6 @@ export function contentJsonSchemas() {
 type PostEntry = CollectionEntry<"posts">;
 type GistEntry = CollectionEntry<"gists">;
 
-const postImages = import.meta.glob<ImageMetadata>(
-  "/src/content/posts/*.{avif,gif,jpeg,jpg,png,svg,webp}",
-  { eager: true, import: "default" },
-);
-
 function gistDate(gist: GistEntry) {
   return gist.data.datePublished ?? gist.data.date;
 }
@@ -122,25 +115,11 @@ export async function getGists() {
     );
 }
 
-let container: experimental_AstroContainer | undefined;
-
 async function renderHtml(entry: PostEntry | GistEntry, site?: URL | null) {
-  if (!container) {
-    container = await experimental_AstroContainer.create();
-    container.addServerRenderer({ renderer: mdxRenderer });
-  }
-  const { Content } = await render(entry);
-  const html = await container.renderToString(Content);
-  return html
-    .replace(
-      /\b(src|href|poster)="(\/[^/"][^"]*)"/g,
-      (_, attr: string, path: string) => `${attr}="${absoluteUrl(path, site)}"`,
-    )
-    .replace(
-      /\bsrcset="([^"]*)"/g,
-      (_, srcset: string) =>
-        `srcset="${srcset.replace(/(^|,\s*)(\/[^/\s][^\s,]*)/g, (_m, sep: string, path: string) => `${sep}${absoluteUrl(path, site)}`)}"`,
-    );
+  return entry.html.replace(
+    /\b(src|href|poster)="(\/[^/"][^"]*)"/g,
+    (_, attr: string, path: string) => `${attr}="${absoluteUrl(path, site)}"`,
+  );
 }
 
 function postMarkdown(post: PostEntry, site?: URL | null) {
@@ -149,7 +128,7 @@ function postMarkdown(post: PostEntry, site?: URL | null) {
     .replace(
       /(!\[[^\]]*\]\()\.\/([^)\s]+)/g,
       (match, prefix: string, file: string) => {
-        const image = postImages[`/src/content/posts/${file}`];
+        const image = { src: `/content-assets/${file}` };
         return image ? `${prefix}${absoluteUrl(image.src, site)}` : match;
       },
     );
@@ -160,7 +139,7 @@ function postSummary(post: PostEntry, site?: URL | null): PostSummary {
   return {
     slug: post.id,
     title: post.data.title,
-    description: post.data.description,
+    description: post.data.description ?? "",
     category: post.data.category,
     publishedAt: post.data.date.toISOString(),
     url: absoluteUrl(`/blog/${post.id}`, site),

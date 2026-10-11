@@ -82,23 +82,38 @@ export function startServer(opts: ServerOptions = {}): Promise<ServerHandle> {
   const root = opts.root ?? PROJECT_ROOT;
   const dist = join(root, "dist") + "/";
   const headerRules = parseHeaders(root);
+  const routes =
+    JSON.parse(readFileSync(join(root, "vercel.json"), "utf8")).routes ?? [];
+  const redirects = routes.filter(
+    (r: any) => r.status >= 300 && r.status < 400 && r.headers?.Location,
+  );
 
   const server: Server = createServer(async (req, res) => {
     const pathname = decodeURIComponent(
       new URL(req.url ?? "/", "http://x").pathname,
     );
+    const redirect = redirects.find((r: any) =>
+      new RegExp(r.src).test(pathname),
+    );
+    if (redirect) {
+      res
+        .writeHead(redirect.status, { Location: redirect.headers.Location })
+        .end();
+      return;
+    }
+    const contentPath = pathname.replace(/^\/hi(?=\/|$)/, "") || "/";
     const acceptsMarkdown = (req.headers.accept ?? "")
       .toLowerCase()
       .includes("text/markdown");
     const markdownPath =
-      pathname === "/"
+      contentPath === "/"
         ? join(dist, "index.md")
-        : join(dist, `${pathname.replace(/^\/+|\/+$/g, "")}.md`);
+        : join(dist, `${contentPath.replace(/^\/+|\/+$/g, "")}.md`);
     const wantsMarkdown =
       acceptsMarkdown &&
-      (pathname === "/" ||
+      (contentPath === "/" ||
         (!pathname.startsWith("/api/") &&
-          !pathname.startsWith("/_astro/") &&
+          !pathname.startsWith("/_next/") &&
           !extname(pathname) &&
           existsSync(markdownPath)));
     let filePath = wantsMarkdown

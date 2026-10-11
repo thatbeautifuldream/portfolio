@@ -1,4 +1,4 @@
-import { getCollection } from "astro:content";
+import { getCollection } from "./content";
 import { contactLinks, contributions, roles, talks } from "../data/portfolio";
 import { absoluteUrl, siteConfig, sitePages } from "./seo";
 

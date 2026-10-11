@@ -78,7 +78,7 @@ async function initializeAbout() {
       // Give each change its own moment, rather than moving the whole page at once.
       words[turn % words.length]!();
       turn++;
-    }, 4500);
+    }, 10_000);
   }
 
   root.addEventListener("focusin", syncPlayback, { signal });

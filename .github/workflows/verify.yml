@@ -24,3 +24,6 @@ jobs:
 
       - name: Verify (format, check, build)
         run: pnpm verify
+
+      - name: Verify public contracts and migration parity
+        run: pnpm test:agentic && pnpm test:migration

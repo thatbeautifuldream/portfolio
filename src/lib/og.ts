@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import { createRequire } from "node:module";
-import { generateOpenGraphImage } from "astro-og-canvas";
+import { generateOpenGraphImage } from "./og-renderer";
 
 // Shared Open Graph card style, matching the site.
 export function ogImageOptions(page: { title: string; description?: string }) {

@@ -27,11 +27,25 @@
       "continue": true
     },
     {
-      "src": "/_astro/(.*)",
+      "src": "/_next/static/(.*)",
       "headers": {
         "Cache-Control": "public, max-age=31536000, immutable"
       },
       "continue": true
+    },
+    {
+      "src": "/fonts/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
+    },
+    {
+      "src": "^/whatsapp/?$",
+      "status": 308,
+      "headers": {
+        "Location": "https://wa.me/919631333128"
+      }
     },
     {
       "src": "^/about\\.md$",
@@ -76,7 +90,7 @@
       "dest": "/index.md"
     },
     {
-      "src": "^/(?:hi/)?(?!api(?:/|$)|_astro/|.*\\.[^/]+$)(.+?)/?$",
+      "src": "^/(?:hi/)?(?!api(?:/|$)|_next/|.*\\.[^/]+$)(.+?)/?$",
       "has": [
         {
           "type": "header",
@@ -105,5 +119,8 @@
       "dest": "/api/v1/error.json",
       "status": 404
     }
-  ]
+  ],
+  "framework": "nextjs",
+  "buildCommand": "pnpm build",
+  "outputDirectory": "out"
 }
