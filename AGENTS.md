@@ -5,19 +5,19 @@
 After making code changes, run the fastest loop that can catch and fix issues, in order:
 
 1. `pnpm format` — apply project formatting (Prettier).
-2. `pnpm check` — catch Astro and TypeScript diagnostics (`astro check`).
-3. `pnpm build` — validate the static Astro build.
+2. `pnpm check` — catch TypeScript diagnostics (`tsc --noEmit`).
+3. `pnpm build` — generate resources and validate the static Next.js export.
 
 If any command fails, fix the reported issue and rerun the failed command before continuing. Do not hand off with a failing command.
 
-Run `pnpm verify` before final handoff. It runs `format:check`, Astro diagnostics, and the production build — the same gate to keep `main` always green.
+Run `pnpm verify` before final handoff. It runs `format:check`, TypeScript diagnostics, and the production build — the same gate to keep `main` always green.
 
 Keep pre-commit fast: it only runs `lint-staged` (Prettier on staged files). The heavier `check` + `build` validation lives in `pnpm verify` and CI.
 
 ## Project Notes
 
-- Astro static site (no SSR adapter). Pages in `src/pages`, layout in `src/layouts/Layout.astro`.
-- Content lives in collections defined in `src/content.config.ts`: `posts` (`src/content/posts/*.md`) and `gists` (`src/content/gist/*.mdx`). `src/content/` is excluded from Prettier — do not reformat authored content.
+- Next.js App Router static export (`output: "export"`). Route dispatch and localized root layout live in `src/app/[[...path]]`; page views live in `src/views`, with shared chrome in `src/layouts/Layout.tsx`.
+- Content lives in Markdown/MDX collections loaded by `src/lib/content-build.tsx`. `scripts/generate.ts` renders them into `.generated/content.json` and writes public JSON/Markdown/feed/OG resources. `src/lib/content.tsx` reads that manifest in Server Components. `src/content/` is excluded from Prettier — do not reformat authored content.
 - SEO is centralized in `src/lib/seo.ts` (`siteConfig`, `sitePages`, structured-data builders). Sitemap priorities, `robots.txt`, `llms.txt`, and `llms-full.txt` all derive from it — update there, not in scattered files.
 - Package manager is **pnpm**. Use `pnpm`, never `npm`/`npx`.
 - Match the surrounding style: 2-space indentation, double quotes, semicolons. Prettier enforces this.
@@ -41,7 +41,11 @@ The work is split into three composable TypeScript modules (run directly via Nod
 Interpreting results:
 
 - The local server is HTTP/1.1, so Lighthouse's lantern simulation over-penalizes **mobile** (inflated FCP/LCP vs production's HTTP/3). Trust **desktop** locally; use `--url` (or PageSpeed Insights) for the real mobile picture.
-- `Analytics.astro` loads GA4 + Clarity only on first user interaction, so they stay out of the audit trace — don't "fix" this by eagerly loading them.
+- `Analytics.tsx` loads GA4 + Clarity only on first user interaction, so they stay out of the audit trace — don't "fix" this by eagerly loading them.
 - Response headers (HSTS, CSP, X-Frame-Options, COOP, etc.) live in **`vercel.json`** — the site is on Vercel (Cloudflare only proxies the domain). A Cloudflare `public/_headers` file is ignored. Update `vercel.json`, and keep `scripts/serve-dist.ts`'s parser in sync if the header shape changes.
-- **Fonts:** Inter is loaded through Astro's Fonts API with the Google provider (`astro.config.mjs`), which downloads and self-hosts it at build time with metric-matched fallbacks. The OG-image cards use the static `Inter-400.ttf`/`Inter-500.ttf` in `src/assets/fonts` since CanvasKit can't read woff2.
+- **Fonts:** Inter and Noto Sans Devanagari are self-hosted in `public/fonts`, with the original metric-matched fallbacks in `src/styles/fonts.css`. The OG-image cards use the static `Inter-400.ttf`/`Inter-500.ttf` in `src/assets/fonts` since CanvasKit can't read woff2.
 - Best-Practices is capped below 100 by Cloudflare's injected bot script (`/cdn-cgi/challenge-platform/...`, the `deprecations` audit) — that is a Cloudflare dashboard setting (Bot Fight Mode / JavaScript Detections), not a code issue. Don't chase it in the repo.
+
+## Migration verification
+
+`pnpm test:migration` verifies route/resource parity against the checked-in manifest, semantic content, and OG/story image hashes. Run `pnpm test:agentic` against the current export too. `pnpm build` writes Next output to `out` and mirrors it to `dist` for the existing audit tools.

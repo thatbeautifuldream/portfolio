@@ -1,0 +1,94 @@
+import type { ComponentProps } from "../lib/ui";
+import { classes } from "../lib/ui";
+import ClientScript from "../components/ClientScript";
+import Layout from "../layouts/Layout";
+import PageHeader from "../components/PageHeader";
+import IndexList from "../components/IndexList";
+import { talks, contributions } from "../data/portfolio";
+import { absoluteUrl, buildPersonRef, siteConfig } from "../lib/seo";
+import { getLocale, localizePath, useTranslations } from "../i18n";
+export default async function View(props: ComponentProps) {
+  const context = props.context;
+  const locale = getLocale(context.locale);
+  const t = useTranslations(locale).talks;
+  const pageUrl = absoluteUrl(localizePath("/talks", locale), context.site);
+  const localizedTalks = talks.map((talk) => ({
+    ...talk,
+    ...t.items[talk.title],
+    source: talk,
+  }));
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: `${t.title} · ${siteConfig.name}`,
+    description: t.description,
+    url: pageUrl,
+    author: buildPersonRef(context.site),
+    hasPart: localizedTalks.map((talk) => ({
+      "@type": "Event",
+      name: talk.title,
+      description: talk.description,
+      startDate: talk.date,
+      location: { "@type": "Place", name: talk.event },
+      url: talk.href,
+      performer: buildPersonRef(context.site),
+    })),
+  };
+  return (
+    <>
+      <Layout
+        context={context}
+        title={t.title}
+        description={t.description}
+        jsonLd={jsonLd}
+      >
+        <main className="stagger grid gap-12">
+          <article className="grid gap-4">
+            <PageHeader context={context} title={t.title} meta={t.meta} />
+            <p className="text-pretty">{t.body}</p>
+          </article>
+
+          <IndexList
+            context={context}
+            title={t.title}
+            items={localizedTalks.map((talk) => ({
+              href: talk.href,
+              title: talk.title,
+              meta: talk.event,
+              group: talk.date.slice(-4),
+              external: true,
+              attrs: {
+                "data-talk-title": talk.source.title,
+                "data-talk-event": talk.source.event,
+              },
+            }))}
+          />
+
+          <section className="grid gap-4">
+            <h2 className="section-title">{t.openSource}</h2>
+            <p className="text-pretty">{t.openSourceBody}</p>
+          </section>
+
+          <IndexList
+            context={context}
+            title={t.contributions}
+            items={contributions.map((item) => ({
+              href: item.href,
+              title: t.contributionTitles[item.title] ?? item.title,
+              external: true,
+              attrs: { "data-contribution-title": item.title },
+            }))}
+          />
+        </main>
+      </Layout>
+
+      <ClientScript
+        id="src/views/talks.tsx:0"
+        code={
+          '"use strict";\ndocument.querySelectorAll("[data-talk-title]").forEach((link) => {\n    link.addEventListener("click", () => {\n        window.posthog?.capture("talk_clicked", {\n            talk_title: link.dataset.talkTitle,\n            talk_event: link.dataset.talkEvent,\n        });\n    });\n});\ndocument.querySelectorAll("[data-contribution-title]").forEach((link) => {\n    link.addEventListener("click", () => {\n        window.posthog?.capture("contribution_clicked", {\n            contribution_title: link.dataset.contributionTitle,\n        });\n    });\n});\n'
+        }
+        vars={{}}
+      />
+    </>
+  );
+}

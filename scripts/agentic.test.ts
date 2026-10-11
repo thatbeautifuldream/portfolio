@@ -208,7 +208,7 @@ test("Vercel routing declares Markdown negotiation and JSON API fallback", async
   assert.ok(
     config.routes.some(
       (route: { src: string; dest?: string }) =>
-        route.src === "^/$" && route.dest === "/index.md",
+        route.src === "^/(?:hi/?)?$" && route.dest === "/index.md",
     ),
   );
   assert.ok(
