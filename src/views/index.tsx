@@ -23,7 +23,6 @@ import {
   buildPersonSchema,
   buildProfilePageSchema,
   buildWebsiteSchema,
-  siteConfig,
 } from "../lib/seo";
 import { getLocale, locales, localizePath, useTranslations } from "../i18n";
 import { getLocalizedCollection } from "../i18n/content";
@@ -59,12 +58,7 @@ export default async function View(props: ComponentProps) {
   ];
   return (
     <>
-      <Layout
-        context={context}
-        title={siteConfig.name}
-        description={t.description}
-        jsonLd={jsonLd}
-      >
+      <Layout context={context} jsonLd={jsonLd}>
         <main className="stagger grid gap-12">
           <article className="grid min-w-0 gap-8" data-animated-about>
             <header className="grid gap-4">

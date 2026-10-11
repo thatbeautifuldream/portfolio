@@ -5,8 +5,8 @@ import { Image } from "../../lib/ui";
 import Layout from "../../layouts/Layout";
 import PageHeader from "../../components/PageHeader";
 import { hostname } from "../../data/portfolio";
-import { absoluteUrl, buildPersonRef } from "../../lib/seo";
-import { getLocale, localizePath, useTranslations } from "../../i18n";
+import { buildPersonRef } from "../../lib/seo";
+import { getLocale, useTranslations } from "../../i18n";
 export default async function View(props: ComponentProps) {
   const context = props.context;
   const { item } = props;
@@ -23,16 +23,7 @@ export default async function View(props: ComponentProps) {
   };
   return (
     <>
-      <Layout
-        context={context}
-        title={item.data.title}
-        description={item.data.description}
-        canonical={absoluteUrl(
-          localizePath(`/uses/${item.id}`, locale),
-          context.site,
-        )}
-        jsonLd={jsonLd}
-      >
+      <Layout context={context} jsonLd={jsonLd}>
         <main>
           <article className="stagger grid min-w-0 gap-8">
             <PageHeader

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import vm from "node:vm";
 import test from "node:test";
-import { startServer } from "./serve-dist.ts";
+import { startServer } from "./serve-next.ts";
 
 const worker = await fs.readFile("public/sw.js", "utf8");
 function harness(network: typeof fetch = fetch) {
@@ -117,7 +117,7 @@ test("online navigation stays fresh and API, RSC, and asset requests are untouch
   }
 });
 
-test("export serves worker update headers, offline page, and valid install icons", async () => {
+test("Next.js serves worker update headers, offline page, and valid install icons", async () => {
   const server = await startServer({ port: 0 });
   try {
     const sw = await fetch(new URL("sw.js", server.url));

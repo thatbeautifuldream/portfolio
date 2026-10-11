@@ -6,12 +6,10 @@ import Layout from "../../layouts/Layout";
 import CodeCopy from "../../components/CodeCopy";
 import PageHeader from "../../components/PageHeader";
 import { hostname } from "../../data/portfolio";
-import { absoluteUrl, buildPersonRef } from "../../lib/seo";
-import { getLocale, localizePath } from "../../i18n";
+import { buildPersonRef } from "../../lib/seo";
 export default async function View(props: ComponentProps) {
   const context = props.context;
   const { project } = props;
-  const locale = getLocale(context.locale);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -25,17 +23,7 @@ export default async function View(props: ComponentProps) {
   };
   return (
     <>
-      <Layout
-        context={context}
-        title={project.data.title}
-        description={project.data.description}
-        canonical={absoluteUrl(
-          localizePath(`/project/${project.id}`, locale),
-          context.site,
-        )}
-        image={`/og${locale === "en" ? "" : `/${locale}`}/project/${project.id}.png`}
-        jsonLd={jsonLd}
-      >
+      <Layout context={context} jsonLd={jsonLd}>
         <main>
           <article className="stagger grid min-w-0 gap-8">
             <PageHeader

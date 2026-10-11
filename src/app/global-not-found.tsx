@@ -1,9 +1,14 @@
-import RootLayout from "./[[...path]]/layout";
-import Missing from "./[[...path]]/not-found";
+import DocumentLayout from "../layouts/DocumentLayout";
+import Missing from "../views/404";
+import { renderPage } from "../lib/page";
+import { pageMetadata } from "../lib/metadata";
+export function generateMetadata() {
+  return pageMetadata("/404/", "en");
+}
 export default function GlobalNotFound() {
   return (
-    <RootLayout params={Promise.resolve({ path: ["404"] })}>
-      <Missing />
-    </RootLayout>
+    <DocumentLayout locale="en">
+      {renderPage(Missing, "/404/", "en")}
+    </DocumentLayout>
   );
 }

@@ -1,10 +1,10 @@
-// Verification loop CLI: build, serve dist (mirroring vercel.json headers), and
+// Verification loop CLI: build, serve the production Next.js app, and
 // audit mobile + desktop via the Lighthouse Node API, reporting the median of N
-// runs plus every audit below 100%. Composes scripts/serve-dist.ts (the app) and
+// runs plus every audit below 100%. Composes scripts/serve-next.ts (the app) and
 // scripts/lighthouse-runner.ts (the audit) — either can be used independently.
 // Usage: node scripts/lighthouse.ts [--url https://prod] [--no-build] [--runs 3]
 import { spawn } from "node:child_process";
-import { startServer, type ServerHandle } from "./serve-dist.ts";
+import { startServer, type ServerHandle } from "./serve-next.ts";
 import {
   withChrome,
   runMedian,
@@ -22,7 +22,7 @@ const flag = (name: string): string | null =>
 const externalUrl = flag("--url");
 const noBuild = args.includes("--no-build");
 const runs = Math.max(1, Number(flag("--runs")) || 3);
-const PORT = 4321;
+const PORT = 0;
 const FORM_FACTORS: FormFactor[] = ["mobile", "desktop"];
 
 const run = (cmd: string, cmdArgs: string[]): Promise<void> =>
@@ -54,11 +54,6 @@ async function main() {
   let server: ServerHandle | undefined;
   let url = externalUrl;
   if (!url) {
-    // Clear any stale server still bound to the port from a crashed run.
-    await run("bash", [
-      "-c",
-      `lsof -ti:${PORT} | xargs kill -9 2>/dev/null || true`,
-    ]).catch(() => {});
     server = await startServer({ port: PORT });
     url = server.url;
   }

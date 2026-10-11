@@ -7,17 +7,18 @@
   },
   "scripts": {
     "dev": "tsx scripts/generate.ts && next dev --webpack --port 4321",
-    "build": "tsx scripts/generate.ts && next build --webpack && node scripts/export.ts",
-    "preview": "node scripts/serve-dist.ts 4321",
+    "build": "tsx scripts/generate.ts && next build --webpack",
+    "preview": "next start --port 4321",
     "lighthouse": "node scripts/lighthouse.ts",
-    "check": "tsc --noEmit",
+    "check": "next typegen && tsc --noEmit",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "verify": "pnpm format:check && pnpm check && pnpm build",
     "prepare": "husky",
     "test:migration": "tsx --test scripts/migration.test.ts",
     "test:pwa": "node --test scripts/pwa.test.ts",
-    "test:content": "tsx --test scripts/content.test.ts"
+    "test:content": "tsx --test scripts/content.test.ts",
+    "start": "next start"
   },
   "lint-staged": {
     "*": "prettier --ignore-unknown --write"

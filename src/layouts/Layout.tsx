@@ -4,35 +4,14 @@ import Analytics from "../components/Analytics";
 import PostHog from "../components/posthog";
 import ClientScript from "../components/ClientScript";
 import { Icon, type ComponentProps } from "../lib/ui";
-import {
-  absoluteUrl,
-  buildPersonSchema,
-  buildWebsiteSchema,
-  defaultKeywords,
-  siteConfig,
-} from "../lib/seo";
-import {
-  isTranslated,
-  locales,
-  localizePath,
-  stripLocale,
-  useTranslations,
-  type Locale,
-} from "../i18n";
+import { buildPersonSchema, buildWebsiteSchema } from "../lib/seo";
+import { localizePath, stripLocale, useTranslations } from "../i18n";
 export default async function Layout(props: ComponentProps) {
   const { context } = props,
     locale = context.locale,
     t = useTranslations(locale),
     path = stripLocale(context.url.pathname);
-  const {
-    title = siteConfig.name,
-    description = t.description,
-    canonical,
-    keywords,
-    image = locale === "en" ? siteConfig.defaultImage : "/og/hi.png",
-    jsonLd,
-    back: backProp,
-  } = props;
+  const { jsonLd, back: backProp } = props;
   const segments = path.split("/").filter(Boolean),
     parent = segments.at(-2);
   const sectionTitles: Record<string, string> = {
@@ -53,22 +32,6 @@ export default async function Layout(props: ComponentProps) {
           parent[0]!.toUpperCase() + parent.slice(1)
         : t.back.index,
     });
-  const canonicalUrl =
-      canonical ?? new URL(context.url.pathname, context.site).href,
-    canonicalPath = stripLocale(new URL(canonicalUrl).pathname);
-  const alternates = isTranslated(path)
-    ? (Object.keys(locales) as Locale[]).map((lang) => ({
-        lang,
-        href: new URL(localizePath(canonicalPath, lang), context.site).href,
-      }))
-    : [];
-  const fullTitle =
-    title === siteConfig.name
-      ? `${siteConfig.shortName} · ${t.tagline}`
-      : `${siteConfig.shortName} · ${title}`;
-  const ogImage = absoluteUrl(image, context.site),
-    robots =
-      "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
   const structuredData = jsonLd
     ? Array.isArray(jsonLd)
       ? jsonLd
@@ -76,58 +39,6 @@ export default async function Layout(props: ComponentProps) {
     : [buildPersonSchema(context.site), buildWebsiteSchema(context.site)];
   return (
     <>
-      <title>{fullTitle}</title>
-      <meta name="description" content={description} />
-      <meta
-        name="keywords"
-        content={(keywords ?? defaultKeywords).join(", ")}
-      />
-      <meta name="robots" content={robots} />
-      <meta name="googlebot" content={robots} />
-      <meta name="application-name" content={siteConfig.name} />
-      <meta name="format-detection" content="telephone=no" />
-      <link rel="canonical" href={canonicalUrl} />
-      {alternates.map(({ lang, href }) => (
-        <link key={lang} rel="alternate" hrefLang={lang} href={href} />
-      ))}
-      {alternates.length > 0 && (
-        <link rel="alternate" hrefLang="x-default" href={alternates[0]!.href} />
-      )}
-      <link
-        rel="alternate"
-        type="application/rss+xml"
-        title={`${siteConfig.shortName} · Blog`}
-        href={new URL("rss.xml", context.site).href}
-      />
-      <meta property="og:type" content="website" />
-      <meta property="og:site_name" content={siteConfig.name} />
-      <meta property="og:locale" content={locales[locale].ogLocale} />
-      {alternates
-        .filter((a) => a.lang !== locale)
-        .map((a) => (
-          <meta
-            key={a.lang}
-            property="og:locale:alternate"
-            content={locales[a.lang].ogLocale}
-          />
-        ))}
-      <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={description} />
-      <meta property="og:url" content={canonicalUrl} />
-      <meta property="og:image" content={ogImage} />
-      <meta
-        property="og:image:alt"
-        content={`${siteConfig.name}: ${t.tagline}`}
-      />
-      <meta
-        property="og:logo"
-        content={absoluteUrl("/icons/Icon-192.png", context.site)}
-      />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={fullTitle} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={ogImage} />
-      <meta name="twitter:creator" content={siteConfig.twitter} />
       {structuredData.map((schema, i) => (
         <script
           key={i}

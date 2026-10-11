@@ -7,11 +7,7 @@ export default async function View(props: ComponentProps) {
 
   return (
     <>
-      <Layout
-        context={context}
-        title="Not found"
-        description="This page could not be found."
-      >
+      <Layout context={context}>
         <main className="stagger grid gap-12">
           <article className="grid gap-4">
             <PageHeader

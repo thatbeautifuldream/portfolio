@@ -111,7 +111,6 @@ function responsiveImages() {
           src: image.src,
           width: image.width,
           height: image.height,
-          srcSet: image.srcSet,
           sizes: image.sizes,
           loading: "lazy",
           decoding: "async",

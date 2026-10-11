@@ -6,11 +6,10 @@ export interface ResponsiveImage {
   src: string;
   width: number;
   height: number;
-  srcSet: string;
   sizes: string;
   blurDataURL?: string;
 }
-// Static image optimization retains responsive images without a runtime server.
+// Markdown images need dimensions and tiny previews; Next owns responsive optimization.
 export async function optimizeContentImages(files: string[]) {
   const manifest: Record<string, ResponsiveImage> = {};
   for (const file of files) {
@@ -32,29 +31,10 @@ export async function optimizeContentImages(files: string[]) {
               .toBuffer()
           ).toString("base64")}`
         : undefined;
-    const widths = [
-      ...new Set(
-        [640, 750, 828, 1080, 1280, 1600, 1920, width].filter(
-          (w) => w <= width,
-        ),
-      ),
-    ].sort((a, b) => a - b);
-    const stem = path.basename(file).replace(/\.[^.]+$/, "");
-    const variants = await Promise.all(
-      widths.map(async (w) => {
-        const name = `${stem}-${w}.webp`;
-        await sharp(file)
-          .resize({ width: w })
-          .webp({ quality: 80 })
-          .toFile(path.join("public/content-assets", name));
-        return { src: `/content-assets/${name}`, width: w };
-      }),
-    );
     manifest[`/content-assets/${path.basename(file)}`] = {
-      src: variants.at(-1)!.src,
+      src: `/content-assets/${path.basename(file)}`,
       width,
       height,
-      srcSet: variants.map((v) => `${v.src} ${v.width}w`).join(", "),
       sizes: `(min-width: ${width}px) ${width}px, 100vw`,
       blurDataURL,
     };

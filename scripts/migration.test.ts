@@ -1,8 +1,15 @@
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
-import path from "node:path";
 import { createHash } from "node:crypto";
-import test from "node:test";
+import test, { after } from "node:test";
+import { startServer, resourcePath } from "./serve-next";
+const server = await startServer();
+after(() => server.close());
+async function readResource(file: string) {
+  const response = await fetch(new URL(resourcePath(file), server.url));
+  assert.equal(response.status, file.startsWith("404") ? 404 : 200, file);
+  return Buffer.from(await response.arrayBuffer());
+}
 import sharp from "sharp";
 import { isDeepStrictEqual } from "node:util";
 import { sitemapSignature } from "./resource-parity";
@@ -76,7 +83,9 @@ function summarize(html: string) {
       title: text(elements.find((e) => e.tagName === "title")),
       lang: elements.find((e) => e.tagName === "html")?.properties.lang,
       meta,
-      links,
+      links: links.sort((a, b) =>
+        JSON.stringify(a).localeCompare(JSON.stringify(b)),
+      ),
       content,
       structuredData: elements
         .filter(
@@ -94,9 +103,7 @@ test("all Astro page routes retain their content and SEO", async () => {
   for (const [file, expected] of Object.entries(baseline.pages)) {
     if (file === "whatsapp/index.html") continue; // Hosting redirect in vercel.json.
     try {
-      const actual = summarize(
-        await fs.readFile(path.join("dist", file), "utf8"),
-      );
+      const actual = summarize((await readResource(file)).toString());
       for (const key of [
         "title",
         "lang",
@@ -106,17 +113,31 @@ test("all Astro page routes retain their content and SEO", async () => {
         "structuredData",
       ]) {
         // Next Link applies trailingSlash to internal hrefs. The two forms
-        // address the same exported page; preserve all other content fields.
-        const normalize = (value: any) =>
-          key === "content"
-            ? value.map((item: any) => ({
+        // address the same prerendered page; preserve all other content fields.
+        const normalize = (value: any) => {
+          if (key === "content")
+            return value.map((item: any) => ({
+              ...item,
+              href:
+                typeof item.href === "string" && item.href.startsWith("/")
+                  ? item.href.replace(/\/(?=[?#]|$)/, "")
+                  : item.href,
+            }));
+          // Native metadata normalizes canonical/language URLs to trailingSlash.
+          // URL identity, keywords, and every other SEO field remain unchanged.
+          if (key === "links")
+            return value
+              .map((item: any) => ({
                 ...item,
-                href:
-                  typeof item.href === "string" && item.href.startsWith("/")
-                    ? item.href.replace(/\/(?=[?#]|$)/, "")
-                    : item.href,
+                href: item.type ? item.href : item.href.replace(/\/$/, ""),
               }))
-            : value;
+              .sort((a: any, b: any) =>
+                JSON.stringify(a).localeCompare(JSON.stringify(b)),
+              );
+          if (key === "meta")
+            return { ...value, "og:url": value["og:url"]?.replace(/\/$/, "") };
+          return value;
+        };
         if (
           !isDeepStrictEqual(
             normalize(actual[key]),
@@ -142,7 +163,7 @@ test("every public machine-readable resource and OG image exists", async () => {
   const resourceDifferences: string[] = [];
   for (const [file, hash] of Object.entries(baseline.resources)) {
     try {
-      const bytes = await fs.readFile(path.join("dist", file));
+      const bytes = await readResource(file);
       if (
         file !== "sitemap-0.xml" &&
         !nativeOG[file] &&
@@ -160,12 +181,12 @@ test("every public machine-readable resource and OG image exists", async () => {
 
 test("sitemap retains every URL, priority, frequency, and language alternate", async () => {
   assert.equal(
-    sitemapSignature(await fs.readFile("dist/sitemap-0.xml", "utf8")),
+    sitemapSignature((await readResource("sitemap-0.xml")).toString()),
     baseline.sitemapSignature,
   );
 });
 
-test("native Next.js OG and story exports retain their reviewed design", async () => {
+test("native Next.js OG and story routes retain their reviewed design", async () => {
   const expectedURLs = Object.keys(baseline.resources).filter(
     (file) => file === "og.png" || /^(og|share)\//.test(file),
   );
@@ -174,7 +195,7 @@ test("native Next.js OG and story exports retain their reviewed design", async (
     string,
     { sha256: string; width: number; height: number },
   ][]) {
-    const bytes = await fs.readFile(path.join("dist", file));
+    const bytes = await readResource(file);
     const meta = await sharp(bytes).metadata();
     assert.equal(meta.format, "png", file);
     assert.equal(meta.width, file.startsWith("share/") ? 1080 : 1200, file);
@@ -210,24 +231,49 @@ test("content images use native blur placeholders and retain responsive sources"
   let checked = 0;
   for (const file of Object.keys(baseline.pages)) {
     if (file === "whatsapp/index.html") continue;
-    function walk(node: any, parent?: any) {
-      const image = node.tagName === "img" && bySrc.get(node.properties.src);
+    function walk(node: any) {
+      const optimizedURL =
+        node.tagName === "img" &&
+        node.properties.src?.startsWith("/_next/image")
+          ? new URL(node.properties.src, server.url)
+          : undefined;
+      const image =
+        optimizedURL && bySrc.get(optimizedURL.searchParams.get("url"));
       if (image?.blurDataURL) {
         checked++;
         assert.equal(node.properties.dataNimg, "1", file);
         assert.match(node.properties.style, /background-image:url\(/, file);
         assert.equal(node.properties.width, image.width, file);
         assert.equal(node.properties.height, image.height, file);
-        assert.equal(parent.tagName, "picture", file);
-        const source = parent.children.find(
-          (child: any) => child.tagName === "source",
-        );
-        assert.equal(source.properties.srcSet, image.srcSet, file);
-        assert.equal(source.properties.sizes, image.sizes, file);
+        assert.match(node.properties.srcSet, /\/_next\/image\/?\?/);
+        assert.equal(node.properties.sizes, image.sizes, file);
       }
-      for (const child of node.children ?? []) walk(child, node);
+      for (const child of node.children ?? []) walk(child);
     }
-    walk(fromHtml(await fs.readFile(path.join("dist", file), "utf8")));
+    walk(fromHtml((await readResource(file)).toString()));
   }
-  assert.ok(checked > 0, "check exported images, including Markdown images");
+  assert.ok(checked > 0, "check rendered images, including Markdown images");
+});
+
+test("native image endpoint resizes content images", async () => {
+  const images = JSON.parse(
+    await fs.readFile(".generated/images.json", "utf8"),
+  );
+  const image: any = Object.values(images).find(
+    (image: any) => image.width > 640 && image.blurDataURL,
+  );
+  assert.ok(image);
+  const response = await fetch(
+    new URL(
+      `/_next/image?url=${encodeURIComponent(image.src)}&w=640&q=75`,
+      server.url,
+    ),
+    { headers: { Accept: "image/webp" } },
+  );
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("content-type")!, /image\/webp/);
+  const metadata = await sharp(
+    Buffer.from(await response.arrayBuffer()),
+  ).metadata();
+  assert.equal(metadata.width, 640);
 });

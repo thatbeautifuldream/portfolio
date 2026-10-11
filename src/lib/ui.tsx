@@ -90,37 +90,20 @@ export function Image({
     decoding: "async" as const,
     ...props,
   };
-  const responsiveSrcSet = srcSet ?? optimized?.srcSet;
-  const responsiveSizes = sizes ?? optimized?.sizes;
-  if (!blurDataURL) {
-    return (
-      <img {...imageProps} srcSet={responsiveSrcSet} sizes={responsiveSizes} />
-    );
-  }
-  const nativeImage = (
+  if (!renderedWidth || !renderedHeight)
+    return <img {...imageProps} srcSet={srcSet} sizes={sizes} />;
+  return (
     <NextImage
       {...imageProps}
-      width={renderedWidth!}
-      height={renderedHeight!}
-      // Responsive variants can round their height by a pixel. Keep the
-      // authored ratio through decoding so revealing the image cannot reflow it.
+      width={renderedWidth}
+      height={renderedHeight}
+      sizes={sizes ?? optimized?.sizes}
       style={{
         aspectRatio: `${renderedWidth} / ${renderedHeight}`,
         ...props.style,
       }}
-      unoptimized
-      placeholder="blur"
+      placeholder={blurDataURL ? "blur" : "empty"}
       blurDataURL={blurDataURL}
     />
-  );
-  // Keep our build-time WebP srcsets for static export. Next owns loading and
-  // placeholder removal; picture selects the same responsive files as before.
-  return responsiveSrcSet ? (
-    <picture style={{ display: "contents" }}>
-      <source srcSet={responsiveSrcSet} sizes={responsiveSizes} />
-      {nativeImage}
-    </picture>
-  ) : (
-    nativeImage
   );
 }

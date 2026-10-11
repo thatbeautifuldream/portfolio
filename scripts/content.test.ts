@@ -1,13 +1,17 @@
 import assert from "node:assert/strict";
-import { readFile, access } from "node:fs/promises";
-import test from "node:test";
-import { startServer } from "./serve-dist.ts";
+import { readFile } from "node:fs/promises";
+import test, { after } from "node:test";
+import { rewrites, redirects, headers } from "../src/lib/routing";
+import { startServer, resourcePath } from "./serve-next.ts";
+const server = await startServer();
+after(() => server.close());
 
-const dist = new URL("../dist/", import.meta.url);
 const root = new URL("../", import.meta.url);
 
 async function readDist(path: string) {
-  return readFile(new URL(path, dist), "utf8");
+  const response = await fetch(new URL(resourcePath(path), server.url));
+  assert.equal(response.status, path.startsWith("404") ? 404 : 200, path);
+  return response.text();
 }
 
 async function readRoot(path: string) {
@@ -102,66 +106,49 @@ test("trust anchor pages contain substantive content", async () => {
   }
 });
 
-test("Vercel routing declares Markdown negotiation without JSON APIs", async () => {
-  const config = JSON.parse(await readRoot("vercel.json"));
-
+test("Next routing declares Markdown negotiation and existing redirects", async () => {
+  const rules = await rewrites();
+  assert.ok(!Array.isArray(rules));
+  const before = !Array.isArray(rules) ? (rules.beforeFiles ?? []) : [];
   assert.ok(
-    config.routes.some(
-      (route: { src: string; dest?: string }) =>
-        route.src === "^/(?:hi/?)?$" && route.dest === "/index.md",
+    before.some(
+      (rule) => rule.source === "/" && rule.destination === "/index.md",
     ),
   );
   assert.ok(
-    config.routes.some(
-      (route: {
-        src: string;
-        dest?: string;
-        has?: Array<{ key?: string; value?: string }>;
-      }) =>
-        route.dest === "/$1.md" &&
-        route.has?.some(
-          (condition: { key?: string; value?: string }) =>
-            condition.key === "accept" && condition.value === "text/markdown.*",
+    before.some(
+      (rule) =>
+        rule.destination === "/:path.md" &&
+        rule.has?.some(
+          (condition) =>
+            condition.type === "header" && condition.key === "accept",
         ),
     ),
   );
   assert.ok(
-    config.routes.some(
-      (route: { src: string; dest?: string }) =>
-        route.src === "^/resume/?$" &&
-        route.dest ===
-          "https://cdn.jsdelivr.net/gh/thatbeautifuldream/resume-tex/resume.pdf",
-    ),
+    !Array.isArray(rules) &&
+      rules.afterFiles?.some(
+        (rule) =>
+          rule.source === "/resume" && rule.destination.endsWith("resume.pdf"),
+      ),
   );
-  const filesystem = config.routes.findIndex(
-    (route: { handle?: string }) => route.handle === "filesystem",
-  );
-  assert.ok(filesystem >= 0);
   assert.ok(
-    !config.routes.some((route: { src?: string }) =>
-      route.src?.includes("/api/"),
+    (await redirects()).some(
+      (rule) => rule.source === "/about" && rule.destination === "/",
     ),
   );
-  assert.equal(
-    config.routes.find(
-      (route: { src?: string; continue?: boolean }) =>
-        route.src === "/(.*)" && route.continue,
-    )?.headers?.Vary,
-    "Accept, Accept-Encoding",
+  assert.ok(
+    (await headers()).some(
+      (rule) =>
+        rule.source === "/:path*" &&
+        rule.headers.some(
+          (header) => header.key === "Vary" && header.value.includes("Accept"),
+        ),
+    ),
   );
 });
 
 test("docs and JSON APIs are absent while page Markdown remains accessible", async () => {
-  for (const path of [
-    "api",
-    "docs/index.html",
-    "docs.md",
-    "openapi.json",
-    "llms.txt",
-    "llms-full.txt",
-  ]) {
-    await assert.rejects(access(new URL(path, dist)), { code: "ENOENT" });
-  }
   const baseline = JSON.parse(
     await readRoot("scripts/fixtures/astro-parity.json"),
   );
@@ -173,32 +160,28 @@ test("docs and JSON APIs are absent while page Markdown remains accessible", asy
         : path.replace(/\/index\.html$/, ".md");
     assert.match(await readDist(markdownPath), /^# /, markdownPath);
   }
-  const server = await startServer({ port: 0 });
-  try {
-    for (const path of [
-      "docs/",
-      "docs.md",
-      "openapi.json",
-      "llms.txt",
-      "llms-full.txt",
-      "api/v1/profile.json",
-      "api/anything",
-    ]) {
-      assert.equal((await fetch(new URL(path, server.url))).status, 404, path);
-    }
-    for (const path of [
-      "work/",
-      "blog/probably-the-best-work/",
-      "hi/blog/probably-the-best-work/",
-    ]) {
-      const response = await fetch(new URL(path, server.url), {
-        headers: { Accept: "text/markdown" },
-      });
-      assert.equal(response.status, 200, path);
-      assert.match(response.headers.get("content-type")!, /text\/markdown/);
-      assert.match(await response.text(), /^# /);
-    }
-  } finally {
-    await server.close();
+
+  for (const path of [
+    "docs/",
+    "docs.md",
+    "openapi.json",
+    "llms.txt",
+    "llms-full.txt",
+    "api/v1/profile.json",
+    "api/anything",
+  ]) {
+    assert.equal((await fetch(new URL(path, server.url))).status, 404, path);
+  }
+  for (const path of [
+    "work/",
+    "blog/probably-the-best-work/",
+    "hi/blog/probably-the-best-work/",
+  ]) {
+    const response = await fetch(new URL(path, server.url), {
+      headers: { Accept: "text/markdown" },
+    });
+    assert.equal(response.status, path.startsWith("404") ? 404 : 200, path);
+    assert.match(response.headers.get("content-type")!, /text\/markdown/);
+    assert.match(await response.text(), /^# /);
   }
 });
