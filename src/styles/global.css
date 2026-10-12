@@ -6,7 +6,8 @@
   --font-sans:
     var(--font-inter), var(--font-devanagari, ui-sans-serif), ui-sans-serif,
     system-ui, sans-serif;
-  --font-sans--font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss03";
+  --font-sans--font-feature-settings:
+    "cv02", "cv03", "cv04", "cv11", "ss01", "ss03";
   --font-mono:
     "SF Mono", SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
   --color-background: var(--background);

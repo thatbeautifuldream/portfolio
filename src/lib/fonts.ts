@@ -2,12 +2,12 @@ import localFont from "next/font/local";
 export const inter = localFont({
   src: [
     {
-      path: "../../public/fonts/e868cdf4720e9ea5.woff2",
+      path: "../../public/fonts/InterVariable-latin.woff2",
       weight: "100 900",
       style: "normal",
     },
     {
-      path: "../../public/fonts/91753f8d8da3aeb7.woff2",
+      path: "../../public/fonts/InterVariable-Italic-latin.woff2",
       weight: "100 900",
       style: "italic",
     },
