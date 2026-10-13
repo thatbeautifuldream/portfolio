@@ -1,8 +1,8 @@
-import SiteLink from "./SiteLink";
+import SiteLink from "./site-link";
 import type { ComponentProps } from "../lib/ui";
-import ClientScript from "./ClientScript";
+import ClientScript from "./client-script";
 import { siteLinks } from "../data/portfolio";
-import Tooltip from "./Tooltip";
+import Tooltip from "./tooltip";
 import { getLocale, locales, useTranslations } from "../i18n";
 type Day = { date: string; count: number };
 export default async function View(props: ComponentProps) {
@@ -138,7 +138,7 @@ export default async function View(props: ComponentProps) {
       )}
 
       <ClientScript
-        id="src/components/GitHubChart.tsx:0"
+        id="src/components/git-hub-chart.tsx:0"
         code={
           '"use strict";\ndocument.querySelectorAll(".gh-chart").forEach((chart) => {\n    const svg = chart.querySelector("svg");\n    chart.classList.add("is-pending");\n    new IntersectionObserver(([entry], observer) => {\n        if (!entry.isIntersecting)\n            return;\n        chart.classList.replace("is-pending", "is-in");\n        observer.disconnect();\n    }).observe(svg);\n});\n'
         }

@@ -10,13 +10,15 @@ After making code changes, run the fastest loop that can catch and fix issues, i
 
 If any command fails, fix the reported issue and rerun the failed command before continuing. Do not hand off with a failing command.
 
-Run `pnpm verify` before final handoff. It runs `format:check`, TypeScript diagnostics, and the production build — the same gate to keep `main` always green.
+Run `pnpm verify` before final handoff. It runs filename lint, `format:check`, TypeScript diagnostics, and the production build — the same gate to keep `main` always green.
 
-Keep pre-commit fast: it only runs `lint-staged` (Prettier on staged files). The heavier `check` + `build` validation lives in `pnpm verify` and CI.
+Keep pre-commit fast: it only runs `lint-staged` (filename lint and Prettier on staged files). The heavier `check` + `build` validation lives in `pnpm verify` and CI.
 
 ## Project Notes
 
-- Next.js App Router with standard Vercel deployment. Explicit page routes live under `src/app/(en)` and `src/app/hi`; each has a localized root layout. Shared document markup lives in `src/layouts/DocumentLayout.tsx`, page chrome in `src/layouts/Layout.tsx`, and content views in `src/views`.
+- Every authored filename must use lowercase kebab-case, including components, content, images, fonts, and documentation. Dotfiles and compound extensions such as `next-env.d.ts` and `content.test.ts` are supported. `AGENTS.md` is the only reserved-name exception so agents can discover these instructions. Next.js route directories such as `[slug]` and `(en)` retain their framework syntax; this rule applies to filenames, not directories. Run `pnpm lint` to check tracked and non-ignored untracked files. Generated output and dependencies are excluded through Git ignore rules. Filename lint runs on staged files before commit and in `pnpm verify`/CI.
+
+- Next.js App Router with standard Vercel deployment. Explicit page routes live under `src/app/(en)` and `src/app/hi`; each has a localized root layout. Shared document markup lives in `src/layouts/document-layout.tsx`, page chrome in `src/layouts/layout.tsx`, and content views in `src/views`.
 - Content lives in Markdown/MDX collections loaded by `src/lib/content-build.tsx`. `scripts/generate.ts` renders them into `.generated/content.json` and writes public Markdown resources. `src/lib/content.tsx` reads that manifest in Server Components. `src/content/` is excluded from Prettier — do not reformat authored content.
 - SEO is centralized in `src/lib/seo.ts` (`siteConfig`, `sitePages`, structured-data builders). Sitemap priorities and `robots.txt` derive from it. Native route metadata is built by `src/lib/metadata.ts` — update these centralized helpers, not scattered tags.
 - Package manager is **pnpm**. Use `pnpm`, never `npm`/`npx`.
@@ -41,7 +43,7 @@ The work is split into three composable TypeScript modules (run directly via Nod
 Interpreting results:
 
 - The local server is HTTP/1.1, so Lighthouse's lantern simulation over-penalizes **mobile** (inflated FCP/LCP vs production's HTTP/3). Trust **desktop** locally; use `--url` (or PageSpeed Insights) for the real mobile picture.
-- `Analytics.tsx` loads GA4 + Clarity only on first user interaction, so they stay out of the audit trace — don't "fix" this by eagerly loading them.
+- `analytics.tsx` loads GA4 + Clarity only on first user interaction, so they stay out of the audit trace — don't "fix" this by eagerly loading them.
 - Response headers, redirects, and Markdown negotiation live in **`src/lib/routing.ts`**, consumed by `next.config.ts`. The site is on Vercel (Cloudflare only proxies the domain). `vercel.json` only selects Next.js and the build command.
 - **Fonts:** Inter and Noto Sans Devanagari use `next/font/local` with the existing self-hosted font files and original metric-matched fallbacks in `src/styles/fonts.css`. The OG-image cards use static TTF fonts in `src/assets/fonts` for `next/og`.
 - Best-Practices is capped below 100 by Cloudflare's injected bot script (`/cdn-cgi/challenge-platform/...`, the `deprecations` audit) — that is a Cloudflare dashboard setting (Bot Fight Mode / JavaScript Detections), not a code issue. Don't chase it in the repo.

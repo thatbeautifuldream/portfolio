@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Verify (format, check, build)
+      - name: Verify (filenames, format, check, build)
         run: pnpm verify
 
       - name: Verify public contracts and migration parity

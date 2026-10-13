@@ -1,7 +1,7 @@
-import SiteLink from "../components/SiteLink";
+import SiteLink from "../components/site-link";
 import type { ComponentProps } from "../lib/ui";
-import Layout from "../layouts/Layout";
-import PageHeader from "../components/PageHeader";
+import Layout from "../layouts/layout";
+import PageHeader from "../components/page-header";
 import { absoluteUrl, siteConfig } from "../lib/seo";
 import { getLocale, localizePath, useTranslations } from "../i18n";
 export default async function View(props: ComponentProps) {

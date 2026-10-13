@@ -11,9 +11,9 @@ let fonts:
   | undefined;
 function loadFonts() {
   return (fonts ??= Promise.all(
-    ["Inter", "NotoSansDevanagari"].flatMap((family) =>
+    ["inter", "noto-sans-devanagari"].flatMap((family) =>
       ([400, 500] as const).map(async (weight) => ({
-        name: family === "Inter" ? "Inter" : "Noto Sans Devanagari",
+        name: family === "inter" ? "Inter" : "Noto Sans Devanagari",
         data: await fs.readFile(
           `${process.cwd()}/src/assets/fonts/${family}-${weight}.ttf`,
         ),

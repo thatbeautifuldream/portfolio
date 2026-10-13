@@ -1,10 +1,10 @@
-import SiteLink from "./SiteLink";
+import SiteLink from "./site-link";
 import type { ComponentProps } from "../lib/ui";
-import ClientScript from "./ClientScript";
+import ClientScript from "./client-script";
 import { execSync } from "node:child_process";
 import { Icon } from "../lib/ui";
 import { siteLinks } from "../data/portfolio";
-import Tooltip from "./Tooltip";
+import Tooltip from "./tooltip";
 import {
   getLocale,
   isTranslated,
@@ -145,7 +145,7 @@ export default async function View(props: ComponentProps) {
       </footer>
 
       <ClientScript
-        id="src/components/Footer.tsx:0"
+        id="src/components/footer.tsx:0"
         code={
           '"use strict";\ndocument.querySelectorAll("footer [data-footer-social]").forEach((link) => {\n    link.addEventListener("click", () => {\n        window.posthog?.capture("footer_social_clicked", {\n            platform: link.dataset.footerSocial,\n        });\n    });\n});\n(() => {\n    const el = document.querySelector("[data-local-time]");\n    if (!el)\n        return;\n    const format = new Intl.DateTimeFormat("en-US", {\n        hour: "numeric",\n        minute: "2-digit",\n        timeZone: "Asia/Kolkata",\n    });\n    const tick = () => {\n        el.textContent = `${format.format(new Date()).replace(" ", "").toLowerCase()}${el.dataset.separator}`;\n    };\n    tick();\n    setInterval(tick, 30_000);\n})();\n'
         }

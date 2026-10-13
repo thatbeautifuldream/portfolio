@@ -4,6 +4,8 @@ Next.js App Router portfolio with prerendered pages, English and Hindi content, 
 
 Use Node 22.12+ and pnpm.
 
+All authored filenames use lowercase kebab-case, including source, content, assets, and documentation. Dotfiles and compound extensions are allowed; `AGENTS.md` retains its reserved spelling for agent discovery. Framework route directories (`[slug]`, `(en)`) are unaffected. `pnpm lint` checks tracked and non-ignored untracked files; pre-commit checks staged filenames and `pnpm verify` enforces the rule in CI. Run `pnpm test:filenames` to test the rule.
+
 | Command               | Purpose                                                                                               |
 | --------------------- | ----------------------------------------------------------------------------------------------------- |
 | `pnpm install`        | Install dependencies                                                                                  |
@@ -11,12 +13,13 @@ Use Node 22.12+ and pnpm.
 | `pnpm check`          | Check TypeScript                                                                                      |
 | `pnpm build`          | Generate content/resources and build Next.js for Vercel                                               |
 | `pnpm preview`        | Run the production Next.js server on port 4321                                                        |
-| `pnpm verify`         | Formatting, TypeScript, and production build                                                          |
+| `pnpm lint`           | Enforce kebab-case filenames across the project                                                       |
+| `pnpm verify`         | Filename lint, formatting, TypeScript, and production build                                           |
 | `pnpm test:content`   | Validate Markdown resources, removed endpoints, and Next.js routing rules                             |
 | `pnpm test:migration` | Compare every migrated route with the captured Astro baseline, plus native OG image regression checks |
 | `pnpm lighthouse`     | Audit mobile and desktop builds                                                                       |
 
-Explicit page routes live in `src/app/(en)` and `src/app/hi`, preserving the English and Hindi URLs. Each locale has a root layout sharing `src/layouts/DocumentLayout.tsx`; content views live in `src/views`, reusable UI in `src/components`, and authored content in `src/content`. Dynamic article routes use `generateStaticParams` and reject unknown slugs. `scripts/generate.ts` compiles content and writes raw Markdown to `public`; RSS and robots.txt are App Router Route Handlers. Generated output is ignored by Git.
+Explicit page routes live in `src/app/(en)` and `src/app/hi`, preserving the English and Hindi URLs. Each locale has a root layout sharing `src/layouts/document-layout.tsx`; content views live in `src/views`, reusable UI in `src/components`, and authored content in `src/content`. Dynamic article routes use `generateStaticParams` and reject unknown slugs. `scripts/generate.ts` compiles content and writes raw Markdown to `public`; RSS and robots.txt are App Router Route Handlers. Generated output is ignored by Git.
 
 SEO uses Next.js `generateMetadata`, with a shared builder in `src/lib/metadata.ts` and site identity in `src/lib/seo.ts`. Redirects, Markdown negotiation, security headers, and service-worker caching rules live in `src/lib/routing.ts`, consumed by `next.config.ts`. Vercel uses its native Next.js integration; there is no static export or `dist` copy. Local tests and Lighthouse start the actual production server through `scripts/serve-next.ts`.
 

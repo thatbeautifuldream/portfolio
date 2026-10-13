@@ -1,6 +1,6 @@
 import type { ComponentProps } from "../lib/ui";
-import Layout from "../layouts/Layout";
-import PageHeader from "../components/PageHeader";
+import Layout from "../layouts/layout";
+import PageHeader from "../components/page-header";
 import { roles } from "../data/portfolio";
 import { absoluteUrl, buildPersonRef, siteConfig } from "../lib/seo";
 import { getLocale, localizePath, useTranslations } from "../i18n";

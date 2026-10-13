@@ -30,11 +30,11 @@ A holiday plus weekend later, we were pulling extra hours and just shipping.
 
 No overplanning. Just building, breaking, fixing. Pure engineering energy.
 
-![late night shipping](./probably-the-best-work-HHpiAZkaIAAHbr8.jpg)
+![late night shipping](./probably-the-best-work-hhpiazkaiaahbr8.jpg)
 
 I started with polishing the prototype Shubhankit built, the color tokens, AI content stream handling, and all that. An extension talking to a backend relay that handled AI calls. Very basic. But it worked.
 
-![early draft of the extension that performed tasks on gmail](./probably-the-best-work-HHpiYvmaQAAPjg0.jpg)
+![early draft of the extension that performed tasks on gmail](./probably-the-best-work-hhpiyvmaqaapjg0.jpg)
 
 I focused on getting the basics right. Layout, spacing, components, design tokens.
 
@@ -52,7 +52,7 @@ I added small cues like a glow when the agent is active. A clear way to stop exe
 
 Small things, big difference.
 
-![](./probably-the-best-work-HHplbs3bAAY-0hT.jpg)
+![](./probably-the-best-work-hhplbs3baay-0ht.jpg)
 
 ## Real Workflows
 
@@ -68,11 +68,11 @@ Seeing it actually work felt unreal.
 
 Team demos were a turning point.
 
-![The entire Merlin team trying out our internal release of Merlin's Agentic Extension.](./probably-the-best-work-HHpj3xSbMAATG3w.jpg)
+![The entire Merlin team trying out our internal release of Merlin's Agentic Extension.](./probably-the-best-work-hhpj3xsbmaatg3w.jpg)
 
 The entire Merlin team trying out our internal release of Merlin's Agentic Extension.
 
-![Shubhankit trying out all kinds of fun things with YouTube automation.](./probably-the-best-work-HHpk-VBa0AAQrnH.jpg)
+![Shubhankit trying out all kinds of fun things with YouTube automation.](./probably-the-best-work-hhpk-vba0aaqrnh.jpg)
 
 We built a dynamic confirmation tool which could do all kinds of fun things, so there's also that.
 
@@ -88,7 +88,7 @@ Explored the ecosystem with [Composio](https://x.com/composio). Integrated tools
 
 This changed everything.
 
-![](./probably-the-best-work-HHpn2GtbAAMVGwT.jpg)
+![](./probably-the-best-work-hhpn2gtbaamvgwt.jpg)
 
 The shift was obvious. From hoping the AI gets it right, to building flows where it actually completes tasks. That is when things started to click.
 

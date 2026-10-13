@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import type { ComponentProps } from "../lib/ui";
-import AboutMotion from "./AboutMotion";
+import AboutMotion from "./about-motion";
 import { Icon } from "../lib/ui";
 import { aboutCopy } from "../data/about";
 import type { Locale } from "../i18n";

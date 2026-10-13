@@ -1,8 +1,8 @@
-import SiteLink from "../components/SiteLink";
-import Footer from "../components/Footer";
-import Analytics from "../components/Analytics";
+import SiteLink from "../components/site-link";
+import Footer from "../components/footer";
+import Analytics from "../components/analytics";
 import PostHog from "../components/posthog";
-import ClientScript from "../components/ClientScript";
+import ClientScript from "../components/client-script";
 import { Icon, type ComponentProps } from "../lib/ui";
 import { buildPersonSchema, buildWebsiteSchema } from "../lib/seo";
 import { localizePath, stripLocale, useTranslations } from "../i18n";

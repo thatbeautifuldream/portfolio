@@ -1,10 +1,10 @@
-import SiteLink from "../components/SiteLink";
+import SiteLink from "../components/site-link";
 import type { ComponentProps } from "../lib/ui";
-import ClientScript from "../components/ClientScript";
-import Layout from "../layouts/Layout";
-import PageHeader from "../components/PageHeader";
-import IndexList from "../components/IndexList";
-import EmailLink from "../components/EmailLink";
+import ClientScript from "../components/client-script";
+import Layout from "../layouts/layout";
+import PageHeader from "../components/page-header";
+import IndexList from "../components/index-list";
+import EmailLink from "../components/email-link";
 import { contactLinks } from "../data/portfolio";
 import { absoluteUrl, buildPersonSchema, siteConfig } from "../lib/seo";
 import { getLocale, localizePath, useTranslations } from "../i18n";

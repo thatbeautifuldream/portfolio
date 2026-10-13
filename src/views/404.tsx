@@ -1,7 +1,7 @@
 import type { ComponentProps } from "../lib/ui";
-import Layout from "../layouts/Layout";
-import PageHeader from "../components/PageHeader";
-import IndexList from "../components/IndexList";
+import Layout from "../layouts/layout";
+import PageHeader from "../components/page-header";
+import IndexList from "../components/index-list";
 export default async function View(props: ComponentProps) {
   const context = props.context;
 

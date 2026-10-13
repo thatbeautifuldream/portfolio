@@ -1,4 +1,4 @@
-import View from "../../../../views/blog/[slug]";
+import View from "../../../../views/blog/slug";
 import { contentEntry, contentParams, renderPage } from "../../../../lib/page";
 import { pageMetadata } from "../../../../lib/metadata";
 type Props = { params: Promise<{ slug: string }> };

@@ -1,10 +1,10 @@
-import Content from "../../components/Content";
-import SiteLink from "../../components/SiteLink";
+import Content from "../../components/content";
+import SiteLink from "../../components/site-link";
 import type { ComponentProps } from "../../lib/ui";
 import { Icon } from "../../lib/ui";
-import Layout from "../../layouts/Layout";
-import CodeCopy from "../../components/CodeCopy";
-import PageHeader from "../../components/PageHeader";
+import Layout from "../../layouts/layout";
+import CodeCopy from "../../components/code-copy";
+import PageHeader from "../../components/page-header";
 import { hostname } from "../../data/portfolio";
 import { buildPersonRef } from "../../lib/seo";
 export default async function View(props: ComponentProps) {

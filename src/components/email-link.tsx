@@ -1,7 +1,7 @@
-import SiteLink from "./SiteLink";
+import SiteLink from "./site-link";
 import type { ComponentProps } from "../lib/ui";
 import { classes } from "../lib/ui";
-import ClientScript from "./ClientScript";
+import ClientScript from "./client-script";
 import { Icon } from "../lib/ui";
 import { contactEmail } from "../data/portfolio";
 import { getLocale, useTranslations } from "../i18n";
@@ -46,7 +46,7 @@ export default async function View(props: ComponentProps) {
       </p>
 
       <ClientScript
-        id="src/components/EmailLink.tsx:0"
+        id="src/components/email-link.tsx:0"
         code={
           '"use strict";\nfunction setupEmailCopy() {\n    document.querySelectorAll("[data-email-copy]").forEach((button) => {\n        if (button.dataset.emailBound)\n            return;\n        button.dataset.emailBound = "true";\n        onCleanup(() => { delete button.dataset.emailBound; });\n        const swap = button.querySelector("[data-email-swap]");\n        const link = button.parentElement?.querySelector("[data-email-link]");\n        link?.addEventListener("click", () => {\n            window.posthog?.capture("email_clicked");\n        });\n        let timer;\n        button.addEventListener("click", async () => {\n            const email = button.dataset.email;\n            if (!email)\n                return;\n            try {\n                await navigator.clipboard.writeText(email);\n                window.posthog?.capture("email_copied");\n                swap?.setAttribute("data-state", "b");\n                button.setAttribute("aria-label", button.dataset.copiedLabel);\n                button.classList.add("text-foreground");\n                clearTimeout(timer);\n                timer = setTimeout(() => {\n                    swap?.setAttribute("data-state", "a");\n                    button.setAttribute("aria-label", button.dataset.copyLabel);\n                    button.classList.remove("text-foreground");\n                }, 1500);\n            }\n            catch { }\n        });\n    });\n}\nif (document.readyState !== "loading")\n    setupEmailCopy();\nelse\n    document.addEventListener("DOMContentLoaded", setupEmailCopy);\n'
         }

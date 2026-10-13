@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import DocumentLayout from "../../layouts/DocumentLayout";
+import DocumentLayout from "../../layouts/document-layout";
 import { siteConfig } from "../../lib/seo";
 import type { Metadata, Viewport } from "next";
 export const metadata: Metadata = {

@@ -116,7 +116,7 @@ export async function pageMetadata(
         section === "404"
           ? "noindex,follow"
           : "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
-      "og:logo": absoluteUrl("/icons/Icon-192.png", context.site),
+      "og:logo": absoluteUrl("/icons/icon-192.png", context.site),
     },
   };
 }

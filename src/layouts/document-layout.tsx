@@ -1,5 +1,5 @@
-import PwaRegistration from "../components/PwaRegistration";
-import ThemeTransition from "../components/ThemeTransition";
+import PwaRegistration from "../components/pwa-registration";
+import ThemeTransition from "../components/theme-transition";
 import "../styles/global.css";
 import "../styles/components.css";
 import "../styles/fonts.css";

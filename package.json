@@ -13,15 +13,20 @@
     "check": "next typegen && tsc --noEmit",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-    "verify": "pnpm format:check && pnpm check && pnpm build",
+    "lint": "node --experimental-strip-types scripts/lint-filenames.ts",
+    "verify": "pnpm lint && pnpm format:check && pnpm check && pnpm build",
     "prepare": "husky",
     "test:migration": "tsx --test scripts/migration.test.ts",
     "test:pwa": "node --test scripts/pwa.test.ts",
     "test:content": "tsx --test scripts/content.test.ts",
+    "test:filenames": "node --experimental-strip-types --test scripts/lint-filenames.test.ts",
     "start": "next start"
   },
   "lint-staged": {
-    "*": "prettier --ignore-unknown --write"
+    "*": [
+      "node --experimental-strip-types scripts/lint-filenames.ts",
+      "prettier --ignore-unknown --write"
+    ]
   },
   "dependencies": {
     "@iconify-json/ri": "^1.2.10",

@@ -1,5 +1,5 @@
 import type { ComponentProps } from "../lib/ui";
-import ClientScript from "./ClientScript";
+import ClientScript from "./client-script";
 
 export default async function View(_props: ComponentProps) {
   return (

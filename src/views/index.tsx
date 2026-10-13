@@ -1,16 +1,16 @@
-import SiteLink from "../components/SiteLink";
+import SiteLink from "../components/site-link";
 import type { ComponentProps } from "../lib/ui";
 import { execSync } from "node:child_process";
 import { getCollection } from "../lib/content";
-import Layout from "../layouts/Layout";
+import Layout from "../layouts/layout";
 import { Image } from "../lib/ui";
 import { Icon } from "../lib/ui";
 import merlin from "../assets/emojis/merlin.webp";
 import jsonVisualiser from "../assets/icons/json-visualiser.png";
 import markdownVisualizer from "../assets/icons/markdown-visualizer.png";
-import IndexList from "../components/IndexList";
-import AboutHeadline from "../components/AboutHeadline";
-import GitHubChart from "../components/GitHubChart";
+import IndexList from "../components/index-list";
+import AboutHeadline from "../components/about-headline";
+import GitHubChart from "../components/git-hub-chart";
 import {
   contactEmail,
   hostname,

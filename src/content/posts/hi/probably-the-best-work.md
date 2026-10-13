@@ -30,11 +30,11 @@ Shahbaz के पहले के कॉन्टेक्स्ट ने ह�
 
 कोई ज़रूरत से ज़्यादा प्लानिंग नहीं। बस बनाना, तोड़ना, ठीक करना। इंजीनियरिंग की ख़ालिस ऊर्जा।
 
-![देर रात तक शिपिंग](../probably-the-best-work-HHpiAZkaIAAHbr8.jpg)
+![देर रात तक शिपिंग](../probably-the-best-work-hhpiazkaiaahbr8.jpg)
 
 मैंने शुरुआत Shubhankit के बनाए प्रोटोटाइप को निखारने से की, कलर टोकन, AI कंटेंट स्ट्रीम हैंडलिंग, और वह सब। एक एक्सटेंशन जो एक बैकएंड रिले से बात करता था, और वही रिले AI कॉल्स संभालता था। बहुत बेसिक। लेकिन काम करता था।
 
-![एक्सटेंशन का शुरुआती ड्राफ़्ट जो Gmail पर काम करता था](../probably-the-best-work-HHpiYvmaQAAPjg0.jpg)
+![एक्सटेंशन का शुरुआती ड्राफ़्ट जो Gmail पर काम करता था](../probably-the-best-work-hhpiyvmaqaapjg0.jpg)
 
 मैंने बुनियादी चीज़ें सही करने पर ध्यान दिया। लेआउट, स्पेसिंग, कंपोनेंट्स, डिज़ाइन टोकन।
 
@@ -52,7 +52,7 @@ https://x.com/milindmishra_/status/2043025366458208628
 
 छोटी चीज़ें, बड़ा फ़र्क़।
 
-![](../probably-the-best-work-HHplbs3bAAY-0hT.jpg)
+![](../probably-the-best-work-hhplbs3baay-0ht.jpg)
 
 ## असली वर्कफ़्लो
 
@@ -68,11 +68,11 @@ https://x.com/milindmishra_/status/2043025366458208628
 
 टीम डेमो एक टर्निंग पॉइंट थे।
 
-![पूरी Merlin टीम हमारे Merlin के Agentic एक्सटेंशन की इंटरनल रिलीज़ आज़माते हुए।](../probably-the-best-work-HHpj3xSbMAATG3w.jpg)
+![पूरी Merlin टीम हमारे Merlin के Agentic एक्सटेंशन की इंटरनल रिलीज़ आज़माते हुए।](../probably-the-best-work-hhpj3xsbmaatg3w.jpg)
 
 पूरी Merlin टीम हमारे Merlin के Agentic एक्सटेंशन की इंटरनल रिलीज़ आज़माते हुए।
 
-![Shubhankit YouTube ऑटोमेशन के साथ तरह-तरह की मज़ेदार चीज़ें आज़माते हुए।](../probably-the-best-work-HHpk-VBa0AAQrnH.jpg)
+![Shubhankit YouTube ऑटोमेशन के साथ तरह-तरह की मज़ेदार चीज़ें आज़माते हुए।](../probably-the-best-work-hhpk-vba0aaqrnh.jpg)
 
 हमने एक डायनामिक कन्फ़र्मेशन टूल बनाया जो तरह-तरह की मज़ेदार चीज़ें कर सकता था, तो वह भी था।
 
@@ -88,7 +88,7 @@ https://x.com/milindmishra_/status/2047643032649109640
 
 इसने सब कुछ बदल दिया।
 
-![](../probably-the-best-work-HHpn2GtbAAMVGwT.jpg)
+![](../probably-the-best-work-hhpn2gtbaamvgwt.jpg)
 
 बदलाव साफ़ दिख रहा था। AI के सही करने की उम्मीद लगाने से लेकर ऐसे फ़्लो बनाने तक, जिनमें वह सच में काम पूरे करता है। तभी चीज़ें जमने लगीं।
 

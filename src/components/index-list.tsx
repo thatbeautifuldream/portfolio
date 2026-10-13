@@ -1,4 +1,4 @@
-import SiteLink from "./SiteLink";
+import SiteLink from "./site-link";
 import type { ComponentProps } from "../lib/ui";
 import { classes } from "../lib/ui";
 import { Icon } from "../lib/ui";
