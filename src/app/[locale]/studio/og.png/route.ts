@@ -8,11 +8,7 @@ export async function GET(
   _request: Request,
   { params }: { params: Promise<{ locale: string }> },
 ) {
-  if (process.env.NODE_ENV !== "development")
-    return new Response(null, { status: 404 });
   const { locale } = await params;
   if (!isLocale(locale)) return new Response(null, { status: 404 });
-  const response = await createOGImage(studioCopy[locale]);
-  response.headers.set("X-Robots-Tag", "noindex, nofollow");
-  return response;
+  return createOGImage(studioCopy[locale]);
 }

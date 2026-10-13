@@ -24,6 +24,7 @@ export const translatedPaths = [
   "/gist",
   "/project",
   "/uses",
+  "/studio",
 ];
 
 export function getLocale(current?: string): Locale {

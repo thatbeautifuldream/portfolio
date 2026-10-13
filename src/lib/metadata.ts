@@ -55,9 +55,9 @@ export function studioMetadata(locale: Locale): Metadata {
     creator: siteConfig.name,
     applicationName: siteConfig.name,
     robots: {
-      index: false,
-      follow: false,
-      googleBot: { index: false, follow: false },
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true },
     },
     alternates: {
       canonical: url,

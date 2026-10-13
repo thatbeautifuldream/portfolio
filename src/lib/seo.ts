@@ -70,6 +70,12 @@ export const studioCopy = {
   },
 } as const;
 
+export const studioSitePage = {
+  path: "/studio",
+  changefreq: "monthly",
+  priority: 0.4,
+} satisfies SitePage;
+
 export function studioPath(locale: Locale) {
   return locale === "hi" ? "/hi/studio/" : "/studio/";
 }
@@ -121,6 +127,7 @@ export function normalizePath(path: string) {
 
 export function getSitePage(path: string) {
   const normalized = normalizePath(path);
+  if (normalized === studioSitePage.path) return studioSitePage;
   if (normalized.startsWith("/blog/"))
     return { path: normalized, changefreq: "monthly", priority: 0.7 } as const;
   if (normalized.startsWith("/gist/"))

@@ -9,19 +9,73 @@ import { startServer } from "./serve-next";
 const server = await startServer();
 after(() => server.close());
 
-test("development component canvas and preview documents remain private in production", async () => {
+test("Studio and its images are available in production with localized metadata", async () => {
+  const sitemap = await (await fetch(`${server.url}/sitemap-0.xml`)).text();
+  for (const prefix of ["", "/hi"]) {
+    const response = await fetch(`${server.url}${prefix}/studio/`);
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get("x-frame-options"), "DENY");
+    const html = await response.text();
+    assert.ok(html.includes(`lang="${prefix ? "hi" : "en"}"`));
+    assert.ok(html.includes(`https://milindmishra.com${prefix}/studio/`));
+    assert.ok(html.includes("CollectionPage"));
+    assert.ok(html.includes(`${prefix}/studio/og.png`));
+    assert.ok(html.includes('name="robots" content="index, follow"'));
+    const url = `https://milindmishra.com${prefix}/studio/`;
+    const entry = [...sitemap.matchAll(/<url>(.*?)<\/url>/g)].find((match) =>
+      match[1]!.includes(`<loc>${url}</loc>`),
+    )?.[1];
+    assert.ok(entry, url);
+    for (const locale of ["en", "hi"]) {
+      assert.ok(
+        entry.includes(`hreflang="${locale === "en" ? "en-US" : "hi-IN"}"`),
+      );
+      assert.ok(
+        entry.includes(
+          `href="https://milindmishra.com${locale === "hi" ? "/hi" : ""}/studio/"`,
+        ),
+      );
+    }
+    assert.ok(!html.includes("googletagmanager.com/gtag/js"));
+    const image = await fetch(`${server.url}${prefix}/studio/og.png`);
+    assert.equal(image.status, 200);
+    assert.equal(image.headers.get("content-type"), "image/png");
+    assert.ok(!image.headers.get("x-robots-tag")?.includes("noindex"));
+    for (const sample of [
+      "about",
+      "footer",
+      "tooltip",
+      "tooltip-meta",
+      "code",
+    ]) {
+      const preview = await fetch(
+        `${server.url}${prefix}/studio/preview/?sample=${sample}`,
+      );
+      assert.equal(preview.status, 200, sample);
+      assert.equal(preview.headers.get("x-frame-options"), "SAMEORIGIN");
+      const policy = preview.headers.get("content-security-policy")!;
+      assert.ok(policy.includes("frame-ancestors 'self'"));
+      assert.ok(!policy.includes("'unsafe-eval'"));
+      assert.ok(
+        (await preview.text()).includes(
+          'name="robots" content="noindex, nofollow"',
+        ),
+      );
+    }
+  }
+  assert.ok(!sitemap.includes("/studio/preview/"));
+});
+
+test("invalid Studio samples and obsolete canvas routes remain unavailable", async () => {
   for (const path of [
-    "/studio/",
-    "/hi/studio/",
-    "/studio/preview/?sample=about",
-    "/hi/studio/preview/?sample=code",
-    "/studio/og.png",
-    "/hi/studio/og.png",
+    "/studio/preview/",
+    "/hi/studio/preview/?sample=unknown",
     "/component-canvas/",
     "/hi/component-canvas/",
   ]) {
     const response = await fetch(server.url + path);
     assert.equal(response.status, 404, path);
+    if (path.includes("/preview/")) continue;
     assert.equal(response.headers.get("x-frame-options"), "DENY", path);
     assert.ok(
       response.headers

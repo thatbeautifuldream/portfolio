@@ -30,7 +30,7 @@ export const inventory = [
   {
     file: "pwa-registration",
     omitted:
-      "Nonvisual service-worker registration; existing document mounts its development no-op.",
+      "Nonvisual service-worker registration; the shared document mounts the site's normal registration (a no-op in development).",
   },
   {
     file: "site-link",

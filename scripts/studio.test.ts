@@ -18,6 +18,26 @@ import {
   zoomAt,
 } from "../src/views/studio/camera";
 import { inventory, primitiveInventory } from "../src/views/studio/inventory";
+import icons from "@iconify-json/ri/icons.json";
+
+test("Studio controls use existing project icons rendered on the server", () => {
+  const samples = readFileSync("src/views/studio/samples.tsx", "utf8");
+  const canvas = readFileSync("src/views/studio/canvas.tsx", "utf8");
+  const controls = {
+    zoomOut: "subtract-line",
+    zoomIn: "add-line",
+    fit: "fullscreen-line",
+    reset: "restart-line",
+    theme: "moon-line",
+  } as const;
+  for (const [control, name] of Object.entries(controls)) {
+    assert.ok(icons.icons[name as keyof typeof icons.icons]);
+    assert.ok(samples.includes(`<Icon name="ri:${name}"`));
+    assert.ok(canvas.includes(`{controlIcons.${control}}`));
+  }
+  assert.ok(samples.includes('<Icon name="ri:sun-line"'));
+  assert.ok(!canvas.includes("../../lib/ui"));
+});
 
 test("canvas accounts for every component and renders each listed variant", () => {
   const files = readdirSync("src/components")
@@ -79,7 +99,7 @@ test("Studio gallery includes every OG and story resource without duplicates", a
   );
 });
 
-test("Studio metadata is localized, complete, and deliberately excluded from indexing", () => {
+test("Studio metadata is localized, complete, and allows indexing", () => {
   for (const locale of ["en", "hi"] as const) {
     const path = locale === "hi" ? "/hi/studio/" : "/studio/";
     const metadata = studioMetadata(locale);
@@ -89,9 +109,9 @@ test("Studio metadata is localized, complete, and deliberately excluded from ind
     assert.equal(graph.locale, locale === "hi" ? "hi_IN" : "en_US");
     assert.equal(metadata.alternates?.canonical, siteConfig.url + path);
     assert.deepEqual(metadata.robots, {
-      index: false,
-      follow: false,
-      googleBot: { index: false, follow: false },
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true },
     });
     assert.ok(metadata.twitter && "card" in metadata.twitter);
     assert.equal(metadata.twitter.card, "summary_large_image");
@@ -213,9 +233,9 @@ test("zoom is cursor anchored and fit is bounded without rearranging content", (
   assert.ok((bounds.y + bounds.height) * fitted.scale + fitted.y <= 800 - 24);
 });
 
-test("canvas entry is development-only and excluded from public route registry", () => {
+test("Studio is public with validated locales and a dedicated canvas route", () => {
   const entry = readFileSync("src/app/[locale]/studio/page.tsx", "utf8");
-  assert.ok(entry.includes('process.env.NODE_ENV !== "development"'));
+  assert.ok(!entry.includes("NODE_ENV"));
   assert.ok(
     entry.indexOf("notFound();") <
       entry.indexOf('import("../../../views/studio/samples")'),
@@ -223,7 +243,7 @@ test("canvas entry is development-only and excluded from public route registry",
   assert.ok(!readFileSync("src/lib/page-routes.ts", "utf8").includes("studio"));
 });
 
-test("only new development preview documents allow same-origin framing", async (context) => {
+test("only Studio preview documents allow same-origin framing in every environment", async (context) => {
   const previous = process.env.NODE_ENV;
   context.after(() => {
     if (previous === undefined) Reflect.deleteProperty(process.env, "NODE_ENV");
@@ -240,10 +260,18 @@ test("only new development preview documents allow same-origin framing", async (
     );
     assert.deepEqual(
       allowed.map((rule) => rule.source),
-      environment === "development"
-        ? ["/studio/preview", "/:locale(en|hi)/studio/preview"]
-        : [],
+      ["/studio/preview", "/:locale(en|hi)/studio/preview"],
     );
+    for (const rule of allowed) {
+      const policy = rule.headers.find(
+        (header) => header.key === "Content-Security-Policy",
+      )!.value;
+      assert.ok(policy.includes("frame-ancestors 'self'"));
+      assert.equal(
+        policy.includes("'unsafe-eval'"),
+        environment === "development",
+      );
+    }
     assert.ok(
       rules[0]!.headers.some(
         (header) => header.key === "X-Frame-Options" && header.value === "DENY",
@@ -253,7 +281,7 @@ test("only new development preview documents allow same-origin framing", async (
     assert.ok(!Array.isArray(routing));
     assert.equal(
       routing.beforeFiles?.some((rule) => rule.source === "/studio") ?? false,
-      environment === "development",
+      true,
     );
   }
 });

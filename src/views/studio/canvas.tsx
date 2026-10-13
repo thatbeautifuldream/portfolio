@@ -13,7 +13,16 @@ import {
 } from "./camera";
 import "./canvas.css";
 
-export default function Canvas({ children }: { children: ReactNode }) {
+export default function Canvas({
+  children,
+  controlIcons,
+}: {
+  children: ReactNode;
+  controlIcons: Record<
+    "zoomOut" | "zoomIn" | "fit" | "reset" | "theme",
+    ReactNode
+  >;
+}) {
   const shellRef = useRef<HTMLElement>(null);
   const worldRef = useRef<HTMLDivElement>(null);
   const actions = useRef({
@@ -348,7 +357,7 @@ export default function Canvas({ children }: { children: ReactNode }) {
           aria-label="Zoom out"
           onClick={() => actions.current.zoom(1 / 1.2)}
         >
-          −
+          {controlIcons.zoomOut}
         </button>
         <output aria-label="Zoom level">{Math.round(scale * 100)}%</output>
         <button
@@ -356,24 +365,24 @@ export default function Canvas({ children }: { children: ReactNode }) {
           aria-label="Zoom in"
           onClick={() => actions.current.zoom(1.2)}
         >
-          +
+          {controlIcons.zoomIn}
         </button>
         <button
           type="button"
           aria-label="Fit all components"
           onClick={() => actions.current.fit()}
         >
-          ⛶
+          {controlIcons.fit}
         </button>
         <button
           type="button"
           aria-label="Reset camera"
           onClick={() => actions.current.reset()}
         >
-          ↺
+          {controlIcons.reset}
         </button>
         <button type="button" aria-label="Toggle color theme" id="theme-toggle">
-          ◐
+          {controlIcons.theme}
         </button>
       </div>
     </main>

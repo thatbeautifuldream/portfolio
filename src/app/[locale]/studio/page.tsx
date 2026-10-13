@@ -7,14 +7,12 @@ export const dynamic = "force-dynamic";
 type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props) {
-  if (process.env.NODE_ENV !== "development") notFound();
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   return studioMetadata(locale);
 }
 
 export default async function StudioPage({ params }: Props) {
-  if (process.env.NODE_ENV !== "development") notFound();
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const { default: Samples } = await import("../../../views/studio/samples");

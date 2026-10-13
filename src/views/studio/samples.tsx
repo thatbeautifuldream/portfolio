@@ -55,7 +55,20 @@ export default async function Samples({ locale = "en" }: { locale?: Locale }) {
   const article =
     "<h2>Component notes</h2><p>Real typography, <strong>emphasis</strong>, and <a href='#page-header'>a group link</a>.</p><blockquote>Small details make an interface feel complete.</blockquote><ul><li>Accessible controls</li><li>Useful content</li></ul>";
   return (
-    <Canvas>
+    <Canvas
+      controlIcons={{
+        zoomOut: <Icon name="ri:subtract-line" className="size-5" />,
+        zoomIn: <Icon name="ri:add-line" className="size-5" />,
+        fit: <Icon name="ri:fullscreen-line" className="size-5" />,
+        reset: <Icon name="ri:restart-line" className="size-5" />,
+        theme: (
+          <>
+            <Icon name="ri:moon-line" className="size-5 dark:hidden" />
+            <Icon name="ri:sun-line" className="size-5 not-dark:hidden" />
+          </>
+        ),
+      }}
+    >
       <Group id="about" title="AboutHeadline · AboutMotion">
         <Example name="localized-headline">
           <IsolatedPreview sample="about" locale={locale} />

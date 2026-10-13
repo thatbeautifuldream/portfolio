@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { isLocale } from "../../../../i18n";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -13,8 +14,8 @@ export default async function PreviewPage({
   params: Promise<{ locale: string }>;
   searchParams: Promise<{ sample?: string }>;
 }) {
-  if (process.env.NODE_ENV !== "development") notFound();
   const { locale } = await params;
+  if (!isLocale(locale)) notFound();
   const { sample } = await searchParams;
   if (
     !["about", "footer", "tooltip", "tooltip-meta", "code"].includes(
@@ -24,7 +25,5 @@ export default async function PreviewPage({
     notFound();
   const { default: PreviewSamples } =
     await import("../../../../views/studio/preview-samples");
-  return (
-    <PreviewSamples sample={sample!} locale={locale === "hi" ? "hi" : "en"} />
-  );
+  return <PreviewSamples sample={sample!} locale={locale} />;
 }
