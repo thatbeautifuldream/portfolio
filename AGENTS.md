@@ -12,7 +12,7 @@ If any command fails, fix the reported issue and rerun the failed command before
 
 Run `pnpm verify` before final handoff. It runs filename lint, `format:check`, TypeScript diagnostics, and the production build — the same gate to keep `main` always green.
 
-Keep pre-commit fast: it only runs `lint-staged` (filename lint and Prettier on staged files). The heavier `check` + `build` validation lives in `pnpm verify` and CI.
+Pre-commit runs `pnpm lint-staged` (filename lint and Prettier on staged files), then `pnpm verify:ci`: dependency audit, filename/format checks, TypeScript, the production build, and all regression tests. GitHub Actions runs the same shared command. Commits are deliberately slower so failures block the commit before a push can trigger deployment. Do not bypass the hook; keep Husky and CI on this shared gate.
 
 ## Project Notes
 

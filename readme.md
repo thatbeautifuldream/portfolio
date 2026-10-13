@@ -12,6 +12,8 @@ Security fixes for transitive `source-map-js` and `fflate` are scoped in `pnpm-w
 
 All authored filenames use lowercase kebab-case, including source, content, assets, and documentation. Dotfiles and compound extensions are allowed; `AGENTS.md` retains its reserved spelling for agent discovery. Framework route directories (`[slug]`, `(en)`) are unaffected. `pnpm lint` checks tracked and non-ignored untracked files; pre-commit checks staged filenames and `pnpm verify` enforces the rule in CI. Run `pnpm test:filenames` to test the rule.
 
+Husky pre-commit first formats and checks staged files with `pnpm lint-staged`, then runs `pnpm verify:ci`, the same full gate used by GitHub Actions: dependency audit, filename/format checks, TypeScript, a production build, and every regression test. Any failure blocks the commit. This checks the working tree and takes longer than the old formatting-only hook; keep staged and unstaged changes consistent and do not bypass it.
+
 | Command               | Purpose                                                                                               |
 | --------------------- | ----------------------------------------------------------------------------------------------------- |
 | `pnpm install`        | Install dependencies                                                                                  |
@@ -21,6 +23,8 @@ All authored filenames use lowercase kebab-case, including source, content, asse
 | `pnpm preview`        | Run the production Next.js server on port 4321                                                        |
 | `pnpm lint`           | Enforce kebab-case filenames across the project                                                       |
 | `pnpm verify`         | Filename lint, formatting, TypeScript, and production build                                           |
+| `pnpm verify:ci`      | Full CI/pre-commit gate: dependency audit, verification build, and every regression test              |
+| `pnpm test:hooks`     | Validate pre-commit sequencing, failure blocking, and the shared CI command                           |
 | `pnpm test:content`   | Validate Markdown resources, removed endpoints, and Next.js routing rules                             |
 | `pnpm test:libraries` | Validate analytics opt-out, effect cleanup, content parsing, and Lighthouse median selection          |
 | `pnpm test:migration` | Compare every migrated route with the captured Astro baseline, plus native OG image regression checks |

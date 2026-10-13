@@ -24,11 +24,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Audit dependency security
-        run: pnpm audit
-
-      - name: Verify (filenames, format, check, build)
-        run: pnpm verify
-
-      - name: Verify public contracts and migration parity
-        run: pnpm test:filenames && pnpm test:libraries && pnpm test:content && pnpm test:i18n && pnpm test:migration && pnpm test:pwa
+      - name: Verify (audit, filenames, format, types, build, tests)
+        run: pnpm verify:ci

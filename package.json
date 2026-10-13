@@ -16,6 +16,7 @@
     "format:check": "prettier . --check",
     "lint": "node --experimental-strip-types scripts/lint-filenames.ts",
     "verify": "pnpm lint && pnpm format:check && pnpm check && pnpm build",
+    "verify:ci": "pnpm audit && pnpm verify && pnpm test:filenames && pnpm test:hooks && pnpm test:libraries && pnpm test:content && pnpm test:i18n && pnpm test:migration && pnpm test:pwa",
     "prepare": "husky",
     "test:migration": "tsx --test scripts/migration.test.ts",
     "test:pwa": "node --test scripts/pwa.test.ts",
@@ -23,6 +24,7 @@
     "test:i18n": "tsx --test scripts/i18n.test.ts",
     "test:libraries": "tsx --test scripts/libraries.test.ts",
     "test:filenames": "node --experimental-strip-types --test scripts/lint-filenames.test.ts",
+    "test:hooks": "node --test scripts/pre-commit.test.ts",
     "start": "next start"
   },
   "lint-staged": {
