@@ -6,6 +6,7 @@ import IndexList from "../../components/index-list";
 import { absoluteUrl, buildPersonRef, siteConfig } from "../../lib/seo";
 import { getLocale, localizePath, useTranslations } from "../../i18n";
 import { getLocalizedCollection } from "../../i18n/content";
+import { formatSiteDate } from "../../lib/dates";
 export default async function View(props: ComponentProps) {
   const context = props.context;
   const locale = getLocale(context.locale);
@@ -32,11 +33,13 @@ export default async function View(props: ComponentProps) {
             items={posts.map((post) => ({
               href: localizePath(`/blog/${post.id}`, locale),
               title: post.data.title,
-              meta: post.data.date.toLocaleDateString("en-GB", {
+              meta: formatSiteDate(post.data.date, "en-GB", {
                 day: "2-digit",
                 month: "2-digit",
               }),
-              group: String(post.data.date.getFullYear()),
+              group: formatSiteDate(post.data.date, "en-US", {
+                year: "numeric",
+              }),
               attrs: { "data-post-title": post.data.title },
             }))}
           />

@@ -36,4 +36,6 @@ OG and story images are prerendered by App Router Route Handlers using `next/og`
 
 The migration baseline in `scripts/fixtures/astro-parity.json` captures page content/metadata and resource hashes before the framework change. The native OG fixture records the reviewed renderer output separately. Intentional future content, SEO, or image design edits require updating the matching expectations.
 
+Displayed calendar dates and year groups use `siteConfig.location.timezone` through `src/lib/dates.ts`, not the build host's timezone. This keeps local, CI, and production page content identical; machine-readable ISO timestamps remain unchanged.
+
 The PWA setup follows [Better T Stack’s Next.js template](https://github.com/AmanVarshney01/create-better-t-stack/tree/f552531400912cc275e39499f3349084c099485a/packages/template-generator/templates/addons/pwa/apps/web/next). The production-only worker precaches a standalone offline page and uses the network for document navigation; it does not cache portfolio pages or Next.js router responses. Run `pnpm test:pwa` after building to check installation resources, worker lifecycle, offline fallback, and Next.js headers. Bump the worker cache version whenever changing `public/offline.html`.

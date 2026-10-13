@@ -2,6 +2,7 @@ import SiteLink from "../components/site-link";
 import type { ComponentProps } from "../lib/ui";
 import { execSync } from "node:child_process";
 import { getCollection } from "../lib/content";
+import { formatSiteDate } from "../lib/dates";
 import Layout from "../layouts/layout";
 import { Image } from "../lib/ui";
 import { Icon } from "../lib/ui";
@@ -43,7 +44,7 @@ export default async function View(props: ComponentProps) {
     updated = new Date(execSync("git log -1 --format=%cI").toString().trim());
   } catch {}
   const dayMonth = (date: Date) =>
-    date.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit" });
+    formatSiteDate(date, "en-GB", { day: "2-digit", month: "2-digit" });
   const years = (period: string) => {
     const [from, to] = period.split(" to ");
     const start = from!.slice(-4);
@@ -64,7 +65,7 @@ export default async function View(props: ComponentProps) {
             <header className="grid gap-4">
               <p className="text-faint">
                 {home.updated(
-                  updated.toLocaleDateString(locales[locale].dateLocale, {
+                  formatSiteDate(updated, locales[locale].dateLocale, {
                     month: "short",
                     day: "numeric",
                     year: "numeric",
@@ -155,7 +156,9 @@ export default async function View(props: ComponentProps) {
               href: localizePath(`/blog/${post.id}`, locale),
               title: post.data.title,
               meta: dayMonth(post.data.date),
-              group: String(post.data.date.getFullYear()),
+              group: formatSiteDate(post.data.date, "en-US", {
+                year: "numeric",
+              }),
             }))}
           />
 

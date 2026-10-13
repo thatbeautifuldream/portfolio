@@ -12,6 +12,44 @@ import {
   type CollectionEntry,
 } from "../src/lib/content-schema";
 import { computeMedianRun } from "./lighthouse-median.ts";
+import { formatSiteDate } from "../src/lib/dates";
+
+test("calendar dates and year groups use the site timezone rather than the build host", (context) => {
+  const previous = process.env.TZ;
+  context.after(() => {
+    if (previous === undefined) delete process.env.TZ;
+    else process.env.TZ = previous;
+  });
+  const published = new Date("2025-08-08T20:28:51Z");
+  const yearBoundary = new Date("2025-12-31T20:00:00Z");
+  for (const timezone of ["UTC", "America/Los_Angeles", "Asia/Kolkata"]) {
+    process.env.TZ = timezone;
+    assert.equal(
+      formatSiteDate(published, "en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      "August 9, 2025",
+    );
+    assert.equal(
+      formatSiteDate(published, "en-GB", { day: "2-digit", month: "2-digit" }),
+      "09/08",
+    );
+    assert.equal(
+      formatSiteDate(published, "hi-IN", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      "9 अगस्त 2025",
+    );
+    assert.equal(
+      formatSiteDate(yearBoundary, "en-US", { year: "numeric" }),
+      "2026",
+    );
+  }
+});
 
 test("analytics opt-out applies to every provider and PostHog requires a token", () => {
   assert.equal(analyticsEnabled("true"), false);

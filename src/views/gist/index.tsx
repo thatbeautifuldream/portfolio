@@ -6,6 +6,7 @@ import IndexList from "../../components/index-list";
 import { absoluteUrl, buildPersonRef, siteConfig } from "../../lib/seo";
 import { getLocale, localizePath, useTranslations } from "../../i18n";
 import { getLocalizedCollection } from "../../i18n/content";
+import { formatSiteDate } from "../../lib/dates";
 export default async function View(props: ComponentProps) {
   const context = props.context;
   const locale = getLocale(context.locale);
@@ -38,12 +39,14 @@ export default async function View(props: ComponentProps) {
                 href: localizePath(`/gist/${gist.id}`, locale),
                 title: gist.data.title,
                 meta: date
-                  ? date.toLocaleDateString("en-GB", {
+                  ? formatSiteDate(date, "en-GB", {
                       day: "2-digit",
                       month: "2-digit",
                     })
                   : gist.data.tags?.split(",")[0]?.trim(),
-                group: date ? String(date.getFullYear()) : undefined,
+                group: date
+                  ? formatSiteDate(date, "en-US", { year: "numeric" })
+                  : undefined,
                 attrs: { "data-gist-title": gist.data.title },
               };
             })}

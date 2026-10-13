@@ -2,6 +2,7 @@ import Content from "../../components/content";
 import SiteLink from "../../components/site-link";
 import type { ComponentProps } from "../../lib/ui";
 import type { CollectionEntry } from "../../lib/content";
+import { formatSiteDate } from "../../lib/dates";
 import Layout from "../../layouts/layout";
 import CodeCopy from "../../components/code-copy";
 import PageHeader from "../../components/page-header";
@@ -15,7 +16,7 @@ export default async function View(props: ComponentProps) {
   const date = gist.data.datePublished ?? gist.data.date ?? new Date(0);
   const tag = gist.data.tags?.split(",")[0]?.trim() ?? "Gist";
   function formatDate(date: Date): string {
-    return date.toLocaleDateString(locales[locale].dateLocale, {
+    return formatSiteDate(date, locales[locale].dateLocale, {
       year: "numeric",
       month: "long",
       day: "numeric",

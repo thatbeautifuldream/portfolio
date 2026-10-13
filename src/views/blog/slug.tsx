@@ -1,6 +1,7 @@
 import Content from "../../components/content";
 import type { ComponentProps } from "../../lib/ui";
 import type { CollectionEntry } from "../../lib/content";
+import { formatSiteDate } from "../../lib/dates";
 import ClientEnhancement from "../../components/client-enhancement";
 import { Image } from "../../lib/ui";
 import { Icon } from "../../lib/ui";
@@ -15,7 +16,7 @@ export default async function View(props: ComponentProps) {
   const locale = getLocale(context.locale);
   const t = useTranslations(locale).blog;
   function formatDate(date: Date): string {
-    return date.toLocaleDateString(locales[locale].dateLocale, {
+    return formatSiteDate(date, locales[locale].dateLocale, {
       year: "numeric",
       month: "long",
       day: "numeric",
