@@ -20,6 +20,16 @@ test("Studio and its images are available in production with localized metadata"
     assert.ok(html.includes(`https://milindmishra.com${prefix}/studio/`));
     assert.ok(html.includes("CollectionPage"));
     assert.ok(html.includes(`${prefix}/studio/og.png`));
+    assert.equal((html.match(/name="twitter:card"/g) ?? []).length, 1);
+    assert.ok(html.includes('name="twitter:card" content="player"'));
+    assert.ok(
+      html.includes(
+        `name="twitter:player" content="https://milindmishra.com${prefix}/studio/embed/"`,
+      ),
+    );
+    assert.ok(html.includes('name="twitter:player:width" content="640"'));
+    assert.ok(html.includes('name="twitter:player:height" content="640"'));
+    assert.ok(!html.includes('name="twitter:player:stream"'));
     assert.ok(html.includes('name="robots" content="index, follow"'));
     const url = `https://milindmishra.com${prefix}/studio/`;
     const entry = [...sitemap.matchAll(/<url>(.*?)<\/url>/g)].find((match) =>
@@ -64,6 +74,100 @@ test("Studio and its images are available in production with localized metadata"
     }
   }
   assert.ok(!sitemap.includes("/studio/preview/"));
+});
+
+test("Studio embeds and nested previews are available with scoped X framing", async () => {
+  for (const path of [
+    "/",
+    "/hi/",
+    "/work/",
+    "/hi/work/",
+    "/studio/",
+    "/hi/studio/",
+  ]) {
+    const response = await fetch(server.url + path);
+    assert.equal(response.status, 200, path);
+    assert.equal(response.headers.get("x-frame-options"), "DENY", path);
+    assert.ok(
+      response.headers
+        .get("content-security-policy")
+        ?.includes("frame-ancestors 'none'"),
+      path,
+    );
+  }
+  const sitemap = await (await fetch(`${server.url}/sitemap-0.xml`)).text();
+  assert.ok(!sitemap.includes("/studio/embed/"));
+  for (const prefix of ["", "/hi"]) {
+    const response = await fetch(`${server.url}${prefix}/studio/embed/`);
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get("x-frame-options"), null);
+    assert.equal(response.headers.get("x-robots-tag"), "noindex, nofollow");
+    const policy = response.headers.get("content-security-policy")!;
+    assert.ok(
+      policy.includes(
+        "frame-ancestors 'self' https://x.com https://*.x.com https://twitter.com https://*.twitter.com;",
+      ),
+    );
+    assert.ok(!policy.includes("'unsafe-eval'"));
+    const html = await response.text();
+    assert.ok(html.includes(`lang="${prefix ? "hi" : "en"}"`));
+    assert.ok(html.includes('data-embedded="true"'));
+    assert.ok(html.includes('name="robots" content="noindex, nofollow"'));
+    assert.ok(!html.includes("data-studio-image"));
+    assert.ok(!html.includes("googletagmanager.com/gtag/js"));
+    for (const sample of [
+      "about",
+      "footer",
+      "tooltip",
+      "tooltip-meta",
+      "code",
+    ]) {
+      const path = `${prefix}/studio/embed/preview/?sample=${sample}`;
+      assert.ok(html.includes(path));
+      const preview = await fetch(server.url + path);
+      assert.equal(preview.status, 200, path);
+      assert.equal(preview.headers.get("x-frame-options"), null, path);
+      assert.equal(
+        preview.headers.get("content-security-policy"),
+        policy,
+        path,
+      );
+      assert.ok(
+        (await preview.text()).includes(
+          'name="robots" content="noindex, nofollow"',
+        ),
+      );
+    }
+    const alias = await fetch(`${server.url}/en/studio/embed/?test=1`, {
+      redirect: "manual",
+    });
+    assert.equal(alias.status, 308);
+    assert.equal(
+      new URL(alias.headers.get("location")!, server.url).pathname,
+      "/studio/embed/",
+    );
+  }
+  for (const path of [
+    "/studio/embedder/",
+    "/studio/embed/missing/",
+    "/hi/studio/embed/missing/",
+  ]) {
+    const response = await fetch(server.url + path);
+    assert.equal(response.status, 404, path);
+    assert.equal(response.headers.get("x-frame-options"), "DENY", path);
+    assert.ok(
+      response.headers
+        .get("content-security-policy")
+        ?.includes("frame-ancestors 'none'"),
+      path,
+    );
+  }
+  for (const path of [
+    "/studio/embed/preview/?sample=unknown",
+    "/hi/studio/embed/preview/",
+  ]) {
+    assert.equal((await fetch(server.url + path)).status, 404, path);
+  }
 });
 
 test("invalid Studio samples and obsolete canvas routes remain unavailable", async () => {

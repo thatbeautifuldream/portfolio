@@ -45,9 +45,15 @@ function Example({ name, children }: { name: string; children: ReactNode }) {
   );
 }
 
-export default async function Samples({ locale = "en" }: { locale?: Locale }) {
+export default async function Samples({
+  locale = "en",
+  embedded = false,
+}: {
+  locale?: Locale;
+  embedded?: boolean;
+}) {
   const context = contextFor(locale);
-  const gallery = imageGroups(await getStudioImages());
+  const gallery = embedded ? [] : imageGroups(await getStudioImages());
   const items = [
     { title: "Interface study", href: "#page-header" },
     { title: "Component notes", href: "#content" },
@@ -56,6 +62,7 @@ export default async function Samples({ locale = "en" }: { locale?: Locale }) {
     "<h2>Component notes</h2><p>Real typography, <strong>emphasis</strong>, and <a href='#page-header'>a group link</a>.</p><blockquote>Small details make an interface feel complete.</blockquote><ul><li>Accessible controls</li><li>Useful content</li></ul>";
   return (
     <Canvas
+      embedded={embedded}
       controlIcons={{
         zoomOut: <Icon name="ri:subtract-line" className="size-5" />,
         zoomIn: <Icon name="ri:add-line" className="size-5" />,
@@ -71,7 +78,7 @@ export default async function Samples({ locale = "en" }: { locale?: Locale }) {
     >
       <Group id="about" title="AboutHeadline · AboutMotion">
         <Example name="localized-headline">
-          <IsolatedPreview sample="about" locale={locale} />
+          <IsolatedPreview sample="about" locale={locale} embedded={embedded} />
         </Example>
       </Group>
       <Group id="page-header" title="PageHeader">
@@ -163,7 +170,7 @@ export default async function Samples({ locale = "en" }: { locale?: Locale }) {
       </Group>
       <Group id="code" title="CodeCopy · ClientEnhancement">
         <Example name="copy-code">
-          <IsolatedPreview sample="code" locale={locale} />
+          <IsolatedPreview sample="code" locale={locale} embedded={embedded} />
         </Example>
       </Group>
       <Group id="email" title="EmailLink">
@@ -176,10 +183,18 @@ export default async function Samples({ locale = "en" }: { locale?: Locale }) {
       </Group>
       <Group id="tooltip" title="Tooltip">
         <Example name="label">
-          <IsolatedPreview sample="tooltip" locale={locale} />
+          <IsolatedPreview
+            sample="tooltip"
+            locale={locale}
+            embedded={embedded}
+          />
         </Example>
         <Example name="metadata">
-          <IsolatedPreview sample="tooltip-meta" locale={locale} />
+          <IsolatedPreview
+            sample="tooltip-meta"
+            locale={locale}
+            embedded={embedded}
+          />
         </Example>
       </Group>
       <Group id="icons" title="Icon">
@@ -224,7 +239,11 @@ export default async function Samples({ locale = "en" }: { locale?: Locale }) {
       </Group>
       <Group id="footer" title="Footer">
         <Example name="localized-footer">
-          <IsolatedPreview sample="footer" locale={locale} />
+          <IsolatedPreview
+            sample="footer"
+            locale={locale}
+            embedded={embedded}
+          />
         </Example>
       </Group>
       <Group id="theme" title="ThemeTransition · Coverage">

@@ -3,7 +3,13 @@ import { readFileSync, readdirSync } from "node:fs";
 import test from "node:test";
 import { headers, rewrites } from "../src/lib/routing";
 import { studioMetadata } from "../src/lib/metadata";
-import { buildStudioSchema, siteConfig, sitePages } from "../src/lib/seo";
+import {
+  buildStudioSchema,
+  siteConfig,
+  sitePages,
+  studioEmbedPath,
+  studioPlayerSize,
+} from "../src/lib/seo";
 import { getOGPages, getStoryPages } from "../src/lib/og-data";
 import { getStudioImages, imageGroups } from "../src/views/studio/images";
 import {
@@ -114,7 +120,22 @@ test("Studio metadata is localized, complete, and allows indexing", () => {
       googleBot: { index: true, follow: true },
     });
     assert.ok(metadata.twitter && "card" in metadata.twitter);
-    assert.equal(metadata.twitter.card, "summary_large_image");
+    assert.equal(metadata.twitter.card, "player");
+    assert.ok("players" in metadata.twitter);
+    assert.deepEqual(metadata.twitter.players, []);
+    assert.equal(
+      metadata.other?.["twitter:player"],
+      siteConfig.url + studioEmbedPath(locale),
+    );
+    assert.equal(
+      metadata.other?.["twitter:player:width"],
+      String(studioPlayerSize.width),
+    );
+    assert.equal(
+      metadata.other?.["twitter:player:height"],
+      String(studioPlayerSize.height),
+    );
+    assert.ok(!Object.hasOwn(metadata.other!, "twitter:player:stream"));
     assert.deepEqual(graph.images, [
       { url: `${path}og.png`, width: 1200, height: 630, alt: metadata.title },
     ]);
@@ -123,6 +144,34 @@ test("Studio metadata is localized, complete, and allows indexing", () => {
     assert.equal(buildStudioSchema(locale).inLanguage, locale);
     assert.ok(!sitePages.some((page) => String(page.path).includes("studio")));
   }
+});
+
+test("Studio embeds reuse previews without indexing, gallery work, or shared camera storage", () => {
+  for (const locale of ["en", "hi"] as const) {
+    const metadata = studioMetadata(locale, true);
+    assert.deepEqual(metadata.robots, {
+      index: false,
+      follow: false,
+      googleBot: { index: false, follow: false },
+    });
+    assert.equal(metadata.other, undefined);
+    assert.ok(metadata.twitter && "card" in metadata.twitter);
+    assert.equal(metadata.twitter.card, "summary_large_image");
+    assert.equal(
+      metadata.alternates?.canonical,
+      siteConfig.url + (locale === "hi" ? "/hi" : "") + "/studio/",
+    );
+  }
+  const samples = readFileSync("src/views/studio/samples.tsx", "utf8");
+  const canvas = readFileSync("src/views/studio/canvas.tsx", "utf8");
+  const preview = readFileSync("src/views/studio/isolated-preview.tsx", "utf8");
+  assert.ok(
+    samples.includes("embedded ? [] : imageGroups(await getStudioImages())"),
+  );
+  assert.equal((samples.match(/embedded=\{embedded\}/g) ?? []).length, 6);
+  assert.ok(canvas.includes("embedded ? undefined : loadCamera"));
+  assert.ok(canvas.includes("if (!embedded)"));
+  assert.ok(preview.includes('embedded ? "embed/" : ""'));
 });
 
 test("camera migrates the old canvas key and fits the complete gallery on mobile", () => {
@@ -243,7 +292,7 @@ test("Studio is public with validated locales and a dedicated canvas route", () 
   assert.ok(!readFileSync("src/lib/page-routes.ts", "utf8").includes("studio"));
 });
 
-test("only Studio preview documents allow same-origin framing in every environment", async (context) => {
+test("Studio framing exceptions stay scoped in every environment", async (context) => {
   const previous = process.env.NODE_ENV;
   context.after(() => {
     if (previous === undefined) Reflect.deleteProperty(process.env, "NODE_ENV");
@@ -273,10 +322,42 @@ test("only Studio preview documents allow same-origin framing in every environme
       );
     }
     assert.ok(
-      rules[0]!.headers.some(
-        (header) => header.key === "X-Frame-Options" && header.value === "DENY",
+      rules.some((rule) =>
+        rule.headers.some(
+          (header) =>
+            header.key === "X-Frame-Options" && header.value === "DENY",
+        ),
       ),
     );
+    const embeds = rules.filter((rule) =>
+      rule.headers.some((header) => header.key === "X-Robots-Tag"),
+    );
+    assert.deepEqual(
+      embeds.map((rule) => rule.source),
+      [
+        "/studio/embed",
+        "/:locale(en|hi)/studio/embed",
+        "/studio/embed/preview",
+        "/:locale(en|hi)/studio/embed/preview",
+      ],
+    );
+    for (const rule of embeds) {
+      assert.ok(
+        !rule.headers.some((header) => header.key === "X-Frame-Options"),
+      );
+      const policy = rule.headers.find(
+        (header) => header.key === "Content-Security-Policy",
+      )!.value;
+      assert.ok(
+        policy.includes(
+          "frame-ancestors 'self' https://x.com https://*.x.com https://twitter.com https://*.twitter.com;",
+        ),
+      );
+      assert.equal(
+        policy.includes("'unsafe-eval'"),
+        environment === "development",
+      );
+    }
     const routing = await rewrites();
     assert.ok(!Array.isArray(routing));
     assert.equal(

@@ -84,6 +84,12 @@ export function studioImagePath(locale: Locale) {
   return `${studioPath(locale)}og.png`;
 }
 
+export function studioEmbedPath(locale: Locale) {
+  return `${studioPath(locale)}embed/`;
+}
+
+export const studioPlayerSize = { width: 640, height: 640 } as const;
+
 export function buildStudioSchema(locale: Locale) {
   const copy = studioCopy[locale];
   return {

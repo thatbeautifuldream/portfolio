@@ -108,6 +108,17 @@
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
+
+.studio[data-embedded] .canvas-controls {
+  top: 8px;
+  right: 8px;
+  gap: 4px;
+}
+
+.studio[data-embedded] .canvas-controls button {
+  width: 32px;
+  height: 32px;
+}
 .canvas-controls output {
   min-width: 42px;
   text-align: center;

@@ -16,8 +16,10 @@ import "./canvas.css";
 export default function Canvas({
   children,
   controlIcons,
+  embedded = false,
 }: {
   children: ReactNode;
+  embedded?: boolean;
   controlIcons: Record<
     "zoomOut" | "zoomIn" | "fit" | "reset" | "theme",
     ReactNode
@@ -40,11 +42,14 @@ export default function Canvas({
     let layoutFrame = 0;
     let saveTimer: ReturnType<typeof setTimeout> | undefined;
     let fitted = true;
+    let launchGroup = embedded
+      ? (world.querySelector("#page-header") ?? undefined)
+      : undefined;
     let disposed = false;
     const pointers = new Map<number, { x: number; y: number }>();
     let gesture:
       { camera: Camera; x: number; y: number; distance: number } | undefined;
-    const stored = loadCamera(() => localStorage);
+    const stored = embedded ? undefined : loadCamera(() => localStorage);
     if (stored) {
       camera = stored;
       fitted = false;
@@ -55,13 +60,18 @@ export default function Canvas({
       world.style.transform = `translate(${camera.x}px, ${camera.y}px) scale(${camera.scale})`;
       setScale(camera.scale);
       clearTimeout(saveTimer);
-      saveTimer = setTimeout(() => {
-        saveCamera(() => localStorage, camera);
-      }, 150);
+      if (!embedded) {
+        saveTimer = setTimeout(() => {
+          saveCamera(() => localStorage, camera);
+        }, 150);
+      }
     };
     const update = (next: Camera, automatic = false) => {
       camera = constrain(next);
-      if (!automatic) fitted = false;
+      if (!automatic) {
+        fitted = false;
+        launchGroup = undefined;
+      }
       if (!frame) frame = requestAnimationFrame(render);
     };
     const bounds = (element?: Element): Bounds => {
@@ -84,17 +94,21 @@ export default function Canvas({
           (Math.max(...rects.map((rect) => rect.bottom)) - top) / applied.a,
       };
     };
-    const fit = (element?: Element) => {
+    const fit = (element?: Element, automatic = false) => {
       update(
         fitCamera(bounds(element), shell.clientWidth, shell.clientHeight),
         true,
       );
       fitted = !element;
+      if (!automatic) launchGroup = undefined;
     };
     actions.current = {
       fit: () => fit(),
       reset: () => {
-        update(defaultCamera);
+        if (embedded) {
+          launchGroup = world.querySelector("#page-header") ?? undefined;
+          fit(launchGroup, true);
+        } else update(defaultCamera);
       },
       zoom: (factor) =>
         update(
@@ -111,7 +125,8 @@ export default function Canvas({
     const settle = () => {
       cancelAnimationFrame(layoutFrame);
       layoutFrame = requestAnimationFrame(() => {
-        if (fitted) fit();
+        if (launchGroup) fit(launchGroup, true);
+        else if (fitted) fit();
       });
     };
     const resize = () => {
@@ -333,12 +348,13 @@ export default function Canvas({
       window.removeEventListener("blur", cancel);
       document.removeEventListener("visibilitychange", visibility);
     };
-  }, []);
+  }, [embedded]);
 
   return (
     <main
       ref={shellRef}
       className="studio"
+      data-embedded={embedded || undefined}
       tabIndex={0}
       aria-label="Studio"
       title="Pan empty space; Control/Command + wheel to zoom. Focus the canvas for arrows, +/−, F to fit, 0 to reset. Preview links stay in the canvas."

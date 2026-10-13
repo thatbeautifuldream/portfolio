@@ -12,7 +12,6 @@ export const headers: NonNullable<NextConfig["headers"]> = async () => [
         value: "max-age=63072000; includeSubDomains; preload",
       },
       { key: "X-Content-Type-Options", value: "nosniff" },
-      { key: "X-Frame-Options", value: "DENY" },
       { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
       { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
       {
@@ -30,6 +29,10 @@ export const headers: NonNullable<NextConfig["headers"]> = async () => [
       },
       { key: "Vary", value: "Accept, Accept-Encoding" },
     ],
+  },
+  {
+    source: "/:path((?!(?:en/|hi/)?studio/embed(?:/preview)?/?$).*)",
+    headers: [{ key: "X-Frame-Options", value: "DENY" }],
   },
   {
     source: "/sw.js",
@@ -63,6 +66,29 @@ export const headers: NonNullable<NextConfig["headers"]> = async () => [
       },
     ],
   })),
+  ...[
+    "/studio/embed",
+    "/:locale(en|hi)/studio/embed",
+    "/studio/embed/preview",
+    "/:locale(en|hi)/studio/embed/preview",
+  ].map((source) => ({
+    source,
+    headers: [
+      { key: "X-Robots-Tag", value: "noindex, nofollow" },
+      {
+        key: "Content-Security-Policy",
+        value: (process.env.NODE_ENV === "development"
+          ? securityPolicy
+              .replace("script-src 'self'", "script-src 'self' 'unsafe-eval'")
+              .replace("connect-src 'self'", "connect-src 'self' ws: wss:")
+          : securityPolicy
+        ).replace(
+          "frame-ancestors 'none'",
+          "frame-ancestors 'self' https://x.com https://*.x.com https://twitter.com https://*.twitter.com",
+        ),
+      },
+    ],
+  })),
 ];
 export const redirects: NonNullable<NextConfig["redirects"]> = async () => [
   {
@@ -92,6 +118,11 @@ export const rewrites: NonNullable<NextConfig["rewrites"]> = async () => ({
   beforeFiles: [
     { source: "/studio", destination: "/en/studio" },
     { source: "/studio/og.png", destination: "/en/studio/og.png" },
+    { source: "/studio/embed", destination: "/en/studio/embed" },
+    {
+      source: "/studio/embed/preview",
+      destination: "/en/studio/embed/preview",
+    },
     {
       source: "/studio/preview",
       destination: "/en/studio/preview",

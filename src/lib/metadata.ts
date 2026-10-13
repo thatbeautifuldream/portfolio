@@ -14,6 +14,8 @@ import {
   studioCopy,
   studioPath,
   studioImagePath,
+  studioEmbedPath,
+  studioPlayerSize,
 } from "./seo";
 import { contentEntry, pageContext, type ContentSection } from "./page";
 
@@ -30,7 +32,7 @@ export const documentMetadata: Metadata = {
 
 export const documentViewport: Viewport = { themeColor: siteConfig.themeColor };
 
-export function studioMetadata(locale: Locale): Metadata {
+export function studioMetadata(locale: Locale, embedded = false): Metadata {
   const copy = studioCopy[locale];
   const title = `${siteConfig.shortName} · ${copy.title}`;
   const url = new URL(studioPath(locale), siteConfig.url).href;
@@ -55,17 +57,19 @@ export function studioMetadata(locale: Locale): Metadata {
     creator: siteConfig.name,
     applicationName: siteConfig.name,
     robots: {
-      index: true,
-      follow: true,
-      googleBot: { index: true, follow: true },
+      index: !embedded,
+      follow: !embedded,
+      googleBot: { index: !embedded, follow: !embedded },
     },
     alternates: {
       canonical: url,
-      languages: {
-        en: new URL(studioPath("en"), siteConfig.url).href,
-        hi: new URL(studioPath("hi"), siteConfig.url).href,
-        "x-default": new URL(studioPath("en"), siteConfig.url).href,
-      },
+      languages: embedded
+        ? undefined
+        : {
+            en: new URL(studioPath("en"), siteConfig.url).href,
+            hi: new URL(studioPath("hi"), siteConfig.url).href,
+            "x-default": new URL(studioPath("en"), siteConfig.url).href,
+          },
     },
     openGraph: {
       type: "website",
@@ -78,12 +82,22 @@ export function studioMetadata(locale: Locale): Metadata {
       images: [image],
     },
     twitter: {
-      card: "summary_large_image",
       title,
       description: copy.description,
       creator: siteConfig.twitter,
       images: [image],
+      ...(embedded
+        ? { card: "summary_large_image" as const }
+        : { card: "player" as const, players: [] }),
     },
+    other: embedded
+      ? undefined
+      : {
+          "twitter:player": new URL(studioEmbedPath(locale), siteConfig.url)
+            .href,
+          "twitter:player:width": String(studioPlayerSize.width),
+          "twitter:player:height": String(studioPlayerSize.height),
+        },
   };
 }
 

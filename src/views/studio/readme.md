@@ -45,6 +45,31 @@ renderer. Studio allows indexing and includes both locales with language
 alternates in the sitemap. Isolated preview documents remain noindex/nofollow
 and excluded from the sitemap to avoid duplicate component pages.
 
+## X Player Card embed
+
+Studio's public sharing metadata advertises an experimental X Player Card with
+the existing OG image as its poster and a 640 × 640 HTTPS player URL at
+`/studio/embed/` (or `/hi/studio/embed/`). The embed reuses the real component
+samples, omits the 138-image gallery, starts focused on PageHeader, and keeps its
+camera in memory without reading or overwriting the standalone Studio camera.
+The standard toolbar and theme toggle remain usable in small frames.
+
+Embedded samples use `/studio/embed/preview/`, which reuses the existing
+allowlisted preview renderer. Only the embed and its nested preview routes
+permit frame ancestors from the same origin and HTTPS X/Twitter domains.
+These routes omit X-Frame-Options because DENY and SAMEORIGIN both block an
+external X ancestor. Ordinary Studio still denies framing; its ordinary preview
+documents retain SAMEORIGIN. Production CSP never includes development eval
+or WebSocket allowances. Embed documents are noindex/nofollow, canonicalize to
+the ordinary Studio page, and remain absent from the sitemap.
+
+Next metadata emits the native player card, title, image, and description. Only
+the player URL and dimensions use `other`: Next's typed player descriptor requires
+a media stream URL and this app is not an audio/video stream. No fake stream URL
+or duplicate card tag is emitted. No packages or tracking
+clients are added. Actual rendering inside X requires testing a real post;
+metadata and browser iframe checks do not establish X client support or approval.
+
 AboutMotion and Tooltip measure viewport coordinates, so AboutHeadline, Tooltip,
 and Footer (which contains tooltips) run in same-origin preview documents. CodeCopy
 also uses a document so the existing viewport-wide prose styles stay contained. This
@@ -52,9 +77,10 @@ keeps native measurements correct under canvas transforms. These frames share
 the existing theme toggle and link policy; heights follow the real content.
 No component DOM or browser API is patched.
 
-Only the Studio preview-document routes allow same-origin framing. All other
-routes retain the original framing restrictions. Production preview CSP does
-not include development-only unsafe-eval or WebSocket allowances.
+Ordinary Studio preview documents allow only same-origin framing. Apart from
+the scoped embed exceptions above, all other routes retain the original framing
+restrictions. Production preview CSP does not include development-only
+unsafe-eval or WebSocket allowances.
 
 Next.js development indicators are disabled through its public configuration so
 each preview document does not put a developer-tools launcher over the sample.

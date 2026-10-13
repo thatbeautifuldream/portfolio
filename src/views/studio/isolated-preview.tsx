@@ -6,9 +6,11 @@ import type { Locale } from "../../i18n";
 export default function IsolatedPreview({
   sample,
   locale,
+  embedded = false,
 }: {
   sample: string;
   locale: Locale;
+  embedded?: boolean;
 }) {
   const frameRef = useRef<HTMLIFrameElement>(null);
   const [loaded, setLoaded] = useState(0);
@@ -79,7 +81,7 @@ export default function IsolatedPreview({
   return (
     <iframe
       ref={frameRef}
-      src={`${locale === "hi" ? "/hi" : ""}/studio/preview/?sample=${sample}`}
+      src={`${locale === "hi" ? "/hi" : ""}/studio/${embedded ? "embed/" : ""}preview/?sample=${sample}`}
       title={`${sample} component preview`}
       onLoad={() => setLoaded((count) => count + 1)}
       style={{ width: "100%", height, border: 0, display: "block" }}
