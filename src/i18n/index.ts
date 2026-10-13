@@ -27,7 +27,11 @@ export const translatedPaths = [
 ];
 
 export function getLocale(current?: string): Locale {
-  return current && current in locales ? (current as Locale) : defaultLocale;
+  return current && isLocale(current) ? current : defaultLocale;
+}
+
+export function isLocale(value: string): value is Locale {
+  return Object.hasOwn(locales, value);
 }
 
 export function useTranslations(locale: Locale) {

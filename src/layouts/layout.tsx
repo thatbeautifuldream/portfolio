@@ -2,7 +2,7 @@ import SiteLink from "../components/site-link";
 import Footer from "../components/footer";
 import Analytics from "../components/analytics";
 import PostHog from "../components/posthog";
-import ClientScript from "../components/client-script";
+import ClientEnhancement from "../components/client-enhancement";
 import { Icon, type ComponentProps } from "../lib/ui";
 import { buildPersonSchema, buildWebsiteSchema } from "../lib/seo";
 import { localizePath, stripLocale, useTranslations } from "../i18n";
@@ -50,14 +50,14 @@ export default async function Layout(props: ComponentProps) {
       ))}
       <div
         aria-hidden="true"
-        className="top-fade pointer-events-none fixed inset-x-0 top-0 z-10 h-10 md:h-32"
+        className="pointer-events-none fixed inset-x-0 top-0 z-10 h-10 top-fade md:h-32"
       />
       <div className="isolate mx-auto flex min-h-svh max-w-[36.375rem] flex-col gap-10 px-6 pt-8 md:px-4 md:pt-20">
         {back && (
           <SiteLink
             href={back.href}
             data-back-link
-            className="text-faint hover:text-foreground relative z-20 inline-flex w-fit items-center gap-1.5 no-underline xl:fixed xl:top-20 xl:left-20"
+            className="relative z-20 inline-flex w-fit items-center gap-1.5 text-faint no-underline hover:text-foreground xl:fixed xl:top-20 xl:left-20"
           >
             <Icon
               name="ri:arrow-go-back-line"
@@ -71,10 +71,7 @@ export default async function Layout(props: ComponentProps) {
       </div>
       <Analytics context={context} />
       <PostHog context={context} />
-      <ClientScript
-        id="external-links"
-        code={`for(const link of document.querySelectorAll('a[href]'))if(link.protocol.startsWith('http')&&link.origin!==location.origin&&!link.hasAttribute('download')){link.target='_blank';link.rel='noopener noreferrer';}document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&!e.altKey&&!e.shiftKey&&e.key.toLowerCase()==='d'){e.preventDefault();document.getElementById('theme-toggle')?.click();}});`}
-      />
+      <ClientEnhancement kind="external-links" />
     </>
   );
 }

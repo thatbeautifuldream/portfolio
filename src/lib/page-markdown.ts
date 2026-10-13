@@ -27,7 +27,7 @@ function staticPage(path: string, site?: URL | null): string | null {
     ),
     "/privacy": page(
       `Privacy · ${siteConfig.name}`,
-      `The pages are primarily static content. When analytics are enabled, Google Analytics and Microsoft Clarity load only after a visitor interacts with the page or after the idle fallback. Those services may receive page-view, device, browser, and interaction information according to their own policies. The site does not ask visitors to create an account or submit a password.\n\nIf you email me, I receive the information you choose to include so I can reply. I use it for the conversation you initiated and do not sell personal information.`,
+      `The pages are primarily static content. When analytics are enabled, Google Analytics, Microsoft Clarity, and PostHog (when configured) load only after a visitor interacts with the page or after the idle fallback. Those services may receive page-view, device, browser, and interaction information according to their own policies. PostHog may also record sessions, with input values masked by default. The site does not ask visitors to create an account or submit a password.\n\nIf you email me, I receive the information you choose to include so I can reply. I use it for the conversation you initiated and do not sell personal information.`,
       site,
     ),
     "/work": page(

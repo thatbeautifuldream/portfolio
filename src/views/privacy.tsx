@@ -19,7 +19,7 @@ export default async function View(props: ComponentProps) {
   return (
     <>
       <Layout context={context} jsonLd={jsonLd}>
-        <main className="stagger grid gap-12">
+        <main className="grid stagger gap-12">
           <PageHeader context={context} title={t.title} meta={t.meta} />
           <section className="grid gap-4">
             <h2 className="section-title">{t.collects}</h2>
@@ -42,7 +42,7 @@ export default async function View(props: ComponentProps) {
               <code>PUBLIC_DISABLE_ANALYTICS=true</code>
               {t.choicesBody[1]}
             </p>
-            <p className="text-muted-foreground text-pretty">{t.note}</p>
+            <p className="text-pretty text-muted-foreground">{t.note}</p>
           </section>
         </main>
       </Layout>

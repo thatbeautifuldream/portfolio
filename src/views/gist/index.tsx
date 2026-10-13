@@ -1,5 +1,5 @@
 import type { ComponentProps } from "../../lib/ui";
-import ClientScript from "../../components/client-script";
+import ClientEnhancement from "../../components/client-enhancement";
 import Layout from "../../layouts/layout";
 import PageHeader from "../../components/page-header";
 import IndexList from "../../components/index-list";
@@ -27,7 +27,7 @@ export default async function View(props: ComponentProps) {
   return (
     <>
       <Layout context={context} jsonLd={jsonLd}>
-        <main className="stagger grid gap-12">
+        <main className="grid stagger gap-12">
           <PageHeader context={context} title={t.title} meta={t.description} />
           <IndexList
             context={context}
@@ -51,13 +51,7 @@ export default async function View(props: ComponentProps) {
         </main>
       </Layout>
 
-      <ClientScript
-        id="src/views/gist/index.tsx:0"
-        code={
-          '"use strict";\ndocument.querySelectorAll(\'a[href^="/gist/"]\').forEach((link) => {\n    link.addEventListener("click", () => {\n        window.posthog?.capture("gist_clicked", {\n            gist_slug: link.getAttribute("href").replace("/gist/", ""),\n            gist_title: link.dataset.gistTitle ?? null,\n        });\n    });\n});\n'
-        }
-        vars={{}}
-      />
+      <ClientEnhancement kind="gist-list" />
     </>
   );
 }

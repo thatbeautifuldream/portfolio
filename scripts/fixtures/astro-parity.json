@@ -15500,7 +15500,7 @@
         },
         {
           "tag": "p",
-          "text": "येपेजमुख्यरूपसेस्टैटिककंटेंटहैं।एनालिटिक्सचालूहोनेपरGoogleAnalyticsऔरMicrosoftClarityतभीलोडहोतेहैंजबविज़िटरपेजसेइंटरैक्टकरेयाidleफ़ॉलबैककेबाद।येसेवाएँअपनीनीतियोंकेअनुसारपेज-व्यू,डिवाइस,ब्राउज़रऔरइंटरैक्शनकीजानकारीपासकतीहैं।यहसाइटविज़िटर्ससेअकाउंटबनानेयापासवर्डदेनेकोनहींकहती।"
+          "text": "येपेजमुख्यरूपसेस्टैटिककंटेंटहैं।एनालिटिक्सचालूहोनेपरGoogleAnalytics,MicrosoftClarityऔरPostHog(कॉन्फ़िगरहोनेपर)तभीलोडहोतेहैंजबविज़िटरपेजसेइंटरैक्टकरेयाidleफ़ॉलबैककेबाद।येसेवाएँअपनीनीतियोंकेअनुसारपेज-व्यू,डिवाइस,ब्राउज़रऔरइंटरैक्शनकीजानकारीपासकतीहैं।PostHogसेशनरिकॉर्डभीकरसकताहै;इनपुटकीजानकारीडिफ़ॉल्टरूपसेछिपाईजातीहै।यहसाइटविज़िटर्ससेअकाउंटबनानेयापासवर्डदेनेकोनहींकहती।"
         },
         {
           "tag": "h2",
@@ -15521,7 +15521,7 @@
         },
         {
           "tag": "p",
-          "text": "आपपेजसेइंटरैक्टकिएबिनाब्राउज़करसकतेहैं,अपनेब्राउज़रमेंएनालिटिक्सब्लॉककरसकतेहैं,याJavaScriptबंदकरसकतेहैं।रिपॉज़िटरीसेसाइटकोएनालिटिक्सकेबिनाभीबिल्डकियाजासकताहै,इसकेलिएPUBLIC_DISABLE_ANALYTICS=trueइस्तेमालकरें।"
+          "text": "आपअपनेब्राउज़रमेंएनालिटिक्सब्लॉककरसकतेहैंयाJavaScriptबंदकरसकतेहैं।रिपॉज़िटरीसेसाइटकोसभीएनालिटिक्ससेवाओंकेबिनाभीबिल्डकियाजासकताहै,इसकेलिएPUBLIC_DISABLE_ANALYTICS=trueइस्तेमालकरें।"
         },
         {
           "tag": "p",
@@ -18225,7 +18225,7 @@
         },
         {
           "tag": "p",
-          "text": "Thepagesareprimarilystaticcontent.Whenanalyticsareenabled,GoogleAnalyticsandMicrosoftClarityloadonlyafteravisitorinteractswiththepageoraftertheidlefallback.Thoseservicesmayreceivepage-view,device,browser,andinteractioninformationaccordingtotheirownpolicies.Thesitedoesnotaskvisitorstocreateanaccountorsubmitapassword."
+          "text": "Thepagesareprimarilystaticcontent.Whenanalyticsareenabled,GoogleAnalytics,MicrosoftClarity,andPostHog(whenconfigured)loadonlyafteravisitorinteractswiththepageoraftertheidlefallback.Thoseservicesmayreceivepage-view,device,browser,andinteractioninformationaccordingtotheirownpolicies.PostHogmayalsorecordsessions,withinputvaluesmaskedbydefault.Thesitedoesnotaskvisitorstocreateanaccountorsubmitapassword."
         },
         {
           "tag": "h2",
@@ -18246,7 +18246,7 @@
         },
         {
           "tag": "p",
-          "text": "Youcanbrowsewithoutinteractingwiththepage,blockanalyticsinyourbrowser,ordisableJavaScript.TherepositorycanalsobuildthesitewithanalyticsdisabledusingPUBLIC_DISABLE_ANALYTICS=true."
+          "text": "YoucanblockanalyticsinyourbrowserordisableJavaScript.TherepositorycanalsobuildthesitewitheveryanalyticsproviderdisabledusingPUBLIC_DISABLE_ANALYTICS=true."
         },
         {
           "tag": "p",
@@ -20683,7 +20683,7 @@
     "og/the-part-a-person-actually-feels.png": "4520c9ae45e330baebae137e77776bc2845784db1f248c8a2cf2a9dccdf49090",
     "og/you-dont-know-you-can-do-it.png": "d261bb8ef143d3164c1bb7d5fc0876f1b855b97995e964389ff5acf31a104f5c",
     "og.png": "26fd13061caee69eb45bda7910153d9226dce0b01c4932c2ac5d123132825102",
-    "privacy.md": "5a0341b7af5a44a22657e6d2932273bdb8eb1d8e547913975621a4fcfa652aad",
+    "privacy.md": "23c12f940f945eb54056f485d072d3e9eb4024f601e741e4af70b1d9d8ab72fc",
     "project/json-visualiser.md": "8f338fc337bbd9b348eba727374538c077c108a67b1a8e7f7bd7d2a1eb9756ab",
     "project/markdown-visualizer.md": "3db64828eece394454f72f89d8e53c0c9147709aa25800c179ff057756b9a8b1",
     "project.md": "471d32a2192e6bc3434ec1b675fa0ca5bc66fa5deda946ecb22a5206ba780750",

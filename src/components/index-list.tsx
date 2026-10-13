@@ -31,15 +31,15 @@ export default async function View(props: ComponentProps & Props) {
     <>
       <section className={classes(["min-w-0", className])}>
         <h2 className="section-title">{title}</h2>
-        <ul role="list" className="index-list divide-border divide-y">
+        <ul role="list" className="divide-y divide-border index-list">
           {groups.map((group, index) => (
             <li key={group.label ?? index}>
               {grouped && group.label && (
-                <p className="text-faint pt-6 pb-1 tabular-nums">
+                <p className="pt-6 pb-1 text-faint tabular-nums">
                   {group.label}
                 </p>
               )}
-              <ul role="list" className="divide-border divide-y">
+              <ul role="list" className="divide-y divide-border">
                 {group.items.map((item) => (
                   <li key={`${item.href}:${item.title}`}>
                     <SiteLink
@@ -56,12 +56,12 @@ export default async function View(props: ComponentProps & Props) {
                         {item.external && (
                           <Icon
                             name="ri:arrow-right-up-line"
-                            className="text-faint size-4 shrink-0 transition-transform group-hover:translate-x-0.5 sm:size-3.5"
+                            className="size-4 shrink-0 text-faint transition-transform group-hover:translate-x-0.5 sm:size-3.5"
                           />
                         )}
                       </span>
                       {item.meta && (
-                        <span className="text-faint max-w-1/2 shrink-0 truncate tabular-nums">
+                        <span className="max-w-1/2 shrink-0 truncate text-faint tabular-nums">
                           {item.meta}
                         </span>
                       )}

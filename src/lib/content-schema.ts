@@ -38,3 +38,29 @@ export const contentSchemas = {
   uses: use,
   hiUses: use,
 };
+
+export type CollectionName = keyof typeof contentSchemas;
+export interface CoverImage {
+  src: string;
+  width: number;
+  height: number;
+}
+type ProcessedData<Data> = Omit<Data, "coverImage"> &
+  ("coverImage" extends keyof Data ? { coverImage?: CoverImage } : unknown);
+export type CollectionData = {
+  [Name in CollectionName]: ProcessedData<
+    z.output<(typeof contentSchemas)[Name]>
+  >;
+};
+export type CollectionEntry<Name extends CollectionName = CollectionName> = {
+  [Key in Name]: {
+    id: string;
+    collection: Key;
+    data: CollectionData[Key];
+    body: string;
+    html: string;
+  };
+}[Name];
+export type ContentManifest = {
+  [Name in CollectionName]: CollectionEntry<Name>[];
+};

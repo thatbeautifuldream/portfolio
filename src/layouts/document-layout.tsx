@@ -27,7 +27,7 @@ export default function DocumentLayout({
         />
         <link rel="sitemap" href="/sitemap-index.xml" />
       </head>
-      <body className="bg-background text-foreground min-h-svh">
+      <body className="min-h-svh bg-background text-foreground">
         <PwaRegistration />
         <ThemeTransition>{children}</ThemeTransition>
       </body>

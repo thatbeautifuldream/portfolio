@@ -79,7 +79,7 @@ export default function ThemeTransition({ children }: { children: ReactNode }) {
       update={{ "theme-toggle": "theme-wipe", default: "none" }}
     >
       <div
-        className="bg-background text-foreground min-h-svh"
+        className="min-h-svh bg-background text-foreground"
         data-theme={theme ?? undefined}
       >
         {children}

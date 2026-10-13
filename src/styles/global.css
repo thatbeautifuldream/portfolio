@@ -478,7 +478,7 @@ html::view-transition-new(root) {
   }
 
   body {
-    @apply bg-background text-foreground text-base/6 antialiased sm:text-sm/5;
+    @apply bg-background text-base/6 text-foreground antialiased sm:text-sm/5;
     font-weight: 460;
     letter-spacing: -0.00563rem;
   }
@@ -495,7 +495,7 @@ html::view-transition-new(root) {
   }
 
   a {
-    @apply decoration-underline hover:decoration-muted-foreground text-current underline decoration-1 underline-offset-[3px];
+    @apply text-current underline decoration-underline decoration-1 underline-offset-[3px] hover:decoration-muted-foreground;
   }
 }
 

@@ -38,7 +38,7 @@ export default async function View(props: ComponentProps & Props) {
   return (
     <>
       <div className="grid gap-4">
-        <p className="text-muted-foreground text-base/7 sm:text-sm/6">
+        <p className="text-base/7 text-muted-foreground sm:text-sm/6">
           {copy.greeting}
         </p>
         <div className="about-heading-flow">

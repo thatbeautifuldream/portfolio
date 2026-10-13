@@ -59,7 +59,7 @@ export default async function View(props: ComponentProps) {
   return (
     <>
       <Layout context={context} jsonLd={jsonLd}>
-        <main className="stagger grid gap-12">
+        <main className="grid stagger gap-12">
           <article className="grid min-w-0 gap-8" data-animated-about>
             <header className="grid gap-4">
               <p className="text-faint">

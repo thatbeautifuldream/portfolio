@@ -1,5 +1,5 @@
 import type { ComponentProps } from "../../lib/ui";
-import ClientScript from "../../components/client-script";
+import ClientEnhancement from "../../components/client-enhancement";
 import Layout from "../../layouts/layout";
 import PageHeader from "../../components/page-header";
 import IndexList from "../../components/index-list";
@@ -24,7 +24,7 @@ export default async function View(props: ComponentProps) {
   return (
     <>
       <Layout context={context} jsonLd={jsonLd}>
-        <main className="stagger grid gap-12">
+        <main className="grid stagger gap-12">
           <PageHeader context={context} title={t.heading} meta={t.meta} />
           <IndexList
             context={context}
@@ -43,13 +43,7 @@ export default async function View(props: ComponentProps) {
         </main>
       </Layout>
 
-      <ClientScript
-        id="src/views/blog/index.tsx:0"
-        code={
-          '"use strict";\ndocument.querySelectorAll(\'a[href^="/blog/"]\').forEach((link) => {\n    link.addEventListener("click", () => {\n        window.posthog?.capture("blog_post_clicked", {\n            post_slug: link.getAttribute("href").replace("/blog/", ""),\n            post_title: link.dataset.postTitle ?? null,\n        });\n    });\n});\n'
-        }
-        vars={{}}
-      />
+      <ClientEnhancement kind="blog-list" />
     </>
   );
 }

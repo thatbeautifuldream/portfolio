@@ -1,6 +1,6 @@
 import SiteLink from "./site-link";
 import type { ComponentProps } from "../lib/ui";
-import ClientScript from "./client-script";
+import ClientEnhancement from "./client-enhancement";
 import { execSync } from "node:child_process";
 import { Icon } from "../lib/ui";
 import { siteLinks } from "../data/portfolio";
@@ -55,8 +55,8 @@ export default async function View(props: ComponentProps) {
   return (
     <>
       <footer className="grid gap-9 pb-20">
-        <div aria-hidden="true" className="bg-rule h-px w-12.5"></div>
-        <div className="text-faint grid gap-3">
+        <div aria-hidden="true" className="h-px w-12.5 bg-rule"></div>
+        <div className="grid gap-3 text-faint">
           <Tooltip
             context={context}
             className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2"
@@ -76,7 +76,7 @@ export default async function View(props: ComponentProps) {
                 shortHash ? t.footer.latestCommit(shortHash) : undefined
               }
               data-tip={commitMessage || undefined}
-              className="hover:text-foreground flex items-center gap-1.5 font-normal tabular-nums no-underline"
+              className="flex items-center gap-1.5 font-normal tabular-nums no-underline hover:text-foreground"
             >
               <Icon
                 name="ri:git-commit-line"
@@ -99,7 +99,7 @@ export default async function View(props: ComponentProps) {
                     data-footer-social={label}
                     aria-label={label}
                     data-tip={label}
-                    className="hover:text-foreground flex font-normal no-underline"
+                    className="flex font-normal no-underline hover:text-foreground"
                   >
                     <Icon name={icon} className="size-5 shrink-0 sm:size-4" />
                   </SiteLink>
@@ -113,7 +113,7 @@ export default async function View(props: ComponentProps) {
                 lang={otherLocale}
                 aria-label={t.footer.switchLanguage}
                 data-tip={t.footer.switchLanguage}
-                className="hover:text-foreground flex font-normal no-underline"
+                className="flex font-normal no-underline hover:text-foreground"
               >
                 <Icon
                   name="ri:translate-2"
@@ -124,7 +124,7 @@ export default async function View(props: ComponentProps) {
                 type="button"
                 id="theme-toggle"
                 data-tip={t.footer.toggleTheme}
-                className="hover:text-foreground flex cursor-pointer"
+                className="flex cursor-pointer hover:text-foreground"
               >
                 <Icon
                   name="ri:moon-line"
@@ -144,13 +144,7 @@ export default async function View(props: ComponentProps) {
         </div>
       </footer>
 
-      <ClientScript
-        id="src/components/footer.tsx:0"
-        code={
-          '"use strict";\ndocument.querySelectorAll("footer [data-footer-social]").forEach((link) => {\n    link.addEventListener("click", () => {\n        window.posthog?.capture("footer_social_clicked", {\n            platform: link.dataset.footerSocial,\n        });\n    });\n});\n(() => {\n    const el = document.querySelector("[data-local-time]");\n    if (!el)\n        return;\n    const format = new Intl.DateTimeFormat("en-US", {\n        hour: "numeric",\n        minute: "2-digit",\n        timeZone: "Asia/Kolkata",\n    });\n    const tick = () => {\n        el.textContent = `${format.format(new Date()).replace(" ", "").toLowerCase()}${el.dataset.separator}`;\n    };\n    tick();\n    setInterval(tick, 30_000);\n})();\n'
-        }
-        vars={{}}
-      />
+      <ClientEnhancement kind="footer" />
     </>
   );
 }

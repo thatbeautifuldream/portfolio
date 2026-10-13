@@ -8,7 +8,7 @@ export default async function View(props: ComponentProps) {
   return (
     <>
       <Layout context={context}>
-        <main className="stagger grid gap-12">
+        <main className="grid stagger gap-12">
           <article className="grid gap-4">
             <PageHeader
               context={context}

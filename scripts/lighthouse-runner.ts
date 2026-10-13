@@ -1,9 +1,8 @@
 // Composable Lighthouse runner. Knows nothing about how the URL is served —
 // give it a URL and it audits it. `withChrome` manages a shared Chrome so many
 // audits reuse one browser; `runMedian` stabilises scores across noisy runs.
-import lighthouse from "lighthouse";
-import desktopConfig from "lighthouse/core/config/desktop-config.js";
-import { computeMedianRun } from "lighthouse/core/lib/median-run.js";
+import lighthouse, { desktopConfig } from "lighthouse";
+import { computeMedianRun } from "./lighthouse-median.ts";
 import * as chromeLauncher from "chrome-launcher";
 import type * as LH from "lighthouse/types/lh.js";
 
@@ -24,7 +23,7 @@ export interface RunOptions {
 
 export interface ChromeHandle {
   port: number;
-  kill: () => void;
+  kill: () => void | Promise<void>;
 }
 
 /** Launch headless Chrome and guarantee it is killed when `fn` settles. */
@@ -40,7 +39,7 @@ export async function withChrome<T>(
   try {
     return await fn(handle);
   } finally {
-    chrome.kill();
+    await chrome.kill();
   }
 }
 
@@ -68,9 +67,11 @@ export async function runMedian(
   formFactor: FormFactor,
   opts: RunOptions & { runs?: number },
 ): Promise<LH.Result> {
-  const runs = Math.max(1, opts.runs ?? 3);
+  const runs = opts.runs ?? 3;
+  if (!Number.isInteger(runs) || runs < 1)
+    throw new Error("Runs must be a positive integer");
   const results: LH.Result[] = [];
-  for (let i = 0; i < runs; i++)
+  for (let index = 0; index < runs; index++)
     results.push(await runOnce(url, formFactor, opts));
   return runs > 1 ? computeMedianRun(results) : results[0]!;
 }

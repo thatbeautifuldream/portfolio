@@ -77,17 +77,17 @@ export default async function View(props: ComponentProps) {
   return (
     <>
       <Layout context={context} jsonLd={jsonLd}>
-        <main className="stagger grid gap-12">
+        <main className="grid stagger gap-12">
           <article className="grid gap-4">
             <PageHeader context={context} title={t.title} meta={t.meta} />
             <p className="text-pretty">{t.body}</p>
           </article>
           <section className="grid min-w-0 gap-4">
             <h2 className="section-title">{t.machine}</h2>
-            <div className="bg-muted border-rule flex gap-8 overflow-x-auto rounded-lg border p-4 font-mono text-sm/5 sm:text-[0.8125rem]/5">
+            <div className="flex gap-8 overflow-x-auto rounded-lg border border-rule bg-muted p-4 font-mono text-sm/5 sm:text-[0.8125rem]/5">
               <pre
                 aria-hidden="true"
-                className="text-faint shrink-0 max-sm:hidden"
+                className="shrink-0 text-faint max-sm:hidden"
               >
                 {logo}
               </pre>

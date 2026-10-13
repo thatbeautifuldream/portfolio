@@ -1,4 +1,6 @@
 import type { NextConfig } from "next";
+import { sitePages } from "./seo";
+import { defaultLocale } from "../i18n";
 const securityPolicy =
   "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; frame-src 'self' https://jsonvisualiser.com https://markdownvisualizer.com; img-src 'self' data: https:; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.clarity.ms https://static.cloudflareinsights.com https://us.i.posthog.com https://us-assets.i.posthog.com; worker-src 'self' blob:; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.clarity.ms https://c.bing.com https://cloudflareinsights.com https://us.i.posthog.com https://us-assets.i.posthog.com";
 export const headers: NonNullable<NextConfig["headers"]> = async () => [
@@ -49,6 +51,11 @@ export const headers: NonNullable<NextConfig["headers"]> = async () => [
 ];
 export const redirects: NonNullable<NextConfig["redirects"]> = async () => [
   {
+    source: `/${defaultLocale}/:path*`,
+    destination: "/:path*/",
+    permanent: true,
+  },
+  {
     source: "/whatsapp",
     destination: "https://wa.me/919631333128",
     permanent: true,
@@ -87,6 +94,14 @@ export const rewrites: NonNullable<NextConfig["rewrites"]> = async () => ({
       source: "/:path((?!api(?:/|$)|_next/|.*\\.[^/]+$)[^/]+(?:/[^/]+)*)",
       has: [{ type: "header", key: "accept", value: "text/markdown.*" }],
       destination: "/:path.md",
+    },
+    ...sitePages.map(({ path }) => ({
+      source: path,
+      destination: `/${defaultLocale}${path === "/" ? "" : path}`,
+    })),
+    {
+      source: "/:section(blog|gist|project|uses)/:slug([^/.]+)",
+      destination: `/${defaultLocale}/:section/:slug`,
     },
   ],
   afterFiles: [

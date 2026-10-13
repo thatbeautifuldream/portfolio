@@ -24,7 +24,7 @@ export default async function View(props: ComponentProps) {
   return (
     <>
       <Layout context={context} jsonLd={jsonLd}>
-        <main className="stagger grid gap-12">
+        <main className="grid stagger gap-12">
           <PageHeader context={context} title={t.title} meta={t.description} />
           <IndexList
             context={context}

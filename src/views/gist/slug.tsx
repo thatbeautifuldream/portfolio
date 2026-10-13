@@ -1,6 +1,7 @@
 import Content from "../../components/content";
 import SiteLink from "../../components/site-link";
 import type { ComponentProps } from "../../lib/ui";
+import type { CollectionEntry } from "../../lib/content";
 import Layout from "../../layouts/layout";
 import CodeCopy from "../../components/code-copy";
 import PageHeader from "../../components/page-header";
@@ -8,7 +9,7 @@ import { buildPersonRef } from "../../lib/seo";
 import { getLocale, locales, useTranslations } from "../../i18n";
 export default async function View(props: ComponentProps) {
   const context = props.context;
-  const { gist } = props;
+  const gist: CollectionEntry<"gists" | "hiGists"> = props.gist;
   const locale = getLocale(context.locale);
   const t = useTranslations(locale).gist;
   const date = gist.data.datePublished ?? gist.data.date ?? new Date(0);
@@ -33,7 +34,7 @@ export default async function View(props: ComponentProps) {
     <>
       <Layout context={context} jsonLd={jsonLd}>
         <main>
-          <article className="stagger grid min-w-0 gap-8">
+          <article className="grid min-w-0 stagger gap-8">
             <PageHeader
               context={context}
               title={gist.data.title}
@@ -41,7 +42,7 @@ export default async function View(props: ComponentProps) {
             />
             <div className="grid gap-4">
               {gist.data.description && (
-                <p className="text-muted-foreground text-pretty">
+                <p className="text-pretty text-muted-foreground">
                   {gist.data.description}
                 </p>
               )}

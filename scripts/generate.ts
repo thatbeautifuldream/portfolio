@@ -44,16 +44,18 @@ for (const file of contentFiles) {
 await optimizeContentImages(contentFiles);
 const content = Object.fromEntries(
   await Promise.all(
-    [
-      "posts",
-      "hiPosts",
-      "gists",
-      "hiGists",
-      "projects",
-      "hiProjects",
-      "uses",
-      "hiUses",
-    ].map(async (name) => [name, await buildCollection(name)]),
+    (
+      [
+        "posts",
+        "hiPosts",
+        "gists",
+        "hiGists",
+        "projects",
+        "hiProjects",
+        "uses",
+        "hiUses",
+      ] as const
+    ).map(async (name) => [name, await buildCollection(name)]),
   ),
 );
 await fs.mkdir(".generated", { recursive: true });
@@ -112,7 +114,7 @@ for (const [prefix, name] of [
   ["gist", "gists"],
   ["project", "projects"],
   ["uses", "uses"],
-])
+] as const)
   for (const entry of await getCollection(name!))
     routes.push(`/${prefix}/${entry.id}`);
 const urls = routes.flatMap((p) =>

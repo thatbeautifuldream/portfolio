@@ -127,7 +127,7 @@ const en = {
     meta: "A small site with a clear data boundary.",
     collects: "What this site collects",
     collectsBody:
-      "The pages are primarily static content. When analytics are enabled, Google Analytics and Microsoft Clarity load only after a visitor interacts with the page or after the idle fallback. Those services may receive page-view, device, browser, and interaction information according to their own policies. The site does not ask visitors to create an account or submit a password.",
+      "The pages are primarily static content. When analytics are enabled, Google Analytics, Microsoft Clarity, and PostHog (when configured) load only after a visitor interacts with the page or after the idle fallback. Those services may receive page-view, device, browser, and interaction information according to their own policies. PostHog may also record sessions, with input values masked by default. The site does not ask visitors to create an account or submit a password.",
     contactInfo: "Contact information",
     contactInfoBody: [
       "If you email me, I receive the information you choose to include so I can reply. I use it for the conversation you initiated and do not sell personal information. For contact details, use the ",
@@ -136,7 +136,7 @@ const en = {
     contactPage: "contact page",
     choices: "Your choices",
     choicesBody: [
-      "You can browse without interacting with the page, block analytics in your browser, or disable JavaScript. The repository can also build the site with analytics disabled using ",
+      "You can block analytics in your browser or disable JavaScript. The repository can also build the site with every analytics provider disabled using ",
       ".",
     ],
     note: "This page describes the behavior of this personal site as currently implemented and will be updated if that behavior changes.",

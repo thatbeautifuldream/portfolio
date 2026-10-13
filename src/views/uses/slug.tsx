@@ -1,6 +1,7 @@
 import Content from "../../components/content";
 import SiteLink from "../../components/site-link";
 import type { ComponentProps } from "../../lib/ui";
+import type { CollectionEntry } from "../../lib/content";
 import { Image } from "../../lib/ui";
 import Layout from "../../layouts/layout";
 import PageHeader from "../../components/page-header";
@@ -9,7 +10,7 @@ import { buildPersonRef } from "../../lib/seo";
 import { getLocale, useTranslations } from "../../i18n";
 export default async function View(props: ComponentProps) {
   const context = props.context;
-  const { item } = props;
+  const item: CollectionEntry<"uses" | "hiUses"> = props.item;
   const locale = getLocale(context.locale);
   const t = useTranslations(locale).uses;
   const jsonLd = {
@@ -25,14 +26,14 @@ export default async function View(props: ComponentProps) {
     <>
       <Layout context={context} jsonLd={jsonLd}>
         <main>
-          <article className="stagger grid min-w-0 gap-8">
+          <article className="grid min-w-0 stagger gap-8">
             <PageHeader
               context={context}
               title={item.data.title}
               meta={t.categories[item.data.category] ?? item.data.category}
             />
             <div className="grid gap-4">
-              <p className="text-muted-foreground text-pretty">
+              <p className="text-pretty text-muted-foreground">
                 {item.data.description}
               </p>
               {item.data.url && (

@@ -118,6 +118,27 @@ test("all Astro page routes retain their content and SEO", async () => {
           if (key === "content")
             return value.map((item: any) => ({
               ...item,
+              text:
+                (file === "index.html" || file === "hi/index.html") &&
+                item.tag === "p"
+                  ? item.text
+                      .replace(
+                        /^Updated[A-Z][a-z]{2}\d{1,2},\d{4}$/,
+                        "Updated<build-date>",
+                      )
+                      .replace(
+                        /^अपडेट:\d{1,2}[^\d]+\d{4}$/,
+                        "अपडेट:<build-date>",
+                      )
+                      .replace(
+                        /^[\d,]+(?=contributionsinthelastyear)/,
+                        "<contributions>",
+                      )
+                      .replace(
+                        /(?<=पिछलेएकसालमें)[\d,]+(?=कॉन्ट्रिब्यूशन)/,
+                        "<contributions>",
+                      )
+                  : item.text,
               href:
                 typeof item.href === "string" && item.href.startsWith("/")
                   ? item.href.replace(/\/(?=[?#]|$)/, "")

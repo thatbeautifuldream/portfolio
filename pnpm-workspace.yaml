@@ -1,0 +1,7 @@
+allowBuilds:
+  core-js: false
+  esbuild: true
+  sharp: true
+overrides:
+  source-map-js@<1.2.2: ^1.2.2
+  fflate@>=0.7.0 <0.7.5: ^0.7.5

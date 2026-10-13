@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import {
   isTranslated,
   locales,
@@ -9,6 +9,19 @@ import {
 } from "../i18n";
 import { absoluteUrl, defaultKeywords, siteConfig } from "./seo";
 import { contentEntry, pageContext, type ContentSection } from "./page";
+
+export const documentMetadata: Metadata = {
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48 32x32 16x16" },
+      { url: "/favicon-96.png", type: "image/png", sizes: "96x96" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/manifest.webmanifest",
+};
+
+export const documentViewport: Viewport = { themeColor: siteConfig.themeColor };
 
 export async function pageMetadata(
   path: string,

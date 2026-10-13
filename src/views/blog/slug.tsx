@@ -1,6 +1,7 @@
 import Content from "../../components/content";
 import type { ComponentProps } from "../../lib/ui";
-import ClientScript from "../../components/client-script";
+import type { CollectionEntry } from "../../lib/content";
+import ClientEnhancement from "../../components/client-enhancement";
 import { Image } from "../../lib/ui";
 import { Icon } from "../../lib/ui";
 import Layout from "../../layouts/layout";
@@ -10,7 +11,7 @@ import { buildPersonRef } from "../../lib/seo";
 import { getLocale, locales, useTranslations } from "../../i18n";
 export default async function View(props: ComponentProps) {
   const context = props.context;
-  const { post } = props;
+  const post: CollectionEntry<"posts" | "hiPosts"> = props.post;
   const locale = getLocale(context.locale);
   const t = useTranslations(locale).blog;
   function formatDate(date: Date): string {
@@ -33,7 +34,7 @@ export default async function View(props: ComponentProps) {
     <>
       <Layout context={context} jsonLd={jsonLd}>
         <main>
-          <article className="stagger grid min-w-0 gap-8">
+          <article className="grid min-w-0 stagger gap-8">
             <PageHeader
               context={context}
               title={post.data.title}
@@ -42,7 +43,7 @@ export default async function View(props: ComponentProps) {
               <button
                 type="button"
                 data-share
-                className="text-faint hover:text-foreground relative inline-flex w-fit cursor-pointer items-center gap-1.5"
+                className="relative inline-flex w-fit cursor-pointer items-center gap-1.5 text-faint hover:text-foreground"
               >
                 <Icon
                   name="ri:share-forward-line"
@@ -68,11 +69,8 @@ export default async function View(props: ComponentProps) {
         <CodeCopy context={context} />
       </Layout>
 
-      <ClientScript
-        id="src/views/blog/slug.tsx:0"
-        code={
-          '"use strict";\nconst milestones = [25, 50, 75, 100];\nconst fired = new Set();\nfunction onScroll() {\n    const doc = document.documentElement;\n    const scrollable = doc.scrollHeight - innerHeight;\n    const percent = scrollable <= 0 ? 100 : (scrollY / scrollable) * 100;\n    for (const m of milestones) {\n        if (percent >= m && !fired.has(m)) {\n            fired.add(m);\n            window.posthog?.capture("blog_read_depth", {\n                post_slug: slug,\n                post_title: title,\n                depth: m,\n            });\n        }\n    }\n    if (fired.size === milestones.length) {\n        removeEventListener("scroll", onScroll);\n    }\n}\naddEventListener("scroll", onScroll, { passive: true });\nonScroll();\n// Fetch the story image up front: Safari only opens the share sheet if\n// navigator.share runs right after the tap, without awaiting a download.\nlet story;\nif (navigator.canShare) {\n    fetch(`${sharePrefix}/${slug}.png`)\n        .then((res) => res.blob())\n        .then((blob) => {\n        story = new File([blob], `${slug}.png`, { type: "image/png" });\n    })\n        .catch(() => { });\n}\nconst button = document.querySelector("[data-share]");\nconst label = button.querySelector("[data-share-label]");\nbutton.addEventListener("click", async () => {\n    const url = location.origin + location.pathname;\n    const files = story ? [story] : [];\n    try {\n        if (files.length && navigator.canShare?.({ files })) {\n            await navigator.share({ files, title, text: `${title} ${url}` });\n            window.posthog?.capture("blog_shared", {\n                post_slug: slug,\n                method: "story",\n            });\n        }\n        else if (navigator.share) {\n            await navigator.share({ title, url });\n            window.posthog?.capture("blog_shared", {\n                post_slug: slug,\n                method: "link",\n            });\n        }\n        else {\n            await navigator.clipboard.writeText(url);\n            window.posthog?.capture("blog_shared", {\n                post_slug: slug,\n                method: "copy",\n            });\n            label.textContent = copiedLabel;\n            setTimeout(() => (label.textContent = shareLabel), 2000);\n        }\n    }\n    catch { }\n});\n'
-        }
+      <ClientEnhancement
+        kind="blog-article"
         vars={{
           slug: post.id,
           title: post.data.title,

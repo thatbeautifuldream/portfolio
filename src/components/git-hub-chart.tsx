@@ -1,6 +1,6 @@
 import SiteLink from "./site-link";
 import type { ComponentProps } from "../lib/ui";
-import ClientScript from "./client-script";
+import ClientEnhancement from "./client-enhancement";
 import { siteLinks } from "../data/portfolio";
 import Tooltip from "./tooltip";
 import { getLocale, locales, useTranslations } from "../i18n";
@@ -116,7 +116,7 @@ export default async function View(props: ComponentProps) {
               </div>
             </Tooltip>
           </div>
-          <p className="text-faint flex items-baseline justify-between gap-4">
+          <p className="flex items-baseline justify-between gap-4 text-faint">
             <span className="tabular-nums">
               {t.total(total.toLocaleString(dateLocale))}
             </span>
@@ -127,7 +127,7 @@ export default async function View(props: ComponentProps) {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-foreground no-underline"
+                  className="no-underline hover:text-foreground"
                 >
                   @{href.split("/").pop()}
                 </SiteLink>
@@ -137,13 +137,7 @@ export default async function View(props: ComponentProps) {
         </section>
       )}
 
-      <ClientScript
-        id="src/components/git-hub-chart.tsx:0"
-        code={
-          '"use strict";\ndocument.querySelectorAll(".gh-chart").forEach((chart) => {\n    const svg = chart.querySelector("svg");\n    chart.classList.add("is-pending");\n    new IntersectionObserver(([entry], observer) => {\n        if (!entry.isIntersecting)\n            return;\n        chart.classList.replace("is-pending", "is-in");\n        observer.disconnect();\n    }).observe(svg);\n});\n'
-        }
-        vars={{}}
-      />
+      <ClientEnhancement kind="github-chart" />
     </>
   );
 }
