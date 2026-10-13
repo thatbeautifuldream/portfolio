@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 import { headers, redirects, rewrites } from "./src/lib/routing";
 const config: NextConfig = {
   agentRules: false,
+  devIndicators: false,
   experimental: { globalNotFound: true },
   trailingSlash: true,
   reactStrictMode: true,

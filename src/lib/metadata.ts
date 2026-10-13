@@ -7,7 +7,14 @@ import {
   useTranslations,
   type Locale,
 } from "../i18n";
-import { absoluteUrl, defaultKeywords, siteConfig } from "./seo";
+import {
+  absoluteUrl,
+  defaultKeywords,
+  siteConfig,
+  studioCopy,
+  studioPath,
+  studioImagePath,
+} from "./seo";
 import { contentEntry, pageContext, type ContentSection } from "./page";
 
 export const documentMetadata: Metadata = {
@@ -22,6 +29,63 @@ export const documentMetadata: Metadata = {
 };
 
 export const documentViewport: Viewport = { themeColor: siteConfig.themeColor };
+
+export function studioMetadata(locale: Locale): Metadata {
+  const copy = studioCopy[locale];
+  const title = `${siteConfig.shortName} · ${copy.title}`;
+  const url = new URL(studioPath(locale), siteConfig.url).href;
+  const image = {
+    url: studioImagePath(locale),
+    width: 1200,
+    height: 630,
+    alt: title,
+  };
+  return {
+    metadataBase: new URL(siteConfig.url),
+    title,
+    description: copy.description,
+    keywords: [
+      ...defaultKeywords,
+      "Studio",
+      "UI components",
+      "Open Graph",
+      "design system",
+    ],
+    authors: [{ name: siteConfig.name, url: siteConfig.url }],
+    creator: siteConfig.name,
+    applicationName: siteConfig.name,
+    robots: {
+      index: false,
+      follow: false,
+      googleBot: { index: false, follow: false },
+    },
+    alternates: {
+      canonical: url,
+      languages: {
+        en: new URL(studioPath("en"), siteConfig.url).href,
+        hi: new URL(studioPath("hi"), siteConfig.url).href,
+        "x-default": new URL(studioPath("en"), siteConfig.url).href,
+      },
+    },
+    openGraph: {
+      type: "website",
+      siteName: siteConfig.name,
+      title,
+      description: copy.description,
+      url,
+      locale: locales[locale].ogLocale,
+      alternateLocale: [locales[locale === "en" ? "hi" : "en"].ogLocale],
+      images: [image],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: copy.description,
+      creator: siteConfig.twitter,
+      images: [image],
+    },
+  };
+}
 
 export async function pageMetadata(
   path: string,

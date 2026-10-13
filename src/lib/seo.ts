@@ -1,3 +1,5 @@
+import type { Locale } from "../i18n";
+
 export type SitePage = {
   path: string;
   changefreq: "weekly" | "monthly";
@@ -54,6 +56,41 @@ export const siteConfig = {
     },
   ],
 } as const;
+
+export const studioCopy = {
+  en: {
+    title: "Studio",
+    description:
+      "Explore Milind Mishra's real interface components, localized variants, Open Graph cards, and story images on an interactive canvas.",
+  },
+  hi: {
+    title: "स्टूडियो",
+    description:
+      "मिलिंद मिश्रा के इंटरफ़ेस कंपोनेंट, स्थानीयकृत रूप, ओपन ग्राफ़ कार्ड और स्टोरी चित्र एक इंटरैक्टिव कैनवास पर देखें।",
+  },
+} as const;
+
+export function studioPath(locale: Locale) {
+  return locale === "hi" ? "/hi/studio/" : "/studio/";
+}
+
+export function studioImagePath(locale: Locale) {
+  return `${studioPath(locale)}og.png`;
+}
+
+export function buildStudioSchema(locale: Locale) {
+  const copy = studioCopy[locale];
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: `${siteConfig.shortName} · ${copy.title}`,
+    description: copy.description,
+    url: new URL(studioPath(locale), siteConfig.url).href,
+    inLanguage: locale,
+    author: buildPersonRef(),
+    isPartOf: { "@id": `${siteConfig.url}/#website` },
+  };
+}
 
 export const sitePages = [
   { path: "/", changefreq: "weekly", priority: 1.0 },

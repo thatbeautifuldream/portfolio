@@ -48,6 +48,21 @@ export const headers: NonNullable<NextConfig["headers"]> = async () => [
       { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
     ],
   },
+  ...(process.env.NODE_ENV === "development"
+    ? ["/studio/preview", "/:locale(en|hi)/studio/preview"].map((source) => ({
+        source,
+        headers: [
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          {
+            key: "Content-Security-Policy",
+            value: securityPolicy
+              .replace("frame-ancestors 'none'", "frame-ancestors 'self'")
+              .replace("script-src 'self'", "script-src 'self' 'unsafe-eval'")
+              .replace("connect-src 'self'", "connect-src 'self' ws: wss:"),
+          },
+        ],
+      }))
+    : []),
 ];
 export const redirects: NonNullable<NextConfig["redirects"]> = async () => [
   {
@@ -75,6 +90,16 @@ export const redirects: NonNullable<NextConfig["redirects"]> = async () => [
 ];
 export const rewrites: NonNullable<NextConfig["rewrites"]> = async () => ({
   beforeFiles: [
+    ...(process.env.NODE_ENV === "development"
+      ? [
+          { source: "/studio", destination: "/en/studio" },
+          { source: "/studio/og.png", destination: "/en/studio/og.png" },
+          {
+            source: "/studio/preview",
+            destination: "/en/studio/preview",
+          },
+        ]
+      : []),
     {
       source: "/",
       has: [{ type: "header", key: "accept", value: "text/markdown.*" }],

@@ -1,0 +1,259 @@
+import assert from "node:assert/strict";
+import { readFileSync, readdirSync } from "node:fs";
+import test from "node:test";
+import { headers, rewrites } from "../src/lib/routing";
+import { studioMetadata } from "../src/lib/metadata";
+import { buildStudioSchema, siteConfig, sitePages } from "../src/lib/seo";
+import { getOGPages, getStoryPages } from "../src/lib/og-data";
+import { getStudioImages, imageGroups } from "../src/views/studio/images";
+import {
+  constrain,
+  defaultCamera,
+  fitCamera,
+  loadCamera,
+  legacyStorageKey,
+  storageKey,
+  saveCamera,
+  readCamera,
+  zoomAt,
+} from "../src/views/studio/camera";
+import { inventory, primitiveInventory } from "../src/views/studio/inventory";
+
+test("canvas accounts for every component and renders each listed variant", () => {
+  const files = readdirSync("src/components")
+    .filter((file) => file.endsWith(".tsx"))
+    .map((file) => file.replace(/\.tsx$/, ""));
+  assert.deepEqual(inventory.map((item) => item.file).sort(), files.sort());
+  const samples =
+    readFileSync("src/views/studio/samples.tsx", "utf8") +
+    readFileSync("src/views/studio/preview-samples.tsx", "utf8");
+  for (const item of [...inventory, ...primitiveInventory]) {
+    if ("omitted" in item) {
+      assert.ok(item.omitted);
+      continue;
+    }
+    assert.ok(samples.includes(`id="${item.group}"`), item.group);
+    for (const variant of item.variants)
+      assert.ok(samples.includes(`"${variant}"`), variant);
+  }
+});
+
+test("Studio gallery includes every OG and story resource without duplicates", async () => {
+  const expected = [
+    siteConfig.defaultImage,
+    "/studio/og.png",
+    "/hi/studio/og.png",
+    ...Object.keys(await getOGPages()).map((route) => `/og/${route}`),
+  ];
+  for (const locale of ["en", "hi"] as const) {
+    expected.push(
+      ...Object.keys(await getStoryPages(locale)).map(
+        (filename) => `/share/${locale === "hi" ? "hi/" : ""}${filename}`,
+      ),
+    );
+  }
+  const images = await getStudioImages();
+  assert.deepEqual(
+    images.map((image) => image.src).toSorted(),
+    expected.toSorted(),
+  );
+  assert.equal(new Set(images.map((image) => image.src)).size, images.length);
+  for (const image of images) {
+    assert.equal(image.width, image.kind === "og" ? 1200 : 1080);
+    assert.equal(image.height, image.kind === "og" ? 630 : 1920);
+    if (image.src.includes("/hi/") || image.src === "/og/hi.png")
+      assert.equal(image.locale, "hi");
+  }
+  const groups = imageGroups(images);
+  assert.equal(new Set(groups.map((group) => group.id)).size, groups.length);
+  assert.deepEqual(
+    groups
+      .flatMap((group) => group.images.map((image) => image.src))
+      .toSorted(),
+    expected.toSorted(),
+  );
+  assert.ok(
+    groups.every(
+      (group) => group.images.length > 0 && group.images.length <= 4,
+    ),
+  );
+});
+
+test("Studio metadata is localized, complete, and deliberately excluded from indexing", () => {
+  for (const locale of ["en", "hi"] as const) {
+    const path = locale === "hi" ? "/hi/studio/" : "/studio/";
+    const metadata = studioMetadata(locale);
+    const graph = metadata.openGraph;
+    assert.ok(graph && "url" in graph && "locale" in graph);
+    assert.equal(graph.url, siteConfig.url + path);
+    assert.equal(graph.locale, locale === "hi" ? "hi_IN" : "en_US");
+    assert.equal(metadata.alternates?.canonical, siteConfig.url + path);
+    assert.deepEqual(metadata.robots, {
+      index: false,
+      follow: false,
+      googleBot: { index: false, follow: false },
+    });
+    assert.ok(metadata.twitter && "card" in metadata.twitter);
+    assert.equal(metadata.twitter.card, "summary_large_image");
+    assert.deepEqual(graph.images, [
+      { url: `${path}og.png`, width: 1200, height: 630, alt: metadata.title },
+    ]);
+    assert.ok(metadata.description);
+    assert.equal(buildStudioSchema(locale)["@type"], "CollectionPage");
+    assert.equal(buildStudioSchema(locale).inLanguage, locale);
+    assert.ok(!sitePages.some((page) => String(page.path).includes("studio")));
+  }
+});
+
+test("camera migrates the old canvas key and fits the complete gallery on mobile", () => {
+  const values = new Map([
+    [legacyStorageKey, JSON.stringify({ version: 2, camera: defaultCamera })],
+  ]);
+  const storage = {
+    getItem: (key: string) => values.get(key) ?? null,
+    setItem: (key: string, value: string) => {
+      values.set(key, value);
+    },
+    removeItem: (key: string) => {
+      values.delete(key);
+    },
+  };
+  assert.deepEqual(
+    loadCamera(() => storage),
+    defaultCamera,
+  );
+  assert.ok(!values.has(legacyStorageKey));
+  assert.equal(
+    saveCamera(() => storage, defaultCamera),
+    true,
+  );
+  assert.ok(values.has(storageKey));
+  const bounds = { x: 64, y: 36, width: 640, height: 30000 };
+  const camera = fitCamera(bounds, 390, 844);
+  assert.ok(camera.scale < 0.1);
+  assert.ok((bounds.y + bounds.height) * camera.scale + camera.y <= 844 - 24);
+});
+
+test("unavailable and quota-limited camera storage fail safely", () => {
+  const unavailable = () => {
+    throw new Error("Storage unavailable");
+  };
+  assert.equal(loadCamera(unavailable), undefined);
+  assert.equal(saveCamera(unavailable, defaultCamera), false);
+  let saved = "";
+  let removed = false;
+  const storage = {
+    getItem: () => "malformed",
+    setItem: (_key: string, value: string) => {
+      saved = value;
+    },
+    removeItem: () => {
+      removed = true;
+    },
+  };
+  assert.equal(
+    loadCamera(() => storage),
+    undefined,
+  );
+  assert.ok(removed);
+  assert.equal(
+    saveCamera(() => storage, defaultCamera),
+    true,
+  );
+  assert.deepEqual(JSON.parse(saved), { version: 2, camera: defaultCamera });
+  assert.equal(
+    saveCamera(
+      () => ({
+        ...storage,
+        setItem: () => {
+          throw new Error("Quota exceeded");
+        },
+      }),
+      defaultCamera,
+    ),
+    false,
+  );
+});
+
+test("camera rejects invalid storage and migrates its known older format", () => {
+  for (const raw of [
+    null,
+    "{",
+    "null",
+    "{}",
+    "x".repeat(1025),
+    '{"version":3,"camera":{"x":1,"y":2,"scale":1}}',
+    '{"version":2,"camera":{"x":"1","y":0,"scale":1}}',
+  ])
+    assert.equal(readCamera(raw), undefined);
+  assert.deepEqual(
+    readCamera('{"version":1,"x":10,"y":20,"scale":0.5,"positions":[]}'),
+    { x: 10, y: 20, scale: 0.5 },
+  );
+  assert.deepEqual(
+    readCamera(JSON.stringify({ version: 2, camera: defaultCamera })),
+    defaultCamera,
+  );
+  assert.deepEqual(constrain({ x: Infinity, y: -200000, scale: 9 }), {
+    x: 0,
+    y: -100000,
+    scale: 3,
+  });
+});
+
+test("zoom is cursor anchored and fit is bounded without rearranging content", () => {
+  const camera = { x: 20, y: 40, scale: 0.5 };
+  const next = zoomAt(camera, 2, 300, 200);
+  assert.equal((300 - next.x) / next.scale, (300 - camera.x) / camera.scale);
+  assert.equal((200 - next.y) / next.scale, (200 - camera.y) / camera.scale);
+  const bounds = { x: 64, y: 36, width: 1344, height: 2000 };
+  const fitted = fitCamera(bounds, 1280, 800);
+  assert.ok(bounds.x * fitted.scale + fitted.x >= 32);
+  assert.ok(bounds.y * fitted.scale + fitted.y >= 72);
+  assert.ok((bounds.y + bounds.height) * fitted.scale + fitted.y <= 800 - 24);
+});
+
+test("canvas entry is development-only and excluded from public route registry", () => {
+  const entry = readFileSync("src/app/[locale]/studio/page.tsx", "utf8");
+  assert.ok(entry.includes('process.env.NODE_ENV !== "development"'));
+  assert.ok(
+    entry.indexOf("notFound();") <
+      entry.indexOf('import("../../../views/studio/samples")'),
+  );
+  assert.ok(!readFileSync("src/lib/page-routes.ts", "utf8").includes("studio"));
+});
+
+test("only new development preview documents allow same-origin framing", async (context) => {
+  const previous = process.env.NODE_ENV;
+  context.after(() => {
+    if (previous === undefined) Reflect.deleteProperty(process.env, "NODE_ENV");
+    else Object.assign(process.env, { NODE_ENV: previous });
+  });
+  for (const environment of ["development", "production"]) {
+    Object.assign(process.env, { NODE_ENV: environment });
+    const rules = await headers();
+    const allowed = rules.filter((rule) =>
+      rule.headers.some(
+        (header) =>
+          header.key === "X-Frame-Options" && header.value === "SAMEORIGIN",
+      ),
+    );
+    assert.deepEqual(
+      allowed.map((rule) => rule.source),
+      environment === "development"
+        ? ["/studio/preview", "/:locale(en|hi)/studio/preview"]
+        : [],
+    );
+    assert.ok(
+      rules[0]!.headers.some(
+        (header) => header.key === "X-Frame-Options" && header.value === "DENY",
+      ),
+    );
+    const routing = await rewrites();
+    assert.ok(!Array.isArray(routing));
+    assert.equal(
+      routing.beforeFiles?.some((rule) => rule.source === "/studio") ?? false,
+      environment === "development",
+    );
+  }
+});

@@ -9,6 +9,29 @@ import { startServer } from "./serve-next";
 const server = await startServer();
 after(() => server.close());
 
+test("development component canvas and preview documents remain private in production", async () => {
+  for (const path of [
+    "/studio/",
+    "/hi/studio/",
+    "/studio/preview/?sample=about",
+    "/hi/studio/preview/?sample=code",
+    "/studio/og.png",
+    "/hi/studio/og.png",
+    "/component-canvas/",
+    "/hi/component-canvas/",
+  ]) {
+    const response = await fetch(server.url + path);
+    assert.equal(response.status, 404, path);
+    assert.equal(response.headers.get("x-frame-options"), "DENY", path);
+    assert.ok(
+      response.headers
+        .get("content-security-policy")
+        ?.includes("frame-ancestors 'none'"),
+      path,
+    );
+  }
+});
+
 test("locale and route resolution reject unsupported and malformed paths", () => {
   assert.equal(isLocale("en"), true);
   assert.equal(isLocale("hi"), true);
