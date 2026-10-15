@@ -24,6 +24,9 @@ export default function ThemeTransition({ children }: { children: ReactNode }) {
       stored ??
       (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
     document.documentElement.classList.toggle("dark", next === "dark");
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute("content", next === "dark" ? "#111111" : "#fdfdfc");
     pendingTheme.current = null;
     if (theme !== null) {
       try {
