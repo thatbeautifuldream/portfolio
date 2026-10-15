@@ -68,6 +68,76 @@
   outline-offset: 4px;
 }
 
+.site-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  display: block;
+  pointer-events: none;
+  border-radius: 999px;
+  translate: -50% -50%;
+}
+
+.site-cursor-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  background: var(--foreground);
+  transition: scale 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.site-cursor-ring {
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 1px solid color-mix(in srgb, var(--foreground) 42%, transparent);
+  opacity: 0.72;
+  transition:
+    width 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    height 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 180ms ease,
+    border-color 180ms ease;
+}
+
+.has-site-cursor,
+.has-site-cursor body,
+.has-site-cursor a,
+.has-site-cursor button,
+.has-site-cursor [role="button"],
+.has-site-cursor input,
+.has-site-cursor textarea,
+.has-site-cursor select {
+  cursor: none !important;
+}
+
+.site-cursor-hover .site-cursor-ring {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-color: color-mix(in srgb, var(--foreground) 68%, transparent);
+  opacity: 1;
+}
+
+.site-cursor-hover .site-cursor-dot {
+  scale: 0.65;
+}
+
+.site-cursor-pressed .site-cursor-ring {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+@media (pointer: coarse), (hover: none) {
+  .site-cursor {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-cursor-dot,
+  .site-cursor-ring {
+    transition: none;
+  }
+}
+
 @media (max-width: 639px) {
   .about-heading {
     font-size: clamp(1.5rem, 7.2vw, 1.875rem);
