@@ -10,8 +10,7 @@ type BasicKind =
   | "code-copy"
   | "email-copy"
   | "tooltip"
-  | "github-chart"
-  | "cursor";
+  | "github-chart";
 interface BlogOptions {
   slug: string;
   title: string;
@@ -178,69 +177,6 @@ function initializeTooltips(scope: EnhancementScope) {
   }
 }
 
-function initializeCursor(scope: EnhancementScope) {
-  if (!matchMedia("(pointer: fine) and (hover: hover)").matches) return;
-
-  const root = document.documentElement;
-  const dot = document.createElement("span");
-  const ring = document.createElement("span");
-  dot.className = "site-cursor site-cursor-dot";
-  ring.className = "site-cursor site-cursor-ring";
-  dot.setAttribute("aria-hidden", "true");
-  ring.setAttribute("aria-hidden", "true");
-  document.body.append(dot, ring);
-  root.classList.add("has-site-cursor");
-
-  let frame: number | undefined;
-  let x = -100;
-  let y = -100;
-  let targetX = x;
-  let targetY = y;
-  const render = () => {
-    frame = undefined;
-    x += (targetX - x) * 0.28;
-    y += (targetY - y) * 0.28;
-    ring.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-    if (Math.abs(targetX - x) > 0.1 || Math.abs(targetY - y) > 0.1) {
-      frame = requestAnimationFrame(render);
-    }
-  };
-  const move = (event: Event) => {
-    const pointer = event as PointerEvent;
-    targetX = pointer.clientX;
-    targetY = pointer.clientY;
-    dot.style.transform = `translate3d(${targetX}px, ${targetY}px, 0)`;
-    if (frame === undefined) frame = requestAnimationFrame(render);
-  };
-  const hover = (event: Event) => {
-    const target = event.target instanceof Element ? event.target : null;
-    root.classList.toggle(
-      "site-cursor-hover",
-      Boolean(
-        target?.closest("a, button, [role='button'], input, textarea, select"),
-      ),
-    );
-  };
-  const press = () => root.classList.add("site-cursor-pressed");
-  const release = () => root.classList.remove("site-cursor-pressed");
-
-  scope.listen(window, "pointermove", move, { passive: true });
-  scope.listen(document, "pointerover", hover, { passive: true });
-  scope.listen(window, "pointerdown", press, { passive: true });
-  scope.listen(window, "pointerup", release, { passive: true });
-  scope.listen(window, "pointercancel", release, { passive: true });
-  scope.onCleanup(() => {
-    if (frame !== undefined) cancelAnimationFrame(frame);
-    dot.remove();
-    ring.remove();
-    root.classList.remove(
-      "has-site-cursor",
-      "site-cursor-hover",
-      "site-cursor-pressed",
-    );
-  });
-}
-
 function initializeBlogArticle(scope: EnhancementScope, options: BlogOptions) {
   const { slug, title, sharePrefix, copiedLabel, shareLabel } = options;
   const milestones = [25, 50, 75, 100];
@@ -337,9 +273,6 @@ export function initializeEnhancement(
           document.getElementById("theme-toggle")?.click();
         }
       });
-      break;
-    case "cursor":
-      initializeCursor(scope);
       break;
     case "blog-list":
     case "gist-list": {

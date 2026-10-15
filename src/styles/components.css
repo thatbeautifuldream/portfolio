@@ -14,7 +14,9 @@
   corner-shape: round;
   background: var(--muted);
   vertical-align: baseline;
-  cursor: pointer;
+  cursor:
+    url("/cursors/pointer.svg") 7 2,
+    pointer;
   text-align: left;
 }
 
@@ -66,76 +68,6 @@
 .morph-word:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 4px;
-}
-
-.site-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  display: block;
-  pointer-events: none;
-  border-radius: 999px;
-  translate: -50% -50%;
-}
-
-.site-cursor-dot {
-  width: 0.45rem;
-  height: 0.45rem;
-  background: var(--foreground);
-  transition: scale 160ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.site-cursor-ring {
-  width: 1.8rem;
-  height: 1.8rem;
-  border: 1px solid color-mix(in srgb, var(--foreground) 42%, transparent);
-  opacity: 0.72;
-  transition:
-    width 180ms cubic-bezier(0.22, 1, 0.36, 1),
-    height 180ms cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 180ms ease,
-    border-color 180ms ease;
-}
-
-.has-site-cursor,
-.has-site-cursor body,
-.has-site-cursor a,
-.has-site-cursor button,
-.has-site-cursor [role="button"],
-.has-site-cursor input,
-.has-site-cursor textarea,
-.has-site-cursor select {
-  cursor: none !important;
-}
-
-.site-cursor-hover .site-cursor-ring {
-  width: 2.6rem;
-  height: 2.6rem;
-  border-color: color-mix(in srgb, var(--foreground) 68%, transparent);
-  opacity: 1;
-}
-
-.site-cursor-hover .site-cursor-dot {
-  scale: 0.65;
-}
-
-.site-cursor-pressed .site-cursor-ring {
-  width: 1.35rem;
-  height: 1.35rem;
-}
-
-@media (pointer: coarse), (hover: none) {
-  .site-cursor {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .site-cursor-dot,
-  .site-cursor-ring {
-    transition: none;
-  }
 }
 
 @media (max-width: 639px) {
@@ -202,5 +134,61 @@
 @media (prefers-reduced-motion: reduce) {
   .tip {
     transition: none !important;
+  }
+}
+
+@media (pointer: fine) {
+  html {
+    cursor:
+      url("/cursors/default.svg") 5 5,
+      default;
+  }
+
+  :where(
+    p,
+    li,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    blockquote,
+    pre,
+    td,
+    th,
+    dd,
+    dt,
+    figcaption
+  ),
+  :where(
+    input:not([type="checkbox"], [type="radio"], [type="range"]),
+    textarea,
+    [contenteditable]
+  ) {
+    cursor:
+      url("/cursors/text.svg") 10 10,
+      text;
+  }
+
+  :where(a, button, [role="button"], label, summary, select, .cursor-pointer),
+  :where(a, button, [role="button"], label, summary) * {
+    cursor:
+      url("/cursors/pointer.svg") 7 2,
+      pointer;
+  }
+
+  :where([data-email-copy], [data-code-block] > button),
+  :where([data-email-copy], [data-code-block] > button) * {
+    cursor:
+      url("/cursors/copy.svg") 5 5,
+      copy;
+  }
+
+  :where(:disabled, [aria-disabled="true"]),
+  :where(:disabled, [aria-disabled="true"]) * {
+    cursor:
+      url("/cursors/not-allowed.svg") 5 5,
+      not-allowed;
   }
 }

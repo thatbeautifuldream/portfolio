@@ -11,11 +11,15 @@
   position: absolute;
   inset: 0;
   touch-action: none;
-  cursor: grab;
+  cursor:
+    url("/cursors/grab.svg") 10 10,
+    grab;
 }
 
 .studio[data-panning] {
-  cursor: grabbing;
+  cursor:
+    url("/cursors/grab.svg") 10 10,
+    grabbing;
 }
 
 .studio:focus-visible {

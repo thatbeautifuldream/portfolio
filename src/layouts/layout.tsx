@@ -72,7 +72,6 @@ export default async function Layout(props: ComponentProps) {
       <Analytics context={context} />
       <PostHog context={context} />
       <ClientEnhancement kind="external-links" />
-      <ClientEnhancement kind="cursor" />
     </>
   );
 }
