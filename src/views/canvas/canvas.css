@@ -1,10 +1,22 @@
-.studio {
+.canvas-shell {
   position: fixed;
   inset: 0;
   overflow: clip;
   background: var(--background);
   color: var(--foreground);
   overscroll-behavior: none;
+  touch-action: none;
+}
+
+.canvas-shell[data-panning],
+.canvas-shell[data-space-pan] {
+  user-select: none;
+}
+
+.canvas-shell[data-space-pan] .canvas-background {
+  cursor:
+    url("/cursors/grab.svg") 10 10,
+    grab;
 }
 
 .canvas-background {
@@ -16,15 +28,14 @@
     grab;
 }
 
-.studio[data-panning] {
+.canvas-shell[data-panning] {
   cursor:
     url("/cursors/grab.svg") 10 10,
     grabbing;
 }
 
-.studio:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: -3px;
+.canvas-shell:not([data-camera-ready]) .canvas-world {
+  visibility: hidden;
 }
 
 .canvas-world {
@@ -63,21 +74,39 @@
   min-width: 0;
 }
 
+.canvas-group [data-preview] iframe {
+  outline: none;
+}
+
+#about .canvas-about-sample {
+  padding-block: 8px 20px;
+}
+
+#code .canvas-code-sample {
+  max-width: 100%;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+#code .canvas-code-sample pre {
+  margin: 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+#code .canvas-code-sample :where(pre, code) {
+  font-size: 11px;
+}
+
 .canvas-examples {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
   gap: 32px;
 }
 
-.canvas-example-label {
-  margin-bottom: 12px;
-  color: var(--muted-foreground);
-  font-size: 12px;
-}
-
 .canvas-group:first-child .canvas-examples,
-#footer .canvas-examples,
-#content .canvas-examples {
+#index-list .canvas-examples,
+#footer .canvas-examples {
   grid-template-columns: 1fr;
 }
 
@@ -113,13 +142,13 @@
   outline-offset: 2px;
 }
 
-.studio[data-embedded] .canvas-controls {
+.canvas-shell[data-embedded] .canvas-controls {
   top: 8px;
   right: 8px;
   gap: 4px;
 }
 
-.studio[data-embedded] .canvas-controls button {
+.canvas-shell[data-embedded] .canvas-controls button {
   width: 32px;
   height: 32px;
 }
@@ -129,16 +158,20 @@
   font-variant-numeric: tabular-nums;
 }
 
-.studio-image-caption {
-  display: grid;
-  gap: 4px;
-  margin-top: 12px;
+.canvas-controls.tip-root > .tip {
+  width: max-content;
+  max-width: none;
+  padding-inline: 6px;
   font-size: 12px;
-  color: var(--muted-foreground);
-  overflow-wrap: anywhere;
+  line-height: 16px;
+  text-wrap: nowrap;
+  white-space: nowrap;
+  transition:
+    opacity 60ms ease-out,
+    scale 60ms ease-out,
+    translate 180ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.studio-image-caption strong {
-  color: var(--foreground);
-  font-weight: 500;
+.canvas-controls.tip-root > .tip .tip-inner {
+  flex-wrap: nowrap;
 }

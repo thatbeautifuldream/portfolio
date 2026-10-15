@@ -17,13 +17,8 @@ export default async function PreviewPage({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const { sample } = await searchParams;
-  if (
-    !["about", "footer", "tooltip", "tooltip-meta", "code"].includes(
-      sample ?? "",
-    )
-  )
-    notFound();
+  if (!["about", "footer", "code"].includes(sample ?? "")) notFound();
   const { default: PreviewSamples } =
-    await import("../../../../views/studio/preview-samples");
+    await import("../../../../views/canvas/preview-samples");
   return <PreviewSamples sample={sample!} locale={locale} />;
 }

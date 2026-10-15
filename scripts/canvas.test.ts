@@ -2,33 +2,31 @@ import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import test from "node:test";
 import { headers, rewrites } from "../src/lib/routing";
-import { studioMetadata } from "../src/lib/metadata";
+import { canvasMetadata } from "../src/lib/metadata";
 import {
-  buildStudioSchema,
+  buildCanvasSchema,
   siteConfig,
   sitePages,
-  studioEmbedPath,
-  studioPlayerSize,
+  canvasEmbedPath,
+  canvasPlayerSize,
 } from "../src/lib/seo";
-import { getOGPages, getStoryPages } from "../src/lib/og-data";
-import { getStudioImages, imageGroups } from "../src/views/studio/images";
 import {
   constrain,
   defaultCamera,
   fitCamera,
+  legacyStorageKeys,
   loadCamera,
-  legacyStorageKey,
   storageKey,
   saveCamera,
   readCamera,
   zoomAt,
-} from "../src/views/studio/camera";
-import { inventory, primitiveInventory } from "../src/views/studio/inventory";
+} from "../src/views/canvas/camera";
+import { inventory, primitiveInventory } from "../src/views/canvas/inventory";
 import icons from "@iconify-json/ri/icons.json";
 
-test("Studio controls use existing project icons rendered on the server", () => {
-  const samples = readFileSync("src/views/studio/samples.tsx", "utf8");
-  const canvas = readFileSync("src/views/studio/canvas.tsx", "utf8");
+test("Canvas controls use existing project icons rendered on the server", () => {
+  const samples = readFileSync("src/views/canvas/samples.tsx", "utf8");
+  const canvas = readFileSync("src/views/canvas/canvas.tsx", "utf8");
   const controls = {
     zoomOut: "subtract-line",
     zoomIn: "add-line",
@@ -51,8 +49,8 @@ test("canvas accounts for every component and renders each listed variant", () =
     .map((file) => file.replace(/\.tsx$/, ""));
   assert.deepEqual(inventory.map((item) => item.file).sort(), files.sort());
   const samples =
-    readFileSync("src/views/studio/samples.tsx", "utf8") +
-    readFileSync("src/views/studio/preview-samples.tsx", "utf8");
+    readFileSync("src/views/canvas/samples.tsx", "utf8") +
+    readFileSync("src/views/canvas/preview-samples.tsx", "utf8");
   for (const item of [...inventory, ...primitiveInventory]) {
     if ("omitted" in item) {
       assert.ok(item.omitted);
@@ -64,51 +62,10 @@ test("canvas accounts for every component and renders each listed variant", () =
   }
 });
 
-test("Studio gallery includes every OG and story resource without duplicates", async () => {
-  const expected = [
-    siteConfig.defaultImage,
-    "/studio/og.png",
-    "/hi/studio/og.png",
-    ...Object.keys(await getOGPages()).map((route) => `/og/${route}`),
-  ];
+test("Canvas metadata is localized, complete, and allows indexing", () => {
   for (const locale of ["en", "hi"] as const) {
-    expected.push(
-      ...Object.keys(await getStoryPages(locale)).map(
-        (filename) => `/share/${locale === "hi" ? "hi/" : ""}${filename}`,
-      ),
-    );
-  }
-  const images = await getStudioImages();
-  assert.deepEqual(
-    images.map((image) => image.src).toSorted(),
-    expected.toSorted(),
-  );
-  assert.equal(new Set(images.map((image) => image.src)).size, images.length);
-  for (const image of images) {
-    assert.equal(image.width, image.kind === "og" ? 1200 : 1080);
-    assert.equal(image.height, image.kind === "og" ? 630 : 1920);
-    if (image.src.includes("/hi/") || image.src === "/og/hi.png")
-      assert.equal(image.locale, "hi");
-  }
-  const groups = imageGroups(images);
-  assert.equal(new Set(groups.map((group) => group.id)).size, groups.length);
-  assert.deepEqual(
-    groups
-      .flatMap((group) => group.images.map((image) => image.src))
-      .toSorted(),
-    expected.toSorted(),
-  );
-  assert.ok(
-    groups.every(
-      (group) => group.images.length > 0 && group.images.length <= 4,
-    ),
-  );
-});
-
-test("Studio metadata is localized, complete, and allows indexing", () => {
-  for (const locale of ["en", "hi"] as const) {
-    const path = locale === "hi" ? "/hi/studio/" : "/studio/";
-    const metadata = studioMetadata(locale);
+    const path = locale === "hi" ? "/hi/canvas/" : "/canvas/";
+    const metadata = canvasMetadata(locale);
     const graph = metadata.openGraph;
     assert.ok(graph && "url" in graph && "locale" in graph);
     assert.equal(graph.url, siteConfig.url + path);
@@ -125,30 +82,30 @@ test("Studio metadata is localized, complete, and allows indexing", () => {
     assert.deepEqual(metadata.twitter.players, []);
     assert.equal(
       metadata.other?.["twitter:player"],
-      siteConfig.url + studioEmbedPath(locale),
+      siteConfig.url + canvasEmbedPath(locale),
     );
     assert.equal(
       metadata.other?.["twitter:player:width"],
-      String(studioPlayerSize.width),
+      String(canvasPlayerSize.width),
     );
     assert.equal(
       metadata.other?.["twitter:player:height"],
-      String(studioPlayerSize.height),
+      String(canvasPlayerSize.height),
     );
     assert.ok(!Object.hasOwn(metadata.other!, "twitter:player:stream"));
     assert.deepEqual(graph.images, [
       { url: `${path}og.png`, width: 1200, height: 630, alt: metadata.title },
     ]);
     assert.ok(metadata.description);
-    assert.equal(buildStudioSchema(locale)["@type"], "CollectionPage");
-    assert.equal(buildStudioSchema(locale).inLanguage, locale);
-    assert.ok(!sitePages.some((page) => String(page.path).includes("studio")));
+    assert.equal(buildCanvasSchema(locale)["@type"], "CollectionPage");
+    assert.equal(buildCanvasSchema(locale).inLanguage, locale);
+    assert.ok(!sitePages.some((page) => String(page.path).includes("canvas")));
   }
 });
 
-test("Studio embeds reuse previews without indexing, gallery work, or shared camera storage", () => {
+test("Canvas embeds reuse previews without indexing, OG gallery work, or shared camera storage", () => {
   for (const locale of ["en", "hi"] as const) {
-    const metadata = studioMetadata(locale, true);
+    const metadata = canvasMetadata(locale, true);
     assert.deepEqual(metadata.robots, {
       index: false,
       follow: false,
@@ -159,24 +116,26 @@ test("Studio embeds reuse previews without indexing, gallery work, or shared cam
     assert.equal(metadata.twitter.card, "summary_large_image");
     assert.equal(
       metadata.alternates?.canonical,
-      siteConfig.url + (locale === "hi" ? "/hi" : "") + "/studio/",
+      siteConfig.url + (locale === "hi" ? "/hi" : "") + "/canvas/",
     );
   }
-  const samples = readFileSync("src/views/studio/samples.tsx", "utf8");
-  const canvas = readFileSync("src/views/studio/canvas.tsx", "utf8");
-  const preview = readFileSync("src/views/studio/isolated-preview.tsx", "utf8");
-  assert.ok(
-    samples.includes("embedded ? [] : imageGroups(await getStudioImages())"),
-  );
-  assert.equal((samples.match(/embedded=\{embedded\}/g) ?? []).length, 6);
+  const samples = readFileSync("src/views/canvas/samples.tsx", "utf8");
+  const canvas = readFileSync("src/views/canvas/canvas.tsx", "utf8");
+  assert.ok(!samples.includes("getStudioImages"));
+  assert.ok(!samples.includes("data-studio-image"));
+  assert.ok(!samples.includes("IsolatedPreview"));
+  assert.ok(samples.includes('pageContext("/canvas"'));
+  assert.ok(samples.includes("<Footer context={context} />"));
   assert.ok(canvas.includes("embedded ? undefined : loadCamera"));
   assert.ok(canvas.includes("if (!embedded)"));
-  assert.ok(preview.includes('embedded ? "embed/" : ""'));
 });
 
-test("camera migrates the old canvas key and fits the complete gallery on mobile", () => {
-  const values = new Map([
-    [legacyStorageKey, JSON.stringify({ version: 2, camera: defaultCamera })],
+test("camera migrates legacy storage keys and fits tall content on mobile", () => {
+  const values = new Map<string, string>([
+    [
+      legacyStorageKeys[0],
+      JSON.stringify({ version: 2, camera: defaultCamera }),
+    ],
   ]);
   const storage = {
     getItem: (key: string) => values.get(key) ?? null,
@@ -191,7 +150,7 @@ test("camera migrates the old canvas key and fits the complete gallery on mobile
     loadCamera(() => storage),
     defaultCamera,
   );
-  assert.ok(!values.has(legacyStorageKey));
+  for (const key of legacyStorageKeys) assert.ok(!values.has(key));
   assert.equal(
     saveCamera(() => storage, defaultCamera),
     true,
@@ -282,17 +241,17 @@ test("zoom is cursor anchored and fit is bounded without rearranging content", (
   assert.ok((bounds.y + bounds.height) * fitted.scale + fitted.y <= 800 - 24);
 });
 
-test("Studio is public with validated locales and a dedicated canvas route", () => {
-  const entry = readFileSync("src/app/[locale]/studio/page.tsx", "utf8");
+test("Canvas is public with validated locales and a dedicated route", () => {
+  const entry = readFileSync("src/app/[locale]/canvas/page.tsx", "utf8");
   assert.ok(!entry.includes("NODE_ENV"));
   assert.ok(
     entry.indexOf("notFound();") <
-      entry.indexOf('import("../../../views/studio/samples")'),
+      entry.indexOf('import("../../../views/canvas/samples")'),
   );
-  assert.ok(!readFileSync("src/lib/page-routes.ts", "utf8").includes("studio"));
+  assert.ok(!readFileSync("src/lib/page-routes.ts", "utf8").includes("canvas"));
 });
 
-test("Studio framing exceptions stay scoped in every environment", async (context) => {
+test("Canvas framing exceptions stay scoped in every environment", async (context) => {
   const previous = process.env.NODE_ENV;
   context.after(() => {
     if (previous === undefined) Reflect.deleteProperty(process.env, "NODE_ENV");
@@ -309,7 +268,7 @@ test("Studio framing exceptions stay scoped in every environment", async (contex
     );
     assert.deepEqual(
       allowed.map((rule) => rule.source),
-      ["/studio/preview", "/:locale(en|hi)/studio/preview"],
+      ["/canvas/preview", "/:locale(en|hi)/canvas/preview"],
     );
     for (const rule of allowed) {
       const policy = rule.headers.find(
@@ -335,10 +294,10 @@ test("Studio framing exceptions stay scoped in every environment", async (contex
     assert.deepEqual(
       embeds.map((rule) => rule.source),
       [
-        "/studio/embed",
-        "/:locale(en|hi)/studio/embed",
-        "/studio/embed/preview",
-        "/:locale(en|hi)/studio/embed/preview",
+        "/canvas/embed",
+        "/:locale(en|hi)/canvas/embed",
+        "/canvas/embed/preview",
+        "/:locale(en|hi)/canvas/embed/preview",
       ],
     );
     for (const rule of embeds) {
@@ -361,7 +320,7 @@ test("Studio framing exceptions stay scoped in every environment", async (contex
     const routing = await rewrites();
     assert.ok(!Array.isArray(routing));
     assert.equal(
-      routing.beforeFiles?.some((rule) => rule.source === "/studio") ?? false,
+      routing.beforeFiles?.some((rule) => rule.source === "/canvas") ?? false,
       true,
     );
   }

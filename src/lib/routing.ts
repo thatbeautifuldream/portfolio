@@ -31,7 +31,7 @@ export const headers: NonNullable<NextConfig["headers"]> = async () => [
     ],
   },
   {
-    source: "/:path((?!(?:en/|hi/)?studio/embed(?:/preview)?/?$).*)",
+    source: "/:path((?!(?:en/|hi/)?canvas/embed(?:/preview)?/?$).*)",
     headers: [{ key: "X-Frame-Options", value: "DENY" }],
   },
   {
@@ -51,7 +51,7 @@ export const headers: NonNullable<NextConfig["headers"]> = async () => [
       { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
     ],
   },
-  ...["/studio/preview", "/:locale(en|hi)/studio/preview"].map((source) => ({
+  ...["/canvas/preview", "/:locale(en|hi)/canvas/preview"].map((source) => ({
     source,
     headers: [
       { key: "X-Frame-Options", value: "SAMEORIGIN" },
@@ -67,10 +67,10 @@ export const headers: NonNullable<NextConfig["headers"]> = async () => [
     ],
   })),
   ...[
-    "/studio/embed",
-    "/:locale(en|hi)/studio/embed",
-    "/studio/embed/preview",
-    "/:locale(en|hi)/studio/embed/preview",
+    "/canvas/embed",
+    "/:locale(en|hi)/canvas/embed",
+    "/canvas/embed/preview",
+    "/:locale(en|hi)/canvas/embed/preview",
   ].map((source) => ({
     source,
     headers: [
@@ -113,19 +113,29 @@ export const redirects: NonNullable<NextConfig["redirects"]> = async () => [
     permanent: true,
   },
   { source: "/about", destination: "/", permanent: true },
+  { source: "/studio", destination: "/canvas/", permanent: true },
+  { source: "/studio/", destination: "/canvas/", permanent: true },
+  { source: "/studio/:path*", destination: "/canvas/:path*", permanent: true },
+  { source: "/hi/studio", destination: "/hi/canvas/", permanent: true },
+  { source: "/hi/studio/", destination: "/hi/canvas/", permanent: true },
+  {
+    source: "/hi/studio/:path*",
+    destination: "/hi/canvas/:path*",
+    permanent: true,
+  },
 ];
 export const rewrites: NonNullable<NextConfig["rewrites"]> = async () => ({
   beforeFiles: [
-    { source: "/studio", destination: "/en/studio" },
-    { source: "/studio/og.png", destination: "/en/studio/og.png" },
-    { source: "/studio/embed", destination: "/en/studio/embed" },
+    { source: "/canvas", destination: "/en/canvas" },
+    { source: "/canvas/og.png", destination: "/en/canvas/og.png" },
+    { source: "/canvas/embed", destination: "/en/canvas/embed" },
     {
-      source: "/studio/embed/preview",
-      destination: "/en/studio/embed/preview",
+      source: "/canvas/embed/preview",
+      destination: "/en/canvas/embed/preview",
     },
     {
-      source: "/studio/preview",
-      destination: "/en/studio/preview",
+      source: "/canvas/preview",
+      destination: "/en/canvas/preview",
     },
     {
       source: "/",

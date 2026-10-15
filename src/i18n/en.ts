@@ -170,6 +170,29 @@ const en = {
     machine: "This machine",
     categories: {} as Record<string, string>,
   },
+  canvas: {
+    groups: {
+      about: "About headline · About motion",
+      pageHeader: "Page header",
+      indexList: "Index list",
+      code: "Code copy · Client enhancement",
+      email: "Email link",
+      footer: "Footer",
+      coverage: "Coverage",
+    },
+    omissionsSummary: "Nonvisual and live-service omissions",
+    omissionsIntro:
+      "DocumentLayout is the real host. Layout and full page views are excluded: Layout mounts trackers, and pages compose these same components, sometimes with live data. No modal or portal components exist in this project.",
+    codeSample: 'const message = "Hello, canvas";\nconsole.log(message);',
+    controls: {
+      zoomOut: "Zoom out",
+      zoomIn: "Zoom in",
+      zoomLevel: "Zoom",
+      fit: "Fit all",
+      reset: "Reset",
+      theme: "Theme",
+    },
+  },
 };
 
 export type Dictionary = typeof en;

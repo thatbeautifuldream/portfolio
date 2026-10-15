@@ -9,8 +9,11 @@ export const inventory = [
     variants: ["enhancement-lifecycle"],
   },
   { file: "code-copy", group: "code", variants: ["copy-code"] },
-  { file: "content", group: "content", variants: ["html", "image-html"] },
-  { file: "email-link", group: "email", variants: ["english", "hindi"] },
+  {
+    file: "content",
+    omitted: "Prose HTML is composed on real pages; omitted from canvas.",
+  },
+  { file: "email-link", group: "email", variants: ["localized"] },
   { file: "footer", group: "footer", variants: ["localized-footer"] },
   {
     file: "git-hub-chart",
@@ -19,7 +22,7 @@ export const inventory = [
   {
     file: "index-list",
     group: "index-list",
-    variants: ["plain", "metadata", "grouped", "external", "empty"],
+    variants: ["plain"],
   },
   {
     file: "page-header",
@@ -34,22 +37,20 @@ export const inventory = [
   },
   {
     file: "site-link",
-    group: "links",
-    variants: ["internal", "external", "hash", "download", "email"],
+    omitted: "Composed inside PageHeader and Footer on canvas.",
   },
-  { file: "theme-transition", group: "theme", variants: ["light-dark"] },
-  { file: "tooltip", group: "tooltip", variants: ["label", "metadata"] },
+  {
+    file: "theme-transition",
+    omitted: "Hosted on DocumentLayout; toggled from the canvas toolbar.",
+  },
+  {
+    file: "tooltip",
+    omitted: "Composed inside Footer on canvas.",
+  },
+  {
+    file: "tooltip-shell",
+    omitted: "Shared tooltip markup on the canvas toolbar controls.",
+  },
 ] as const;
 
-export const primitiveInventory = [
-  {
-    file: "src/lib/ui.tsx",
-    group: "icons",
-    variants: ["inline", "small", "large", "accessible"],
-  },
-  {
-    file: "src/lib/ui.tsx",
-    group: "images",
-    variants: ["optimized", "intrinsic", "fallback"],
-  },
-] as const;
+export const primitiveInventory = [] as const;

@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { siteConfig, getSitePage, studioSitePage } from "../src/lib/seo";
+import { siteConfig, getSitePage, canvasSitePage } from "../src/lib/seo";
 import { getCollection } from "../src/lib/content";
 import { getCollection as buildCollection } from "../src/lib/content-build";
 import { stripLocale, isTranslated, localizePath } from "../src/i18n";
@@ -108,7 +108,7 @@ const routes = [
   "/gist",
   "/project",
   "/uses",
-  studioSitePage.path,
+  canvasSitePage.path,
 ];
 for (const [prefix, name] of [
   ["blog", "posts"],

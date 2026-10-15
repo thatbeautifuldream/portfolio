@@ -1,7 +1,10 @@
 export type Camera = { x: number; y: number; scale: number };
 export type Bounds = { x: number; y: number; width: number; height: number };
-export const storageKey = "portfolio:studio:camera";
-export const legacyStorageKey = "portfolio:component-canvas:camera";
+export const storageKey = "portfolio:canvas:camera";
+export const legacyStorageKeys = [
+  "portfolio:studio:camera",
+  "portfolio:component-canvas:camera",
+] as const;
 export const defaultCamera: Camera = { x: 0, y: 0, scale: 1 };
 
 export function constrain(camera: Camera): Camera {
@@ -83,11 +86,17 @@ export function loadCamera(
   try {
     const storage = getStorage();
     const raw = storage.getItem(storageKey);
-    const camera = readCamera(raw ?? storage.getItem(legacyStorageKey));
+    const camera =
+      readCamera(raw) ??
+      legacyStorageKeys
+        .map((key) => readCamera(storage.getItem(key)))
+        .find(Boolean);
     if (!camera) storage.removeItem(storageKey);
-    try {
-      storage.removeItem(legacyStorageKey);
-    } catch {}
+    for (const key of legacyStorageKeys) {
+      try {
+        storage.removeItem(key);
+      } catch {}
+    }
     return camera;
   } catch {
     return;

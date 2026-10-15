@@ -1,6 +1,6 @@
 import { isLocale } from "../../../../i18n";
 import { createOGImage } from "../../../../lib/og";
-import { studioCopy } from "../../../../lib/seo";
+import { canvasCopy } from "../../../../lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -10,5 +10,5 @@ export async function GET(
 ) {
   const { locale } = await params;
   if (!isLocale(locale)) return new Response(null, { status: 404 });
-  return createOGImage(studioCopy[locale]);
+  return createOGImage(canvasCopy[locale]);
 }

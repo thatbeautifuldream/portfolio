@@ -13,7 +13,7 @@ async function readResource(file: string) {
 import sharp from "sharp";
 import { isDeepStrictEqual } from "node:util";
 import { sitemapSignature } from "./resource-parity";
-import { siteConfig, studioPath } from "../src/lib/seo";
+import { siteConfig, canvasPath } from "../src/lib/seo";
 import { fromHtml } from "hast-util-from-html";
 
 const baseline = JSON.parse(
@@ -201,17 +201,17 @@ test("every public machine-readable resource and OG image exists", async () => {
   assert.deepEqual(resourceDifferences, []);
 });
 
-test("sitemap adds Studio while retaining every migrated URL and language alternate", async () => {
+test("sitemap adds Canvas while retaining every migrated URL and language alternate", async () => {
   const sitemap = (await readResource("sitemap-0.xml")).toString();
-  const studioURLs = ["en", "hi"].map(
-    (locale) => siteConfig.url + studioPath(locale as "en" | "hi"),
+  const canvasURLs = ["en", "hi"].map(
+    (locale) => siteConfig.url + canvasPath(locale as "en" | "hi"),
   );
-  const studioEntries = [...sitemap.matchAll(/<url>(.*?)<\/url>/g)].filter(
+  const canvasEntries = [...sitemap.matchAll(/<url>(.*?)<\/url>/g)].filter(
     (match) =>
-      studioURLs.some((url) => match[1]!.includes(`<loc>${url}</loc>`)),
+      canvasURLs.some((url) => match[1]!.includes(`<loc>${url}</loc>`)),
   );
-  assert.equal(studioEntries.length, 2);
-  const migratedSitemap = studioEntries.reduce(
+  assert.equal(canvasEntries.length, 2);
+  const migratedSitemap = canvasEntries.reduce(
     (xml, entry) => xml.replace(entry[0], ""),
     sitemap,
   );

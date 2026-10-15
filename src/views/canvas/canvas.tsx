@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import {
   constrain,
   defaultCamera,
@@ -11,11 +11,18 @@ import {
   type Bounds,
   type Camera,
 } from "./camera";
+import TooltipShell from "../../components/tooltip-shell";
 import "./canvas.css";
+
+export type CanvasControlTips = Record<
+  "zoomOut" | "zoomIn" | "zoomLevel" | "fit" | "reset" | "theme",
+  string
+>;
 
 export default function Canvas({
   children,
   controlIcons,
+  controlTips,
   embedded = false,
 }: {
   children: ReactNode;
@@ -24,15 +31,16 @@ export default function Canvas({
     "zoomOut" | "zoomIn" | "fit" | "reset" | "theme",
     ReactNode
   >;
+  controlTips: CanvasControlTips;
 }) {
   const shellRef = useRef<HTMLElement>(null);
   const worldRef = useRef<HTMLDivElement>(null);
+  const scaleRef = useRef<HTMLOutputElement>(null);
   const actions = useRef({
     fit: () => {},
     reset: () => {},
     zoom: (_factor: number) => {},
   });
-  const [scale, setScale] = useState(1);
 
   useEffect(() => {
     const shell = shellRef.current!;
@@ -41,7 +49,9 @@ export default function Canvas({
     let frame = 0;
     let layoutFrame = 0;
     let saveTimer: ReturnType<typeof setTimeout> | undefined;
-    let fitted = true;
+    let stabilizeTimer: ReturnType<typeof setTimeout> | undefined;
+    let fitted = false;
+    let initialized = false;
     let launchGroup = embedded
       ? (world.querySelector("#page-header") ?? undefined)
       : undefined;
@@ -49,16 +59,17 @@ export default function Canvas({
     const pointers = new Map<number, { x: number; y: number }>();
     let gesture:
       { camera: Camera; x: number; y: number; distance: number } | undefined;
+    let spaceHeld = false;
+    let windowPointers = false;
     const stored = embedded ? undefined : loadCamera(() => localStorage);
-    if (stored) {
-      camera = stored;
-      fitted = false;
-    }
+    if (stored) camera = stored;
 
     const render = () => {
       frame = 0;
       world.style.transform = `translate(${camera.x}px, ${camera.y}px) scale(${camera.scale})`;
-      setScale(camera.scale);
+      const label = `${Math.round(camera.scale * 100)}%`;
+      const output = scaleRef.current;
+      if (output && output.textContent !== label) output.textContent = label;
       clearTimeout(saveTimer);
       if (!embedded) {
         saveTimer = setTimeout(() => {
@@ -120,31 +131,110 @@ export default function Canvas({
           ),
         ),
     };
-    render();
+    const hasLayout = () => {
+      if (!world.querySelector(".canvas-group")) return false;
+      const layout = bounds();
+      return layout.width > 0 && layout.height > 0;
+    };
+    const showWorld = () => {
+      shell.dataset.cameraReady = "";
+    };
+    const applyGrid = () => {
+      world.style.gridTemplateColumns = `repeat(${shell.clientWidth < 800 ? 1 : shell.clientWidth < 1100 ? 2 : 4}, 640px)`;
+    };
+    const initialize = () => {
+      if (initialized || disposed) return;
+      applyGrid();
+      if (!hasLayout()) return;
+      if (embedded && launchGroup) {
+        update(
+          fitCamera(bounds(launchGroup), shell.clientWidth, shell.clientHeight),
+          true,
+        );
+        launchGroup = undefined;
+      } else if (!stored) {
+        update(
+          fitCamera(bounds(), shell.clientWidth, shell.clientHeight),
+          true,
+        );
+      } else render();
+      initialized = true;
+      fitted = false;
+      showWorld();
+    };
+    const scheduleInitialize = () => {
+      if (initialized || disposed) return;
+      clearTimeout(stabilizeTimer);
+      stabilizeTimer = setTimeout(() => {
+        void document.fonts.ready.then(() => {
+          if (initialized || disposed) return;
+          requestAnimationFrame(() => {
+            if (initialized || disposed) return;
+            requestAnimationFrame(() => initialize());
+          });
+        });
+      }, 48);
+    };
+    if (stored) render();
+    scheduleInitialize();
+    const initFallback = window.setTimeout(() => {
+      if (!initialized && !disposed) void document.fonts.ready.then(initialize);
+    }, 2500);
 
     const settle = () => {
       cancelAnimationFrame(layoutFrame);
       layoutFrame = requestAnimationFrame(() => {
-        if (launchGroup) fit(launchGroup, true);
-        else if (fitted) fit();
+        if (!initialized) {
+          initialize();
+          return;
+        }
+        if (fitted) fit();
       });
     };
     const resize = () => {
-      world.style.gridTemplateColumns = `repeat(${shell.clientWidth < 800 ? 1 : shell.clientWidth < 1100 ? 2 : 4}, 640px)`;
-      settle();
+      applyGrid();
+      if (!initialized) scheduleInitialize();
+      else if (fitted) settle();
     };
-    const observer = new ResizeObserver(settle);
-    observer.observe(world);
-    resize();
-    void document.fonts.ready.then(() => {
-      if (!disposed) settle();
+    const observer = new ResizeObserver(() => {
+      if (!initialized) scheduleInitialize();
+      else if (fitted) settle();
     });
+    observer.observe(world);
 
-    const isEmpty = (target: EventTarget | null) =>
-      target instanceof Element &&
-      !target.closest("[data-preview], .canvas-controls");
+    const blocksChrome = (target: EventTarget | null) =>
+      target instanceof Element && Boolean(target.closest(".canvas-controls"));
+    const blocksPreview = (target: EventTarget | null) =>
+      target instanceof Element && Boolean(target.closest("[data-preview]"));
+    const allowsPan = (event: PointerEvent) => {
+      if (blocksChrome(event.target)) return false;
+      if (event.button === 1) return true;
+      if (event.button !== 0) return false;
+      if (spaceHeld) return true;
+      if (blocksPreview(event.target)) return false;
+      if (event.pointerType === "touch") {
+        return (
+          event.target instanceof Element &&
+          event.target.classList.contains("canvas-background")
+        );
+      }
+      return true;
+    };
+    const syncWindowPointers = (active: boolean) => {
+      if (active === windowPointers) return;
+      windowPointers = active;
+      if (active) {
+        window.addEventListener("pointermove", pointerMove);
+        window.addEventListener("pointerup", pointerEnd);
+        window.addEventListener("pointercancel", pointerEnd);
+      } else {
+        window.removeEventListener("pointermove", pointerMove);
+        window.removeEventListener("pointerup", pointerEnd);
+        window.removeEventListener("pointercancel", pointerEnd);
+      }
+    };
     const wheel = (event: WheelEvent) => {
-      if (!isEmpty(event.target)) return;
+      if (blocksChrome(event.target) || blocksPreview(event.target)) return;
       event.preventDefault();
       const unit =
         event.deltaMode === 1
@@ -184,25 +274,23 @@ export default function Canvas({
         : undefined;
     };
     const pointerDown = (event: PointerEvent) => {
-      if (!isEmpty(event.target) || event.button !== 0 || pointers.size >= 2)
-        return;
-      if (
-        event.pointerType === "touch" &&
-        !(
-          event.target instanceof Element &&
-          event.target.classList.contains("canvas-background")
-        )
-      )
-        return;
+      if (pointers.size >= 2) return;
+      if (pointers.size === 0) {
+        if (!allowsPan(event)) return;
+      } else if (event.pointerType !== "touch") return;
       event.preventDefault();
-      shell.focus({ preventScroll: true });
+      if (event.button === 1) event.stopPropagation();
       pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
-      shell.setPointerCapture(event.pointerId);
+      try {
+        shell.setPointerCapture(event.pointerId);
+      } catch {}
       rebase();
+      syncWindowPointers(true);
       shell.dataset.panning = "true";
     };
     const pointerMove = (event: PointerEvent) => {
       if (!pointers.has(event.pointerId) || !gesture) return;
+      event.preventDefault();
       pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
       const points = [...pointers.values()];
       const first = points[0]!;
@@ -231,22 +319,49 @@ export default function Canvas({
     };
     const pointerEnd = (event: PointerEvent) => {
       if (!pointers.delete(event.pointerId)) return;
-      if (shell.hasPointerCapture(event.pointerId))
-        shell.releasePointerCapture(event.pointerId);
+      try {
+        if (shell.hasPointerCapture(event.pointerId))
+          shell.releasePointerCapture(event.pointerId);
+      } catch {}
       rebase();
-      if (!pointers.size) delete shell.dataset.panning;
+      if (!pointers.size) {
+        delete shell.dataset.panning;
+        syncWindowPointers(false);
+      }
     };
     const cancel = () => {
       const captured = [...pointers.keys()];
       pointers.clear();
       gesture = undefined;
-      for (const pointer of captured)
-        if (shell.hasPointerCapture(pointer))
-          shell.releasePointerCapture(pointer);
+      for (const pointer of captured) {
+        try {
+          if (shell.hasPointerCapture(pointer))
+            shell.releasePointerCapture(pointer);
+        } catch {}
+      }
       delete shell.dataset.panning;
+      syncWindowPointers(false);
     };
     const visibility = () => {
       if (document.hidden) cancel();
+    };
+    const spaceDown = (event: KeyboardEvent) => {
+      if (event.code !== "Space" || event.repeat) return;
+      const target = event.target;
+      if (
+        target instanceof HTMLElement &&
+        (target.isContentEditable ||
+          target.closest("input, textarea, select, [contenteditable='true']"))
+      )
+        return;
+      spaceHeld = true;
+      shell.dataset.spacePan = "true";
+      if (target !== shell) event.preventDefault();
+    };
+    const spaceUp = (event: KeyboardEvent) => {
+      if (event.code !== "Space") return;
+      spaceHeld = false;
+      delete shell.dataset.spacePan;
     };
     const keyboard = (event: KeyboardEvent) => {
       if (event.target !== shell) return;
@@ -313,12 +428,17 @@ export default function Canvas({
       shell.scrollLeft = 0;
     };
     shell.addEventListener("wheel", wheel, { passive: false });
+    const blockMiddleClick = (event: MouseEvent) => {
+      if (event.button === 1) event.preventDefault();
+    };
     shell.addEventListener("pointerdown", pointerDown);
     shell.addEventListener("pointermove", pointerMove);
     shell.addEventListener("pointerup", pointerEnd);
     shell.addEventListener("pointercancel", pointerEnd);
-    shell.addEventListener("lostpointercapture", pointerEnd);
+    shell.addEventListener("auxclick", blockMiddleClick);
     shell.addEventListener("keydown", keyboard);
+    window.addEventListener("keydown", spaceDown);
+    window.addEventListener("keyup", spaceUp);
     document.addEventListener("click", navigation, true);
     document.addEventListener("auxclick", navigation, true);
     window.addEventListener("canvas-group-navigation", groupNavigation);
@@ -332,14 +452,19 @@ export default function Canvas({
       cancelAnimationFrame(frame);
       cancelAnimationFrame(layoutFrame);
       clearTimeout(saveTimer);
+      clearTimeout(stabilizeTimer);
+      clearTimeout(initFallback);
       observer.disconnect();
       shell.removeEventListener("wheel", wheel);
       shell.removeEventListener("pointerdown", pointerDown);
       shell.removeEventListener("pointermove", pointerMove);
       shell.removeEventListener("pointerup", pointerEnd);
       shell.removeEventListener("pointercancel", pointerEnd);
-      shell.removeEventListener("lostpointercapture", pointerEnd);
+      shell.removeEventListener("auxclick", blockMiddleClick);
       shell.removeEventListener("keydown", keyboard);
+      window.removeEventListener("keydown", spaceDown);
+      window.removeEventListener("keyup", spaceUp);
+      syncWindowPointers(false);
       shell.removeEventListener("focusin", focus);
       document.removeEventListener("click", navigation, true);
       document.removeEventListener("auxclick", navigation, true);
@@ -353,54 +478,70 @@ export default function Canvas({
   return (
     <main
       ref={shellRef}
-      className="studio"
+      className="canvas-shell"
       data-embedded={embedded || undefined}
       tabIndex={0}
-      aria-label="Studio"
-      title="Pan empty space; Control/Command + wheel to zoom. Focus the canvas for arrows, +/−, F to fit, 0 to reset. Preview links stay in the canvas."
+      aria-label="Canvas"
     >
       <div className="canvas-background" aria-hidden="true" />
       <div ref={worldRef} className="canvas-world">
         {children}
       </div>
-      <div
+      <TooltipShell
         className="canvas-controls"
+        data-tip-placement="below"
+        data-tip-fit="content"
         role="toolbar"
         aria-label="Canvas controls"
       >
         <button
           type="button"
-          aria-label="Zoom out"
+          aria-label={controlTips.zoomOut}
+          data-tip={controlTips.zoomOut}
           onClick={() => actions.current.zoom(1 / 1.2)}
         >
           {controlIcons.zoomOut}
         </button>
-        <output aria-label="Zoom level">{Math.round(scale * 100)}%</output>
+        <output
+          ref={scaleRef}
+          aria-label={controlTips.zoomLevel}
+          data-tip={controlTips.zoomLevel}
+        >
+          100%
+        </output>
         <button
           type="button"
-          aria-label="Zoom in"
+          aria-label={controlTips.zoomIn}
+          data-tip={controlTips.zoomIn}
           onClick={() => actions.current.zoom(1.2)}
         >
           {controlIcons.zoomIn}
         </button>
         <button
           type="button"
-          aria-label="Fit all components"
+          aria-label={controlTips.fit}
+          data-tip={controlTips.fit}
           onClick={() => actions.current.fit()}
         >
           {controlIcons.fit}
         </button>
         <button
           type="button"
-          aria-label="Reset camera"
+          aria-label={controlTips.reset}
+          data-tip={controlTips.reset}
           onClick={() => actions.current.reset()}
         >
           {controlIcons.reset}
         </button>
-        <button type="button" aria-label="Toggle color theme" id="theme-toggle">
+        <button
+          type="button"
+          aria-label={controlTips.theme}
+          data-tip={controlTips.theme}
+          id="theme-toggle"
+        >
           {controlIcons.theme}
         </button>
-      </div>
+      </TooltipShell>
     </main>
   );
 }

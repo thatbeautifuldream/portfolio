@@ -22,7 +22,7 @@
     "test:pwa": "node --test scripts/pwa.test.ts",
     "test:content": "tsx --test scripts/content.test.ts",
     "test:i18n": "tsx --test scripts/i18n.test.ts",
-    "test:libraries": "tsx --test scripts/libraries.test.ts scripts/studio.test.ts",
+    "test:libraries": "tsx --test scripts/libraries.test.ts scripts/canvas.test.ts",
     "test:filenames": "node --experimental-strip-types --test scripts/lint-filenames.test.ts",
     "test:hooks": "node --test scripts/pre-commit.test.ts",
     "start": "next start"

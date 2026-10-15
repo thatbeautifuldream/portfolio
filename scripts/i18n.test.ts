@@ -9,29 +9,35 @@ import { startServer } from "./serve-next";
 const server = await startServer();
 after(() => server.close());
 
-test("Studio and its images are available in production with localized metadata", async () => {
+test("Canvas and its OG card are available in production with localized metadata", async () => {
   const sitemap = await (await fetch(`${server.url}/sitemap-0.xml`)).text();
+  const legacy = await fetch(`${server.url}/studio/`, { redirect: "manual" });
+  assert.equal(legacy.status, 308);
+  assert.equal(
+    new URL(legacy.headers.get("location")!, server.url).pathname,
+    "/canvas/",
+  );
   for (const prefix of ["", "/hi"]) {
-    const response = await fetch(`${server.url}${prefix}/studio/`);
+    const response = await fetch(`${server.url}${prefix}/canvas/`);
     assert.equal(response.status, 200);
     assert.equal(response.headers.get("x-frame-options"), "DENY");
     const html = await response.text();
     assert.ok(html.includes(`lang="${prefix ? "hi" : "en"}"`));
-    assert.ok(html.includes(`https://milindmishra.com${prefix}/studio/`));
+    assert.ok(html.includes(`https://milindmishra.com${prefix}/canvas/`));
     assert.ok(html.includes("CollectionPage"));
-    assert.ok(html.includes(`${prefix}/studio/og.png`));
+    assert.ok(html.includes(`${prefix}/canvas/og.png`));
     assert.equal((html.match(/name="twitter:card"/g) ?? []).length, 1);
     assert.ok(html.includes('name="twitter:card" content="player"'));
     assert.ok(
       html.includes(
-        `name="twitter:player" content="https://milindmishra.com${prefix}/studio/embed/"`,
+        `name="twitter:player" content="https://milindmishra.com${prefix}/canvas/embed/"`,
       ),
     );
     assert.ok(html.includes('name="twitter:player:width" content="640"'));
     assert.ok(html.includes('name="twitter:player:height" content="640"'));
     assert.ok(!html.includes('name="twitter:player:stream"'));
     assert.ok(html.includes('name="robots" content="index, follow"'));
-    const url = `https://milindmishra.com${prefix}/studio/`;
+    const url = `https://milindmishra.com${prefix}/canvas/`;
     const entry = [...sitemap.matchAll(/<url>(.*?)<\/url>/g)].find((match) =>
       match[1]!.includes(`<loc>${url}</loc>`),
     )?.[1];
@@ -42,24 +48,18 @@ test("Studio and its images are available in production with localized metadata"
       );
       assert.ok(
         entry.includes(
-          `href="https://milindmishra.com${locale === "hi" ? "/hi" : ""}/studio/"`,
+          `href="https://milindmishra.com${locale === "hi" ? "/hi" : ""}/canvas/"`,
         ),
       );
     }
     assert.ok(!html.includes("googletagmanager.com/gtag/js"));
-    const image = await fetch(`${server.url}${prefix}/studio/og.png`);
+    const image = await fetch(`${server.url}${prefix}/canvas/og.png`);
     assert.equal(image.status, 200);
     assert.equal(image.headers.get("content-type"), "image/png");
     assert.ok(!image.headers.get("x-robots-tag")?.includes("noindex"));
-    for (const sample of [
-      "about",
-      "footer",
-      "tooltip",
-      "tooltip-meta",
-      "code",
-    ]) {
+    for (const sample of ["about", "footer", "code"]) {
       const preview = await fetch(
-        `${server.url}${prefix}/studio/preview/?sample=${sample}`,
+        `${server.url}${prefix}/canvas/preview/?sample=${sample}`,
       );
       assert.equal(preview.status, 200, sample);
       assert.equal(preview.headers.get("x-frame-options"), "SAMEORIGIN");
@@ -73,17 +73,17 @@ test("Studio and its images are available in production with localized metadata"
       );
     }
   }
-  assert.ok(!sitemap.includes("/studio/preview/"));
+  assert.ok(!sitemap.includes("/canvas/preview/"));
 });
 
-test("Studio embeds and nested previews are available with scoped X framing", async () => {
+test("Canvas embeds and nested previews are available with scoped X framing", async () => {
   for (const path of [
     "/",
     "/hi/",
     "/work/",
     "/hi/work/",
-    "/studio/",
-    "/hi/studio/",
+    "/canvas/",
+    "/hi/canvas/",
   ]) {
     const response = await fetch(server.url + path);
     assert.equal(response.status, 200, path);
@@ -96,9 +96,9 @@ test("Studio embeds and nested previews are available with scoped X framing", as
     );
   }
   const sitemap = await (await fetch(`${server.url}/sitemap-0.xml`)).text();
-  assert.ok(!sitemap.includes("/studio/embed/"));
+  assert.ok(!sitemap.includes("/canvas/embed/"));
   for (const prefix of ["", "/hi"]) {
-    const response = await fetch(`${server.url}${prefix}/studio/embed/`);
+    const response = await fetch(`${server.url}${prefix}/canvas/embed/`);
     assert.equal(response.status, 200);
     assert.equal(response.headers.get("x-frame-options"), null);
     assert.equal(response.headers.get("x-robots-tag"), "noindex, nofollow");
@@ -113,17 +113,10 @@ test("Studio embeds and nested previews are available with scoped X framing", as
     assert.ok(html.includes(`lang="${prefix ? "hi" : "en"}"`));
     assert.ok(html.includes('data-embedded="true"'));
     assert.ok(html.includes('name="robots" content="noindex, nofollow"'));
-    assert.ok(!html.includes("data-studio-image"));
+    assert.ok(!html.includes("data-canvas-image"));
     assert.ok(!html.includes("googletagmanager.com/gtag/js"));
-    for (const sample of [
-      "about",
-      "footer",
-      "tooltip",
-      "tooltip-meta",
-      "code",
-    ]) {
-      const path = `${prefix}/studio/embed/preview/?sample=${sample}`;
-      assert.ok(html.includes(path));
+    for (const sample of ["about", "footer", "code"]) {
+      const path = `${prefix}/canvas/embed/preview/?sample=${sample}`;
       const preview = await fetch(server.url + path);
       assert.equal(preview.status, 200, path);
       assert.equal(preview.headers.get("x-frame-options"), null, path);
@@ -138,19 +131,19 @@ test("Studio embeds and nested previews are available with scoped X framing", as
         ),
       );
     }
-    const alias = await fetch(`${server.url}/en/studio/embed/?test=1`, {
+    const alias = await fetch(`${server.url}/en/canvas/embed/?test=1`, {
       redirect: "manual",
     });
     assert.equal(alias.status, 308);
     assert.equal(
       new URL(alias.headers.get("location")!, server.url).pathname,
-      "/studio/embed/",
+      "/canvas/embed/",
     );
   }
   for (const path of [
-    "/studio/embedder/",
-    "/studio/embed/missing/",
-    "/hi/studio/embed/missing/",
+    "/canvas/embedder/",
+    "/canvas/embed/missing/",
+    "/hi/canvas/embed/missing/",
   ]) {
     const response = await fetch(server.url + path);
     assert.equal(response.status, 404, path);
@@ -163,17 +156,17 @@ test("Studio embeds and nested previews are available with scoped X framing", as
     );
   }
   for (const path of [
-    "/studio/embed/preview/?sample=unknown",
-    "/hi/studio/embed/preview/",
+    "/canvas/embed/preview/?sample=unknown",
+    "/hi/canvas/embed/preview/",
   ]) {
     assert.equal((await fetch(server.url + path)).status, 404, path);
   }
 });
 
-test("invalid Studio samples and obsolete canvas routes remain unavailable", async () => {
+test("invalid Canvas samples and obsolete routes remain unavailable", async () => {
   for (const path of [
-    "/studio/preview/",
-    "/hi/studio/preview/?sample=unknown",
+    "/canvas/preview/",
+    "/hi/canvas/preview/?sample=unknown",
     "/component-canvas/",
     "/hi/component-canvas/",
   ]) {

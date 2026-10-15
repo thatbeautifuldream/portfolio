@@ -57,47 +57,47 @@ export const siteConfig = {
   ],
 } as const;
 
-export const studioCopy = {
+export const canvasCopy = {
   en: {
-    title: "Studio",
+    title: "Canvas",
     description:
-      "Explore Milind Mishra's real interface components, localized variants, Open Graph cards, and story images on an interactive canvas.",
+      "Explore Milind Mishra's real interface components and localized variants on an interactive canvas.",
   },
   hi: {
-    title: "स्टूडियो",
+    title: "कैनवास",
     description:
-      "मिलिंद मिश्रा के इंटरफ़ेस कंपोनेंट, स्थानीयकृत रूप, ओपन ग्राफ़ कार्ड और स्टोरी चित्र एक इंटरैक्टिव कैनवास पर देखें।",
+      "मिलिंद मिश्रा के इंटरफ़ेस कंपोनेंट और स्थानीयकृत रूप एक इंटरैक्टिव कैनवास पर देखें।",
   },
 } as const;
 
-export const studioSitePage = {
-  path: "/studio",
+export const canvasSitePage = {
+  path: "/canvas",
   changefreq: "monthly",
   priority: 0.4,
 } satisfies SitePage;
 
-export function studioPath(locale: Locale) {
-  return locale === "hi" ? "/hi/studio/" : "/studio/";
+export function canvasPath(locale: Locale) {
+  return locale === "hi" ? "/hi/canvas/" : "/canvas/";
 }
 
-export function studioImagePath(locale: Locale) {
-  return `${studioPath(locale)}og.png`;
+export function canvasImagePath(locale: Locale) {
+  return `${canvasPath(locale)}og.png`;
 }
 
-export function studioEmbedPath(locale: Locale) {
-  return `${studioPath(locale)}embed/`;
+export function canvasEmbedPath(locale: Locale) {
+  return `${canvasPath(locale)}embed/`;
 }
 
-export const studioPlayerSize = { width: 640, height: 640 } as const;
+export const canvasPlayerSize = { width: 640, height: 640 } as const;
 
-export function buildStudioSchema(locale: Locale) {
-  const copy = studioCopy[locale];
+export function buildCanvasSchema(locale: Locale) {
+  const copy = canvasCopy[locale];
   return {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: `${siteConfig.shortName} · ${copy.title}`,
     description: copy.description,
-    url: new URL(studioPath(locale), siteConfig.url).href,
+    url: new URL(canvasPath(locale), siteConfig.url).href,
     inLanguage: locale,
     author: buildPersonRef(),
     isPartOf: { "@id": `${siteConfig.url}/#website` },
@@ -133,7 +133,7 @@ export function normalizePath(path: string) {
 
 export function getSitePage(path: string) {
   const normalized = normalizePath(path);
-  if (normalized === studioSitePage.path) return studioSitePage;
+  if (normalized === canvasSitePage.path) return canvasSitePage;
   if (normalized.startsWith("/blog/"))
     return { path: normalized, changefreq: "monthly", priority: 0.7 } as const;
   if (normalized.startsWith("/gist/"))

@@ -140,25 +140,43 @@ function initializeTooltips(scope: EnhancementScope) {
       label.textContent = target.dataset.tip ?? "";
       meta.textContent = target.dataset.tipMeta ?? "";
       meta.hidden = !target.dataset.tipMeta;
-      const style = getComputedStyle(tip);
-      const width = Math.ceil(
-        inner.offsetWidth +
-          parseFloat(style.paddingLeft) +
-          parseFloat(style.paddingRight),
-      );
       const bounds = root.getBoundingClientRect();
       const box = target.getBoundingClientRect();
-      const center = box.left - bounds.left + box.width / 2;
-      const horizontal = Math.min(
-        Math.max(center - width / 2, 0),
-        Math.max(0, bounds.width - width),
-      );
-      const vertical = box.top - bounds.top - tip.offsetHeight - 8;
+      const gap = 8;
       const place = () => {
-        tip.style.width = `${width}px`;
+        const fitContent = root.dataset.tipFit === "content";
+        const style = getComputedStyle(tip);
+        if (fitContent) tip.style.removeProperty("width");
+        const natural = Math.ceil(
+          inner.offsetWidth +
+            parseFloat(style.paddingLeft) +
+            parseFloat(style.paddingRight),
+        );
+        const width = fitContent ? natural : Math.min(natural, bounds.width);
+        const center = box.left - bounds.left + box.width / 2;
+        const horizontal = fitContent
+          ? center - width / 2
+          : Math.min(
+              Math.max(center - width / 2, 0),
+              Math.max(0, bounds.width - width),
+            );
+        const above = box.top - bounds.top - tip.offsetHeight - gap;
+        const below = box.bottom - bounds.top + gap;
+        const placement = root.dataset.tipPlacement;
+        const fitsBelow = below + tip.offsetHeight <= bounds.height - gap;
+        const placeBelow =
+          placement === "below"
+            ? true
+            : placement === "above"
+              ? false
+              : above < gap && fitsBelow;
+        const vertical = placeBelow ? below : above;
+        if (fitContent) tip.style.removeProperty("width");
+        else tip.style.width = `${width}px`;
         tip.style.setProperty("--tip-x", `${horizontal}px`);
         tip.style.setProperty("--tip-y", `${vertical}px`);
         tip.style.setProperty("--tip-origin", `${center - horizontal}px`);
+        tip.style.setProperty("--tip-anchor", placeBelow ? "0%" : "100%");
       };
       if (tip.dataset.show === "true") place();
       else {

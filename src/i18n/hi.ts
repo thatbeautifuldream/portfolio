@@ -269,6 +269,29 @@ const hi: Dictionary = {
       Services: "सेवाएँ",
     },
   },
+  canvas: {
+    groups: {
+      about: "अबाउट हेडलाइन · अबाउट मोशन",
+      pageHeader: "पेज हेडर",
+      indexList: "इंडेक्स लिस्ट",
+      code: "कोड कॉपी · क्लाइंट एन्हांसमेंट",
+      email: "ईमेल लिंक",
+      footer: "फ़ुटर",
+      coverage: "कवरेज",
+    },
+    omissionsSummary: "गैर-दृश्य और लाइव-सर्विस अपवाद",
+    omissionsIntro:
+      "DocumentLayout असली होस्ट है। Layout और पूरे पेज व्यू बाहर हैं: Layout ट्रैकर्स माउंट करता है, और पेज यही कंपोनेंट जोड़ते हैं, कभी-कभी लाइव डेटा के साथ। इस प्रोजेक्ट में मॉडल या पोर्टल कंपोनेंट नहीं हैं।",
+    codeSample: 'const message = "नमस्ते, कैनवास";\nconsole.log(message);',
+    controls: {
+      zoomOut: "ज़ूम आउट",
+      zoomIn: "ज़ूम इन",
+      zoomLevel: "ज़ूम",
+      fit: "फिट",
+      reset: "रीसेट",
+      theme: "थीम",
+    },
+  },
 };
 
 export default hi;
